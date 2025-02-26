@@ -104,11 +104,12 @@ class RouteString {
   static const String colorPallete = '/colorPallete';
   static const String font = '/font';
   static const String cardLayout = '/cardLayout';
-  static const String createNewCard = '/createNewCard';
+  static const String createNewCard = '/create-new-card';
   static const String cardMain = '/cardMain';
-  static const String createNewCardTwo = '/createNewCardTwo';
-  static const String createNewCardThree = '/createNewCardThree';
-  static const String createNewCardStep5 = '/createNewCardStep50';
+  static const String createNewCardTwo = '/create-new-card-step-two';
+  static const String createNewCardThree = '/create-new-card-step-three';
+    static const String createNewCardFour = '/create-new-card-step-four';
+  static const String createNewCardStepFive = '/create-new-card-step-five';
   static const String shareCardLink = '/shareCardLink';
   static const String profile = '/profile';
   static const String editProfile = '/editProfile';
