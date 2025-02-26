@@ -136,7 +136,6 @@ class CardNotifier extends ChangeNotifier {
     final String? cardId = StorageUtil.getString(
       key: SessionString.userId,
     );
-
     final CardModel createCard = CardModel(
       cardType: cardType.text,
       ownerId: cardId,
@@ -174,8 +173,7 @@ class CardNotifier extends ChangeNotifier {
       } else {
         cardModel = createCard;
         clearControllers();
-        // context.go(RouteString.successPage);
-        print('card created success');
+        context.go(RouteString.mainDashboard);
         return true;
       }
     } catch (e) {
@@ -186,102 +184,6 @@ class CardNotifier extends ChangeNotifier {
     return false;
   }
 
-  // Future<bool> createCardOrganization(BuildContext context) async {
-  //   final String cardId = StorageUtil.getString(
-  //     key: SessionString.userId,
-  //   );
-  //   final CardModel createCard = CardModel(
-  //     cardType: cardType.text,
-  //     creatorId: cardId,
-  //     ownerId: cardId,
-  //     cardName: cardName.text,
-  //     suffix: suffix.text,
-  //     firstName: firstName.text,
-  //     middleName: middleName.text,
-  //     lastName: lastName.text,
-  //     dateOfBirth: dateOfBirth.text,
-  //     position: position.text,
-  //     notes: notes.text,
-  //     testimonials: [],
-  //     videoUrl: videoUrl.text,
-  //     profilePicture: _uploadedImage?.path ?? emptyString,
-  //     cardBackground: cardBackground.text,
-  //     active: true,
-
-  //     // active: true, // Default value
-  //     textStyle: TextStyles(
-  //       fontSize: "18",
-  //       fontStyle: "normal",
-  //       fontWeight: "normal",
-  //       textAlign: "left",
-  //       textColor: "black",
-  //     ),
-  //     cardDesign: CardDesign(
-  //       backgroundColor: "white",
-  //       backgroundImage: "",
-  //       borderStyle: "none",
-  //       borderColor: "",
-  //       borderWidth: "",
-  //       borderRadius: "",
-  //       boxShadow: "",
-  //     ),
-  //     cardLayout: CardLayout(
-  //       padding: "10",
-  //       margin: "15",
-  //       layoutOrientation: "horizontal",
-  //     ),
-  //     organizationInfo: OrganizationInfo(
-  //       organizationId: "",
-  //       organizationName: "",
-  //     ),
-  //     contactInfo: ContactInfo(
-  //       email: contactInfoEmail.text,
-  //       phone: contactInfoPhone.text,
-  //       website: "",
-  //       address: contactInfoAddress.text,
-  //     ),
-  //     socialMediaLinks: SocialMediaLinks(
-  //       linkedin: "",
-  //       twitter: "",
-  //       facebook: "",
-  //       instagram: "",
-  //       tiktok: "",
-  //       github: "",
-  //       youtube: "",
-  //       customLinks: [],
-  //     ),
-  //   );
-
-  //   try {
-  //     loading = true;
-
-  //     final response =
-  //         await ref.read(cardRepositoryProvider).createCardOrganization(
-  //               createCard.toJson(),
-  //             );
-
-  //     loading = false;
-
-  //     if (response.hasError()) {
-  //       alert.showErrorToast(message: response.error!.message);
-  //     } else {
-  //       cardModel = createCard;
-
-  //       StorageUtil.putString(
-  //           key: SessionString.cardId, value: cardModel.cardId ?? emptyString);
-  //       clearControllers();
-  //       // context.go(RouteString.successPage);
-  //       print('card created success');
-  //       return true;
-  //     }
-  //   } catch (e) {
-  //     loading = false;
-  //     print('card created error occured $e');
-  //     alert.showErrorToast(message: "An error occurred: ${e.toString()}");
-  //   }
-
-  //   return false;
-  // }
 
   Future<List<GetCardsResponse>> getAllUsersCard() async {
     try {
