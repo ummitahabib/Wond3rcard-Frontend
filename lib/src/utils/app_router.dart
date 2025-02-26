@@ -14,6 +14,10 @@ import 'package:wond3rcard/src/cards/views/widgets/card_details.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_layout.dart';
 import 'package:wond3rcard/src/cards/views/widgets/color_pallete.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card.dart';
+import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_five.dart';
+import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_four.dart';
+import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_three.dart';
+import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_two.dart';
 import 'package:wond3rcard/src/cards/views/widgets/font_widget.dart';
 import 'package:wond3rcard/src/cards/views/widgets/main_card_widget.dart';
 import 'package:wond3rcard/src/home/views/home_main.dart';
@@ -236,6 +240,30 @@ GoRoute(
           path: RouteString.createNewCard,
           builder: (BuildContext context, GoRouterState state) {
             return const CreateNewCard();
+          },
+        ),
+         GoRoute(
+          path: RouteString.createNewCardTwo,
+          builder: (BuildContext context, GoRouterState state) {
+            return const CreateNewCardStepTwo();
+          },
+        ),
+        GoRoute(
+          path: RouteString.createNewCardThree,
+          builder: (BuildContext context, GoRouterState state) {
+            return const CreateNewCardStepThree();
+          },
+        ),
+        GoRoute(
+          path: RouteString.createNewCardFour,
+          builder: (BuildContext context, GoRouterState state) {
+            return const CreateNewCardStepFour();
+          },
+        ),
+                GoRoute(
+          path: RouteString.createNewCardStepFive,
+          builder: (BuildContext context, GoRouterState state) {
+            return const CreateNewCardStepFive();
           },
         ),
         GoRoute(
