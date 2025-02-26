@@ -285,12 +285,14 @@ GoRoute(
           },
         ),
 
-          GoRoute(
-          path: RouteString.cardDetails,
-          builder: (BuildContext context, GoRouterState state) {
-            return const CardDetails();
-          },
-        ),
+       GoRoute(
+  path: '${RouteString.cardDetails}/:index', // Add index as a path parameter
+  builder: (BuildContext context, GoRouterState state) {
+    final index = int.tryParse(state.pathParameters['index'] ?? '0') ?? 0; // Parse index
+    return CardDetails(index: index);
+  },
+),
+
 
           GoRoute(
           path: RouteString.profile,

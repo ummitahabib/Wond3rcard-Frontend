@@ -45,130 +45,133 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
       [],
     );
 
-    return
-        cardController.getCardsResponse == null
-           ? NoCardsWidget()  :
-        Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount:
-              widget.cardController!.getCardsResponse?.payload?.cards?.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    context.go(RouteString.cardDetails,
-                        extra: widget.cardController!.getCardsResponse?.payload
-                            ?.cards![index].id);
-                  },
-                  child: Container(
-                    width: 357,
-                    height: 230,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: AppColors.primaryShade,
-                    ),
-                    child: SmartWrap(
-                      type: WrapType.column,
-                      spacing: 10.0,
-                      runSpacing: 10.0,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: AppColors.primaryShade,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  userProfileImage(
-                                    image: cardController
-                                            .getCardsResponse
-                                            ?.payload
-                                            ?.cards?[index]
-                                            .cardPictureUrl ??
-                                        ImageAssets.profileImage,
-                                  ),
-                                  const Spacer(),
-                                  NameAndJob(
-                                    text: cardController.getCardsResponse
-                                            ?.payload?.cards?[index].cardName ??
-                                        emptyString,
-                                  ),
-                                ],
-                              ),
-                            ),
+    return cardController.getCardsResponse != null
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: widget
+                    .cardController!.getCardsResponse?.payload?.cards?.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          context.go('${RouteString.cardDetails}/$index');
+                        },
+                        child: Container(
+                          width: 357,
+                          height: 230,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: AppColors.primaryShade,
                           ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: AppColors.defaultWhite,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
+                          child: SmartWrap(
+                            type: WrapType.column,
+                            spacing: 10.0,
+                            runSpacing: 10.0,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primaryShade,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        userProfileImage(
+                                          image: cardController
+                                                  .getCardsResponse
+                                                  ?.payload
+                                                  ?.cards?[index]
+                                                  .cardPictureUrl ??
+                                              ImageAssets.profileImage,
+                                        ),
+                                        const Spacer(),
+                                        NameAndJob(
+                                          text: cardController
+                                                  .getCardsResponse
+                                                  ?.payload
+                                                  ?.cards?[index]
+                                                  .cardName ??
+                                              emptyString,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 25),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.defaultWhite,
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: Column(
                                     children: [
-                                      personalProfileTag(
-                                        text: cardController
-                                                .getCardsResponse
-                                                ?.payload
-                                                ?.cards?[index]
-                                                .cardType ??
-                                            emptyString,
-                                      ),
-                                      const Spacer(),
-                                      qrCodeContainer(),
-                                      SizedBox(width: 12),
-                                      qrCodeContainer(
-                                        icon: HeroIcons.ellipsisVertical,
-                                        iconColor: const Color(0xff0F172A),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 25),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            personalProfileTag(
+                                              text: cardController
+                                                      .getCardsResponse
+                                                      ?.payload
+                                                      ?.cards?[index]
+                                                      .cardType ??
+                                                  emptyString,
+                                            ),
+                                            const Spacer(),
+                                            qrCodeContainer(),
+                                            SizedBox(width: 12),
+                                            qrCodeContainer(
+                                              icon: HeroIcons.ellipsisVertical,
+                                              iconColor:
+                                                  const Color(0xff0F172A),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 13,
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
+                      ),
+                      SizedBox(
+                        height: 13,
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          )
+        : NoCardsWidget();
   }
 }
