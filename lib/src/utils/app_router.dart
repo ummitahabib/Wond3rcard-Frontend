@@ -34,8 +34,6 @@ import 'package:wond3rcard/src/profile/views/profile.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
-
-
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _shellNavigatorKey =
@@ -44,7 +42,7 @@ final GlobalKey<NavigatorState> _internalNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'internal');
 
 final GoRouter router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
+  navigatorKey: _rootNavigatorKey,
   routes: <RouteBase>[
     GoRoute(
       path: '/',
@@ -52,76 +50,68 @@ final GoRouter router = GoRouter(
         return const OnboardingScreen();
       },
       routes: <RouteBase>[
-      ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        builder: (BuildContext context, GoRouterState state, Widget child) {
-          return AdminDashBoardScreen(child: child);
-        },
-        routes: <RouteBase>[
-          GoRoute(
-            path: '/admin-dashboard-desktop-view',
-            builder: (BuildContext context, GoRouterState state) {
-              return  AdminDashboardDesktopView();
-            },
-          ),
-          GoRoute(
-            path: '/user-management',
-            builder: (BuildContext context, GoRouterState state) {
-              return  AdminUserManagement();
-            },
-          ),
-          GoRoute(
-            path: '/card-management',
-            builder: (BuildContext context, GoRouterState state) {
-              return  Container();
-            },
-          ),
-GoRoute(
-            path: '/analytics',
-            builder: (BuildContext context, GoRouterState state) {
-              return  Container();
-            },
-          ),
-          GoRoute(
-            path: '/security',
-            builder: (BuildContext context, GoRouterState state) {
-              return  Container();
-            },
-          ),
-              GoRoute(
-            path: '/admin-subscription',
-            builder: (BuildContext context, GoRouterState state) {
-              return  Container();
-            },
-          ),
-
+        ShellRoute(
+          navigatorKey: _shellNavigatorKey,
+          builder: (BuildContext context, GoRouterState state, Widget child) {
+            return AdminDashBoardScreen(child: child);
+          },
+          routes: <RouteBase>[
             GoRoute(
-            path: '/admin-manage-flag',
-            builder: (BuildContext context, GoRouterState state) {
-              return  Container();
-            },
-          ),
-
-                      GoRoute(
-            path: '/admin-settings',
-            builder: (BuildContext context, GoRouterState state) {
-              return  Container();
-            },
-          ),
-
-
-                      GoRoute(
-            path: '/add-user',
-            builder: (BuildContext context, GoRouterState state) {
-              return  Container();
-            },
-          ),
-
-          
-        ],
-      ) ,
-
-
+              path: '/admin-dashboard-desktop-view',
+              builder: (BuildContext context, GoRouterState state) {
+                return AdminDashboardDesktopView();
+              },
+            ),
+            GoRoute(
+              path: '/user-management',
+              builder: (BuildContext context, GoRouterState state) {
+                return AdminUserManagement();
+              },
+            ),
+            GoRoute(
+              path: '/card-management',
+              builder: (BuildContext context, GoRouterState state) {
+                return Container();
+              },
+            ),
+            GoRoute(
+              path: '/analytics',
+              builder: (BuildContext context, GoRouterState state) {
+                return Container();
+              },
+            ),
+            GoRoute(
+              path: '/security',
+              builder: (BuildContext context, GoRouterState state) {
+                return Container();
+              },
+            ),
+            GoRoute(
+              path: '/admin-subscription',
+              builder: (BuildContext context, GoRouterState state) {
+                return Container();
+              },
+            ),
+            GoRoute(
+              path: '/admin-manage-flag',
+              builder: (BuildContext context, GoRouterState state) {
+                return Container();
+              },
+            ),
+            GoRoute(
+              path: '/admin-settings',
+              builder: (BuildContext context, GoRouterState state) {
+                return Container();
+              },
+            ),
+            GoRoute(
+              path: '/add-user',
+              builder: (BuildContext context, GoRouterState state) {
+                return Container();
+              },
+            ),
+          ],
+        ),
         GoRoute(
           path: RouteString.getStarted,
           builder: (BuildContext context, GoRouterState state) {
@@ -242,7 +232,7 @@ GoRoute(
             return const CreateNewCard();
           },
         ),
-         GoRoute(
+        GoRoute(
           path: RouteString.createNewCardTwo,
           builder: (BuildContext context, GoRouterState state) {
             return const CreateNewCardStepTwo();
@@ -260,7 +250,7 @@ GoRoute(
             return const CreateNewCardStepFour();
           },
         ),
-                GoRoute(
+        GoRoute(
           path: RouteString.createNewCardStepFive,
           builder: (BuildContext context, GoRouterState state) {
             return const CreateNewCardStepFive();
@@ -278,23 +268,21 @@ GoRoute(
             return const ShareQrWidget();
           },
         ),
-  GoRoute(
+        GoRoute(
           path: RouteString.mainCard,
           builder: (BuildContext context, GoRouterState state) {
             return const MainCardWidget();
           },
         ),
-
-       GoRoute(
-  path: '${RouteString.cardDetails}/:index', // Add index as a path parameter
-  builder: (BuildContext context, GoRouterState state) {
-    final index = int.tryParse(state.pathParameters['index'] ?? '0') ?? 0; // Parse index
-    return CardDetails(index: index);
-  },
-),
-
-
-          GoRoute(
+        GoRoute(
+          path: '${RouteString.cardDetails}/:index',
+          builder: (BuildContext context, GoRouterState state) {
+            final index =
+                int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
+            return CardDetails(index: index);
+          },
+        ),
+        GoRoute(
           path: RouteString.profile,
           builder: (BuildContext context, GoRouterState state) {
             return const ProfileMainScreen();
