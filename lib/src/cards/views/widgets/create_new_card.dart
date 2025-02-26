@@ -6,16 +6,13 @@ import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/admin/social_media/data/controller/social_media_controller.dart';
-import 'package:wond3rcard/src/admin/social_media/data/model/social_media.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_social_links.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_type.dart';
 import 'package:wond3rcard/src/cards/views/widgets/close_review_button.dart';
 import 'package:wond3rcard/src/onboarding/data/controller/onboarding_controller.dart';
 import 'package:wond3rcard/src/onboarding/views/pages/mobile/onboarding_fifth_screen_mobile.dart';
-import 'package:wond3rcard/src/onboarding/views/pages/mobile/onboarding_fourth_screen_mobile.dart';
 import 'package:wond3rcard/src/shared/views/widgets/custom_app_bar.dart';
-import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/add_and_save_account.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/back_navigator.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/wonder_card_textfield.dart';
@@ -76,10 +73,13 @@ class _CreateNewCardState extends ConsumerState<CreateNewCard> {
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => context.go('/'),
+          onPressed: () => Navigator.pop(context),
           icon: HeroIcon(HeroIcons.arrowLeft),
         ),
-        title: Text('Create Card - Step 1'),
+        title: Text(
+          'Create Card', 
+          style: WonderCardTypography.boldTextH5(fontSize: 23, color: AppColors.grayScale),
+        ),
         
         actions: [
           Padding(
@@ -201,7 +201,7 @@ class _CreateNewCardStepTwoState extends ConsumerState<CreateNewCardStepTwo> {
       appBar: CustomAppBar(
           leading:  BackNavigator(
              onPress: () => context.go('/'),
-          ), title: 'Create Card - Step 2'),
+          ), title: 'Create Card', ),
       backgroundColor: AppColors.defaultWhite,
       body: SingleChildScrollView(
         child: Padding(
