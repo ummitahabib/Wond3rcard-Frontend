@@ -3,21 +3,22 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
-import 'package:wond3rcard/src/shared/views/widgets/custom_app_bar.dart';
-import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/back_navigator.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
-
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
+import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
 //Todo rework on this file and break the widgets and method into smaller parts
 class ShareQrWidget extends HookConsumerWidget {
-  const ShareQrWidget({super.key});
+  const ShareQrWidget({super.key, required this.index});
+
+  final int index;
 
   static const routeName = RouteString.shareCardLink;
 
@@ -33,14 +34,14 @@ class ShareQrWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileController = ref.read(profileProvider);
-    final profile = profileController.profileData?.payload.profile;
-    final user = profileController.profileData?.payload.user;
+    final cardController = ref.watch(cardProvider);
     useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
               await profileController.getProfile();
+              await ref.read(cardProvider).getAUsersCard(context);
             });
           }
         });
@@ -48,14 +49,41 @@ class ShareQrWidget extends HookConsumerWidget {
       },
       [],
     );
-
     return Scaffold(
       backgroundColor: AppColors.primaryShade,
-      appBar: CustomAppBar(
-        
-        leading:  BackNavigator(
-          onPress: () => context.go('/'),
-        ), title: 'Share'),
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryShade,
+        title: Text(
+          'Share Card',
+          style: WonderCardTypography.boldTextH5(fontSize: 23, color: AppColors.defaultWhite)
+        ),
+        centerTitle: true,
+        actions: [
+          Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: AppColors.defaultWhite,
+        ),
+        margin: const EdgeInsets.all(10),
+        child: HeroIcon(HeroIcons.qrCode, color: AppColors.grayScale),
+          ),
+        ],
+        leading: GestureDetector(
+          onTap: () => context.go(RouteString.mainDashboard),
+          child: Container(
+        margin: const EdgeInsets.all(10),
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: AppColors.defaultWhite,
+        ),
+        child: HeroIcon(HeroIcons.arrowLeft, color: AppColors.grayScale),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -82,7 +110,7 @@ class ShareQrWidget extends HookConsumerWidget {
                   children: [
                     userProfileImage(),
                     Text(
-                      '${profile?.firstname ?? emptyString} ${profile?.lastname ?? emptyString}',
+                      '${cardController.getCardsResponse?.payload?.cards?[index].firstName ?? emptyString} ${cardController.getCardsResponse?.payload?.cards?[index].lastName ?? emptyString}',
                       style: const TextStyle(
                         fontSize: 18,
                         fontFamily: wonderCardFontName,
