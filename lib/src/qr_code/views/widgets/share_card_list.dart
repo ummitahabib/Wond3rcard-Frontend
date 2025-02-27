@@ -45,121 +45,117 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
 
     return Scaffold(
       backgroundColor: AppColors.grayScale50,
+      appBar: AppBar(
+        leading: SizedBox(),
+        centerTitle: true,
+        title: Text(
+              'Choose which card to share',
+              style: WonderCardTypography.boldTextTitleBold(
+                fontSize: SpacingConstants.size18,
+                color: AppColors.grayScale,
+              ),
+            ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 14,
+          ),
           child: Column(
             children: [
-              Text(
-                'Choose which card to share',
-                style: WonderCardTypography.boldTextTitleBold(
-                  fontSize: SpacingConstants.size18,
-                  color: AppColors.grayScale,
-                ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              SharedSearchField(
-                controller: searchController,
-                hintText: "Search here...",
-                onChanged: (value) {
-                  print("Searching: $value");
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: cardController!
-                        .getCardsResponse?.payload?.cards?.length,
-                    itemBuilder: (context, index) {
-                      final card = cardController!
-                          .getCardsResponse?.payload?.cards?[index];
-                      return Column(
-                        children: [
-                          Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: size8,
-                                  horizontal: size19,
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context.go(
-                                        '${RouteString.shareCardLink}/$index');
-                                  },
-                                  child: Container(
-                                    // width: size360,
-                                    height: SpacingConstants.size72,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(size15),
-                                      color: AppColors.defaultWhite,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(size12),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: SpacingConstants.size45,
-                                            height: SpacingConstants.size45,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      SpacingConstants.size100),
-                                              child: Image.network(
-                                                card?.cardPictureUrl ??
-                                                    ImageAssets.behance,
-                                                fit: BoxFit.cover,
-                                              ),
+               SharedSearchField(
+          controller: searchController,
+          hintText: "Search here...",
+          onChanged: (value) {
+            print("Searching: $value");
+          },
+        ),
+        SizedBox(height: 15 ,),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: cardController!
+                      .getCardsResponse?.payload?.cards?.length,
+                  itemBuilder: (context, index) {
+                    final card = cardController!
+                        .getCardsResponse?.payload?.cards?[index];
+                    return Column(
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: size8,
+                                horizontal: size19,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.go(
+                                      '${RouteString.shareCardLink}/$index');
+                                },
+                                child: Container(
+                                  // width: size360,
+                                  height: SpacingConstants.size72,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(size15),
+                                    color: AppColors.defaultWhite,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(size12),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: SpacingConstants.size45,
+                                          height: SpacingConstants.size45,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(
+                                                    SpacingConstants.size100),
+                                            child: Image.network(
+                                              card?.cardPictureUrl ??
+                                                  ImageAssets.behance,
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: size15,
-                                          ),
-                                          Text(
-                                            card?.cardName ?? emptyString,
-                                            style:
-                                                WonderCardTypography.boldTextH5(
-                                                    fontSize:
-                                                        SpacingConstants.size23,
-                                                    color:
-                                                        AppColors.grayScale700),
-                                          ),
-                                          const Spacer(),
-                                          const Icon(
-                                            Icons.circle,
-                                            color: AppColors.primaryShade,
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                        const SizedBox(
+                                          width: size15,
+                                        ),
+                                        Text(
+                                          card?.cardName ?? emptyString,
+                                          style:
+                                              WonderCardTypography.boldTextH5(
+                                                  fontSize:
+                                                      SpacingConstants.size23,
+                                                  color:
+                                                      AppColors.grayScale700),
+                                        ),
+                                        const Spacer(),
+                                        const Icon(
+                                          Icons.circle,
+                                          color: AppColors.primaryShade,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: size10,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: size10,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ],
