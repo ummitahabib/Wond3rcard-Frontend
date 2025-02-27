@@ -262,10 +262,12 @@ final GoRouter router = GoRouter(
             return const CardsMain();
           },
         ),
-        GoRoute(
-          path: RouteString.shareCardLink,
+          GoRoute(
+          path: '${RouteString.shareCardLink}/:index',
           builder: (BuildContext context, GoRouterState state) {
-            return const ShareQrWidget();
+            final index =
+                int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
+            return ShareQrWidget(index: index);
           },
         ),
         GoRoute(
