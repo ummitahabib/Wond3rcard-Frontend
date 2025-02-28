@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,107 +12,87 @@ import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
+class CreateNewCardStepFive extends HookConsumerWidget {
+  const CreateNewCardStepFive({super.key});
 
+  static const routeName = RouteString.createNewCardStepFive;
 
-// class CreateNewCardStepFive extends HookConsumerWidget {
-//   const CreateNewCardStepFive({super.key});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final onboardingController = ref.watch(onboardingProvider);
+    final cardController = ref.watch(cardProvider);
 
-//   static const routeName = RouteString.createNewCardStepFive;
+    final socialController = ref.watch(socialProvider);
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     // final onboardingController = ref.watch(onboardingProvider);
-//     final cardController = ref.watch(cardProvider);
+    useEffect(
+      () {
+        Future.delayed(Duration.zero, () async {
+          try {
+            await ref.read(socialProvider).getSocialMedia(context);
+          } catch (error) {}
+        });
+        return null;
+      },
+      [],
+    );
 
-//     final socialController = ref.watch(socialProvider);
-
-//     useEffect(
-//       () {
-//         Future.delayed(Duration.zero, () async {
-//           try {
-//             await ref.read(socialProvider).getSocialMedia(context);
-//           } catch (error) {}
-//         });
-//         return null;
-//       },
-//       [],
-//     );
-
-//     return Scaffold(
-//        appBar: CreateCardReusableAppBar(
-//         route: RouteString.createNewCardFour,
-//           titleText: 'Step 5 of 5',
-//       ),
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             const SocialMediaSwitches(),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   Text(
-//                     'Social Media',
-//                     style: WonderCardTypography.boldTextTitle2(
-//                       fontSize: SpacingConstants.size16,
-//                       color: AppColors.grayScale,
-//                     ),
-//                   ),
-//                   Text(
-//                     viewAllText,
-//                     style: WonderCardTypography.boldTextTitle2(
-//                       fontSize: SpacingConstants.size16,
-//                       color: AppColors.grayScale300,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             socialController.loading
-//                 ? const Center(child: CircularProgressIndicator())
-//                 : socialController.socialMedias.isEmpty
-//                     ? const Center(child: Text('No social media links found.'))
-//                     : Padding(
-//                         padding: const EdgeInsets.symmetric(
-//                             vertical: 0, horizontal: 16),
-//                         child:
-//                             SocialMediaList(socialController: socialController),
-//                       ),
-//             Center(
-//               child: WonderCardButton(
-//                 showLoader: cardController.loading,
-//                 text: 'Submit',
-//                 onPressed: () async {
-//                   try {
-//                     await ref.watch(cardProvider).createCard(context);
-//                   } catch (e) {
-//                     print('Error: $e');
-//                   }
-//                 },
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-
-//     // Column(
-//     //   children: [
-//     //     const SocialMediaSwitches(),
-//     // WonderCardButton(
-//     //   showLoader: cardController.loading,
-//     //   text: 'Submit',
-//     //   onPressed: () async {
-//     //     try {
-//     //       await ref.watch(cardProvider).createCard(context);
-//     //     } catch (e) {
-//     //       print('Error: $e');
-//     //     }
-//     //   },
-//     // ),
-//     //   ],
-//     // );
-//   }
-// }
-
+    return Scaffold(
+      appBar: CreateCardReusableAppBar(
+        route: RouteString.createNewCardFour,
+        titleText: 'Step 5 of 5',
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SocialMediaSwitches(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Social Media',
+                    style: WonderCardTypography.boldTextTitle2(
+                      fontSize: SpacingConstants.size16,
+                      color: AppColors.grayScale,
+                    ),
+                  ),
+                  Text(
+                    viewAllText,
+                    style: WonderCardTypography.boldTextTitle2(
+                      fontSize: SpacingConstants.size16,
+                      color: AppColors.grayScale300,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            socialController.loading
+                ? const Center(child: CircularProgressIndicator())
+                : socialController.socialMedias.isEmpty
+                    ? const Center(child: Text('No social media links found.'))
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 16),
+                        child:
+                            SocialMediaList(socialController: socialController),
+                      ),
+            Center(
+              child: WonderCardButton(
+                showLoader: cardController.loading,
+                text: 'Submit',
+                onPressed: () async {
+                  try {
+                    await ref.watch(cardProvider).createCard(context);
+                  } catch (e) {
+                    print('Error: $e');
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
