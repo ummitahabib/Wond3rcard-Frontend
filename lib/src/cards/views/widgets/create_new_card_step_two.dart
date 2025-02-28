@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
-import 'package:wond3rcard/src/cards/views/widgets/card_type.dart';
 import 'package:wond3rcard/src/cards/views/widgets/close_review_button.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_card_reusable_app_bar.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
@@ -11,8 +9,6 @@ import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/wo
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
-
-
 
 class CreateNewCardStepTwo extends StatefulHookConsumerWidget {
   const CreateNewCardStepTwo({super.key});
@@ -46,7 +42,7 @@ class _CreateNewCardStepTwoState extends ConsumerState<CreateNewCardStepTwo> {
     return Scaffold(
       appBar: CreateCardReusableAppBar(
         route: RouteString.createNewCard,
-        titleText: 'Step 2 of 5',
+        titleText: 'Step 2 of 4',
       ),
       backgroundColor: AppColors.defaultWhite,
       body: SingleChildScrollView(
@@ -57,18 +53,15 @@ class _CreateNewCardStepTwoState extends ConsumerState<CreateNewCardStepTwo> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTextField(
-                            inputType: TextInputType.phone,
-                              textEditingController: cardController.contactInfoPhone,
-                             
-                              isRequired: true,
-                              hintColor: AppColors.lighDisable,
-                              textColor: AppColors.grayScale600,
-                              fillColor: AppColors.defaultWhite,
-                              hintText: '+234 123 456 78',
-                              text: enterPhoneNumber,
-                              type: TextFieldType.Number),
-            
-              
+                  inputType: TextInputType.phone,
+                  textEditingController: cardController.contactInfoPhone,
+                  isRequired: true,
+                  hintColor: AppColors.lighDisable,
+                  textColor: AppColors.grayScale600,
+                  fillColor: AppColors.defaultWhite,
+                  hintText: '+234 123 456 78',
+                  text: enterPhoneNumber,
+                  type: TextFieldType.Number),
               CustomTextField(
                 hintText: 'Selected Card Type',
                 text: 'Card Type',

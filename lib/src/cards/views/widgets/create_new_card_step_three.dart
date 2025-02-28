@@ -1,17 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_card_reusable_app_bar.dart';
-import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_four.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/wonder_card_textfield.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
-
-
 
 class CreateNewCardStepThree extends StatefulHookConsumerWidget {
   const CreateNewCardStepThree({super.key});
@@ -46,7 +42,7 @@ class _CreateNewCardStepThreeState
     return Scaffold(
       appBar: CreateCardReusableAppBar(
         route: RouteString.createNewCardTwo,
-        titleText: 'Step 3 of 5',
+        titleText: 'Step 3 of 4',
       ),
       backgroundColor: AppColors.defaultWhite,
       body: SingleChildScrollView(
@@ -96,18 +92,6 @@ class _CreateNewCardStepThreeState
                   },
                 ),
               ),
-
-              // WonderCardButton(
-              //   showLoader: cardController.loading,
-              //   text: 'Submit',
-              //   onPressed: () async {
-              //     try {
-              //       await ref.watch(cardProvider).createCard(context);
-              //     } catch (e) {
-              //       print('Error: $e');
-              //     }
-              //   },
-              // ),
             ],
           ),
         ),

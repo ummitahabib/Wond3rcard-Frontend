@@ -16,7 +16,6 @@ import 'package:wond3rcard/src/cards/views/widgets/card_layout_1.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_layout_2.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_layout_3.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card.dart';
-import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_five.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_four.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_three.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_two.dart';
@@ -298,12 +297,12 @@ final GoRouter router = GoRouter(
             return const CreateNewCardStepFour();
           },
         ),
-        GoRoute(
-          path: RouteString.createNewCardStepFive,
-          builder: (BuildContext context, GoRouterState state) {
-            return const CreateNewCardStepFive();
-          },
-        ),
+        // GoRoute(
+        //   path: RouteString.createNewCardStepFive,
+        //   builder: (BuildContext context, GoRouterState state) {
+        //     return const CreateNewCardStepFive();
+        //   },
+        // ),
         GoRoute(
           path: RouteString.cardMain,
           builder: (BuildContext context, GoRouterState state) {

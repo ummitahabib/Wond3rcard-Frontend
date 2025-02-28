@@ -81,6 +81,36 @@ class CardModel {
     );
   }
 
+  factory CardModel.fromMap(Map<String, dynamic> map) {
+    return CardModel(
+      cardType: map['cardType'],
+      ownerId: map['ownerId'],
+      cardName: map['cardName'],
+      suffix: map['suffix'],
+      firstName: map['firstName'],
+      lastName: map['lastName'],
+      middleName: map['middleName'],
+      dateOfBirth: map['dateOfBirth'],
+      designation: map['designation'],
+      notes: map['notes'],
+      primaryColor: map['primaryColor'],
+      secondaryColor: map['secondaryColor'],
+      fontSize: map['fontSize'],
+      fontWeight: map['fontWeight'],
+      fontStyle: map['fontStyle'],
+      fontFamilyName: map['fontFamilyName'],
+      organizationId: map['organizationId'],
+      email: map['email'],
+      phone: map['phone'],
+      website: map['website'],
+      address: map['address'],
+      textColor: map['textColor'],
+      socialMediaLinks: (map['socialMediaLinks'] as List<dynamic>?)
+          ?.map((e) => SocialMediaLink.fromMap(e))
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'cardType': cardType,
@@ -108,6 +138,34 @@ class CardModel {
       'socialMediaLinks': socialMediaLinks?.map((e) => e.toJson()).toList(),
     };
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'cardType': cardType,
+      'ownerId': ownerId,
+      'cardName': cardName,
+      'suffix': suffix,
+      'firstName': firstName,
+      'lastName': lastName,
+      'middleName': middleName,
+      'dateOfBirth': dateOfBirth,
+      'designation': designation,
+      'notes': notes,
+      'primaryColor': primaryColor,
+      'secondaryColor': secondaryColor,
+      'fontSize': fontSize,
+      'fontWeight': fontWeight,
+      'fontStyle': fontStyle,
+      'fontFamilyName': fontFamilyName,
+      'organizationId': organizationId,
+      'email': email,
+      'phone': phone,
+      'website': website,
+      'address': address,
+      'textColor': textColor,
+      'socialMediaLinks': socialMediaLinks?.map((e) => e.toMap()).toList(),
+    };
+  }
 }
 
 class SocialMediaLink {
@@ -129,9 +187,25 @@ class SocialMediaLink {
     );
   }
 
+  factory SocialMediaLink.fromMap(Map<String, dynamic> map) {
+    return SocialMediaLink(
+      media: map['media'] != null ? Media.fromMap(map['media']) : null,
+      username: map['username'],
+      active: map['active'],
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'media': media?.toJson(),
+      'username': username,
+      'active': active,
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'media': media?.toMap(),
       'username': username,
       'active': active,
     };
@@ -160,7 +234,25 @@ class Media {
     );
   }
 
+  factory Media.fromMap(Map<String, dynamic> map) {
+    return Media(
+      iconUrl: map['iconUrl'],
+      name: map['name'],
+      type: map['type'],
+      link: map['link'],
+    );
+  }
+
   Map<String, dynamic> toJson() {
+    return {
+      'iconUrl': iconUrl,
+      'name': name,
+      'type': type,
+      'link': link,
+    };
+  }
+
+  Map<String, dynamic> toMap() {
     return {
       'iconUrl': iconUrl,
       'name': name,
@@ -170,26 +262,40 @@ class Media {
   }
 }
 
-class OrganizationInfo {
-  final String organizationId;
-  final String organizationName;
+// class OrganizationInfo {
+//   final String organizationId;
+//   final String organizationName;
 
-  OrganizationInfo({
-    required this.organizationId,
-    required this.organizationName,
-  });
+//   OrganizationInfo({
+//     required this.organizationId,
+//     required this.organizationName,
+//   });
 
-  factory OrganizationInfo.fromJson(Map<String, dynamic> json) {
-    return OrganizationInfo(
-      organizationId: json['organizationId'],
-      organizationName: json['organizationName'],
-    );
-  }
+//   factory OrganizationInfo.fromJson(Map<String, dynamic> json) {
+//     return OrganizationInfo(
+//       organizationId: json['organizationId'],
+//       organizationName: json['organizationName'],
+//     );
+//   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'organizationId': organizationId,
-      'organizationName': organizationName,
-    };
-  }
-}
+//   factory OrganizationInfo.fromMap(Map<String, dynamic> map) {
+//     return OrganizationInfo(
+//       organizationId: map['organizationId'],
+//       organizationName: map['organizationName'],
+//     );
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'organizationId': organizationId,
+//       'organizationName': organizationName,
+//     };
+//   }
+
+//   Map<String, dynamic> toMap() {
+//     return {
+//       'organizationId': organizationId,
+//       'organizationName': organizationName,
+//     };
+//   }
+// }

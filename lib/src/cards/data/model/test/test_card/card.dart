@@ -1,3 +1,5 @@
+import 'package:wond3rcard/src/cards/data/model/card_model.dart';
+
 import 'card_design.dart';
 import 'card_layout.dart';
 import 'card_style.dart';
