@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wond3rcard/src/cards/data/model/card_model.dart';
 import 'package:wond3rcard/src/cards/data/model/get_a_card.dart';
 import 'package:wond3rcard/src/cards/data/model/test/get_card/get_card.dart';
@@ -145,59 +146,178 @@ class CardNotifier extends ChangeNotifier {
     cardBackground.clear();
   }
 
-  Future<bool> createCard(BuildContext context) async {
-    final String? cardId = StorageUtil.getString(
-      key: SessionString.userId,
-    );
-    final CardModel createCard = CardModel(
-      cardType: cardType.text,
-      ownerId: cardId,
-      cardName: cardName.text,
-      suffix: suffix.text,
-      firstName: firstName.text,
-      middleName: middleName.text,
-      lastName: lastName.text,
-      dateOfBirth: dateOfBirth.text,
-      notes: notes.text,
-      address: contactInfoAddress.text,
-      designation: designation.text,
-      email: contactInfoEmail.text,
-      fontFamilyName: selectedFont,
-      fontSize: fontSize.text,
-      fontStyle: fontStyle.text,
-      fontWeight: fontWeight.text,
-      organizationId: organizationId.text,
-      phone: contactInfoPhone.text,
-    primaryColor: selectedColor.value.toString(),
-      secondaryColor: cardBackground.text,
-      textColor: textColor.text,
-      website: website.text,
-    );
 
-    try {
-      loading = true;
+Future<bool> createCard(BuildContext context) async {
+  final String? cardId = StorageUtil.getString(key: SessionString.userId);
+  final prefs = await SharedPreferences.getInstance();
+  List<String> socialMediaKeys =
+      prefs.getKeys().where((key) => key.endsWith('_username')).toList();
 
-      final response = await ref.read(cardRepositoryProvider).createCard(
-            createCard.toJson(),
-          );
-      loading = false;
-      if (response.hasError()) {
-        alert.showErrorToast(message: response.error!.message);
-      } else {
-        cardModel = createCard;
-        clearControllers();
-        context.go(RouteString.mainDashboard);
-        return true;
-      }
-    } catch (e) {
-      loading = false;
-      print('card created error occured $e');
-      alert.showErrorToast(message: "An error occurred: ${e.toString()}");
+  List<SocialMediaLink> socialMediaLinks = [];
+
+  for (String key in socialMediaKeys) {
+    String baseKey = key.replaceAll('_username', '');
+    String? baseUrl = prefs.getString('${baseKey}_baseUrl');
+    String? username = prefs.getString('${baseKey}_username');
+    String? controllerName = prefs.getString('${baseKey}_controllerName');
+
+    // Validate fields before adding to the list
+    if (baseUrl != null &&
+        username != null &&
+        baseUrl.isNotEmpty &&
+        username.isNotEmpty) {
+      // Ensure no double slashes in URLs
+      String cleanLink = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
+
+      socialMediaLinks.add(
+        SocialMediaLink(
+          media: Media(
+            name: controllerName ?? '',
+            link: '$cleanLink/$username',
+            iconUrl: baseUrl,
+            type: "social",
+          ),
+          username: username,
+          active: true,
+        ),
+      );
     }
-    return false;
   }
 
+  // Ensure secondaryColor and textColor have valid values
+  String defaultColor = "#000000"; // Default black color
+  String validatedSecondaryColor = cardBackground.text.isNotEmpty ? cardBackground.text : defaultColor;
+  String validatedTextColor = textColor.text.isNotEmpty ? textColor.text : defaultColor;
 
+  final CardModel createCard = CardModel(
+    cardType: cardType.text,
+    ownerId: cardId,
+    cardName: cardName.text,
+    suffix: suffix.text,
+    firstName: firstName.text,
+    middleName: middleName.text,
+    lastName: lastName.text,
+    dateOfBirth: dateOfBirth.text,
+    notes: notes.text,
+    address: contactInfoAddress.text,
+    designation: designation.text,
+    email: contactInfoEmail.text,
+    fontFamilyName: selectedFont,
+    fontSize: fontSize.text.isNotEmpty ? fontSize.text : "16", // Default font size
+    fontStyle: fontStyle.text.isNotEmpty ? fontStyle.text : "normal",
+    fontWeight: fontWeight.text.isNotEmpty ? fontWeight.text : "normal",
+    organizationId: organizationId.text,
+    phone: contactInfoPhone.text,
+    primaryColor: selectedColor.value.toString(),
+    secondaryColor: validatedSecondaryColor,
+    textColor: validatedTextColor,
+    website: website.text,
+    socialMediaLinks: socialMediaLinks,
+  );
+
+  try {
+    loading = true;
+
+    // Debugging: Print JSON payload before sending to API
+    print('Sending data to API: ${createCard.toJson()}');
+
+    final response = await ref.read(cardRepositoryProvider).createCard(
+      createCard.toJson(),
+    );
+
+    loading = false;
+
+    if (response.hasError()) {
+      print('API Error: ${response.error!.message}');
+      alert.showErrorToast(message: response.error!.message);
+    } else {
+      cardModel = createCard;
+      clearControllers();
+      context.go(RouteString.mainDashboard);
+      return true;
+    }
+  } catch (e) {
+    loading = false;
+    print('Card creation error: $e');
+    alert.showErrorToast(message: "An error occurred: ${e.toString()}");
+  }
+  return false;
+}
+
+// Future<bool> createCard(BuildContext context) async {
+//   final String? cardId = StorageUtil.getString(key: SessionString.userId);
+  
+//   // Fetch saved social media accounts
+//   final prefs = await SharedPreferences.getInstance();
+//   List<String> socialMediaKeys = prefs.getKeys().where((key) => key.endsWith('_username')).toList();
+  
+//   List<Map<String, dynamic>> socialMediaData = socialMediaKeys.map((key) {
+//     String baseKey = key.replaceAll('_username', '');
+//     return {
+//       "media": {
+//         "iconUrl": prefs.getString('${baseKey}_baseUrl') ?? '',
+//         "name": prefs.getString('${baseKey}_controllerName') ?? '',
+//         "type": "social",
+//         "link": "${prefs.getString('${baseKey}_baseUrl')}${prefs.getString('${baseKey}_username')}"
+//       },
+//       "username": prefs.getString('${baseKey}_username') ?? '',
+//       "active": true,
+//     };
+//   }).toList();
+
+//   List<SocialMediaLink> socialMediaLinks = socialMediaData.map((map) => SocialMediaLink.fromMap(map)).toList();
+
+//   final CardModel createCard = CardModel(
+//     cardType: cardType.text,
+//     ownerId: cardId,
+//     cardName: cardName.text,
+//     suffix: suffix.text,
+//     firstName: firstName.text,
+//     middleName: middleName.text,
+//     lastName: lastName.text,
+//     dateOfBirth: dateOfBirth.text,
+//     notes: notes.text,
+//     address: contactInfoAddress.text,
+//     designation: designation.text,
+//     email: contactInfoEmail.text,
+//     fontFamilyName: selectedFont,
+//     fontSize: fontSize.text,
+//     fontStyle: fontStyle.text,
+//     fontWeight: fontWeight.text,
+//     organizationId: organizationId.text,
+//     phone: contactInfoPhone.text,
+//     primaryColor: selectedColor.value.toString(),
+//     secondaryColor: cardBackground.text,
+//     textColor: textColor.text,
+//     website: website.text,
+//     socialMediaLinks: socialMediaLinks, // ✅ Now correctly formatted
+//   );
+
+//   try {
+//     loading = true;
+//     final response = await ref.read(cardRepositoryProvider).createCard(
+//       createCard.toJson(),
+//     );
+//     loading = false;
+    
+//     if (response.hasError()) {
+//       alert.showErrorToast(message: response.error!.message);
+//     } else {
+//       cardModel = createCard;
+//       clearControllers();
+//       context.go(RouteString.mainDashboard);
+//       return true;
+//     }
+//   } catch (e) {
+//     loading = false;
+//     print('Card creation error: $e');
+//     alert.showErrorToast(message: "An error occurred: ${e.toString()}");
+//   }
+//   return false;
+// }
+
+ 
+ 
   Future<List<GetCardsResponse>> getAllUsersCard() async {
     try {
       loading = true;

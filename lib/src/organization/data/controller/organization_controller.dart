@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/model/card_model.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/organization_info.dart';
 import 'package:wond3rcard/src/organization/data/model/create_organization_request.dart';
 import 'package:wond3rcard/src/organization/data/repository/organization_repository.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
@@ -193,14 +194,15 @@ class OrganizationController extends ChangeNotifier {
   Future<bool> changeOrganizationMemberRole() async {
     // id of the user needed here
     String memberId = '';
-    String organizationId = organizationInfo.organizationId ?? emptyString;
+    //String organizationId = organizationInfo.organizationId ?? emptyString;
     final String role =
         ref.watch(profileProvider).profileData?.payload.user.userRole ??
             emptyString;
 
     Map<String, dynamic> request = {
       "memberId": memberId,
-      "organizationId": organizationId,
+      "organizationId": '',
+      // organizationId,
       "role": role,
     };
     try {

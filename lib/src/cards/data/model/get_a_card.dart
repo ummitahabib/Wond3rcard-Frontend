@@ -1,3 +1,6 @@
+import 'package:wond3rcard/src/cards/data/model/card_model.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/organization_info.dart';
+
 class GetCardsResponse {
   final CardStyle cardStyle;
   final OrganizationInfo organizationInfo;
@@ -204,25 +207,6 @@ class CardStyle {
   }
 }
 
-class OrganizationInfo {
-  final String organizationName;
-
-  OrganizationInfo({
-    required this.organizationName,
-  });
-
-  factory OrganizationInfo.fromJson(Map<String, dynamic> json) {
-    return OrganizationInfo(
-      organizationName: json['organizationName'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'organizationName': organizationName,
-    };
-  }
-}
 
 class ContactInfo {
   final List<String> emailType;
@@ -368,66 +352,6 @@ class CardLayout {
       'padding': padding,
       'margin': margin,
       'layoutOrientation': layoutOrientation,
-    };
-  }
-}
-
-class SocialMediaLink {
-  final String username;
-  final bool active;
-  final String id;
-  final String linkedin;
-  final String twitter;
-  final String facebook;
-  final String instagram;
-  final String tiktok;
-  final String github;
-  final String youtube;
-  final List<String> customLinks;
-
-  SocialMediaLink({
-    required this.username,
-    required this.active,
-    required this.id,
-    required this.linkedin,
-    required this.twitter,
-    required this.facebook,
-    required this.instagram,
-    required this.tiktok,
-    required this.github,
-    required this.youtube,
-    required this.customLinks,
-  });
-
-  factory SocialMediaLink.fromJson(Map<String, dynamic> json) {
-    return SocialMediaLink(
-      username: json['username'],
-      active: json['active'],
-      id: json['_id'],
-      linkedin: json['linkedin'],
-      twitter: json['twitter'],
-      facebook: json['facebook'],
-      instagram: json['instagram'],
-      tiktok: json['tiktok'],
-      github: json['github'],
-      youtube: json['youtube'],
-      customLinks: List<String>.from(json['customLinks']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'username': username,
-      'active': active,
-      '_id': id,
-      'linkedin': linkedin,
-      'twitter': twitter,
-      'facebook': facebook,
-      'instagram': instagram,
-      'tiktok': tiktok,
-      'github': github,
-      'youtube': youtube,
-      'customLinks': customLinks,
     };
   }
 }

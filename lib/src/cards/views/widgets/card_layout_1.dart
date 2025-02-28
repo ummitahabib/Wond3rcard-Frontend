@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +11,7 @@ import 'package:wond3rcard/src/cards/views/widgets/layout_selection.dart';
 import 'package:wond3rcard/src/cards/views/widgets/reusable_card_text.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
 import 'package:wond3rcard/src/utils/ui_data.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
@@ -204,7 +206,9 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
             trailingIcon: const HeroIcon(HeroIcons.arrowLeft,
                 color: AppColors.defaultWhite, size: 16),
             text: '',
-            onPressed: () {}),
+            onPressed: () {
+              context.go(RouteString.mainDashboard);
+            }),
         WonderCardButton(
             backgroundColor: color,
             textColor: AppColors.defaultWhite,
@@ -218,7 +222,9 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
             text: 'Next',
             trailingIcon: const HeroIcon(HeroIcons.arrowRight,
                 color: AppColors.defaultWhite, size: 16),
-            onPressed: () {}),
+            onPressed: () {
+              context.go(RouteString.createNewCard);
+            }),
       ],
     );
   }

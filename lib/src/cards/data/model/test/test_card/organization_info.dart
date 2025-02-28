@@ -1,15 +1,19 @@
 class OrganizationInfo {
-  String? organizationName;
+  final String organizationName;
 
-  OrganizationInfo({this.organizationName});
+  OrganizationInfo({
+    required this.organizationName,
+  });
 
   factory OrganizationInfo.fromJson(Map<String, dynamic> json) {
     return OrganizationInfo(
-      organizationName: json['organizationName'] as String?,
+      organizationName: json['organizationName'],
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'organizationName': organizationName,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'organizationName': organizationName,
+    };
+  }
 }

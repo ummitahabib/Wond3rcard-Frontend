@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,8 +11,6 @@ import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
-
-
 
 class CreateNewCardStepFive extends HookConsumerWidget {
   const CreateNewCardStepFive({super.key});
@@ -40,9 +37,9 @@ class CreateNewCardStepFive extends HookConsumerWidget {
     );
 
     return Scaffold(
-       appBar: CreateCardReusableAppBar(
+      appBar: CreateCardReusableAppBar(
         route: RouteString.createNewCardFour,
-          titleText: 'Step 5 of 5',
+        titleText: 'Step 5 of 5',
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -97,23 +94,5 @@ class CreateNewCardStepFive extends HookConsumerWidget {
         ),
       ),
     );
-
-    // Column(
-    //   children: [
-    //     const SocialMediaSwitches(),
-    // WonderCardButton(
-    //   showLoader: cardController.loading,
-    //   text: 'Submit',
-    //   onPressed: () async {
-    //     try {
-    //       await ref.watch(cardProvider).createCard(context);
-    //     } catch (e) {
-    //       print('Error: $e');
-    //     }
-    //   },
-    // ),
-    //   ],
-    // );
   }
 }
-
