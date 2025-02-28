@@ -218,3 +218,7 @@ const String twoFactorAuthText = 'Two Factor Authentication';
 const String multiFactorAuthText = 'Multi Factor Authentication';
 const String changePasswordText = 'Change Password';
 const String deleteAccountText = 'Delete Account';
+const String fetchingAddressText = "Fetching address...";
+const String enterAddressOrSelectMap = "Enter Address (or select from map)";
+const String searchForPlaceText = "Search for a place...";
+const String searchAndSelectLocationText = "Search & Select Location";
