@@ -6,9 +6,6 @@ import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_type.dart';
 import 'package:wond3rcard/src/cards/views/widgets/close_review_button.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_card_reusable_app_bar.dart';
-import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_three.dart';
-import 'package:wond3rcard/src/shared/views/widgets/custom_app_bar.dart';
-import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/back_navigator.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/wonder_card_textfield.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
@@ -71,18 +68,7 @@ class _CreateNewCardStepTwoState extends ConsumerState<CreateNewCardStepTwo> {
                               text: enterPhoneNumber,
                               type: TextFieldType.Number),
             
-              CardTypeSelector(
-                color: cardController.selectedColor,
-                selectedCardType: cardController.selectedCardType,
-                onChanged: (CardType newType) {
-                  setState(() {
-                    cardController.selectedCardType = newType;
-                    cardController.cardType.text = newType.name;
-                    print(
-                        'Selected Card Type: ${cardController.selectedCardType}');
-                  });
-                },
-              ),
+              
               CustomTextField(
                 hintText: 'Selected Card Type',
                 text: 'Card Type',

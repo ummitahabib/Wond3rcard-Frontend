@@ -34,6 +34,7 @@ class CardNotifier extends ChangeNotifier {
   }
 
   Color selectedColor = AppColors.primaryShade;
+  String selectedFont = 'Roboto';
   CardType selectedCardType = CardType.personal;
 
   late CardModel _cardModel;
@@ -83,6 +84,18 @@ class CardNotifier extends ChangeNotifier {
     _uploadedImage = image;
     notifyListeners();
   }
+
+
+//  String _selectedLayout = 'Layout 1'; 
+
+//   String get selectedLayout => _selectedLayout;
+
+//   void setLayout(String layout) {
+//     _selectedLayout = layout;
+//     notifyListeners();
+//   }
+
+
 
   final TextEditingController cardType = TextEditingController();
   final TextEditingController cardName = TextEditingController();
@@ -149,13 +162,13 @@ class CardNotifier extends ChangeNotifier {
       address: contactInfoAddress.text,
       designation: designation.text,
       email: contactInfoEmail.text,
-      fontFamilyName: fontFamilyName.text,
+      fontFamilyName: selectedFont,
       fontSize: fontSize.text,
       fontStyle: fontStyle.text,
       fontWeight: fontWeight.text,
       organizationId: organizationId.text,
       phone: contactInfoPhone.text,
-      primaryColor: cardBackground.text,
+    primaryColor: selectedColor.value.toString(),
       secondaryColor: cardBackground.text,
       textColor: textColor.text,
       website: website.text,
@@ -331,4 +344,8 @@ class CardNotifier extends ChangeNotifier {
     Navigator.of(context).pop();
     notifyListeners();
   }
+
+
+
+  
 }
