@@ -148,6 +148,7 @@ class SpacingConstants {
 }
 
 const int int60 = 60;
+const int int2 = 2;
 const double size25 = 25;
 const double size204 = 204;
 const double size360 = 360;
@@ -171,6 +172,7 @@ const double size3 = 3;
 const double size6 = 6;
 const double size7 = 7;
 const double size8 = 8;
+const double size5 = 5;
 const double size27 = 27;
 const double size432 = 431;
 const double size42 = 42;

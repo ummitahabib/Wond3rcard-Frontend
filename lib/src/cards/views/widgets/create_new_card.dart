@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_card_reusable_app_bar.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_two.dart';
+import 'package:wond3rcard/src/shared/views/widgets/address_field.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/wonder_card_textfield.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
@@ -113,6 +114,10 @@ class _CreateNewCardState extends ConsumerState<CreateNewCard> {
                 textEditingController: cardController.suffix,
               ),
               const SizedBox(height: 15),
+
+              AddressField(),
+
+               const SizedBox(height: 15),
               Center(
                 child: WonderCardButton(
                   showLoader: cardController.loading,
