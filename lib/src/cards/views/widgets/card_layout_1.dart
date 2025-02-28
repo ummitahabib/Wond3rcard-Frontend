@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
-import 'package:wond3rcard/src/cards/views/widgets/card_layout.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_type.dart';
+import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_four.dart';
 import 'package:wond3rcard/src/cards/views/widgets/font_widget.dart';
 import 'package:wond3rcard/src/cards/views/widgets/layout_selection.dart';
 import 'package:wond3rcard/src/cards/views/widgets/reusable_card_text.dart';
-import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
 import 'package:wond3rcard/src/utils/ui_data.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
-
-
 
 class CardLayout1 extends StatefulHookConsumerWidget {
   final Function(String) onLayoutSelected;
@@ -43,20 +39,17 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
       );
     }
 
-       void showFontSelection(BuildContext context) {
+    void showFontSelection(BuildContext context) {
       showModalBottomSheet(
         context: context,
         builder: (context) {
-          return    FontCustomizationCard();
+          return FontCustomizationCard();
         },
       );
     }
 
-
     final cardController = ref.watch(cardProvider);
-    return
-    
-     Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.grayScale50,
       body: SafeArea(
         child: Padding(
@@ -69,11 +62,14 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
               Stack(
                 children: [
                   _buildCardContainer(cardController.selectedColor),
-                  Positioned(left: 25, top: 159, child: userProfileImage()),
+                  Positioned(
+                    left: 25,
+                    top: 159,
+                    child: uploadPhotoMethod(cardController: cardController),
+                  ),
                 ],
               ),
               const SizedBox(height: 50),
-           
               WonderCardButton(
                 buttonWidth: 346,
                 variant: ButtonVariant.outline,
@@ -116,7 +112,6 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
         ),
       ),
     );
-  
   }
 
   Widget _buildCardContainer(Color color) {
@@ -130,12 +125,30 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
           BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 10)
         ],
       ),
-      child: const Center(
-        child: Text(
-          "Your Card",
-          style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                  width: 33,
+                  height: 33,
+                  decoration: BoxDecoration(
+                    color: AppColors.defaultWhite,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Center(
+                    child: HeroIcon(
+                      HeroIcons.camera,
+                      color: AppColors.grayScale600,
+                    ),
+                  )),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -188,7 +201,7 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
         WonderCardButton(
             backgroundColor: color,
             buttonWidth: 65,
-            trailingIcon: const HeroIcon(HeroIcons.backward,
+            trailingIcon: const HeroIcon(HeroIcons.arrowLeft,
                 color: AppColors.defaultWhite, size: 16),
             text: '',
             onPressed: () {}),
@@ -203,7 +216,7 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
             textColor: AppColors.defaultWhite,
             buttonWidth: 136,
             text: 'Next',
-            trailingIcon: const HeroIcon(HeroIcons.forward,
+            trailingIcon: const HeroIcon(HeroIcons.arrowRight,
                 color: AppColors.defaultWhite, size: 16),
             onPressed: () {}),
       ],

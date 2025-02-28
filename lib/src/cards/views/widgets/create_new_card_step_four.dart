@@ -75,8 +75,8 @@ GestureDetector uploadPhotoMethod({
     child: Center(
       child: cardController.uploadedImage != null
           ? SizedBox(
-              width: SpacingConstants.size200,
-              height: SpacingConstants.size200,
+             width:  94,
+    height: 94,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(SpacingConstants.size100),
                 child: Image.file(
@@ -89,8 +89,8 @@ GestureDetector uploadPhotoMethod({
             )
           : Image.asset(
               ImageAssets.profileImage,
-              width: SpacingConstants.size250,
-              height: SpacingConstants.size200,
+      width:  94,
+    height: 94,
             ),
     ),
   );
