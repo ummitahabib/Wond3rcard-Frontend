@@ -39,7 +39,8 @@ class CardsMobile extends HookConsumerWidget {
             padding: const EdgeInsets.only(right: 15),
             child: GestureDetector(
               onTap: () {
-                context.go(RouteString.createNewCard);
+             //   context.go(RouteString.createNewCard);
+             context.go(RouteString.cardLayout);
               },
               child: Container(
                 width: 40,

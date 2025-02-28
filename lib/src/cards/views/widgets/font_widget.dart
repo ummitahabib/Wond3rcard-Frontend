@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FontCustomizationCard extends StatefulWidget {
+class FontCustomizationCard extends StatefulHookConsumerWidget {
   const FontCustomizationCard({super.key});
 
   static const routeName = RouteString.font;
@@ -13,7 +14,7 @@ class FontCustomizationCard extends StatefulWidget {
   _FontCustomizationCardState createState() => _FontCustomizationCardState();
 }
 
-class _FontCustomizationCardState extends State<FontCustomizationCard> {
+class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
   // List of available fonts
   final List<String> availableFonts = [
     'Roboto',
@@ -28,25 +29,26 @@ class _FontCustomizationCardState extends State<FontCustomizationCard> {
   ];
 
   // State variables
-  String selectedFont = 'Roboto'; // Default font
-  double fontSize = 24.0; // Default font size
+  late String selectedFont;
+  late double fontSize;
 
   @override
   void initState() {
     super.initState();
-    _loadPreferences(); // Load preferences on app start
+    selectedFont = 'Roboto';
+    fontSize = 24.0;
+    _loadPreferences();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Font Customization Demo"),
-      ),
-      body: Column(
+    final selectedFontState = useState(selectedFont);
+    final fontSizeState = useState(fontSize);
+
+    return SingleChildScrollView(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Card Preview
           Container(
             width: 300,
             height: 200,
@@ -65,8 +67,8 @@ class _FontCustomizationCardState extends State<FontCustomizationCard> {
               child: Text(
                 "Your Card",
                 style: GoogleFonts.getFont(
-                  selectedFont,
-                  textStyle: TextStyle(fontSize: fontSize, color: Colors.black),
+                  selectedFontState.value,
+                  textStyle: TextStyle(fontSize: fontSizeState.value, color: Colors.black),
                 ),
               ),
             ),
@@ -81,46 +83,36 @@ class _FontCustomizationCardState extends State<FontCustomizationCard> {
           const SizedBox(height: 10),
 
           // Font Selection List
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: availableFonts.length,
-              itemBuilder: (context, index) {
-                final fontName = availableFonts[index];
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedFont = fontName; // Update selected font
-                      _savePreferences(); // Save preference
-                    });
-                  },
-                  child: Container(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: selectedFont == fontName
-                          ? Colors.blue.shade200
-                          : Colors.white,
-                      border: Border.all(
-                        color: selectedFont == fontName
-                            ? Colors.blue
-                            : Colors.grey.shade300,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: availableFonts.length,
+            itemBuilder: (context, index) {
+              final fontName = availableFonts[index];
+              return GestureDetector(
+                onTap: () {
+                  selectedFontState.value = fontName; // Update selected font
+                  _savePreferences(selectedFontState.value, fontSizeState.value); // Save preference
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: selectedFontState.value == fontName ? Colors.blue.shade200 : Colors.white,
+                    border: Border.all(
+                      color: selectedFontState.value == fontName ? Colors.blue : Colors.grey.shade300,
                     ),
-                    child: Text(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    fontName,
+                    style: GoogleFonts.getFont(
                       fontName,
-                      style: GoogleFonts.getFont(
-                        fontName,
-                        textStyle:
-                            const TextStyle(fontSize: 18, color: Colors.black),
-                      ),
+                      textStyle: const TextStyle(fontSize: 18, color: Colors.black),
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 10),
 
@@ -133,16 +125,14 @@ class _FontCustomizationCardState extends State<FontCustomizationCard> {
 
           // Font Size Slider
           Slider(
-            value: fontSize,
+            value: fontSizeState.value,
             min: 12,
             max: 36,
             divisions: 24,
-            label: fontSize.round().toString(),
+            label: fontSizeState.value.round().toString(),
             onChanged: (value) {
-              setState(() {
-                fontSize = value; // Update font size
-                _savePreferences(); // Save preference
-              });
+              fontSizeState.value = value; // Update font size
+              _savePreferences(selectedFontState.value, fontSizeState.value); 
             },
           ),
         ],
@@ -150,7 +140,6 @@ class _FontCustomizationCardState extends State<FontCustomizationCard> {
     );
   }
 
-  // Load preferences from SharedPreferences
   Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -159,11 +148,10 @@ class _FontCustomizationCardState extends State<FontCustomizationCard> {
     });
   }
 
-  // Save preferences to SharedPreferences
-  Future<void> _savePreferences() async {
+  Future<void> _savePreferences(String font, double size) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('selectedFont', selectedFont);
-    prefs.setDouble('fontSize', fontSize);
+    prefs.setString('selectedFont', font);
+    prefs.setDouble('fontSize', size);
   }
 
   ElevatedButton resetButton() {
@@ -172,7 +160,7 @@ class _FontCustomizationCardState extends State<FontCustomizationCard> {
         setState(() {
           selectedFont = 'Roboto';
           fontSize = 24.0;
-          _savePreferences();
+          _savePreferences(selectedFont, fontSize);
         });
       },
       child: const Text("Reset to Default"),
@@ -180,8 +168,3 @@ class _FontCustomizationCardState extends State<FontCustomizationCard> {
   }
 }
 
-void main() {
-  runApp(const MaterialApp(
-    home: FontCustomizationCard(),
-  ));
-}

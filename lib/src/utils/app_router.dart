@@ -12,7 +12,9 @@ import 'package:wond3rcard/src/authentication/views/authentication/signup/views/
 import 'package:wond3rcard/src/cards/views/pages/cards_main.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_details.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_layout.dart';
-import 'package:wond3rcard/src/cards/views/widgets/color_pallete.dart';
+import 'package:wond3rcard/src/cards/views/widgets/card_layout_1.dart';
+import 'package:wond3rcard/src/cards/views/widgets/card_layout_2.dart';
+import 'package:wond3rcard/src/cards/views/widgets/card_layout_3.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_five.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_four.dart';
@@ -208,12 +210,12 @@ final GoRouter router = GoRouter(
             return const MainDashboard();
           },
         ),
-        GoRoute(
-          path: RouteString.colorPallete,
-          builder: (BuildContext context, GoRouterState state) {
-            return const ColorPaletteCard();
-          },
-        ),
+        // GoRoute(
+        //   path: RouteString.colorPallete,
+        //   builder: (BuildContext context, GoRouterState state) {
+        //     return const ColorPaletteCard();
+        //   },
+        // ),
         GoRoute(
           path: RouteString.font,
           builder: (BuildContext context, GoRouterState state) {
@@ -226,6 +228,52 @@ final GoRouter router = GoRouter(
             return const CardLayoutSelector();
           },
         ),
+
+        //        GoRoute(
+        //   path: RouteString.cardLayout1,
+        //   builder: (BuildContext context, GoRouterState state) {
+        //     return const CardLayout1(
+
+        //     );
+        //   },
+        // ),
+
+        GoRoute(
+          path: RouteString.cardLayout1,
+          builder: (BuildContext context, GoRouterState state) {
+            return CardLayout1(
+              onLayoutSelected: (String newLayout) {
+                GoRouter.of(context)
+                    .go(RouteString.cardLayout1, extra: newLayout);
+              },
+            );
+          },
+        ),
+
+        GoRoute(
+          path: RouteString.cardLayout2,
+          builder: (BuildContext context, GoRouterState state) {
+            return CardLayout2(
+              onLayoutSelected: (String newLayout) {
+                GoRouter.of(context)
+                    .go(RouteString.cardLayout2, extra: newLayout);
+              },
+            );
+          },
+        ),
+
+        GoRoute(
+          path: RouteString.cardLayout3,
+          builder: (BuildContext context, GoRouterState state) {
+            return CardLayout3(
+              onLayoutSelected: (String newLayout) {
+                GoRouter.of(context)
+                    .go(RouteString.cardLayout3, extra: newLayout);
+              },
+            );
+          },
+        ),
+
         GoRoute(
           path: RouteString.createNewCard,
           builder: (BuildContext context, GoRouterState state) {
@@ -262,7 +310,7 @@ final GoRouter router = GoRouter(
             return const CardsMain();
           },
         ),
-          GoRoute(
+        GoRoute(
           path: '${RouteString.shareCardLink}/:index',
           builder: (BuildContext context, GoRouterState state) {
             final index =

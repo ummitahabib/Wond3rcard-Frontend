@@ -104,6 +104,9 @@ class RouteString {
   static const String colorPallete = '/colorPallete';
   static const String font = '/font';
   static const String cardLayout = '/cardLayout';
+    static const String cardLayout1 = '/card-layout-1';
+    static const String cardLayout2 = '/card-layout-2';
+    static const String cardLayout3 = '/card-layout-3';
   static const String createNewCard = '/create-new-card';
   static const String cardMain = '/cardMain';
   static const String createNewCardTwo = '/create-new-card-step-two';
