@@ -1,10 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/analytics/data/model/get_analytics_response.dart';
 import 'package:wond3rcard/src/analytics/data/model/interaction_request.dart';
 import 'package:wond3rcard/src/analytics/data/repository/analytics_repository.dart';
-import 'package:wond3rcard/src/utils/alert.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 final analyticsProvider = ChangeNotifierProvider<AnalyticsNotifier>((ref) {
@@ -67,13 +66,20 @@ class AnalyticsNotifier extends ChangeNotifier {
           .createInteract(interactionRequest.toJson());
       loading = false;
       if (response.hasError()) {
-        alert.showErrorToast(message: response.error?.message ?? emptyString);
+        if (kDebugMode) {
+          print('Error: ${response.error?.message ?? emptyString}');
+        }
       } else {
-        alert.showSuccessToast(message: 'user interacted Successfull');
+        if (kDebugMode) {
+          print('User interacted successfully');
+        }
         return true;
       }
     } catch (e) {
       loading = false;
+      if (kDebugMode) {
+        print('Exception: $e');
+      }
     }
     return false;
   }
@@ -84,20 +90,18 @@ class AnalyticsNotifier extends ChangeNotifier {
       final response = await ref.read(analyticsRepoRepository).getIntaraction();
       loading = false;
       if (response.hasError()) {
-        alert.showErrorToast(message: response.error?.message ?? emptyString);
-
-        print('this is the get profile error ${response.error?.message}');
+        if (kDebugMode) {
+          print('Error: ${response.error?.message ?? emptyString}');
+        }
       } else {
         analytics = response.response ?? [];
         return analytics;
       }
     } catch (e) {
-      print('this is the catch error $e');
-      alert.showErrorToast(
-        message: 'unableToCompleteProcess',
-      );
+      if (kDebugMode) {
+        print('Exception: $e');
+      }
       loading = false;
-      return null;
     }
     return null;
   }
