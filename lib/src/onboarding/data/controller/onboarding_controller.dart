@@ -139,7 +139,7 @@ Future<void> checkOnboardingStatus(BuildContext context) async {
   final isFirstTime = prefs.getBool('isFirstTime') ?? true;
 
   if (isFirstTime) {
-    context.go(RouteString.getStarted);
+     context.go(RouteString.getStarted);
   } else {
      context.go(RouteString.logIn);
   }
