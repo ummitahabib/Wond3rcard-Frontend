@@ -44,8 +44,7 @@ class TopCountries extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             itemCount: TopCountriesList.length,
             itemBuilder: (context, index) {
-              return TopCountriesWidget(
-                  user: TopCountriesList[index]);
+              return TopCountriesWidget(user: TopCountriesList[index]);
             },
           )
         ],
@@ -53,11 +52,6 @@ class TopCountries extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
 
 class TopCountriesWidget extends StatelessWidget {
   final TopCountriesDataModel user;
@@ -92,7 +86,6 @@ class TopCountriesWidget extends StatelessWidget {
               ),
             ),
           ),
-         
           SizedBox(width: 15),
           Text(
             user.countryName,
@@ -100,7 +93,6 @@ class TopCountriesWidget extends StatelessWidget {
               color: AppColors.grayScale700,
             ),
           ),
-        
           Spacer(),
           Text(
             user.joinedPercent,
@@ -145,13 +137,9 @@ final List<TopCountriesDataModel> TopCountriesList = [
     imageUrl: SvgAssets.tablet,
     joinedPercent: "20%",
   ),
-
-    TopCountriesDataModel(
+  TopCountriesDataModel(
     countryName: "Spain",
     imageUrl: SvgAssets.tv,
     joinedPercent: "10%",
   ),
-
-  
 ];
-

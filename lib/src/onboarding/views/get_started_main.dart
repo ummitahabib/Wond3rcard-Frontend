@@ -4,8 +4,6 @@ import 'package:wond3rcard/src/onboarding/data/controller/onboarding_controller.
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 
-
-
 class OnboardingScreen extends StatefulHookConsumerWidget {
   const OnboardingScreen({super.key});
 
@@ -41,4 +39,3 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 }
-

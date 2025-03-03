@@ -53,34 +53,33 @@ class ShareQrWidget extends HookConsumerWidget {
       backgroundColor: AppColors.primaryShade,
       appBar: AppBar(
         backgroundColor: AppColors.primaryShade,
-        title: Text(
-          'Share Card',
-          style: WonderCardTypography.boldTextH5(fontSize: 23, color: AppColors.defaultWhite)
-        ),
+        title: Text('Share Card',
+            style: WonderCardTypography.boldTextH5(
+                fontSize: 23, color: AppColors.defaultWhite)),
         centerTitle: true,
         actions: [
           Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: AppColors.defaultWhite,
-        ),
-        margin: const EdgeInsets.all(10),
-        child: HeroIcon(HeroIcons.qrCode, color: AppColors.grayScale),
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.defaultWhite,
+            ),
+            margin: const EdgeInsets.all(10),
+            child: HeroIcon(HeroIcons.qrCode, color: AppColors.grayScale),
           ),
         ],
         leading: GestureDetector(
           onTap: () => context.go(RouteString.mainDashboard),
           child: Container(
-        margin: const EdgeInsets.all(10),
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: AppColors.defaultWhite,
-        ),
-        child: HeroIcon(HeroIcons.arrowLeft, color: AppColors.grayScale),
+            margin: const EdgeInsets.all(10),
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.defaultWhite,
+            ),
+            child: HeroIcon(HeroIcons.arrowLeft, color: AppColors.grayScale),
           ),
         ),
       ),

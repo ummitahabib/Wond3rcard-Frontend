@@ -56,7 +56,8 @@ class AdminDashboardUserListWidget extends StatelessWidget {
             children: [
               UserTypeFilter(),
               SizedBox(width: 10),
-              Text('3rd January, 2025', style: TextStyle(color: Color(0xff707070))),
+              Text('3rd January, 2025',
+                  style: TextStyle(color: Color(0xff707070))),
               Spacer(),
               ResponsiveSearchTextField(),
               HeroIcon(HeroIcons.document),
@@ -69,17 +70,3 @@ class AdminDashboardUserListWidget extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

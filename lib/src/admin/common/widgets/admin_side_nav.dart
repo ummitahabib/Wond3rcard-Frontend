@@ -57,69 +57,83 @@ class AdminSideNavBar extends StatelessWidget {
                   children: List.generate(navItems.length, (index) {
                     final item = navItems[index];
                     final isSelected = selectedIndex == index;
-                    return 
-                 Column(
-  children: [
-    GestureDetector(
-      onTap: () => onNavItemTap(index),
-      child: Container(
-        width: 358,
-        height: 51,
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryShade : AppColors.defaultWhite,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 18,
-              height: 18,
-              child: SvgPicture.asset(
-                item.icon,
-                colorFilter: isSelected
-                    ? const ColorFilter.mode(AppColors.defaultWhite, BlendMode.srcIn)
-                    : const ColorFilter.mode(AppColors.grayScale800, BlendMode.srcIn),
-              ),
-            ),
-            const SizedBox(width: size22),
-            Flexible(
-              child: Text(
-                item.title,
-                style: WonderCardTypography.adminSideNavTextStyle(
-                  color: isSelected ? AppColors.defaultWhite : AppColors.grayScale800,
-                ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-    if (isSelected && item.subItems != null)
-      Column(
-        children: item.subItems!.map((subItem) {
-          final subItemIndex = item.subItems!.indexOf(subItem);
-          final isSubItemSelected = selectedSubIndex != null && selectedSubIndex == subItemIndex;
-          return ListTile(
-            title: Text(
-              subItem.title,
-              style: WonderCardTypography.adminSideNavTextStyle(
-                fontSize: size12,
-                color: isSubItemSelected ? AppColors.defaultWhite : AppColors.grayScale800,
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-            selected: isSubItemSelected,
-            onTap: () => onSubItemTap(subItem.route),
-          );
-        }).toList(),
-      ),
-  ],
-);
-
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () => onNavItemTap(index),
+                          child: Container(
+                            width: 358,
+                            height: 51,
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? AppColors.primaryShade
+                                  : AppColors.defaultWhite,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: SvgPicture.asset(
+                                    item.icon,
+                                    colorFilter: isSelected
+                                        ? const ColorFilter.mode(
+                                            AppColors.defaultWhite,
+                                            BlendMode.srcIn)
+                                        : const ColorFilter.mode(
+                                            AppColors.grayScale800,
+                                            BlendMode.srcIn),
+                                  ),
+                                ),
+                                const SizedBox(width: size22),
+                                Flexible(
+                                  child: Text(
+                                    item.title,
+                                    style: WonderCardTypography
+                                        .adminSideNavTextStyle(
+                                      color: isSelected
+                                          ? AppColors.defaultWhite
+                                          : AppColors.grayScale800,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        if (isSelected && item.subItems != null)
+                          Column(
+                            children: item.subItems!.map((subItem) {
+                              final subItemIndex =
+                                  item.subItems!.indexOf(subItem);
+                              final isSubItemSelected =
+                                  selectedSubIndex != null &&
+                                      selectedSubIndex == subItemIndex;
+                              return ListTile(
+                                title: Text(
+                                  subItem.title,
+                                  style: WonderCardTypography
+                                      .adminSideNavTextStyle(
+                                    fontSize: size12,
+                                    color: isSubItemSelected
+                                        ? AppColors.defaultWhite
+                                        : AppColors.grayScale800,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                                selected: isSubItemSelected,
+                                onTap: () => onSubItemTap(subItem.route),
+                              );
+                            }).toList(),
+                          ),
+                      ],
+                    );
                   }),
                 ),
               ),

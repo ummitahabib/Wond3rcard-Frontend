@@ -116,36 +116,34 @@ class WonderCardTypography {
         fontFamily: 'Barlow', fontSize: 11, fontWeight: FontWeight.w700);
   }
 
-  static TextStyle adminSideNavTextStyle({Color? color, double? fontSize}){
+  static TextStyle adminSideNavTextStyle({Color? color, double? fontSize}) {
     return TextStyle(
-color: color ??  Color(0xff212121),
-fontFamily: 'Barlow',
-fontSize: fontSize ?? 21,
-fontStyle: FontStyle.normal,
-fontWeight: FontWeight.w400,
+      color: color ?? Color(0xff212121),
+      fontFamily: 'Barlow',
+      fontSize: fontSize ?? 21,
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.w400,
     );
   }
 
-
-  static TextStyle headlineH2({Color? color, double? fontSize, FontWeight? fontWeight}){
+  static TextStyle headlineH2(
+      {Color? color, double? fontSize, FontWeight? fontWeight}) {
     return TextStyle(
-color: color ?? AppColors.primaryShade,
-fontFamily: 'Lato',
-fontSize: fontSize ?? 25.63,
-fontStyle: FontStyle.normal,
-fontWeight: fontWeight ?? FontWeight.w700,
+      color: color ?? AppColors.primaryShade,
+      fontFamily: 'Lato',
+      fontSize: fontSize ?? 25.63,
+      fontStyle: FontStyle.normal,
+      fontWeight: fontWeight ?? FontWeight.w700,
     );
   }
 
-static TextStyle titleH6({ Color? color, double? fontSize}){
-  return TextStyle(
-color: color ??  Color(0xff6E39CB),
-fontFamily: 'Lato',
-fontSize: fontSize ??  16,
-fontStyle: FontStyle.normal,
-fontWeight: FontWeight.w500,
-  );
-}
-
-
+  static TextStyle titleH6({Color? color, double? fontSize}) {
+    return TextStyle(
+      color: color ?? Color(0xff6E39CB),
+      fontFamily: 'Lato',
+      fontSize: fontSize ?? 16,
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.w500,
+    );
+  }
 }

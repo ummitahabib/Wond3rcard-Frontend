@@ -68,7 +68,8 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
                 "Your Card",
                 style: GoogleFonts.getFont(
                   selectedFontState.value,
-                  textStyle: TextStyle(fontSize: fontSizeState.value, color: Colors.black),
+                  textStyle: TextStyle(
+                      fontSize: fontSizeState.value, color: Colors.black),
                 ),
               ),
             ),
@@ -91,15 +92,21 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
               return GestureDetector(
                 onTap: () {
                   selectedFontState.value = fontName; // Update selected font
-                  _savePreferences(selectedFontState.value, fontSizeState.value); // Save preference
+                  _savePreferences(selectedFontState.value,
+                      fontSizeState.value); // Save preference
                 },
                 child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: selectedFontState.value == fontName ? Colors.blue.shade200 : Colors.white,
+                    color: selectedFontState.value == fontName
+                        ? Colors.blue.shade200
+                        : Colors.white,
                     border: Border.all(
-                      color: selectedFontState.value == fontName ? Colors.blue : Colors.grey.shade300,
+                      color: selectedFontState.value == fontName
+                          ? Colors.blue
+                          : Colors.grey.shade300,
                     ),
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -107,7 +114,8 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
                     fontName,
                     style: GoogleFonts.getFont(
                       fontName,
-                      textStyle: const TextStyle(fontSize: 18, color: Colors.black),
+                      textStyle:
+                          const TextStyle(fontSize: 18, color: Colors.black),
                     ),
                   ),
                 ),
@@ -132,7 +140,7 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
             label: fontSizeState.value.round().toString(),
             onChanged: (value) {
               fontSizeState.value = value; // Update font size
-              _savePreferences(selectedFontState.value, fontSizeState.value); 
+              _savePreferences(selectedFontState.value, fontSizeState.value);
             },
           ),
         ],
@@ -167,4 +175,3 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
     );
   }
 }
-

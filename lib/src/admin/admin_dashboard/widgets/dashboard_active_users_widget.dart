@@ -6,7 +6,6 @@ import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
-
 class DashbaordActiveUsersWidget extends StatelessWidget {
   const DashbaordActiveUsersWidget({
     super.key,
@@ -53,8 +52,7 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
                           SizedBox(
                             width: 27,
                             height: 27,
-                            child:
-                                SvgPicture.asset(SvgAssets.users),
+                            child: SvgPicture.asset(SvgAssets.users),
                           ),
                           SizedBox(width: 8),
                           Text(
@@ -82,9 +80,8 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-               
                 SizedBox(width: 10),
-                  AdminDashboardReusableCard(
+                AdminDashboardReusableCard(
                   child: Column(
                     children: [
                       Row(
@@ -92,8 +89,7 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
                           SizedBox(
                             width: 27,
                             height: 27,
-                            child:
-                                SvgPicture.asset(SvgAssets.clicks),
+                            child: SvgPicture.asset(SvgAssets.clicks),
                           ),
                           SizedBox(width: 8),
                           Text(
@@ -121,8 +117,8 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                 SizedBox(width: 10),
-                  AdminDashboardReusableCard(
+                SizedBox(width: 10),
+                AdminDashboardReusableCard(
                   child: Column(
                     children: [
                       Row(
@@ -130,8 +126,7 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
                           SizedBox(
                             width: 27,
                             height: 27,
-                            child:
-                                SvgPicture.asset(SvgAssets.clicks),
+                            child: SvgPicture.asset(SvgAssets.clicks),
                           ),
                           SizedBox(width: 8),
                           Text(
@@ -159,8 +154,8 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                 SizedBox(width: 10),
-                  AdminDashboardReusableCard(
+                SizedBox(width: 10),
+                AdminDashboardReusableCard(
                   child: Column(
                     children: [
                       Row(
@@ -168,8 +163,7 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
                           SizedBox(
                             width: 27,
                             height: 27,
-                            child:
-                                SvgPicture.asset(SvgAssets.sales),
+                            child: SvgPicture.asset(SvgAssets.sales),
                           ),
                           SizedBox(width: 8),
                           Text(
@@ -197,7 +191,6 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-               
               ],
             ),
           ),
@@ -219,9 +212,6 @@ final List<DashboardUsers> dashboardUsersList = [
 final int totalUsers =
     dashboardUsersList.fold(0, (sum, user) => sum + user.count);
 
-
-
-    
 class DashboardUsers {
   final String userType;
   final String iconPath;
@@ -230,4 +220,3 @@ class DashboardUsers {
   DashboardUsers(
       {required this.userType, required this.iconPath, required this.count});
 }
-

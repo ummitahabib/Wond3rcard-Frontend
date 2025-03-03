@@ -118,8 +118,7 @@ class RadialChartBar extends HookConsumerWidget {
             //     ),
             //   ],
             // ),
-        
-        
+
             const SizedBox(
               height: 10,
             ),

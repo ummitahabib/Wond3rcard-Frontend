@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/user_type_filter.dart';
 
-
 class UserListTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,7 +49,8 @@ class UserListTable extends ConsumerWidget {
   DataRow _buildDataRow(UserModel user) {
     return DataRow(
       cells: [
-        DataCell(CircleAvatar(backgroundImage: NetworkImage(user.profileImage))),
+        DataCell(
+            CircleAvatar(backgroundImage: NetworkImage(user.profileImage))),
         DataCell(Text(user.name)),
         DataCell(Text(user.email)),
         DataCell(Text(user.role)),
@@ -96,8 +96,10 @@ class UserListTable extends ConsumerWidget {
   Widget _actionIcons() {
     return Row(
       children: [
-        IconButton(icon: Icon(Icons.edit, color: Colors.blue), onPressed: () {}),
-        IconButton(icon: Icon(Icons.delete, color: Colors.red), onPressed: () {}),
+        IconButton(
+            icon: Icon(Icons.edit, color: Colors.blue), onPressed: () {}),
+        IconButton(
+            icon: Icon(Icons.delete, color: Colors.red), onPressed: () {}),
       ],
     );
   }
@@ -120,7 +122,6 @@ class UserModel {
     required this.status,
   });
 }
-
 
 List<UserModel> dummyUsers = [
   UserModel(
@@ -156,8 +157,3 @@ List<UserModel> dummyUsers = [
     status: 'Suspended',
   ),
 ];
-
-
-
-
-

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wond3rcard/src/admin/common/data/model/user_model.dart';
@@ -41,13 +40,11 @@ class PageHeader extends StatelessWidget {
           children: [
             Text(
               title,
-              style: WonderCardTypography.headlineH2(
-              ),
+              style: WonderCardTypography.headlineH2(),
             ),
-              const SizedBox(width: size50),
-           ResponsiveSearchTextField(),
-        
-              const Spacer(),
+            const SizedBox(width: size50),
+            ResponsiveSearchTextField(),
+            const Spacer(),
             reusableCachedNetworkImage(
               width: size40,
               imageUrl: emptyString ?? defaultImage,
@@ -142,7 +139,7 @@ class PageHeaderMobile extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return  Dialog(
+                  return Dialog(
                     child: SizedBox(width: size500, child: Container()),
                   );
                 },
@@ -179,10 +176,6 @@ class PageHeaderMobile extends StatelessWidget {
   }
 }
 
-
-
-
-
 class ResponsiveSearchTextField extends StatelessWidget {
   const ResponsiveSearchTextField({super.key});
 
@@ -200,7 +193,8 @@ class ResponsiveSearchTextField extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: const Color(0xFFDBDCDE)), // Surface Border
+              border:
+                  Border.all(color: const Color(0xFFDBDCDE)), // Surface Border
               color: const Color(0xFFFFFFFF), // White Background
             ),
             child: Row(
@@ -213,7 +207,8 @@ class ResponsiveSearchTextField extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Icon(Icons.search, color: Colors.grey), // Trailing Search Icon
+                const Icon(Icons.search,
+                    color: Colors.grey), // Trailing Search Icon
               ],
             ),
           ),

@@ -13,12 +13,12 @@ class ProfileScreenMobile extends HookConsumerWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-                'Profile',
-                style: WonderCardTypography.boldTextH5(
-                  fontSize: 23,
-                  color: AppColors.grayScale,
-                ),
-              ),
+            'Profile',
+            style: WonderCardTypography.boldTextH5(
+              fontSize: 23,
+              color: AppColors.grayScale,
+            ),
+          ),
           centerTitle: true,
           leading: Container(
             padding: EdgeInsets.all(12),
@@ -29,7 +29,6 @@ class ProfileScreenMobile extends HookConsumerWidget {
                 borderRadius: BorderRadius.circular(8)),
             child: SizedBox(),
           ),
-          
         ),
         backgroundColor: AppColors.transparent,
         body: Center(
@@ -44,7 +43,8 @@ class ProfileScreenMobile extends HookConsumerWidget {
                   Container(
                       width: 359,
                       height: 546,
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                       ),

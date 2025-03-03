@@ -129,7 +129,8 @@ class AuthNotifier extends ChangeNotifier {
       final LoginModel loginResponse = response.response as LoginModel;
       if (loginResponse.accessToken != null) {
         await storeLoginData(loginResponse);
-        context.go(RouteString.mainDashboard);
+        context.go('/admin-dashboard-desktop-view');
+        // context.go(RouteString.mainDashboard);
         return LoginReturnData.success;
       }
 
@@ -148,16 +149,13 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Future<void> storeLoginData(LoginModel loginResponse) async {
-
-
-   final String accessToken = loginResponse.accessToken ?? AppStrings.emptyString;
-   print('#####  saving access token$accessToken');
-
+    final String accessToken =
+        loginResponse.accessToken ?? AppStrings.emptyString;
+    print('#####  saving access token$accessToken');
 
     SessionString.accessTokenString = loginResponse.accessToken!;
     SessionString.refreshTokenString = loginResponse.refreshToken!;
 
- 
     await StorageUtil.putString(
       key: SessionString.accessTokenString,
       value: loginResponse.accessToken ?? AppStrings.emptyString,
@@ -171,78 +169,75 @@ class AuthNotifier extends ChangeNotifier {
     clearControllers();
   }
 
-
-Future<bool> signUp(BuildContext context) async {
-  String? base64Image;
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String? storedImagePath = prefs.getString('profileImage');
-  if (storedImagePath != null && storedImagePath.isNotEmpty) {
-    try {
-      if (kIsWeb) {
-        final Uint8List? imageBytes = ref.read(onboardingProvider).uploadedImageBytes;
-        if (imageBytes != null) {
+  Future<bool> signUp(BuildContext context) async {
+    String? base64Image;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? storedImagePath = prefs.getString('profileImage');
+    if (storedImagePath != null && storedImagePath.isNotEmpty) {
+      try {
+        if (kIsWeb) {
+          final Uint8List? imageBytes =
+              ref.read(onboardingProvider).uploadedImageBytes;
+          if (imageBytes != null) {
+            base64Image = base64Encode(imageBytes);
+          }
+        } else {
+          final File imageFile = File(storedImagePath);
+          final List<int> imageBytes = await imageFile.readAsBytes();
           base64Image = base64Encode(imageBytes);
         }
-      } else {
-        final File imageFile = File(storedImagePath);
-        final List<int> imageBytes = await imageFile.readAsBytes();
-        base64Image = base64Encode(imageBytes);
+      } catch (e) {
+        debugPrint("Error loading image: $e");
+        alert.showErrorToast(message: "Failed to load profile image.");
+        return false;
       }
-    } catch (e) {
-      debugPrint("Error loading image: $e");
-      alert.showErrorToast(message: "Failed to load profile image.");
+    }
+
+    final SignUpRequest signupData = SignUpRequest(
+      firstName: firstNameController.text,
+      lastName: lastNameController.text,
+      otherName: otherName.text,
+      email: emailController.text,
+      workMail: workMail.text,
+      password: passwordController.text,
+      companyName: companyNameController.text,
+      jobTitle: jobTitleController.text,
+      mobileNumber: phoneNumberController.text,
+      profilePhoto: base64Image,
+      fcmToken: fcmToken,
+    );
+
+    StorageUtil.putString(key: userEmail, value: emailController.text);
+
+    final InputModel isValidSignUpInput = signupData.validateSignUpData();
+    if (!isValidSignUpInput.isValidInput) {
+      alert.showErrorToast(message: isValidSignUpInput.error);
       return false;
     }
-  }
 
-  final SignUpRequest signupData = SignUpRequest(
-    firstName: firstNameController.text,
-    lastName: lastNameController.text,
-    otherName: otherName.text,
-    email: emailController.text,
-    workMail: workMail.text,
-    password: passwordController.text,
-    companyName: companyNameController.text,
-    jobTitle: jobTitleController.text,
-    mobileNumber: phoneNumberController.text,
-    profilePhoto: base64Image,
-    fcmToken: fcmToken,
-  );
+    try {
+      loadingSignup = true;
 
-  StorageUtil.putString(key: userEmail, value: emailController.text);
+      final response = await ref.read(authRepositoryProvider).signUp(
+            json.encode(signupData.toJson()),
+          );
 
-  final InputModel isValidSignUpInput = signupData.validateSignUpData();
-  if (!isValidSignUpInput.isValidInput) {
-    alert.showErrorToast(message: isValidSignUpInput.error);
+      loadingSignup = false;
+
+      if (response.hasError()) {
+        alert.showErrorToast(message: response.error?.message ?? emptyString);
+      } else {
+        clearControllers();
+        context.go(RouteString.otpVerification);
+        return true;
+      }
+    } catch (e) {
+      loadingSignup = false;
+      alert.showErrorToast(message: "An unexpected error occurred.");
+    }
+
     return false;
   }
-
-  try {
-    loadingSignup = true;
-
-    final response = await ref.read(authRepositoryProvider).signUp(
-          json.encode(signupData.toJson()),
-        );
-
-    loadingSignup = false;
-
-    if (response.hasError()) {
-      alert.showErrorToast(message: response.error?.message ?? emptyString);
-    } else {
-      clearControllers();
-      context.go(RouteString.otpVerification);
-      return true;
-    }
-  } catch (e) {
-    loadingSignup = false;
-    alert.showErrorToast(message: "An unexpected error occurred.");
-  }
-
-  return false;
-}
-
-
-
 
   Future<bool> resetMfaWithCode(int mfaCode) async {
     try {
@@ -250,7 +245,8 @@ Future<bool> signUp(BuildContext context) async {
             code: mfaCode,
           );
       if (result.error != null) {
-        alert.showErrorToast(message: "Error resetting MFA: ${result.error?.message}");
+        alert.showErrorToast(
+            message: "Error resetting MFA: ${result.error?.message}");
         loading = false;
         return false;
       } else {
@@ -268,7 +264,9 @@ Future<bool> signUp(BuildContext context) async {
   }
 
   Future<bool> verifyUserAccount(
-      {required String email, required String otp, required BuildContext context}) async {
+      {required String email,
+      required String otp,
+      required BuildContext context}) async {
     try {
       final result = await ref.read(authRepositoryProvider).verifyAccount(
             email: email,
@@ -279,13 +277,14 @@ Future<bool> signUp(BuildContext context) async {
         loading = false;
         return false;
       } else {
-          context.go(RouteString.logIn);
+        context.go(RouteString.logIn);
         alert.showSuccessToast(message: "Account verification successful");
         loading = false;
         return true;
       }
     } catch (e) {
-      alert.showErrorToast(message: "Exception during account verification: $e");
+      alert.showErrorToast(
+          message: "Exception during account verification: $e");
       loading = false;
       return false;
     } finally {
@@ -392,7 +391,9 @@ Future<bool> signUp(BuildContext context) async {
     if (loginData == LoginReturnData.unverifiedEmail) {
       context.go(RouteString.verifyAccount);
     } else if (loginData == LoginReturnData.success) {
-      context.go(RouteString.home);
+      context.go('/admin-dashboard-desktop-view'
+          //   RouteString.home
+          );
     } else {
       alert.showErrorToast(message: 'Unable to log in. Please try again.');
     }
@@ -440,9 +441,8 @@ Future<bool> signUp(BuildContext context) async {
         pinCode5.text +
         pinCode6.text;
     if (otpCode.length == SpacingConstants.int6) {
-      ref
-          .watch(authProvider)
-          .verifyUserAccount(email: emailAddress, otp: otpCode, context: context);
+      ref.watch(authProvider).verifyUserAccount(
+          email: emailAddress, otp: otpCode, context: context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter a valid OTP')),
@@ -467,9 +467,8 @@ Future<bool> signUp(BuildContext context) async {
         pinCode5.text +
         pinCode6.text;
     if (otpCode.length == SpacingConstants.int6) {
-      ref
-          .watch(authProvider)
-          .verifyUserAccount(email: emailAddress ?? emptyString, otp: otpCode, context: context);
+      ref.watch(authProvider).verifyUserAccount(
+          email: emailAddress ?? emptyString, otp: otpCode, context: context);
       context.go(RouteString.logIn);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

@@ -34,7 +34,7 @@ class SocialMediaResponse {
       SocialMediaResponse.fromMap(json.decode(source));
 }
 
-class SocialMedia{
+class SocialMedia {
   final String? id;
   final String name;
   final String link;

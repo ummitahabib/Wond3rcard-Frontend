@@ -44,8 +44,7 @@ class DeviceCategory extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             itemCount: deviceCategoryList.length,
             itemBuilder: (context, index) {
-              return DeviceCategoryWidget(
-                  user: deviceCategoryList[index]);
+              return DeviceCategoryWidget(user: deviceCategoryList[index]);
             },
           )
         ],
@@ -53,11 +52,6 @@ class DeviceCategory extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
 
 class DeviceCategoryWidget extends StatelessWidget {
   final DeviceCategoryDataModel user;
@@ -92,7 +86,6 @@ class DeviceCategoryWidget extends StatelessWidget {
               ),
             ),
           ),
-         
           SizedBox(width: 15),
           Text(
             user.deviceType,
@@ -100,7 +93,6 @@ class DeviceCategoryWidget extends StatelessWidget {
               color: AppColors.grayScale700,
             ),
           ),
-        
           Spacer(),
           Text(
             user.joinedTime,
@@ -145,13 +137,9 @@ final List<DeviceCategoryDataModel> deviceCategoryList = [
     imageUrl: SvgAssets.tablet,
     joinedTime: "12:15 PM",
   ),
-
-    DeviceCategoryDataModel(
+  DeviceCategoryDataModel(
     deviceType: "TV",
     imageUrl: SvgAssets.tv,
     joinedTime: "12:15 PM",
   ),
-
-  
 ];
-

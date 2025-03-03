@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+
 class BackNavigator extends StatelessWidget {
   const BackNavigator({super.key, this.onPress});
 
@@ -22,4 +23,3 @@ class BackNavigator extends StatelessWidget {
     );
   }
 }
-

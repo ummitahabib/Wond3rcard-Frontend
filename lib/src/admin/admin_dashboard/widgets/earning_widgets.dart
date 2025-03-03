@@ -34,7 +34,6 @@ class EarningWidgets extends StatelessWidget {
             style: WonderCardTypography.boldTextTitleBold(
                 color: Color(0xff3A3541)),
           ),
-         
           Text(
             textAlign: TextAlign.center,
             '735.2',
@@ -46,12 +45,11 @@ class EarningWidgets extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          
           GestureDetector(
-            onTap: (){},
+            onTap: () {},
             child: Container(
-              width: 210,
-              height: 49,
+                width: 210,
+                height: 49,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: AppColors.defaultWhite,

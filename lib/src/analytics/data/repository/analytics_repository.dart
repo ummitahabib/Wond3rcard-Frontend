@@ -14,9 +14,8 @@ class AnalyticsRepository {
 
   AnalyticsRepository({required ApiClient client}) : _client = client;
 
-
   Future<RequestRes> createInteract(Map<String, dynamic> requestBody) async {
-      final String token = SessionString.accessTokenString;
+    final String token = SessionString.accessTokenString;
 
     try {
       final response =
@@ -30,7 +29,7 @@ class AnalyticsRepository {
 
   Future<RequestRes> getIntaraction() async {
     try {
-        final String token = SessionString.accessTokenString;
+      final String token = SessionString.accessTokenString;
 
       final response =
           await _client.get(getUrl(Endpoints.getAnalytics), headers: {
@@ -46,9 +45,8 @@ class AnalyticsRepository {
   }
 
   Future<RequestRes> getIntaractionByTime(String time) async {
-  
     try {
-          final String token = SessionString.accessTokenString;
+      final String token = SessionString.accessTokenString;
 
       final response = await _client.get(
           getUrl(

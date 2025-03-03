@@ -3,9 +3,6 @@ import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
-
-
-
 class DashbaordActiveUsersWidget extends StatelessWidget {
   const DashbaordActiveUsersWidget({
     super.key,
@@ -41,7 +38,6 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
           SizedBox(
             height: size20,
           ),
-        
         ],
       ),
     );

@@ -37,8 +37,8 @@ class SvgAssets {
   static const String sales = 'images/Sales.svg';
   static const String items = 'images/Items.svg';
   static const String clicks = 'images/clicks.svg';
-    static const String tv = 'images/tv.svg';
-      static const String mobile = 'images/mobile.svg';
-        static const String tablet = 'images/tablet.svg';
-          static const String desktop = 'images/desktop.svg';
+  static const String tv = 'images/tv.svg';
+  static const String mobile = 'images/mobile.svg';
+  static const String tablet = 'images/tablet.svg';
+  static const String desktop = 'images/desktop.svg';
 }

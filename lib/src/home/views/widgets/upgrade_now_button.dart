@@ -221,7 +221,7 @@ Column connectText({required String text}) {
   ]);
 }
 
-Container personalProfileTag({ String? text}) {
+Container personalProfileTag({String? text}) {
   return Container(
     width: 158,
     height: 40,
@@ -229,13 +229,13 @@ Container personalProfileTag({ String? text}) {
         color: AppColors.grayScale50,
         borderRadius: BorderRadius.circular(SpacingConstants.size100)),
     padding: const EdgeInsets.all(9),
-    child:  Expanded(
+    child: Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Center(
             child: Text(
-               text ?? 'Personal Profile',
+              text ?? 'Personal Profile',
               style: TextStyle(
                 color: AppColors.primaryShade,
                 fontFamily: 'Barlow',

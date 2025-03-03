@@ -43,8 +43,7 @@ class RecentlyCreatedMainWidget extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             itemCount: recentlyJoinedUsers.length,
             itemBuilder: (context, index) {
-              return RecentlyJoinedWidget(
-                  user: recentlyJoinedUsers[index]);
+              return RecentlyJoinedWidget(user: recentlyJoinedUsers[index]);
             },
           )
         ],
@@ -52,5 +51,3 @@ class RecentlyCreatedMainWidget extends StatelessWidget {
     );
   }
 }
-
-

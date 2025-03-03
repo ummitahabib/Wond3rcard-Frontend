@@ -32,9 +32,6 @@ class Endpoints {
   static const String changeUserType = 'users/change-user-type';
   static const String changeUserStatus = 'users/change-user-status';
 
-
-
-
   //----------------------Example endpoints-----------------------------
   static const String posts = 'posts';
   static const String userSetupMfa = '';

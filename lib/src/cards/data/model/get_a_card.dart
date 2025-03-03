@@ -207,7 +207,6 @@ class CardStyle {
   }
 }
 
-
 class ContactInfo {
   final List<String> emailType;
   final String email;

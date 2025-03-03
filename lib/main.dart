@@ -5,8 +5,8 @@ import 'package:wond3rcard/src/utils/storage_utils.dart';
 import 'package:geolocator_web/geolocator_web.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); 
-   GeolocatorPlatform.instance = GeolocatorPlatform.instance;
-  await StorageUtil.init(); 
-  runApp(const ProviderScope(child: AppWidget())); 
+  WidgetsFlutterBinding.ensureInitialized();
+  GeolocatorPlatform.instance = GeolocatorPlatform.instance;
+  await StorageUtil.init();
+  runApp(const ProviderScope(child: AppWidget()));
 }

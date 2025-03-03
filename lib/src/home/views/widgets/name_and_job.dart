@@ -32,7 +32,7 @@ class NameAndJob extends HookConsumerWidget {
       children: [
         Text(
           textAlign: TextAlign.left,
-         text ?? '${userData.firstname} ${userData.lastname}',
+          text ?? '${userData.firstname} ${userData.lastname}',
           style: const TextStyle(
             color: Colors.black,
             fontFamily: 'Barlow',

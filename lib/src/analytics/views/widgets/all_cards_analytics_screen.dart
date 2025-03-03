@@ -51,7 +51,9 @@ class AllCardsAnalyticsScreen extends HookConsumerWidget {
                   children: [
                     ChartColumn(),
                     ContactEngagement(),
-                    SizedBox(height: 15,),
+                    SizedBox(
+                      height: 15,
+                    ),
                     GeographicalDistributionChart(),
                     // TopPerformingCard(),
                   ],

@@ -7,8 +7,7 @@ import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
 class QAndA extends StatelessWidget {
   const QAndA({super.key});
-    static const routeName = RouteString.qAndA;
-
+  static const routeName = RouteString.qAndA;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class QAndA extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-             Padding(
+            Padding(
               padding: const EdgeInsets.all(13),
               child: Row(
                 children: [
@@ -44,28 +43,22 @@ class QAndA extends StatelessWidget {
                 ],
               ),
             ),
-            
-         
             SizedBox(
               height: 45,
             ),
             Text(
-                  'Find quick answers to frequently asked questions',
-                  style: TextStyle(
-                    color: AppColors.grayScale700,
-fontFamily: 'Barlow',
-fontSize: 18,
-fontStyle: FontStyle.normal,
-fontWeight: FontWeight.w600
-                  ),
-                ),
-
-
-                SizedBox(height: 20,),
-
-             QuestionAnswerSection(),
-      
-      
+              'Find quick answers to frequently asked questions',
+              style: TextStyle(
+                  color: AppColors.grayScale700,
+                  fontFamily: 'Barlow',
+                  fontSize: 18,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            QuestionAnswerSection(),
           ],
         ),
       ),
@@ -73,28 +66,13 @@ fontWeight: FontWeight.w600
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class QuestionAnswerModel {
   final String question;
   final String answer;
   bool isExpanded;
 
-  QuestionAnswerModel({required this.question, required this.answer, this.isExpanded = false});
+  QuestionAnswerModel(
+      {required this.question, required this.answer, this.isExpanded = false});
 }
 
 class QuestionAnswerSection extends StatefulWidget {
@@ -106,11 +84,13 @@ class _QuestionAnswerSectionState extends State<QuestionAnswerSection> {
   final List<QuestionAnswerModel> qaList = [
     QuestionAnswerModel(
       question: 'Intellectual Property?',
-      answer: 'These Terms and Conditions outline the rules and regulations for using our website and services.',
+      answer:
+          'These Terms and Conditions outline the rules and regulations for using our website and services.',
     ),
     QuestionAnswerModel(
       question: 'Privacy Policy?',
-      answer: 'Our privacy policy explains how we handle your data securely and responsibly.',
+      answer:
+          'Our privacy policy explains how we handle your data securely and responsibly.',
     ),
     QuestionAnswerModel(
       question: 'Refund Policy?',
@@ -155,27 +135,29 @@ class _QuestionAnswerSectionState extends State<QuestionAnswerSection> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              child: Text(
-                                item.question,
-                                   style: TextStyle(
-                            color: AppColors.grayScale700,
-fontFamily: 'Barlow',
-fontSize: 20,
-fontStyle: FontStyle.normal,
-fontWeight: FontWeight.w600,
-
-                          )
-                        
-                              ),
+                              child: Text(item.question,
+                                  style: TextStyle(
+                                    color: AppColors.grayScale700,
+                                    fontFamily: 'Barlow',
+                                    fontSize: 20,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w600,
+                                  )),
                             ),
                             HeroIcon(
-                              item.isExpanded ? HeroIcons.chevronDown : HeroIcons.chevronUp,
-                              color: item.isExpanded ? AppColors.primaryShade : AppColors.grayScale600,
+                              item.isExpanded
+                                  ? HeroIcons.chevronDown
+                                  : HeroIcons.chevronUp,
+                              color: item.isExpanded
+                                  ? AppColors.primaryShade
+                                  : AppColors.grayScale600,
                             ),
                           ],
                         ),
                       ),
-                   SizedBox(height: 15,),
+                      SizedBox(
+                        height: 15,
+                      ),
                     ],
                   ),
                 ),
@@ -186,18 +168,14 @@ fontWeight: FontWeight.w600,
                       color: Colors.grey.shade100,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(
-                      item.answer,
-                       style: TextStyle(
-                              color: AppColors.grayScale500,
-   fontFamily: 'Barlow',
-   fontSize: 16,
-   fontStyle: FontStyle.normal,
-   fontWeight: FontWeight.w600,
-   
-                            )
-                          
-                    ),
+                    child: Text(item.answer,
+                        style: TextStyle(
+                          color: AppColors.grayScale500,
+                          fontFamily: 'Barlow',
+                          fontSize: 16,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w600,
+                        )),
                   ),
               ],
             );

@@ -8,16 +8,15 @@ import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/bu
 import 'package:wond3rcard/src/utils/file_upload.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 
-
 class CreateNewCardStepFour extends HookConsumerWidget {
   const CreateNewCardStepFour({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cardController = ref.watch(cardProvider);
     return Scaffold(
-       appBar: CreateCardReusableAppBar(
+      appBar: CreateCardReusableAppBar(
         route: RouteString.createNewCardThree,
-          titleText: 'Step 4 of 4',
+        titleText: 'Step 4 of 4',
       ),
       backgroundColor: AppColors.defaultWhite,
       body: Container(
@@ -26,7 +25,7 @@ class CreateNewCardStepFour extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             uploadPhotoMethod(cardController: cardController),
-                        Center(
+            Center(
               child: WonderCardButton(
                 showLoader: cardController.loading,
                 text: 'Submit',
@@ -46,7 +45,6 @@ class CreateNewCardStepFour extends HookConsumerWidget {
   }
 }
 
-
 GestureDetector uploadPhotoMethod({
   required CardNotifier cardController,
   Function()? onTap,
@@ -62,8 +60,8 @@ GestureDetector uploadPhotoMethod({
     child: Center(
       child: cardController.uploadedImage != null
           ? SizedBox(
-             width:  94,
-    height: 94,
+              width: 94,
+              height: 94,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(SpacingConstants.size100),
                 child: Image.file(
@@ -76,10 +74,9 @@ GestureDetector uploadPhotoMethod({
             )
           : Image.asset(
               ImageAssets.profileImage,
-      width:  94,
-    height: 94,
+              width: 94,
+              height: 94,
             ),
     ),
   );
 }
-

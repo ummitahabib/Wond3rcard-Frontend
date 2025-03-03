@@ -12,6 +12,24 @@ class AdminUserManagementDesktop extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+
+    useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+          final analyticsController = ref.read(analyticsProvider);
+          if (analyticsController.analytics == null) {
+            Future.delayed(Duration.zero, () async {
+              await analyticsController.getInteraction();
+            });
+          }
+        });
+        return null;
+      },
+      [],
+    );
+
+
     return Scaffold(
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),

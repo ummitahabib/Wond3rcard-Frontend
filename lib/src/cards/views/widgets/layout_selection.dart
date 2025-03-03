@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class LayoutSelection extends StatelessWidget {
   final String selectedLayout;
   final Function(String) onLayoutSelected;
