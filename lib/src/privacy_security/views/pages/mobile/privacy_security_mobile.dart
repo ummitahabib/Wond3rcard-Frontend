@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
+import 'package:wond3rcard/src/profile/data/profile_model/profile.dart';
 import 'package:wond3rcard/src/profile/views/pages/mobile/profile_mobile.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
@@ -12,13 +15,29 @@ class PrivacySecurityScreenMobile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(appBar: _appBar(), body: _body());
+       final adminUserController = ref.read(profileProvider);
+    
+        useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+          final adminUserController = ref.read(profileProvider);
+         
+            Future.delayed(Duration.zero, () async {
+              await adminUserController.getProfile();
+            });
+          
+        });
+        return null;
+      },
+      [],
+    );
+    return Scaffold(appBar: _appBar(), body: _body(adminUserController.profileData!));
   }
 
-  Column _body() {
+  Column _body(UserProfileResponse profile) {
     return Column(
       children: [
-        ReusableProfileHeader(),
+        ReusableProfileHeader(profile: profile,),
         Container(
             width: size355,
             height: size308,

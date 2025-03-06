@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/data/controller/admin_user_management_controller.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/user_type_container.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
-class DashbaordActiveUsersWidget extends StatelessWidget {
+class DashbaordActiveUsersWidget extends HookConsumerWidget {
   const DashbaordActiveUsersWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+        useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+          final adminUserController = ref.read(andminUserManagementProvider);
+    
+            Future.delayed(Duration.zero, () async {
+              await adminUserController.getAllUsers();
+            });
+          
+        });
+        return null;
+      },
+      [],
+    );
+   final adminUserController = ref.read(andminUserManagementProvider);
+
+
+     
     return Container(
       padding: EdgeInsets.all(20),
       width: 812,
@@ -68,7 +90,7 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
                       ),
                       SizedBox(
                         child: Text(
-                          '${(totalUsers / 1000).toStringAsFixed(1)}k',
+                          '${(adminUserController.userList.length)}k',
                           style: TextStyle(
                             color: Color(0xff3A3541),
                             fontFamily: 'Barlow',

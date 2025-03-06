@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/user_type_container.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
-class ManageUserTypeAndRecentlyJoinedWidget extends StatelessWidget {
+
+class ManageUserTypeAndRecentlyJoinedWidget extends HookConsumerWidget {
   const ManageUserTypeAndRecentlyJoinedWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: EdgeInsets.all(20),
       width: 812,
@@ -52,7 +54,8 @@ class ManageUserTypeAndRecentlyJoinedWidget extends StatelessWidget {
                           SizedBox(
                             width: 27,
                             height: 27,
-                            child: SvgPicture.asset(SvgAssets.users),
+                            child:
+                                SvgPicture.asset(SvgAssets.users),
                           ),
                           SizedBox(width: 8),
                           Text(
@@ -101,7 +104,8 @@ class ManageUserTypeAndRecentlyJoinedWidget extends StatelessWidget {
                                     SizedBox(
                                       width: 27,
                                       height: 27,
-                                      child: SvgPicture.asset(user.iconPath),
+                                      child: SvgPicture.asset(
+                                          user.iconPath),
                                     ),
                                     SizedBox(width: 8),
                                     Text(
@@ -158,6 +162,9 @@ final List<DashboardUsers> dashboardUsersList = [
 final int totalUsers =
     dashboardUsersList.fold(0, (sum, user) => sum + user.count);
 
+
+
+    
 class DashboardUsers {
   final String userType;
   final String iconPath;
@@ -166,3 +173,4 @@ class DashboardUsers {
   DashboardUsers(
       {required this.userType, required this.iconPath, required this.count});
 }
+

@@ -1,5 +1,5 @@
-class RequestRes {
-  dynamic response;
+class RequestRes<T> {
+  T? response;
   ErrorRes? error;
 
   RequestRes({this.response, this.error});

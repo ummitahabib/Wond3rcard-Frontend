@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wond3rcard/src/admin/admin_cards/views/card_table.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/admin_dashboard.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop_view.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/pages/admin_user_management.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/views/pages/desktop/user_screen.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/change_password/views/reset_password_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/forgot_password_otp_verification/views/pages/forgot_password_otp_verification_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/login/views/pages/login_main.dart';
@@ -73,7 +75,7 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: '/card-management',
               builder: (BuildContext context, GoRouterState state) {
-                return Container();
+                return CardTableScreen();
               },
             ),
             GoRoute(

@@ -7,29 +7,14 @@ import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/dashboa
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/recently_created_main_widget.dart';
 import 'package:wond3rcard/src/shared/views/widgets/modal_actions.dart';
 
+
+
+
 class AdminUserManagementDesktop extends HookConsumerWidget {
   const AdminUserManagementDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-
-    useEffect(
-      () {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-          final analyticsController = ref.read(analyticsProvider);
-          if (analyticsController.analytics == null) {
-            Future.delayed(Duration.zero, () async {
-              await analyticsController.getInteraction();
-            });
-          }
-        });
-        return null;
-      },
-      [],
-    );
-
-
     return Scaffold(
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -85,6 +70,7 @@ class AdminUserManagementDesktop extends HookConsumerWidget {
                 ],
               ),
             ),
+           
             AdminDashboardUserListWidget()
           ],
         ),

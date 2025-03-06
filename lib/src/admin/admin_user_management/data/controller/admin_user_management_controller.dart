@@ -1,11 +1,7 @@
-
-
-
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wond3rcard/src/admin/admin_user_management/data/model/get_all_users/payload.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/data/model/user_model/user_model.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/data/repository/admin_user_management.dart';
-import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 final andminUserManagementProvider = ChangeNotifierProvider<AdminUserManagementNotifier>((ref) {
   return AdminUserManagementNotifier(ref);
@@ -17,7 +13,6 @@ class AdminUserManagementNotifier extends ChangeNotifier {
   AdminUserManagementNotifier(this.ref);
 
   bool _loading = false;
-
   bool get loading => _loading;
 
   set loading(bool state) {
@@ -25,25 +20,15 @@ class AdminUserManagementNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  GetAllUsersPayload? _getAllUsersPayload;
-  GetAllUsersPayload? get getAllUsersPayload => _getAllUsersPayload;
+  List<ApiResponse> _userList = [];
+  List<ApiResponse> get userList => _userList;
 
-  set getAllUsersPayload(GetAllUsersPayload? anal) {
-    _getAllUsersPayload = anal;
-    notifyListeners();
-  }
-
-  List<GetAllUsersPayload> _getAllUsersPayloadModel = [];
-
-  List<GetAllUsersPayload> get getAllUsersPayloadModel => _getAllUsersPayloadModel;
-
-  set getAllUsersPayloadModel(List<GetAllUsersPayload> usersLists) {
-    _getAllUsersPayloadModel = usersLists;
+  set userList(List<ApiResponse> users) {
+    _userList = users;
     notifyListeners();
   }
 
   int _selectedIndex = 0;
-
   int get selectedIndex => _selectedIndex;
 
   void updateSelectedIndex(int newIndex) {
@@ -51,18 +36,21 @@ class AdminUserManagementNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<GetAllUsersPayload?> getInteraction() async {
+  Future<void> getAllUsers() async {
     try {
       loading = true;
-      final response = await ref.read(adminUserManagementRepository).getAllUsers();
+      final resp = await ref.read(adminUserManagementRepository).getAllUsers();
       loading = false;
-      if (response.hasError()) {
+
+      if (resp.hasError()) {
         if (kDebugMode) {
-          print('Error: ${response.error?.message ?? emptyString}');
+          print('GET Users Error: ${resp.error?.message}');
         }
       } else {
-        getAllUsersPayload = response.response ?? [];
-        return getAllUsersPayload;
+        userList = resp.response ?? [];
+        if (kDebugMode) {
+          print('User list controller: $userList');
+        }
       }
     } catch (e) {
       if (kDebugMode) {
@@ -70,6 +58,5 @@ class AdminUserManagementNotifier extends ChangeNotifier {
       }
       loading = false;
     }
-    return null;
   }
 }

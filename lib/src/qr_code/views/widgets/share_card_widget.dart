@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
+import 'package:wond3rcard/src/qr_code/data/controller/share_card_qr_controller.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -22,14 +23,6 @@ class ShareQrWidget extends HookConsumerWidget {
 
   static const routeName = RouteString.shareCardLink;
 
-  final String appDeepLink = "wond3rcard://user-card";
-  final String appStoreLink =
-      "https://play.google.com/store/apps/details?id=com.example.yourapp";
-
-  String getQRCodeUrl() {
-    //firebase dynamic link or other deeplink services
-    return "https://yourdomain.com/redirect?deepLink=$appDeepLink&storeLink=$appStoreLink";
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -116,34 +109,7 @@ class ShareQrWidget extends HookConsumerWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: DashedBorder.all(
-                          color: AppColors.primaryShade,
-                          dashLength: 40,
-                          width: 2,
-                          isOnlyCorner: true,
-                          strokeAlign: BorderSide.strokeAlignInside,
-                          strokeCap: StrokeCap.round,
-                        ),
-                      ),
-                      child: QrImageView(
-                        data: getQRCodeUrl(),
-                        version: QrVersions.auto,
-                        size: 229,
-                        gapless: false,
-                        errorStateBuilder: (cxt, err) {
-                          return Container(
-                            child: const Center(
-                              child: Text(
-                                'Uh oh! Something went wrong...',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                    ShareCardWithBarCode(cardId: cardController.getCardsResponse?.payload?.cards![index].id ?? emptyString),
                     const SizedBox(
                       height: 15,
                     ),
@@ -214,6 +180,7 @@ class ShareQrWidget extends HookConsumerWidget {
   }
 }
 
+
 Container chooseCardToShare() {
   return Container(
     padding: const EdgeInsets.symmetric(vertical: 27, horizontal: 23),
@@ -232,8 +199,6 @@ Container chooseCardToShare() {
         SizedBox(
           height: SpacingConstants.size40,
         ),
-
-        // this will be generated as list to get all available cards
         CustomRowContainer(),
       ],
     ),
@@ -313,3 +278,57 @@ class CustomRowContainer extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+class ShareCardWithBarCode extends ConsumerWidget {
+  final String cardId;
+
+  const ShareCardWithBarCode({super.key, required this.cardId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final qrCodeState = ref.watch(shareCardQrControllerProvider);
+
+    return Container(
+      decoration: BoxDecoration(
+        border: DashedBorder.all(
+          color: AppColors.primaryShade,
+          dashLength: 40,
+          width: 2,
+          isOnlyCorner: true,
+          strokeAlign: BorderSide.strokeAlignInside,
+          strokeCap: StrokeCap.round,
+        ),
+      ),
+ child: qrCodeState.when(
+        data: (qrData) => QrImageView(
+          data: qrData,
+          version: QrVersions.auto,
+          size: 229,
+          gapless: false,
+        ),
+        loading: () => const CircularProgressIndicator(),
+        error: (error, _) => const Center(
+          child: Text(
+            'Failed to load QR Code',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+  
+    );
+  }
+}
+
+
