@@ -25,7 +25,6 @@ class _OnboardingFifthScreenMobileState
   @override
   Widget build(BuildContext context) {
     final socialController = ref.watch(socialProvider);
-     
 
     useEffect(
       () {
@@ -67,9 +66,9 @@ class _OnboardingFifthScreenMobileState
                             ? const Center(
                                 child: Text('No social media links found.'))
                             : Center(
-                              child: SocialMediaList(
-                                  socialController: socialController),
-                            ),
+                                child: SocialMediaList(
+                                    socialController: socialController),
+                              ),
                     const Spacer(),
                     ContinueWidget(
                       showLoader: socialController.loading,

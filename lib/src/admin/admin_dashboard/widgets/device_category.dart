@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
+import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
@@ -11,10 +12,11 @@ class DeviceCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.all(20),
       width: 394,
-      height: 346.333,
+      height: size.height * SpacingConstants.size0point5,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -44,8 +46,7 @@ class DeviceCategory extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             itemCount: deviceCategoryList.length,
             itemBuilder: (context, index) {
-              return DeviceCategoryWidget(
-                  user: deviceCategoryList[index]);
+              return DeviceCategoryWidget(user: deviceCategoryList[index]);
             },
           )
         ],
@@ -53,11 +54,6 @@ class DeviceCategory extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
 
 class DeviceCategoryWidget extends StatelessWidget {
   final DeviceCategoryDataModel user;
@@ -92,7 +88,6 @@ class DeviceCategoryWidget extends StatelessWidget {
               ),
             ),
           ),
-         
           SizedBox(width: 15),
           Text(
             user.deviceType,
@@ -100,7 +95,6 @@ class DeviceCategoryWidget extends StatelessWidget {
               color: AppColors.grayScale700,
             ),
           ),
-        
           Spacer(),
           Text(
             user.joinedTime,
@@ -145,13 +139,9 @@ final List<DeviceCategoryDataModel> deviceCategoryList = [
     imageUrl: SvgAssets.tablet,
     joinedTime: "12:15 PM",
   ),
-
-    DeviceCategoryDataModel(
+  DeviceCategoryDataModel(
     deviceType: "TV",
     imageUrl: SvgAssets.tv,
     joinedTime: "12:15 PM",
   ),
-
-  
 ];
-

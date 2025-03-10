@@ -103,7 +103,6 @@ final List<FilterOption> cardsfilterOptions = [
   FilterOption(label: 'oldest', onTap: () => print('Oldest selected')),
 ];
 
-
 List<AdminNavItem> adminNavItems(BuildContext context) {
   return [
     AdminNavItem(
@@ -148,4 +147,3 @@ List<AdminNavItem> adminNavItems(BuildContext context) {
     ),
   ];
 }
-

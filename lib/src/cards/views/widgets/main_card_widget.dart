@@ -24,7 +24,7 @@ import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 class MainCardWidget extends StatefulHookConsumerWidget {
   const MainCardWidget({super.key});
 
-    static const String routeName = RouteString.mainCard;
+  static const String routeName = RouteString.mainCard;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MainCardWidgetState();

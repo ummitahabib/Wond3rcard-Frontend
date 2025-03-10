@@ -114,17 +114,14 @@ class _CreateNewCardState extends ConsumerState<CreateNewCard> {
                 textEditingController: cardController.suffix,
               ),
               const SizedBox(height: 15),
-
               AddressField(),
-
-               const SizedBox(height: 15),
+              const SizedBox(height: 15),
               Center(
                 child: WonderCardButton(
                   showLoader: cardController.loading,
                   text: 'Save and Continue',
                   onPressed: () {
                     context.go(RouteString.createNewCardTwo);
-                    
                   },
                 ),
               ),

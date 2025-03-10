@@ -14,7 +14,6 @@ import 'dart:io' show File;
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-
 class OnboardingFourthScreenMobile extends ConsumerStatefulWidget {
   const OnboardingFourthScreenMobile({super.key});
 
@@ -82,11 +81,6 @@ class _OnboardingFourthScreenMobileState
   }
 }
 
-
-
-
-
-
 GestureDetector uploadPhotoMethod({
   required OnboardingModelNotifier onboardingController,
   Function()? onTap,
@@ -139,4 +133,3 @@ GestureDetector uploadPhotoMethod({
     ),
   );
 }
-

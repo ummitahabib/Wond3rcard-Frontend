@@ -207,8 +207,7 @@ Container mainCard(
     ),
     width: 357,
     height: 230,
-    child: 
-    Column(
+    child: Column(
       children: [
         Expanded(
           flex: 1,
@@ -287,6 +286,5 @@ Container mainCard(
         ),
       ],
     ),
-
   );
 }

@@ -12,11 +12,11 @@ class MainSocialMediaList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: CustomAppBar(leading:  BackNavigator(
-       onPress:  () => context.go('/'),
-      ),
-      
-       title: ''),
+      appBar: CustomAppBar(
+          leading: BackNavigator(
+            onPress: () => context.go('/'),
+          ),
+          title: ''),
       body: SocialMediaList(),
     );
   }

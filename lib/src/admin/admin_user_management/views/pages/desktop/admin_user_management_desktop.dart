@@ -7,6 +7,9 @@ import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/dashboa
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/recently_created_main_widget.dart';
 import 'package:wond3rcard/src/shared/views/widgets/modal_actions.dart';
 
+
+
+
 class AdminUserManagementDesktop extends HookConsumerWidget {
   const AdminUserManagementDesktop({Key? key}) : super(key: key);
 
@@ -60,14 +63,25 @@ class AdminUserManagementDesktop extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ManageUserTypeAndRecentlyJoinedWidget(),
-                  RecentlyCreatedMainWidget(),
+                  Expanded(
+                    flex: 7,
+                    child: ManageUserTypeAndRecentlyJoinedWidget()),
+                    SizedBox(width: 15,),
+                  Expanded(
+                    flex: 3,
+                    child: RecentlyCreatedMainWidget()),
                 ],
               ),
             ),
-            AdminDashboardUserListWidget()
+           
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: AdminDashboardUserListWidget(),
+            )
           ],
         ),
       ),

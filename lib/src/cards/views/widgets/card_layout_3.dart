@@ -13,7 +13,6 @@ import 'package:wond3rcard/src/utils/ui_data.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
-
 class CardLayout3 extends StatefulHookConsumerWidget {
   final Function(String) onLayoutSelected;
 

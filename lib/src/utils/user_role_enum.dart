@@ -21,7 +21,7 @@ extension UserRoleExtension on UserRole {
 
 int getUserRoleFromString(String? role) {
   switch (role) {
-    case "customer":
+    case "normal":
       return SpacingConstants.int1;
     case "admin":
       return SpacingConstants.int2;

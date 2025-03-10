@@ -95,7 +95,6 @@ class RouteString {
   static const String resetPassword = '/resetPassword';
   static const String otpVerification = '/otpVerification';
   static const String deleteAccount = '/deleteAccount';
-  static const String baseDashboard = '/baseDashboard';
   static const String mainDashboard = '/mainDashboard';
   static const String verifyPasswordOtp = '/verifyPasswordOtp';
   static const String changePassword = '/changePassword';
@@ -104,14 +103,14 @@ class RouteString {
   static const String colorPallete = '/colorPallete';
   static const String font = '/font';
   static const String cardLayout = '/cardLayout';
-    static const String cardLayout1 = '/card-layout-1';
-    static const String cardLayout2 = '/card-layout-2';
-    static const String cardLayout3 = '/card-layout-3';
+  static const String cardLayout1 = '/card-layout-1';
+  static const String cardLayout2 = '/card-layout-2';
+  static const String cardLayout3 = '/card-layout-3';
   static const String createNewCard = '/create-new-card';
   static const String cardMain = '/cardMain';
   static const String createNewCardTwo = '/create-new-card-step-two';
   static const String createNewCardThree = '/create-new-card-step-three';
-    static const String createNewCardFour = '/create-new-card-step-four';
+  static const String createNewCardFour = '/create-new-card-step-four';
   static const String createNewCardStepFive = '/create-new-card-step-five';
   static const String shareCardLink = '/shareCardLink';
   static const String profile = '/profile';
@@ -120,18 +119,20 @@ class RouteString {
   static const String twoFAuth = '/twoFAuth';
   static const String mainCard = '/mainCard';
   static const String cardDetails = '/cardDetails';
-   static const String termsAndCondition = '/termsAndCondition';
-    static const String qAndA = '/QAndA';
-     static const String helpAndSupport = '/helpAndSupport';
-     static const String adminDashBoardDesktopViewRoute = '/admin-dashboard-desktop-view';
-     static const String userManagement = '/user-management';
-     static const String cardManagement = '/card-management';
-     static const String analytics = '/analytics';
-     static const String security = '/security';
-     static const String adminSubscription = '/admin-subscription';
-     static const String adminManageFlag = '/admin-manage-flag';
-     static const String notFound = '/not-found';
-     static const String adminSettings = '/settings';
+  static const String termsAndCondition = '/termsAndCondition';
+  static const String qAndA = '/QAndA';
+  static const String helpAndSupport = '/helpAndSupport';
+  static const String adminDashBoardDesktopViewRoute =
+      '/admin-dashboard-desktop-view';
+  static const String userManagement = '/user-management';
+  static const String cardManagement = '/card-management';
+  static const String analytics = '/analytics';
+  static const String security = '/security';
+  static const String adminSubscription = '/admin-subscription';
+  static const String adminManageFlag = '/admin-manage-flag';
+  static const String notFound = '/not-found';
+  static const String adminSettings = '/settings';
+  static const String baseDashboard = '/base-dashboard';
 }
 
 class SessionString {
@@ -158,8 +159,8 @@ const String capitalLetterCheck = 'password must contain capital letter';
 const String numericCheck = 'password must contain alpha numeric';
 const String passwordLimitCheck = 'Password must not be less than 8 characters';
 const String emptyString = "";
-   const String defaultImage =
-      'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
+const String defaultImage =
+    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
 
 const String checkYourEmailText = "Check your email";
 const String weHaveSendCodeText =
@@ -217,7 +218,7 @@ const String saveContact = 'Save Contact';
 const String skipText = 'Skip';
 const String notFoundText = 'Not Found';
 const String privacyAndSecurityText = 'Privacy & Security';
-const String twoFactorAuthText = 'Two Factor Authentication'; 
+const String twoFactorAuthText = 'Two Factor Authentication';
 const String multiFactorAuthText = 'Multi Factor Authentication';
 const String changePasswordText = 'Change Password';
 const String deleteAccountText = 'Delete Account';

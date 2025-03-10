@@ -8,7 +8,7 @@ class StorageUtil {
     _preferences ??= await SharedPreferences.getInstance();
   }
 
-    // get string
+  // get string
   static String? getString({required String key}) {
     if (key == SessionString.accessTokenString) {
       return _preferences?.getString(key) ?? '';
@@ -18,11 +18,11 @@ class StorageUtil {
       return _preferences?.getString(key) ?? '';
     }
     if (_preferences == null) return null;
-    return _preferences?.getString(key)  ;
+    return _preferences?.getString(key);
   }
 
-
-  static Future<bool> putString({required String key, required String value}) async {
+  static Future<bool> putString(
+      {required String key, required String value}) async {
     if (_preferences == null) await init();
     return await _preferences!.setString(key, value);
   }

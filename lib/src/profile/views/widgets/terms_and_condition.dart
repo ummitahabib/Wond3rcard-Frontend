@@ -6,8 +6,7 @@ import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
 class TermsAndCondition extends StatelessWidget {
   const TermsAndCondition({super.key});
-    static const routeName = RouteString.termsAndCondition;
-
+  static const routeName = RouteString.termsAndCondition;
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +82,7 @@ class TermsAndCondition extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                
-                
-                
-                     Text(
+                    Text(
                       textAlign: TextAlign.justify,
                       'Interpretation and Definitions',
                       style: TextStyle(
@@ -97,8 +93,7 @@ class TermsAndCondition extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                
-                     Text(
+                    Text(
                       'The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.',
                       style: TextStyle(
                         color: AppColors.grayScale700,
@@ -108,9 +103,7 @@ class TermsAndCondition extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                
-                
-                     Text(
+                    Text(
                       textAlign: TextAlign.justify,
                       'Intellectual Property',
                       style: TextStyle(
@@ -121,12 +114,9 @@ class TermsAndCondition extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                
-                
-                     Text(
-                    
-                     'Unless otherwise stated, A&A Surf Networks LTD. and/or its licensors own the intellectual property rights for all material on Wond3rcard. All intellectual property rights are reserved. You may view and/or print pages from https://wond3rcard.com/ for your personal use, subject to restrictions set in these terms and conditions.'
-                     , style: TextStyle(
+                    Text(
+                      'Unless otherwise stated, A&A Surf Networks LTD. and/or its licensors own the intellectual property rights for all material on Wond3rcard. All intellectual property rights are reserved. You may view and/or print pages from https://wond3rcard.com/ for your personal use, subject to restrictions set in these terms and conditions.',
+                      style: TextStyle(
                         color: AppColors.grayScale700,
                         fontFamily: 'Barlow',
                         fontSize: 18,
@@ -134,8 +124,7 @@ class TermsAndCondition extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                
-                     Text(
+                    Text(
                       textAlign: TextAlign.justify,
                       'Restrictions',
                       style: TextStyle(
@@ -146,9 +135,6 @@ class TermsAndCondition extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                
-                
-                
                   ],
                 ),
               ),

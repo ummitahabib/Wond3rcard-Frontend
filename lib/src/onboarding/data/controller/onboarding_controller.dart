@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 
@@ -24,7 +23,6 @@ class OnboardingModelNotifier extends ChangeNotifier {
   XFile? uploadedImage;
   Uint8List? uploadedImageBytes;
 
-
   bool _loading = false;
 
   bool get loading => _loading;
@@ -33,7 +31,6 @@ class OnboardingModelNotifier extends ChangeNotifier {
     _loading = state;
     notifyListeners();
   }
-
 
   OnboardingModel _onboardingModel = OnboardingModel(
     firstName: '',
@@ -67,17 +64,14 @@ class OnboardingModelNotifier extends ChangeNotifier {
     }
   }
 
-
-
-
-  
   Future<void> pickImage({ImageSource? source}) async {
     final picker = ImagePicker();
-    final imageFile = await picker.pickImage(source: source ?? ImageSource.gallery);
-    
+    final imageFile =
+        await picker.pickImage(source: source ?? ImageSource.gallery);
+
     if (imageFile != null) {
       uploadedImage = imageFile;
-      
+
       if (kIsWeb) {
         uploadedImageBytes = await imageFile.readAsBytes();
       }
@@ -93,7 +87,6 @@ class OnboardingModelNotifier extends ChangeNotifier {
     }
     return Uint8List(0);
   }
-
 
   Future<void> saveUserDetails(
       {String? firstName,
@@ -134,17 +127,14 @@ class OnboardingModelNotifier extends ChangeNotifier {
     };
   }
 
-Future<void> checkOnboardingStatus(BuildContext context) async {
-  final prefs = await SharedPreferences.getInstance();
-  final isFirstTime = prefs.getBool('isFirstTime') ?? true;
+  Future<void> checkOnboardingStatus(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isFirstTime = prefs.getBool('isFirstTime') ?? true;
 
-  if (isFirstTime) {
-    context.go(RouteString.getStarted);
-  } else {
-     context.go(RouteString.logIn);
+    if (isFirstTime) {
+      context.go(RouteString.getStarted);
+    } else {
+      context.go(RouteString.logIn);
+    }
   }
 }
-
-}
-
-

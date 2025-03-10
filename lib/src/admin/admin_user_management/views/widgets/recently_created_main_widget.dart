@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/recently_joined.dart';
+import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
@@ -10,10 +11,10 @@ class RecentlyCreatedMainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.all(20),
-      width: 394,
-      height: 346.333,
+      height: size.height * SpacingConstants.size0point5,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -43,8 +44,7 @@ class RecentlyCreatedMainWidget extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             itemCount: recentlyJoinedUsers.length,
             itemBuilder: (context, index) {
-              return RecentlyJoinedWidget(
-                  user: recentlyJoinedUsers[index]);
+              return RecentlyJoinedWidget(user: recentlyJoinedUsers[index]);
             },
           )
         ],
@@ -52,5 +52,3 @@ class RecentlyCreatedMainWidget extends StatelessWidget {
     );
   }
 }
-
-

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
-
 class RecentlyJoinedWidget extends StatelessWidget {
   final RecentlyJoinedUser user;
 
@@ -100,6 +99,3 @@ final List<RecentlyJoinedUser> recentlyJoinedUsers = [
     joinedTime: "12:15 PM",
   ),
 ];
-
-
-

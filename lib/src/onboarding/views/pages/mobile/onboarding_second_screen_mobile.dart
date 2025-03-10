@@ -70,7 +70,7 @@ class OnboardingSecondScreenMobile extends HookConsumerWidget {
                             type: TextFieldType.Email,
                           ),
                           CustomTextField(
-                            inputType: TextInputType.phone,
+                              inputType: TextInputType.phone,
                               textEditingController: phoneNumberController,
                               onChange: (value) async {
                                 await StorageUtil.putString(

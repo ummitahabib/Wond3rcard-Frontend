@@ -155,8 +155,10 @@ class WonderCardButton extends StatelessWidget {
         elevation: SpacingConstants.size0,
         backgroundColor: newBackgroundColor,
         foregroundColor: newTextColor,
-        fixedSize: Size(buttonWidth ?? getScreenSize(context).width * SpacingConstants.size0point08,
-            SpacingConstants.size47),
+        // fixedSize: Size(
+        //     buttonWidth ??
+        //         getScreenSize(context).width * SpacingConstants.size0point08,
+        //     SpacingConstants.size47),
         side: variant != ButtonVariant.primary
             ? BorderSide(color: newBorderColor, width: SpacingConstants.size2)
             : BorderSide.none,

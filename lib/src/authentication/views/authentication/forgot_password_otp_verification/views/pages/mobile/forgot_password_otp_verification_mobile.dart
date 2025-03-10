@@ -31,7 +31,9 @@ class ForgotPasswordOtpVerificationMobile extends HookConsumerWidget {
             key: userEmail,
           );
           timer.cancel();
-          ref.watch(authProvider).requestAccountVerfication(email: email ?? emptyString);
+          ref
+              .watch(authProvider)
+              .requestAccountVerfication(email: email ?? emptyString);
         }
       });
       return null;

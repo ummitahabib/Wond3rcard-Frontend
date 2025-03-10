@@ -22,8 +22,7 @@ class AccountRow extends HookConsumerWidget {
       width: SpacingConstants.size326,
       height: SpacingConstants.size69,
       decoration: BoxDecoration(
-        color: Color(0xffEFEFEF
-),
+        color: Color(0xffEFEFEF),
         borderRadius: BorderRadius.circular(SpacingConstants.size8),
       ),
       child: Row(
@@ -37,10 +36,9 @@ class AccountRow extends HookConsumerWidget {
           ),
           Spacer(),
           AddAndCloseWidget(isExpanded: isExpanded),
-           SizedBox(width: 16),
+          SizedBox(width: 16),
         ],
       ),
     );
   }
-  
 }

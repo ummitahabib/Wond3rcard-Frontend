@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
+import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
@@ -11,10 +12,11 @@ class TopCountries extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.all(20),
       width: 394,
-      height: 346.333,
+     height: size.height * SpacingConstants.size0point5,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -44,8 +46,7 @@ class TopCountries extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             itemCount: TopCountriesList.length,
             itemBuilder: (context, index) {
-              return TopCountriesWidget(
-                  user: TopCountriesList[index]);
+              return TopCountriesWidget(user: TopCountriesList[index]);
             },
           )
         ],
@@ -53,11 +54,6 @@ class TopCountries extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
 
 class TopCountriesWidget extends StatelessWidget {
   final TopCountriesDataModel user;
@@ -92,7 +88,6 @@ class TopCountriesWidget extends StatelessWidget {
               ),
             ),
           ),
-         
           SizedBox(width: 15),
           Text(
             user.countryName,
@@ -100,7 +95,6 @@ class TopCountriesWidget extends StatelessWidget {
               color: AppColors.grayScale700,
             ),
           ),
-        
           Spacer(),
           Text(
             user.joinedPercent,
@@ -145,13 +139,9 @@ final List<TopCountriesDataModel> TopCountriesList = [
     imageUrl: SvgAssets.tablet,
     joinedPercent: "20%",
   ),
-
-    TopCountriesDataModel(
+  TopCountriesDataModel(
     countryName: "Spain",
     imageUrl: SvgAssets.tv,
     joinedPercent: "10%",
   ),
-
-  
 ];
-

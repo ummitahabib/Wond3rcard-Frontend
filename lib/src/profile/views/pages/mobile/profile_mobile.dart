@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
+import 'package:wond3rcard/src/profile/data/profile_model/profile.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
@@ -10,15 +13,32 @@ class ProfileScreenMobile extends HookConsumerWidget {
   const ProfileScreenMobile({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+ final adminUserController = ref.read(profileProvider);
+    
+        useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+          final adminUserController = ref.read(profileProvider);
+         
+            Future.delayed(Duration.zero, () async {
+              await adminUserController.getProfile();
+            });
+          
+        });
+        return null;
+      },
+      [],
+    );
+    
     return Scaffold(
         appBar: AppBar(
           title: Text(
-                'Profile',
-                style: WonderCardTypography.boldTextH5(
-                  fontSize: 23,
-                  color: AppColors.grayScale,
-                ),
-              ),
+            'Profile',
+            style: WonderCardTypography.boldTextH5(
+              fontSize: 23,
+              color: AppColors.grayScale,
+            ),
+          ),
           centerTitle: true,
           leading: Container(
             padding: EdgeInsets.all(12),
@@ -29,22 +49,24 @@ class ProfileScreenMobile extends HookConsumerWidget {
                 borderRadius: BorderRadius.circular(8)),
             child: SizedBox(),
           ),
-          
         ),
         backgroundColor: AppColors.transparent,
         body: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding:  EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ReusableProfileHeader(),
+                  ReusableProfileHeader(
+                    profile: adminUserController.profileData!,
+                  ),
                   Container(
                       width: 359,
                       height: 546,
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                       ),
@@ -99,7 +121,10 @@ class ProfileScreenMobile extends HookConsumerWidget {
 class ReusableProfileHeader extends StatelessWidget {
   const ReusableProfileHeader({
     super.key,
+    required this.profile,
   });
+
+  final UserProfileResponse profile;
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +157,7 @@ class ReusableProfileHeader extends StatelessWidget {
             ),
             child: Text(
               textAlign: TextAlign.center,
-              'Premium',
+              profile.payload.user.userType,
               style: TextStyle(
                 fontFamily: 'Barlow',
                 fontSize: 8.59,
@@ -144,7 +169,7 @@ class ReusableProfileHeader extends StatelessWidget {
             children: [
               Text(
                 textAlign: TextAlign.center,
-                'Muhd Garba Wudil',
+                "${profile.payload.profile.firstname } ${profile.payload.profile.lastname}",
                 style: TextStyle(
                   fontFamily: 'Barlow',
                   fontSize: 24,
@@ -153,7 +178,7 @@ class ReusableProfileHeader extends StatelessWidget {
               ),
               Text(
                 textAlign: TextAlign.center,
-                'ameerwudil@gmail.com',
+                     "${profile.payload.profile.email}",
                 style: TextStyle(
                   fontFamily: 'Barlow',
                   fontSize: 16,

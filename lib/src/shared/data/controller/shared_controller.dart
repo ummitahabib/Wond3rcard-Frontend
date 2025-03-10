@@ -16,7 +16,7 @@ class SharedController extends ChangeNotifier {
 
   String address = emptyString;
   LatLng selectedLocation = const LatLng(37.7749, -122.4194);
-  final String googleApiKey = "your API key";
+  final String googleApiKey = "AIzaSyD1AYNlL8vnySJShep7hXVy5F3U76PbyLk";
 
   Future<String> getAddressFromCoordinates(double lat, double lng) async {
     final url =

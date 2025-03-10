@@ -34,22 +34,22 @@ class ChartColumn extends HookConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       child: GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 175 / 166,
-      ),
-      itemCount: cardDataList.length,
-      itemBuilder: (context, index) {
-        final cardData = cardDataList[index];
-        return buildCard(context, analyticsController, chartData, cardData);
-      },
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 175 / 166,
+        ),
+        itemCount: cardDataList.length,
+        itemBuilder: (context, index) {
+          final cardData = cardDataList[index];
+          return buildCard(context, analyticsController, chartData, cardData);
+        },
       ),
     );
-    }
+  }
 
   Widget buildCard(
     BuildContext context,
@@ -57,17 +57,14 @@ class ChartColumn extends HookConsumerWidget {
     ValueNotifier<List<ChartColumnData>> chartData,
     CardDataModel cardData,
   ) {
-
-
-
     return Container(
       padding: EdgeInsets.all(10),
-                 width: 175,
-height: 166,
-decoration: BoxDecoration(
-  borderRadius: BorderRadius.circular(20),
-  color: AppColors.defaultWhite,
-),
+      width: 175,
+      height: 166,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: AppColors.defaultWhite,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -93,8 +90,8 @@ decoration: BoxDecoration(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      analyticsController.analytics!.payload.analytics
-                          .comparison.views.current
+                      analyticsController
+                          .analytics!.payload.analytics.comparison.views.current
                           .toString(),
                       style: WonderCardTypography.boldTextH5(
                         fontSize: 23,
@@ -140,7 +137,7 @@ decoration: BoxDecoration(
           //     ColumnSeries<ChartColumnData, String>(
           //       borderRadius: BorderRadius.circular(20),
           //       dataSource: chartData.value,
-          //       width: 0.5,
+          //       width: size0point5
           //       color: Colors.amber,
           //       // const Color(0xFFE9EDF7),
           //       xValueMapper: (ChartColumnData data, _) => data.x,
@@ -149,7 +146,7 @@ decoration: BoxDecoration(
           //     ColumnSeries<ChartColumnData, String>(
           //       borderRadius: BorderRadius.circular(20),
           //       dataSource: chartData.value,
-          //       width: 0.5,
+          //       width: size0point5
           //       color: AppColors.primaryShade,
           //       xValueMapper: (ChartColumnData data, _) => data.x,
           //       yValueMapper: (ChartColumnData data, _) => data.y1,

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wond3rcard/src/admin/admin_cards/views/card_table.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/admin_dashboard.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop_view.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/pages/admin_user_management.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/views/pages/desktop/user_screen.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/change_password/views/reset_password_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/forgot_password_otp_verification/views/pages/forgot_password_otp_verification_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/login/views/pages/login_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/otp_verification/views/pages/otp_verification_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/reset_password/views/reset_password_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/signup/views/signup_main.dart';
+import 'package:wond3rcard/src/base_dashboard/views/base_dashboard.dart';
 import 'package:wond3rcard/src/cards/views/pages/cards_main.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_details.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_layout.dart';
@@ -59,6 +62,14 @@ final GoRouter router = GoRouter(
           },
           routes: <RouteBase>[
             GoRoute(
+              
+              path: '/base-dashboard',
+              builder: (BuildContext context, GoRouterState state) {
+                return BaseDashBoard();
+              },
+              
+            ),
+            GoRoute(
               path: '/admin-dashboard-desktop-view',
               builder: (BuildContext context, GoRouterState state) {
                 return AdminDashboardDesktopView();
@@ -73,7 +84,7 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: '/card-management',
               builder: (BuildContext context, GoRouterState state) {
-                return Container();
+                return CardTableScreen();
               },
             ),
             GoRoute(

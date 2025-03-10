@@ -7,7 +7,6 @@ import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class AddAndSaveAccountWidget extends HookConsumerWidget {
   const AddAndSaveAccountWidget({
     super.key,
@@ -22,10 +21,12 @@ class AddAndSaveAccountWidget extends HookConsumerWidget {
     final controllerNameNotifier = useState(controller.name ?? '');
 
     useEffect(() {
-      _loadSavedData(controller.name, textEditingController, controllerNameNotifier);
+      _loadSavedData(
+          controller.name, textEditingController, controllerNameNotifier);
 
       textEditingController.addListener(() {
-        _saveData(controller.name, textEditingController.text, controllerNameNotifier.value);
+        _saveData(controller.name, textEditingController.text,
+            controllerNameNotifier.value);
       });
 
       return null; // No cleanup needed
@@ -74,8 +75,12 @@ class AddAndSaveAccountWidget extends HookConsumerWidget {
     ValueNotifier<String> controllerNameNotifier,
   ) async {
     final prefs = await SharedPreferences.getInstance();
-    final savedProfileLink = prefs.getString('${socialMediaId}_profileLink') ?? '';
-    final savedControllerName = prefs.getString('${socialMediaId}_controllerName') ?? controller.name ?? '';
+    final savedProfileLink =
+        prefs.getString('${socialMediaId}_profileLink') ?? '';
+    final savedControllerName =
+        prefs.getString('${socialMediaId}_controllerName') ??
+            controller.name ??
+            '';
 
     textController.text = savedProfileLink;
     controllerNameNotifier.value = savedControllerName;

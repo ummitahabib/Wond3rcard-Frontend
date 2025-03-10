@@ -25,21 +25,19 @@ class CardLayout2 extends StatefulHookConsumerWidget {
 class _CardLayout2State extends ConsumerState<CardLayout2> {
   @override
   Widget build(BuildContext context) {
-
-void showLayoutSelection(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (context) {
-      return LayoutSelection(
-        selectedLayout: "Layout 2", 
-        onLayoutSelected: (String newLayout) {
-          widget.onLayoutSelected(newLayout); 
+    void showLayoutSelection(BuildContext context) {
+      showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return LayoutSelection(
+            selectedLayout: "Layout 2",
+            onLayoutSelected: (String newLayout) {
+              widget.onLayoutSelected(newLayout);
+            },
+          );
         },
       );
-    },
-  );
-}
-
+    }
 
     final cardColor = ref.watch(cardProvider);
     CardType selectedCardType = CardType.personal;
@@ -99,12 +97,15 @@ void showLayoutSelection(BuildContext context) {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 10)],
+        boxShadow: const [
+          BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 10)
+        ],
       ),
       child: const Center(
         child: Text(
           "Your Card",
-          style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -116,7 +117,13 @@ void showLayoutSelection(BuildContext context) {
       child: Container(
         height: 59,
         decoration: BoxDecoration(
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.25), blurRadius: 5, spreadRadius: 1, offset: const Offset(0, 0))],
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 5,
+                spreadRadius: 1,
+                offset: const Offset(0, 0))
+          ],
           color: AppColors.defaultWhite,
           borderRadius: BorderRadius.circular(100),
         ),
@@ -129,7 +136,11 @@ void showLayoutSelection(BuildContext context) {
                 width: 34.14,
                 height: 34.14,
                 decoration: BoxDecoration(
-                  border: Border.all(width: cardColor.selectedColor == color ? 6 : 0, color: cardColor.selectedColor == color ? AppColors.grayScale600 : AppColors.transparent),
+                  border: Border.all(
+                      width: cardColor.selectedColor == color ? 6 : 0,
+                      color: cardColor.selectedColor == color
+                          ? AppColors.grayScale600
+                          : AppColors.transparent),
                   color: color,
                   borderRadius: BorderRadius.circular(426.75),
                 ),
@@ -145,14 +156,31 @@ void showLayoutSelection(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        WonderCardButton(backgroundColor: color, buttonWidth: 65, trailingIcon: const HeroIcon(HeroIcons.backward, color: AppColors.defaultWhite, size: 16), text: '', onPressed: () {}),
-        WonderCardButton(backgroundColor: color, textColor: AppColors.defaultWhite, buttonWidth: 136, text: 'Preview', onPressed: () {}),
-        WonderCardButton(backgroundColor: color, textColor: AppColors.defaultWhite, buttonWidth: 136, text: 'Next', trailingIcon: const HeroIcon(HeroIcons.forward, color: AppColors.defaultWhite, size: 16), onPressed: () {}),
+        WonderCardButton(
+            backgroundColor: color,
+            buttonWidth: 65,
+            trailingIcon: const HeroIcon(HeroIcons.backward,
+                color: AppColors.defaultWhite, size: 16),
+            text: '',
+            onPressed: () {}),
+        WonderCardButton(
+            backgroundColor: color,
+            textColor: AppColors.defaultWhite,
+            buttonWidth: 136,
+            text: 'Preview',
+            onPressed: () {}),
+        WonderCardButton(
+            backgroundColor: color,
+            textColor: AppColors.defaultWhite,
+            buttonWidth: 136,
+            text: 'Next',
+            trailingIcon: const HeroIcon(HeroIcons.forward,
+                color: AppColors.defaultWhite, size: 16),
+            onPressed: () {}),
       ],
     );
   }
 }
-
 
 void saveColorPreference(Color color) async {
   final prefs = await SharedPreferences.getInstance();
@@ -163,6 +191,3 @@ Future<Color> loadColorPreference() async {
   final prefs = await SharedPreferences.getInstance();
   return Color(prefs.getInt('selectedColor') ?? Colors.blue.value);
 }
-
-
-

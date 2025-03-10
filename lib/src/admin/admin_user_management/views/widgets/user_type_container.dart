@@ -9,10 +9,8 @@ class AdminDashboardReusableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double width = constraints.maxWidth < 600 ? 150 : 171.539;
 
         return Container(
-          width: width,
           padding: const EdgeInsets.all(18.152),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -28,10 +26,10 @@ class AdminDashboardReusableCard extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
               child,
-              const SizedBox(height: 13.614),
             ],
           ),
         );

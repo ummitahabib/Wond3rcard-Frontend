@@ -49,12 +49,12 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
         leading: SizedBox(),
         centerTitle: true,
         title: Text(
-              'Choose which card to share',
-              style: WonderCardTypography.boldTextTitleBold(
-                fontSize: SpacingConstants.size18,
-                color: AppColors.grayScale,
-              ),
-            ),
+          'Choose which card to share',
+          style: WonderCardTypography.boldTextTitleBold(
+            fontSize: SpacingConstants.size18,
+            color: AppColors.grayScale,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -63,21 +63,23 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
           ),
           child: Column(
             children: [
-               SharedSearchField(
-          controller: searchController,
-          hintText: "Search here...",
-          onChanged: (value) {
-            print("Searching: $value");
-          },
-        ),
-        SizedBox(height: 15 ,),
+              SharedSearchField(
+                controller: searchController,
+                hintText: "Search here...",
+                onChanged: (value) {
+                  print("Searching: $value");
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: cardController!
-                      .getCardsResponse?.payload?.cards?.length,
+                  itemCount:
+                      cardController!.getCardsResponse?.payload?.cards?.length,
                   itemBuilder: (context, index) {
                     final card = cardController!
                         .getCardsResponse?.payload?.cards?[index];
@@ -99,8 +101,7 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                   // width: size360,
                                   height: SpacingConstants.size72,
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(size15),
+                                    borderRadius: BorderRadius.circular(size15),
                                     color: AppColors.defaultWhite,
                                   ),
                                   child: Padding(
@@ -115,9 +116,8 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                           width: SpacingConstants.size45,
                                           height: SpacingConstants.size45,
                                           child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(
-                                                    SpacingConstants.size100),
+                                            borderRadius: BorderRadius.circular(
+                                                SpacingConstants.size100),
                                             child: Image.network(
                                               card?.cardPictureUrl ??
                                                   ImageAssets.behance,

@@ -1,5 +1,3 @@
-
-
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 enum AdminRouteMenuItem {
@@ -11,7 +9,7 @@ enum AdminRouteMenuItem {
   subscription,
   flags,
   settings;
- 
+
   String get path {
     switch (this) {
       case AdminRouteMenuItem.adminDashBoardDesktopView:
@@ -28,7 +26,7 @@ enum AdminRouteMenuItem {
         return RouteString.adminSubscription;
       case AdminRouteMenuItem.flags:
         return RouteString.adminManageFlag;
-              case AdminRouteMenuItem.settings:
+      case AdminRouteMenuItem.settings:
         return RouteString.adminSettings;
       default:
         return RouteString.notFound;

@@ -20,11 +20,9 @@ class CardRepository {
 
   CardRepository({required ApiClient client}) : _client = client;
 
-
-
   Future<RequestRes> createCard(Map<String, dynamic> requestBody) async {
-      final String? authToken =
-      StorageUtil.getString(key: SessionString.accessTokenString);
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       print('Request body: $requestBody');
       final response = await _client.put(
@@ -83,8 +81,8 @@ class CardRepository {
   }
 
   Future<RequestRes> getAUsersCard(String cardId) async {
-      final String? authToken =
-      StorageUtil.getString(key: SessionString.accessTokenString);
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       final response = await _client.get(
         getUrl('${Endpoints.getAUserCard}$cardId'),
@@ -102,8 +100,8 @@ class CardRepository {
   }
 
   Future<RequestRes> viewCard(String cardId) async {
-      final String? authToken =
-      StorageUtil.getString(key: SessionString.accessTokenString);
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       final response = await _client.get(
         getUrl('${Endpoints.viewCard}$cardId'),
@@ -121,8 +119,8 @@ class CardRepository {
   }
 
   Future<RequestRes> updateUserCard(Map<String, dynamic> requestBody) async {
-      final String? authToken =
-      StorageUtil.getString(key: SessionString.accessTokenString);
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       print('Request body: $requestBody');
       final response = await _client.patch(
@@ -146,8 +144,8 @@ class CardRepository {
 
   Future<RequestRes> updateOrganizationCard(
       Map<String, dynamic> requestBody) async {
-          final String? authToken =
-      StorageUtil.getString(key: SessionString.accessTokenString);
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       print('Request body: $requestBody');
       final response = await _client.patch(
@@ -170,8 +168,8 @@ class CardRepository {
   }
 
   Future<RequestRes> updateCard(Map<String, dynamic> requestBody) async {
-      final String? authToken =
-      StorageUtil.getString(key: SessionString.accessTokenString);
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       print('Request body: $requestBody');
       final response = await _client.patch(
@@ -194,8 +192,8 @@ class CardRepository {
   }
 
   Future<RequestRes> deleteCard(String cardId) async {
-      final String? authToken =
-      StorageUtil.getString(key: SessionString.accessTokenString);
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       final response = await _client.delete(
         getUrl('${Endpoints.deleteCard}$cardId'),
@@ -213,8 +211,8 @@ class CardRepository {
 
   Future<RequestRes> deleteUserOrgCard(
       Map<String, dynamic>? queries, String cardId) async {
-          final String? authToken =
-      StorageUtil.getString(key: SessionString.accessTokenString);
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       final response = await _client.delete(
         queries: queries,
@@ -233,8 +231,8 @@ class CardRepository {
   }
 
   Future<RequestRes> deleteAllCard() async {
-      final String? authToken =
-      StorageUtil.getString(key: SessionString.accessTokenString);
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       final response = await _client.delete(
         getUrl(Endpoints.deleteAllCards),
