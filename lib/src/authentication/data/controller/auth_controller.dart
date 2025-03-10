@@ -129,7 +129,7 @@ class AuthNotifier extends ChangeNotifier {
       final LoginModel loginResponse = response.response as LoginModel;
       if (loginResponse.accessToken != null) {
         await storeLoginData(loginResponse);
-        context.go(RouteString.mainDashboard);
+        context.go(RouteString.baseDashboard);
         return LoginReturnData.success;
       }
 
@@ -390,8 +390,9 @@ class AuthNotifier extends ChangeNotifier {
     if (loginData == LoginReturnData.unverifiedEmail) {
       context.go(RouteString.verifyAccount);
     } else if (loginData == LoginReturnData.success) {
-      context.go(RouteString.home
-          );
+      context.go(RouteString.baseDashboard);
+      // context.go(RouteString.home
+      //     );
     } else {
       alert.showErrorToast(message: 'Unable to log in. Please try again.');
     }

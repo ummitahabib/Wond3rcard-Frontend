@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wond3rcard/src/admin/admin_analytics/views/admin_analytics.dart';
 import 'package:wond3rcard/src/admin/admin_cards/views/card_table.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/admin_dashboard.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop_view.dart';
-import 'package:wond3rcard/src/admin/admin_subscription/views/admin_subscription.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/pages/admin_user_management.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/pages/desktop/user_screen.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/change_password/views/reset_password_main.dart';
@@ -14,6 +11,7 @@ import 'package:wond3rcard/src/authentication/views/authentication/login/views/p
 import 'package:wond3rcard/src/authentication/views/authentication/otp_verification/views/pages/otp_verification_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/reset_password/views/reset_password_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/signup/views/signup_main.dart';
+import 'package:wond3rcard/src/base_dashboard/views/base_dashboard.dart';
 import 'package:wond3rcard/src/cards/views/pages/cards_main.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_details.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_layout.dart';
@@ -48,23 +46,6 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 final GlobalKey<NavigatorState> _internalNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'internal');
 
-
-
-final storage = FlutterSecureStorage();
-
-// Check authentication state
-Future<bool> isAuthenticated() async {
-  String? token = await storage.read(key: 'accessToken');
-  return token != null;
-}
-
-late final GoRouter router;
-
-
-
-Future<void> setupRouter() async {
-  bool authenticated = await isAuthenticated();
-
 final GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   routes: <RouteBase>[
@@ -81,6 +62,14 @@ final GoRouter router = GoRouter(
           },
           routes: <RouteBase>[
             GoRoute(
+              
+              path: '/base-dashboard',
+              builder: (BuildContext context, GoRouterState state) {
+                return BaseDashBoard();
+              },
+              
+            ),
+            GoRoute(
               path: '/admin-dashboard-desktop-view',
               builder: (BuildContext context, GoRouterState state) {
                 return AdminDashboardDesktopView();
@@ -95,13 +84,13 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: '/card-management',
               builder: (BuildContext context, GoRouterState state) {
-                return CardAdmin();
+                return CardTableScreen();
               },
             ),
             GoRoute(
               path: '/analytics',
               builder: (BuildContext context, GoRouterState state) {
-                return AdminAnalytics();
+                return Container();
               },
             ),
             GoRoute(
@@ -113,7 +102,7 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: '/admin-subscription',
               builder: (BuildContext context, GoRouterState state) {
-                return AdminSubscription();
+                return Container();
               },
             ),
             GoRoute(
@@ -364,4 +353,3 @@ final GoRouter router = GoRouter(
     ),
   ],
 );
-}

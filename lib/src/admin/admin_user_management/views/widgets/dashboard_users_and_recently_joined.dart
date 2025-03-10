@@ -15,9 +15,10 @@ class ManageUserTypeAndRecentlyJoinedWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.all(20),
-      height: 346.333,
+      height: size.height * SpacingConstants.size0point5,
       decoration: BoxDecoration(
         color: AppColors.defaultWhite,
         borderRadius: BorderRadius.circular(8),

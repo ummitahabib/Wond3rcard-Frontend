@@ -137,7 +137,7 @@ class ChartColumn extends HookConsumerWidget {
           //     ColumnSeries<ChartColumnData, String>(
           //       borderRadius: BorderRadius.circular(20),
           //       dataSource: chartData.value,
-          //       width: 0.5,
+          //       width: size0point5
           //       color: Colors.amber,
           //       // const Color(0xFFE9EDF7),
           //       xValueMapper: (ChartColumnData data, _) => data.x,
@@ -146,7 +146,7 @@ class ChartColumn extends HookConsumerWidget {
           //     ColumnSeries<ChartColumnData, String>(
           //       borderRadius: BorderRadius.circular(20),
           //       dataSource: chartData.value,
-          //       width: 0.5,
+          //       width: size0point5
           //       color: AppColors.primaryShade,
           //       xValueMapper: (ChartColumnData data, _) => data.x,
           //       yValueMapper: (ChartColumnData data, _) => data.y1,

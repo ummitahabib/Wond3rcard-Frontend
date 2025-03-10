@@ -16,6 +16,7 @@ class DashbaordActiveUsersWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
     final size = MediaQuery.of(context).size;
 
         useEffect(
@@ -34,6 +35,7 @@ class DashbaordActiveUsersWidget extends HookConsumerWidget {
     );
    final adminUserController = ref.read(andminUserManagementProvider);
     return Container(
+     height: size.height * SpacingConstants.size0point5,
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.defaultWhite,

@@ -12,26 +12,22 @@ class AdminDashboardDesktopView extends HookConsumerWidget {
   const AdminDashboardDesktopView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final size = MediaQuery.of(context).size;
 
-
-        useEffect(
+    useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           final adminUserController = ref.read(andminUserManagementProvider);
-         
-            Future.delayed(Duration.zero, () async {
-              await adminUserController.getAllUsers();
-            });
-          
+
+          Future.delayed(Duration.zero, () async {
+            await adminUserController.getAllUsers();
+          });
         });
         return null;
       },
       [],
     );
 
-    
     return Scaffold(
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -52,48 +48,47 @@ class AdminDashboardDesktopView extends HookConsumerWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(10),
-              child: SingleChildScrollView(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 7,
-                      child: Column(
-                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                             DashbaordActiveUsersWidget(),
-                          SizedBox(
-                            height:size.height * 0.02,
-                          ),
-                          DashbaordActiveUsersWidget(),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          EarningWidgets(),
-                          SizedBox(
-                                 height:size.height * 0.02,
-                          ),
-                          DeviceCategory(),
-                          SizedBox(
-                                  height:size.height * 0.02,
-                          ),
-                          TopCountries(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(flex: 7, child: DashbaordActiveUsersWidget()),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(flex: 3, child: EarningWidgets()),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(flex: 7, child: DashbaordActiveUsersWidget()),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(flex: 3, child: DeviceCategory()),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(flex: 7, child: SizedBox()),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(flex: 3, child: TopCountries()),
+                ],
               ),
             ),
           ],

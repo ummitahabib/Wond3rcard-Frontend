@@ -95,7 +95,6 @@ class RouteString {
   static const String resetPassword = '/resetPassword';
   static const String otpVerification = '/otpVerification';
   static const String deleteAccount = '/deleteAccount';
-  static const String baseDashboard = '/baseDashboard';
   static const String mainDashboard = '/mainDashboard';
   static const String verifyPasswordOtp = '/verifyPasswordOtp';
   static const String changePassword = '/changePassword';
@@ -133,6 +132,7 @@ class RouteString {
   static const String adminManageFlag = '/admin-manage-flag';
   static const String notFound = '/not-found';
   static const String adminSettings = '/settings';
+  static const String baseDashboard = '/base-dashboard';
 }
 
 class SessionString {
