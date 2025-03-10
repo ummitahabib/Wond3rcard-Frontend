@@ -11,7 +11,6 @@ import 'package:wond3rcard/src/authentication/data/repository/auth_repository.da
 import 'package:wond3rcard/src/onboarding/data/controller/onboarding_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/utils/alert.dart';
-import 'package:wond3rcard/src/utils/app_router.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/storage_utils.dart';
 import 'package:wond3rcard/src/utils/token_services.dart';
@@ -130,8 +129,6 @@ class AuthNotifier extends ChangeNotifier {
       final LoginModel loginResponse = response.response as LoginModel;
       if (loginResponse.accessToken != null) {
         await storeLoginData(loginResponse);
-       // context.go(RouteString.adminDashBoardDesktopViewRoute
-       //   );
         context.go(RouteString.mainDashboard);
         return LoginReturnData.success;
       }
@@ -240,47 +237,6 @@ class AuthNotifier extends ChangeNotifier {
 
     return false;
   }
-
-
-
-Future<bool> refreshAccessToken(String? refreshToken) async {
-  if (refreshToken == null) {
-    alert.showErrorToast(message: "No refresh token found.");
-    return false;
-  }
-
-  try {
-    final result = await ref.read(authRepositoryProvider).refreshAccessToken(refreshToken);
-
-    if (result.error != null) {
-      alert.showErrorToast(message: "Error getting refresh token: ${result.error?.message}");
-      return false;
-    }
-
-    final accessToken = result.response?.payload['accessToken'];
-    final newRefreshToken = result.response?.payload['refreshToken'];
-
-    if (accessToken == null || newRefreshToken == null) {
-      alert.showErrorToast(message: "Invalid refresh token response.");
-      return false;
-    }
-
-    // Save new tokens
-    await storage.write(key: 'accessToken', value: accessToken);
-    await storage.write(key: 'refreshToken', value: newRefreshToken);
-
-    alert.showSuccessToast(message: "Token refreshed successfully.");
-    return true;
-  } catch (e) {
-    log("Exception during generating refresh token: $e");
-    alert.showErrorToast(message: "An error occurred while refreshing token.");
-    return false;
-  }
-}
-
-
-
-
 
   Future<bool> resetMfaWithCode(int mfaCode) async {
     try {
@@ -436,8 +392,6 @@ Future<bool> refreshAccessToken(String? refreshToken) async {
     } else if (loginData == LoginReturnData.success) {
       context.go(RouteString.home
           );
-      // context.go(RouteString.adminDashBoardDesktopViewRoute
-       //   );
     } else {
       alert.showErrorToast(message: 'Unable to log in. Please try again.');
     }

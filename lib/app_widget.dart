@@ -3,7 +3,6 @@ import 'package:wond3rcard/src/utils/app_router.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
-  
 
   @override
   State<AppWidget> createState() => _AppWidgetState();
@@ -12,8 +11,7 @@ class AppWidget extends StatefulWidget {
 class _AppWidgetState extends State<AppWidget> {
   @override
   Widget build(BuildContext context) {
-    return 
-    MaterialApp.router(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: router,
     );
