@@ -12,7 +12,6 @@ class RecentlyCreatedMainWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20),
-      width: 394,
       height: 346.333,
       decoration: BoxDecoration(
         boxShadow: [

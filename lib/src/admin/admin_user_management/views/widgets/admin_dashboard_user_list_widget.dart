@@ -14,9 +14,8 @@ class AdminDashboardUserListWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userState = ref.watch(userProvider);
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Container(
-        width: 1230,
-        height: 120,
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 31),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -32,6 +31,7 @@ class AdminDashboardUserListWidget extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             RichText(
               text: TextSpan(

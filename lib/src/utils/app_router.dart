@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wond3rcard/src/admin/admin_analytics/views/admin_analytics.dart';
 import 'package:wond3rcard/src/admin/admin_cards/views/card_table.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/admin_dashboard.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop_view.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/views/admin_subscription.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/pages/admin_user_management.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/pages/desktop/user_screen.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/change_password/views/reset_password_main.dart';
@@ -45,6 +48,23 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 final GlobalKey<NavigatorState> _internalNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'internal');
 
+
+
+final storage = FlutterSecureStorage();
+
+// Check authentication state
+Future<bool> isAuthenticated() async {
+  String? token = await storage.read(key: 'accessToken');
+  return token != null;
+}
+
+late final GoRouter router;
+
+
+
+Future<void> setupRouter() async {
+  bool authenticated = await isAuthenticated();
+
 final GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   routes: <RouteBase>[
@@ -75,13 +95,13 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: '/card-management',
               builder: (BuildContext context, GoRouterState state) {
-                return CardTableScreen();
+                return CardAdmin();
               },
             ),
             GoRoute(
               path: '/analytics',
               builder: (BuildContext context, GoRouterState state) {
-                return Container();
+                return AdminAnalytics();
               },
             ),
             GoRoute(
@@ -93,7 +113,7 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: '/admin-subscription',
               builder: (BuildContext context, GoRouterState state) {
-                return Container();
+                return AdminSubscription();
               },
             ),
             GoRoute(
@@ -344,3 +364,4 @@ final GoRouter router = GoRouter(
     ),
   ],
 );
+}

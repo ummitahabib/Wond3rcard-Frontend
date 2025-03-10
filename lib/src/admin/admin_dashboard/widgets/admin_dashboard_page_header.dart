@@ -186,31 +186,28 @@ class ResponsiveSearchTextField extends StatelessWidget {
         double width = constraints.maxWidth * 0.8; // Adjust width dynamically
         if (width > 600) width = 500; // Limit max width for large screens
 
-        return Center(
-          child: Container(
-            width: width,
-            height: 46,
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              border:
-                  Border.all(color: const Color(0xFFDBDCDE)), // Surface Border
-              color: const Color(0xFFFFFFFF), // White Background
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search anything here...',
-                      border: InputBorder.none,
-                    ),
+        return Container(
+          width: 300,
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            border:
+                Border.all(color: const Color(0xFFDBDCDE)), // Surface Border
+            color: const Color(0xFFFFFFFF), // White Background
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search anything here...',
+                    border: InputBorder.none,
                   ),
                 ),
-                const Icon(Icons.search,
-                    color: Colors.grey), // Trailing Search Icon
-              ],
-            ),
+              ),
+              const Icon(Icons.search,
+                  color: Colors.grey), // Trailing Search Icon
+            ],
           ),
         );
       },

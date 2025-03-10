@@ -75,7 +75,7 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+              context.go(RouteString.mainDashboard);
           },
         ),
       ),

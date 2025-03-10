@@ -17,7 +17,6 @@ class ManageUserTypeAndRecentlyJoinedWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: EdgeInsets.all(20),
-      width: 812,
       height: 346.333,
       decoration: BoxDecoration(
         color: AppColors.defaultWhite,
@@ -83,9 +82,9 @@ class ManageUserTypeAndRecentlyJoinedWidget extends HookConsumerWidget {
                     ],
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 5,),
+
                 Container(
-                  width: 812,
                   height: 182,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -133,9 +132,8 @@ class ManageUserTypeAndRecentlyJoinedWidget extends HookConsumerWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
+                           SizedBox(width: 5,),
+
                         ],
                       );
                     },

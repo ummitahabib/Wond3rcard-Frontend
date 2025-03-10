@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/data/model/user_model/user_model.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/data/repository/admin_user_management.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 
 final selectedUserTypeProvider = StateProvider<String>((ref) => "All");
 
@@ -57,7 +58,7 @@ class UserTypeFilter extends ConsumerWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               decoration: BoxDecoration(
-                color: isSelected ? Colors.blue : Colors.transparent,
+                color: isSelected ? AppColors.primaryShade : Colors.transparent,
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(

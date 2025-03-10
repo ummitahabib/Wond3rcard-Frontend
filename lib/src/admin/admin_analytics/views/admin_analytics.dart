@@ -10,8 +10,8 @@ import 'package:wond3rcard/src/shared/views/widgets/modal_actions.dart';
 
 
 
-class AdminUserManagementDesktop extends HookConsumerWidget {
-  const AdminUserManagementDesktop({Key? key}) : super(key: key);
+class AdminAnalytics extends HookConsumerWidget {
+  const AdminAnalytics({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

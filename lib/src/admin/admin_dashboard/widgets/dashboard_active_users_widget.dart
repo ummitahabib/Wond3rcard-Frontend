@@ -16,6 +16,7 @@ class DashbaordActiveUsersWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = MediaQuery.of(context).size;
 
         useEffect(
       () {
@@ -32,13 +33,8 @@ class DashbaordActiveUsersWidget extends HookConsumerWidget {
       [],
     );
    final adminUserController = ref.read(andminUserManagementProvider);
-
-
-     
     return Container(
       padding: EdgeInsets.all(20),
-      width: 812,
-      height: 572,
       decoration: BoxDecoration(
         color: AppColors.defaultWhite,
         borderRadius: BorderRadius.circular(8),
@@ -52,6 +48,7 @@ class DashbaordActiveUsersWidget extends HookConsumerWidget {
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -63,158 +60,158 @@ class DashbaordActiveUsersWidget extends HookConsumerWidget {
           SizedBox(
             height: size20,
           ),
-          SingleChildScrollView(
-            child: Row(
-              children: [
-                AdminDashboardReusableCard(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 27,
-                            height: 27,
-                            child: SvgPicture.asset(SvgAssets.users),
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            'Users',
-                            style: TextStyle(
-                              color: Color(0xff3A3541),
-                              fontFamily: 'Barlow',
-                              fontSize: 14.522,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        child: Text(
-                          '${(adminUserController.userList.length)}k',
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AdminDashboardReusableCard(
+
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: SvgPicture.asset(SvgAssets.users),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Users',
                           style: TextStyle(
                             color: Color(0xff3A3541),
                             fontFamily: 'Barlow',
-                            fontSize: 43.566,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 14.522,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(
+                      child: Text(
+                        '${(adminUserController.userList.length)}k',
+                        style: TextStyle(
+                          color: Color(0xff3A3541),
+                          fontFamily: 'Barlow',
+                          fontSize: 43.566,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 10),
-                AdminDashboardReusableCard(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 27,
-                            height: 27,
-                            child: SvgPicture.asset(SvgAssets.clicks),
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            'Clicks',
-                            style: TextStyle(
-                              color: Color(0xff3A3541),
-                              fontFamily: 'Barlow',
-                              fontSize: 14.522,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        child: Text(
-                          '1m',
+              ),
+            SizedBox(width: 10,),
+              AdminDashboardReusableCard(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 27,
+                          height: 27,
+                          child: SvgPicture.asset(SvgAssets.clicks),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Clicks',
                           style: TextStyle(
                             color: Color(0xff3A3541),
                             fontFamily: 'Barlow',
-                            fontSize: 43.566,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 14.522,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(
+                      child: Text(
+                        '1m',
+                        style: TextStyle(
+                          color: Color(0xff3A3541),
+                          fontFamily: 'Barlow',
+                          fontSize: 43.566,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 10),
-                AdminDashboardReusableCard(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 27,
-                            height: 27,
-                            child: SvgPicture.asset(SvgAssets.clicks),
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            'Items',
-                            style: TextStyle(
-                              color: Color(0xff3A3541),
-                              fontFamily: 'Barlow',
-                              fontSize: 14.522,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        child: Text(
-                          '68K',
+              ),
+      SizedBox(width: 10,),
+              AdminDashboardReusableCard(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 27,
+                          height: 27,
+                          child: SvgPicture.asset(SvgAssets.clicks),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Items',
                           style: TextStyle(
                             color: Color(0xff3A3541),
                             fontFamily: 'Barlow',
-                            fontSize: 43.566,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 14.522,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(
+                      child: Text(
+                        '68K',
+                        style: TextStyle(
+                          color: Color(0xff3A3541),
+                          fontFamily: 'Barlow',
+                          fontSize: 43.566,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 10),
-                AdminDashboardReusableCard(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 27,
-                            height: 27,
-                            child: SvgPicture.asset(SvgAssets.sales),
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            'Sales',
-                            style: TextStyle(
-                              color: Color(0xff3A3541),
-                              fontFamily: 'Barlow',
-                              fontSize: 14.522,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        child: Text(
-                          '345',
+              ),
+               SizedBox(width: 10,),
+              AdminDashboardReusableCard(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 27,
+                          height: 27,
+                          child: SvgPicture.asset(SvgAssets.sales),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Sales',
                           style: TextStyle(
                             color: Color(0xff3A3541),
                             fontFamily: 'Barlow',
-                            fontSize: 43.566,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 14.522,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(
+                      child: Text(
+                        '345',
+                        style: TextStyle(
+                          color: Color(0xff3A3541),
+                          fontFamily: 'Barlow',
+                          fontSize: 43.566,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

@@ -12,7 +12,7 @@ class DashbaordActiveUsersWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20),
-      width: 812,
+     // width: 812,
       height: 472,
       decoration: BoxDecoration(
         color: AppColors.defaultWhite,
