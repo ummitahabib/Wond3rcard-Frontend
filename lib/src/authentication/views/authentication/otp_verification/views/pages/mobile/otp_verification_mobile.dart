@@ -39,6 +39,7 @@ class OtpVerificationMobile extends HookConsumerWidget {
     void resendOtp() {
       ref.watch(authProvider).requestAccountVerfication(
           email: authController.emailController.text);
+          print('this is the email ${authController.emailController.text}');
       startTimer();
     }
 
@@ -84,7 +85,7 @@ class OtpVerificationMobile extends HookConsumerWidget {
                     inputType: TextInputType.emailAddress,
                     text: enterWorkEmail,
                     hintText: enterYourEmailText,
-                    textEditingController: authController.workMail,
+                    textEditingController: authController.emailController,
                   ),
                   SizedBox(
                     child: Row(
