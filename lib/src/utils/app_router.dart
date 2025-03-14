@@ -35,7 +35,12 @@ import 'package:wond3rcard/src/onboarding/views/onboarding_second_screen_main.da
 import 'package:wond3rcard/src/onboarding/views/onboarding_third_screen_main.dart';
 import 'package:wond3rcard/src/onboarding/views/widgets/get_started_onboarding_screen.dart';
 import 'package:wond3rcard/src/preview_card/views/preview_main.dart';
+import 'package:wond3rcard/src/privacy_security/views/pages/mobile/privacy_security_mobile.dart';
+import 'package:wond3rcard/src/profile/views/edit_profile.dart';
 import 'package:wond3rcard/src/profile/views/profile.dart';
+import 'package:wond3rcard/src/profile/views/widgets/help_and_support.dart';
+import 'package:wond3rcard/src/profile/views/widgets/q_and_a.dart';
+import 'package:wond3rcard/src/profile/views/widgets/terms_and_condition.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
@@ -349,6 +354,47 @@ final GoRouter router = GoRouter(
             return const ProfileMainScreen();
           },
         ),
+
+        GoRoute(
+          path: RouteString.qAndA,
+          builder: (BuildContext context, GoRouterState state) {
+            return const QAndA();
+          },
+        ),
+
+         GoRoute(
+          path: RouteString.termsAndCondition,
+          builder: (BuildContext context, GoRouterState state) {
+            return const TermsAndCondition();
+          },
+        ),
+
+         GoRoute(
+          path: RouteString.helpAndSupport,
+          builder: (BuildContext context, GoRouterState state) {
+            return const HelpAndSupport();
+          },
+        ),
+
+            GoRoute(
+          path: RouteString.privacySecurity,
+          builder: (BuildContext context, GoRouterState state) {
+            return const PrivacySecurityScreenMobile();
+          },
+        ),
+
+      GoRoute(
+          path: RouteString.editProfile,
+          builder: (BuildContext context, GoRouterState state) {
+            return const EditProfileMainScreen();
+          },
+        ),
+
+
+
+        
+
+        
       ],
     ),
   ],

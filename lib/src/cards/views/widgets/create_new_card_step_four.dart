@@ -26,16 +26,19 @@ class CreateNewCardStepFour extends HookConsumerWidget {
           children: [
             uploadPhotoMethod(cardController: cardController),
             Center(
-              child: WonderCardButton(
-                showLoader: cardController.loading,
-                text: 'Submit',
-                onPressed: () async {
-                  try {
-                    await ref.watch(cardProvider).createCard(context);
-                  } catch (e) {
-                    print('Error: $e');
-                  }
-                },
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: WonderCardButton(
+                  showLoader: cardController.loading,
+                  text: 'Submit',
+                  onPressed: () async {
+                    try {
+                      await ref.watch(cardProvider).createCard(context);
+                    } catch (e) {
+                      print('Error: $e');
+                    }
+                  },
+                ),
               ),
             ),
           ],

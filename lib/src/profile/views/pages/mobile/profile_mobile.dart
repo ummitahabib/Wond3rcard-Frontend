@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_model/profile.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
@@ -76,7 +79,9 @@ class ProfileScreenMobile extends HookConsumerWidget {
                         children: [
                           reusableRowWidget(
                               icon: HeroIcons.user,
-                              onTap: () {},
+                              onTap: () {
+                                context.go(RouteString.editProfile);
+                              },
                               text: 'Edit Profile'),
                           reusableRowWidget(
                             icon: HeroIcons.shieldExclamation,
@@ -85,7 +90,9 @@ class ProfileScreenMobile extends HookConsumerWidget {
                           ),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
-                              onTap: () {},
+                              onTap: () {
+                                 context.go(RouteString.privacySecurity);
+                              },
                               text: 'Privacy & security'),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
@@ -93,16 +100,22 @@ class ProfileScreenMobile extends HookConsumerWidget {
                               text: 'Notification'),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
-                              onTap: () {},
+                              onTap: () {
+                                context.go(RouteString.helpAndSupport);
+                              },
                               text: 'Help & Support'),
                           reusableRowWidget(
                             icon: HeroIcons.shieldExclamation,
-                            onTap: () {},
+                            onTap: () {
+                               context.go(RouteString.termsAndCondition);
+                            },
                             text: 'Terms and Condition',
                           ),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
-                              onTap: () {},
+                              onTap: () {
+                               context.go(RouteString.qAndA);
+                              },
                               text: 'Q & A'),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
