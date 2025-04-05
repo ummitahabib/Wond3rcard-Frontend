@@ -42,7 +42,9 @@ import 'package:wond3rcard/src/utils/util.dart';
 class UserRepository {
 
   Future<List<User>> fetchUsers() async {
-             final String token = SessionString.accessTokenString;
+             final String? token =
+      StorageUtil.getString(key: SessionString.accessTokenString);
+
     try {
         final response = await http.get(
        headers: {

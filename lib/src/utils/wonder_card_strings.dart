@@ -128,11 +128,27 @@ class RouteString {
   static const String cardManagement = '/card-management';
   static const String analytics = '/analytics';
   static const String security = '/security';
-  static const String adminSubscription = '/admin-subscription';
+ static const String adminSubscription = '/admin-subscription';
   static const String adminManageFlag = '/admin-manage-flag';
   static const String notFound = '/not-found';
   static const String adminSettings = '/settings';
   static const String baseDashboard = '/base-dashboard';
+  static const String viewPhysicalCard = '/view-physical-card';
+  static const String physicalCard = '/physical-card';
+  static const String createSubscription = '/create-subscription';
+  static const String adminEditUser = '/admin-edit-user';
+  static const String adminCreateNewUser = '/admin-create-new-user';
+  static const String adminDeleteUser = '/admin-delete-user';
+  static const String addUserAccount = '/add-user-account';
+  static const String additionalInformation = '/additional-information';
+  static const String accountSettings = '/account-settings';
+  static const String accountReview = '/account-review';
+  static const String createNewSubscription = '/create-new-subscription-plan';
+  static const String planLimitFeatures = '/plan-limit-features';
+  static const String createOrganization = '/create-organization';
+  static const String subscriptionReview = '/subscription-review';
+  static const String suscriptionSettings = '/subscription-settings';
+  static const String manageUserSubscription = '/manage-user-subscription';
 }
 
 class SessionString {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/authentication/data/controller/auth_controller.dart';
 import 'package:wond3rcard/src/onboarding/data/controller/onboarding_controller.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
@@ -18,9 +19,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(onboardingProvider).checkOnboardingStatus(context);
+      final authController = ref.watch(authProvider);
+       authController.checkLoginStatus(context);
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

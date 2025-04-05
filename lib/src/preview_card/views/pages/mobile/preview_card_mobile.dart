@@ -51,7 +51,7 @@ class _PreviewCardScreenMobileState
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
-              await profileController.getProfile();
+              await profileController.getProfile(context);
             });
           }
         });

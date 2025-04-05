@@ -72,21 +72,27 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
                 ],
               ),
               const SizedBox(height: 50),
-              WonderCardButton(
-                buttonWidth: 346,
-                variant: ButtonVariant.outline,
-                text: 'Select Card Font',
-                onPressed: () => showFontSelection(context),
-                backgroundColor: AppColors.transparent,
-                borderColor: AppColors.grayScale,
+              SizedBox(
+                     width: 346,
+                child: WonderCardButton(
+                           
+                  variant: ButtonVariant.outline,
+                  text: 'Select Card Font',
+                  onPressed: () => showFontSelection(context),
+                  backgroundColor: AppColors.transparent,
+                  borderColor: AppColors.grayScale,
+                ),
               ),
-              WonderCardButton(
-                buttonWidth: 346,
-                variant: ButtonVariant.outline,
-                text: 'Change Card Layout',
-                onPressed: () => showLayoutSelection(context),
-                backgroundColor: AppColors.transparent,
-                borderColor: AppColors.grayScale,
+              SizedBox(
+                  width: 346,
+                child: WonderCardButton(
+                
+                  variant: ButtonVariant.outline,
+                  text: 'Change Card Layout',
+                  onPressed: () => showLayoutSelection(context),
+                  backgroundColor: AppColors.transparent,
+                  borderColor: AppColors.grayScale,
+                ),
               ),
               const SizedBox(height: 30),
               Text('Card color',
@@ -200,31 +206,40 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        WonderCardButton(
-            backgroundColor: color,
-            buttonWidth: 65,
-            trailingIcon: const HeroIcon(HeroIcons.arrowLeft,
-                color: AppColors.defaultWhite, size: 16),
-            text: '',
-            onPressed: () {
-              context.go(RouteString.mainDashboard);
-            }),
-        WonderCardButton(
-            backgroundColor: color,
-            textColor: AppColors.defaultWhite,
-            buttonWidth: 136,
-            text: 'Preview',
-            onPressed: () {}),
-        WonderCardButton(
-            backgroundColor: color,
-            textColor: AppColors.defaultWhite,
-            buttonWidth: 136,
-            text: 'Next',
-            trailingIcon: const HeroIcon(HeroIcons.arrowRight,
-                color: AppColors.defaultWhite, size: 16),
-            onPressed: () {
-              context.go(RouteString.createNewCard);
-            }),
+        SizedBox(
+           width: 65,
+          child: WonderCardButton(
+              backgroundColor: color,
+             
+              trailingIcon: const HeroIcon(HeroIcons.arrowLeft,
+                  color: AppColors.defaultWhite, size: 16),
+              text: '',
+              onPressed: () {
+                context.go(RouteString.mainDashboard);
+              }),
+        ),
+        SizedBox(
+           width: 136,
+          child: WonderCardButton(
+              backgroundColor: color,
+              textColor: AppColors.defaultWhite,
+             
+              text: 'Preview',
+              onPressed: () {}),
+        ),
+        SizedBox(
+            width: 136,
+          child: WonderCardButton(
+              backgroundColor: color,
+              textColor: AppColors.defaultWhite,
+            
+              text: 'Next',
+              trailingIcon: const HeroIcon(HeroIcons.arrowRight,
+                  color: AppColors.defaultWhite, size: 16),
+              onPressed: () {
+                context.go(RouteString.createNewCard);
+              }),
+        ),
       ],
     );
   }

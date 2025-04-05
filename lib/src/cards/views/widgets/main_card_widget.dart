@@ -54,7 +54,7 @@ class _MainCardWidgetState extends ConsumerState<MainCardWidget> {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
-              await profileController.getProfile();
+              await profileController.getProfile(context);
               await ref.read(cardProvider).getAUsersCard(context);
             });
           }

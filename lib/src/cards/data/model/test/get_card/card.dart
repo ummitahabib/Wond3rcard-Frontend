@@ -278,3 +278,98 @@ class Card {
       v.hashCode ^
       catelogue.hashCode;
 }
+
+
+class SocialMediaLink {
+  final Media? media;
+  final String? username;
+  final bool? active;
+
+  SocialMediaLink({
+    this.media,
+    this.username,
+    this.active,
+  });
+
+  factory SocialMediaLink.fromJson(Map<String, dynamic> json) {
+    return SocialMediaLink(
+      media: json['media'] != null ? Media.fromJson(json['media']) : null,
+      username: json['username'],
+      active: json['active'],
+    );
+  }
+
+  factory SocialMediaLink.fromMap(Map<String, dynamic> map) {
+    return SocialMediaLink(
+      media: map['media'] != null ? Media.fromMap(map['media']) : null,
+      username: map['username'],
+      active: map['active'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'media': media?.toJson(),
+      'username': username,
+      'active': active,
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'media': media?.toMap(),
+      'username': username,
+      'active': active,
+    };
+  }
+}
+
+class Media {
+  final String? iconUrl;
+  final String? name;
+  final String? type;
+  final String? link;
+
+  Media({
+    this.iconUrl,
+    this.name,
+    this.type,
+    this.link,
+  });
+
+  factory Media.fromJson(Map<String, dynamic> json) {
+    return Media(
+      iconUrl: json['iconUrl'],
+      name: json['name'],
+      type: json['type'],
+      link: json['link'],
+    );
+  }
+
+  factory Media.fromMap(Map<String, dynamic> map) {
+    return Media(
+      iconUrl: map['iconUrl'],
+      name: map['name'],
+      type: map['type'],
+      link: map['link'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'iconUrl': iconUrl,
+      'name': name,
+      'type': type,
+      'link': link,
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'iconUrl': iconUrl,
+      'name': name,
+      'type': type,
+      'link': link,
+    };
+  }
+}

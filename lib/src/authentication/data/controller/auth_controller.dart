@@ -27,6 +27,15 @@ final authProvider = ChangeNotifierProvider<AuthNotifier>((ref) {
 });
 
 class AuthNotifier extends ChangeNotifier {
+  bool _mounted = true;
+
+  bool get mounted => _mounted;
+
+  @override
+  void dispose() {
+    _mounted = false;
+    super.dispose();
+  }
   final Ref ref;
 
   AuthNotifier(this.ref);
@@ -37,7 +46,7 @@ class AuthNotifier extends ChangeNotifier {
 
   set loadingLogin(bool state) {
     _loadingLogin = state;
-    notifyListeners();
+    if (mounted) notifyListeners();
   }
 
   bool _loadingSignup = false;
@@ -46,7 +55,7 @@ class AuthNotifier extends ChangeNotifier {
 
   set loadingSignup(bool state) {
     _loadingSignup = state;
-    notifyListeners();
+    if (mounted) notifyListeners();
   }
 
   bool _loading = false;
@@ -55,7 +64,7 @@ class AuthNotifier extends ChangeNotifier {
 
   set loading(bool state) {
     _loading = state;
-    notifyListeners();
+    if (mounted) notifyListeners();
   }
 
   final String? emailAddress = StorageUtil.getString(key: userEmail);
@@ -128,8 +137,8 @@ class AuthNotifier extends ChangeNotifier {
 
       final LoginModel loginResponse = response.response as LoginModel;
       if (loginResponse.accessToken != null) {
-        await storeLoginData(loginResponse);
-        context.go(RouteString.mainDashboard);
+        await storeLoginData(loginResponse, context);
+        context.go(RouteString.baseDashboard);
         return LoginReturnData.success;
       }
 
@@ -143,30 +152,74 @@ class AuthNotifier extends ChangeNotifier {
       print('Error2: $e');
       return LoginReturnData.error;
     } finally {
-      loadingLogin = false;
+      if (mounted) loadingLogin = false;
     }
   }
 
-  Future<void> storeLoginData(LoginModel loginResponse) async {
-    final String accessToken =
-        loginResponse.accessToken ?? AppStrings.emptyString;
-    print('#####  saving access token$accessToken');
 
-    SessionString.accessTokenString = loginResponse.accessToken!;
-    SessionString.refreshTokenString = loginResponse.refreshToken!;
+  Future<void> storeLoginData(LoginModel loginResponse, BuildContext context) async {
+  final String accessToken = loginResponse.accessToken ?? AppStrings.emptyString;
+  final String refreshToken = loginResponse.refreshToken ?? AppStrings.emptyString;
 
-    await StorageUtil.putString(
-      key: SessionString.accessTokenString,
-      value: loginResponse.accessToken ?? AppStrings.emptyString,
-    );
-    await StorageUtil.putString(
-      key: SessionString.refreshTokenString,
-      value: loginResponse.refreshToken ?? AppStrings.emptyString,
-    );
+  print('##### Saving Access Token: $accessToken');
+  print('##### Saving Refresh Token: $refreshToken');
 
-    await ref.watch(profileProvider).getProfile();
-    clearControllers();
+  // Save tokens securely
+  await StorageUtil.putString(
+    key: SessionString.accessTokenString,
+    value: accessToken,
+  );
+
+  await StorageUtil.putString(
+    key: SessionString.refreshTokenString,
+    value: refreshToken,
+  );
+
+  // Fetch user profile after login
+  await ref.watch(profileProvider).getProfile(context);
+
+  clearControllers();
+}
+
+
+
+
+Future<void> checkLoginStatus(BuildContext context) async {
+  final String? accessToken = await StorageUtil.getString(key: SessionString.accessTokenString);
+
+  print("Retrieved Access Token: $accessToken");
+
+  if (accessToken != null && accessToken.isNotEmpty) {
+    // Token exists, consider the user as logged in
+    context.go(RouteString.baseDashboard);
+  } else {
+    // No token found, navigate to the login screen
+    context.go(RouteString.getStarted);
   }
+}
+
+
+
+  // Future<void> storeLoginData(LoginModel loginResponse, BuildContext context) async {
+  //   final String accessToken =
+  //       loginResponse.accessToken ?? AppStrings.emptyString;
+  //   print('#####  saving access token$accessToken');
+
+  //   SessionString.accessTokenString = loginResponse.accessToken!;
+  //   SessionString.refreshTokenString = loginResponse.refreshToken!;
+
+  //   await StorageUtil.putString(
+  //     key: SessionString.accessTokenString,
+  //     value: loginResponse.accessToken ?? AppStrings.emptyString,
+  //   );
+  //   await StorageUtil.putString(
+  //     key: SessionString.refreshTokenString,
+  //     value: loginResponse.refreshToken ?? AppStrings.emptyString,
+  //   );
+
+  //   await ref.watch(profileProvider).getProfile(context);
+  //   clearControllers();
+  // }
 
   Future<bool> signUp(BuildContext context) async {
     String? base64Image;
@@ -233,6 +286,8 @@ class AuthNotifier extends ChangeNotifier {
     } catch (e) {
       loadingSignup = false;
       alert.showErrorToast(message: "An unexpected error occurred.");
+    } finally {
+      if (mounted) loadingSignup = false;
     }
 
     return false;
@@ -258,7 +313,7 @@ class AuthNotifier extends ChangeNotifier {
       loading = false;
       return false;
     } finally {
-      loading = false;
+      if (mounted) loading = false;
     }
   }
 
@@ -287,7 +342,7 @@ class AuthNotifier extends ChangeNotifier {
       loading = false;
       return false;
     } finally {
-      loading = false;
+      if (mounted) loading = false;
     }
   }
 
@@ -311,7 +366,7 @@ class AuthNotifier extends ChangeNotifier {
       loading = false;
       return false;
     } finally {
-      loading = false;
+      if (mounted) loading = false;
     }
   }
 
@@ -332,6 +387,8 @@ class AuthNotifier extends ChangeNotifier {
       }
     } catch (e) {
       loading = false;
+    } finally {
+      if (mounted) loading = false;
     }
     return false;
   }
@@ -357,7 +414,7 @@ class AuthNotifier extends ChangeNotifier {
       loading = false;
       return false;
     } finally {
-      loading = false;
+      if (mounted) loading = false;
     }
   }
 
@@ -380,7 +437,7 @@ class AuthNotifier extends ChangeNotifier {
       loading = false;
       return false;
     } finally {
-      loading = false;
+      if (mounted) loading = false;
     }
   }
 
@@ -390,7 +447,7 @@ class AuthNotifier extends ChangeNotifier {
     if (loginData == LoginReturnData.unverifiedEmail) {
       context.go(RouteString.verifyAccount);
     } else if (loginData == LoginReturnData.success) {
-      context.go(RouteString.mainDashboard);
+      context.go(RouteString.baseDashboard);
       // context.go(RouteString.home
       //     );
     } else {
@@ -419,7 +476,7 @@ class AuthNotifier extends ChangeNotifier {
       loading = false;
       return false;
     } finally {
-      loading = false;
+      if (mounted) loading = false;
     }
   }
 
@@ -440,7 +497,7 @@ class AuthNotifier extends ChangeNotifier {
         pinCode5.text +
         pinCode6.text;
     if (otpCode.length == SpacingConstants.int6) {
-      ref.watch(authProvider).verifyUserAccount(
+      verifyUserAccount(
           email: emailAddress, otp: otpCode, context: context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -466,7 +523,7 @@ class AuthNotifier extends ChangeNotifier {
         pinCode5.text +
         pinCode6.text;
     if (otpCode.length == SpacingConstants.int6) {
-      ref.watch(authProvider).verifyUserAccount(
+     verifyUserAccount(
           email: emailAddress ?? emptyString, otp: otpCode, context: context);
       context.go(RouteString.logIn);
     } else {

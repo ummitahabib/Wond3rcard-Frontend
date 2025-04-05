@@ -38,20 +38,24 @@ class NoCardsWidget extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          WonderCardButton(
-            textColor: AppColors.defaultWhite,
-            buttonWidth: 290,
-            trailingIcon: const HeroIcon(
-              HeroIcons.plus,
-              color: AppColors.defaultWhite,
+          SizedBox(
+               width: 290,
+               height: 55,
+            child: WonderCardButton(
+              textColor: AppColors.defaultWhite,
+                     
+              trailingIcon: const HeroIcon(
+                HeroIcons.plus,
+                color: AppColors.defaultWhite,
+              ),
+              backgroundColor: AppColors.primaryShade,
+              borderColor: AppColors.primaryShade,
+              borderRadius: BorderRadius.circular(27.5),
+              text: 'Create New Card',
+              onPressed: () {
+                context.go(RouteString.createNewCard);
+              },
             ),
-            backgroundColor: AppColors.primaryShade,
-            borderColor: AppColors.primaryShade,
-            borderRadius: BorderRadius.circular(27.5),
-            text: 'Create New Card',
-            onPressed: () {
-              context.go(RouteString.createNewCard);
-            },
           )
         ],
       ),

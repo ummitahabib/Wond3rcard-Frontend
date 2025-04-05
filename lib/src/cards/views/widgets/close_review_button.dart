@@ -9,33 +9,40 @@ import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
-WonderCardButton closeReviewButton() {
-  return WonderCardButton(
-    onPressed: () {},
-    text: 'Close Preview',
-    backgroundColor: AppColors.primaryShade,
-    borderRadius: BorderRadius.circular(58),
-    buttonWidth: 230,
+Widget closeReviewButton() {
+  return SizedBox(
+        width: 230,
+    child: WonderCardButton(
+      onPressed: () {},
+      text: 'Close Preview',
+      backgroundColor: AppColors.primaryShade,
+      borderRadius: BorderRadius.circular(58),
+    ),
   );
 }
 
-WonderCardButton exchangeContactButton() {
-  return WonderCardButton(
-    onPressed: () {},
-    text: 'Exchange Contact',
-    backgroundColor: AppColors.primaryShade,
-    borderRadius: BorderRadius.circular(10),
-    buttonWidth: 158,
+Widget exchangeContactButton() {
+  return SizedBox(
+        width: 158,
+    child: WonderCardButton(
+      onPressed: () {},
+      text: 'Exchange Contact',
+      backgroundColor: AppColors.primaryShade,
+      borderRadius: BorderRadius.circular(10),
+    ),
   );
 }
 
-WonderCardButton saveContactButton2() {
-  return WonderCardButton(
-    onPressed: () {},
-    text: 'Save contact',
-    backgroundColor: AppColors.primaryShade,
-    borderRadius: BorderRadius.circular(10),
-    buttonWidth: 158,
+Widget saveContactButton2() {
+  return SizedBox(
+       width: 158,
+    child: WonderCardButton(
+      onPressed: () {},
+      text: 'Save contact',
+      backgroundColor: AppColors.primaryShade,
+      borderRadius: BorderRadius.circular(10),
+     
+    ),
   );
 }
 

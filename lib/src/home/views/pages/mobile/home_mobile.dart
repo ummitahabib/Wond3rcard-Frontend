@@ -31,7 +31,7 @@ class HomeBody extends HookConsumerWidget {
           final profileController = ref.watch(profileProvider);
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
-              await profileController.getProfile();
+              await profileController.getProfile(context);
             });
           }
         });

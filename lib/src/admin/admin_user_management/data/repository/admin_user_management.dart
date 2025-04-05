@@ -7,7 +7,7 @@ import 'package:wond3rcard/src/core/networking/api_client.dart';
 import 'package:wond3rcard/src/core/networking/end_points.dart';
 import 'package:wond3rcard/src/core/networking/request_res.dart';
 import 'package:wond3rcard/src/utils/util.dart';
-import 'package:http/http.dart' as http;
+import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 final adminUserManagementRepository = Provider(
     (ref) => AdminUserManagementRepository(client: ref.watch(apiProvider)));
@@ -20,7 +20,9 @@ class AdminUserManagementRepository {
 Future<RequestRes<List<ApiResponse>>> getAllUsers() async {
   try {
     final Dio dio = Dio(); // Ensure Dio is initialized
-    final String token = SessionString.accessTokenString;
+    final String? token =
+      StorageUtil.getString(key: SessionString.accessTokenString);
+
 
     final Response response = await dio.get(
       getUrl(Endpoints.allUser),

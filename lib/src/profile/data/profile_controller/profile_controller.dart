@@ -28,7 +28,7 @@ class ProfileNotifier extends ChangeNotifier {
 
   UserProfileResponse? profileData;
 
-  Future<UserProfileResponse?> getProfile() async {
+  Future<UserProfileResponse?> getProfile(BuildContext context) async {
     try {
       loading = true;
       final response = await ref.read(profileRepoProvider).getProfile();
@@ -46,7 +46,6 @@ class ProfileNotifier extends ChangeNotifier {
         StorageUtil.putString(
             key: SessionString.profileUrl,
             value: profileData!.payload.profile.profileUrl);
-
         log(profileData!.payload.profile.id);
         return profile;
       }

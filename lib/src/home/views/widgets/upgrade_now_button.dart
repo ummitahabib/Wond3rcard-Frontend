@@ -54,25 +54,29 @@ SizedBox personalProfileButton(
   );
 }
 
-Container qrCodeContainer({
+Widget qrCodeContainer({
   HeroIcons? icon,
   Color? iconColor,
   double? iconSize,
+  void Function()? onTap,
 }) {
-  return Container(
-    padding: const EdgeInsetsDirectional.all(6.6),
-    width: SpacingConstants.size40,
-    height: SpacingConstants.size40,
-    decoration: BoxDecoration(
-      color: AppColors.grayScale50,
-      borderRadius: BorderRadius.circular(
-        SpacingConstants.size15,
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsetsDirectional.all(6.6),
+      width: SpacingConstants.size40,
+      height: SpacingConstants.size40,
+      decoration: BoxDecoration(
+        color: AppColors.grayScale50,
+        borderRadius: BorderRadius.circular(
+          SpacingConstants.size15,
+        ),
       ),
-    ),
-    child: HeroIcon(
-      size: iconSize ?? 18.15,
-      icon ?? HeroIcons.qrCode,
-      color: iconColor ?? AppColors.badgeColor,
+      child: HeroIcon(
+        size: iconSize ?? 18.15,
+        icon ?? HeroIcons.qrCode,
+        color: iconColor ?? AppColors.badgeColor,
+      ),
     ),
   );
 }
@@ -495,7 +499,7 @@ class ConnectionsMedia extends HookConsumerWidget {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
-              await profileController.getProfile();
+              await profileController.getProfile(context);
             });
           }
         });

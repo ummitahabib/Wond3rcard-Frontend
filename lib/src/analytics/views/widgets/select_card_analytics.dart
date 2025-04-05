@@ -25,7 +25,7 @@ class SelectCardAnalytics extends HookConsumerWidget {
           if (cardController.cards.isEmpty) {
             Future.delayed(Duration.zero, () async {
               await cardController.getAllUsersCard();
-              await profileController.getProfile();
+              await profileController.getProfile(context);
             });
           }
         });

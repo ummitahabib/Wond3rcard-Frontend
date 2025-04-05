@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wond3rcard/src/admin/admin_analytics/views/admin_analytics.dart';
 import 'package:wond3rcard/src/admin/admin_cards/views/card_table.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/admin_dashboard.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop_view.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/views/admin_subscription.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/views/pages/create_subscription_screen.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/views/pages/get_subscription_ui.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/views/pages/manage_user_subscription.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/views/pages/subscription_settings.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/views/widgets/create_new_subscription_plan.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/views/widgets/review_confirmation_review.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/views/widgets/set_plan_limits_feature.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/pages/admin_user_management.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/views/pages/desktop/admin_create_new_user.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/views/pages/desktop/admin_edit_user.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/pages/desktop/user_screen.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/account_settings_widget.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/add_user_widget.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/additional_information_widget.dart';
+import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/review_widget.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/change_password/views/reset_password_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/forgot_password_otp_verification/views/pages/forgot_password_otp_verification_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/login/views/pages/login_main.dart';
@@ -34,6 +49,8 @@ import 'package:wond3rcard/src/onboarding/views/onboarding_main.dart';
 import 'package:wond3rcard/src/onboarding/views/onboarding_second_screen_main.dart';
 import 'package:wond3rcard/src/onboarding/views/onboarding_third_screen_main.dart';
 import 'package:wond3rcard/src/onboarding/views/widgets/get_started_onboarding_screen.dart';
+import 'package:wond3rcard/src/organization/views/pages/create_organization.dart';
+import 'package:wond3rcard/src/organization/views/pages/get_user_organization.dart';
 import 'package:wond3rcard/src/preview_card/views/preview_main.dart';
 import 'package:wond3rcard/src/privacy_security/views/pages/mobile/privacy_security_mobile.dart';
 import 'package:wond3rcard/src/profile/views/edit_profile.dart';
@@ -43,6 +60,7 @@ import 'package:wond3rcard/src/profile/views/widgets/q_and_a.dart';
 import 'package:wond3rcard/src/profile/views/widgets/terms_and_condition.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
+import 'package:flutter/foundation.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -51,85 +69,234 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 final GlobalKey<NavigatorState> _internalNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'internal');
 
-final GoRouter router = GoRouter(
+final GoRouter routerDesktop = GoRouter(
   navigatorKey: _rootNavigatorKey,
   routes: <RouteBase>[
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const OnboardingScreen();
+        return  const OnboardingScreen();
       },
-      routes: <RouteBase>[
-        ShellRoute(
-          navigatorKey: _shellNavigatorKey,
-          builder: (BuildContext context, GoRouterState state, Widget child) {
-            return AdminDashBoardScreen(child: child);
-          },
-          routes: <RouteBase>[
-            GoRoute(
+      routes:
+      
+       <RouteBase>[
+          ShellRoute(
+            navigatorKey: _shellNavigatorKey,
+            builder: (BuildContext context, GoRouterState state, Widget child) {
+              return AdminDashBoardScreen(child: child);
+            },
+            routes: <RouteBase>[
+              GoRoute(
+                path: RouteString.baseDashboard,
+                builder: (BuildContext context, GoRouterState state) {
+                  return BaseDashBoard();
+                },
+              ),
+              GoRoute(
+                path: '/admin-dashboard-desktop-view',
+                builder: (BuildContext context, GoRouterState state) {
+                  return AdminDashboardDesktopView();
+                },
+              ),
+              GoRoute(
+                path: '/user-management',
+                builder: (BuildContext context, GoRouterState state) {
+                  return AdminUserManagement();
+                },
+              ),
+              GoRoute(
+                path: '/card-management',
+                builder: (BuildContext context, GoRouterState state) {
+                  return CardManagementAdmin();
+                },
+              ),
+              GoRoute(
+                path: '/analytics',
+                builder: (BuildContext context, GoRouterState state) {
+                  return AdminAnalytics();
+                },
+              ),
+               GoRoute(
+            path: '/admin-subscription',
+            builder: (BuildContext context, GoRouterState state) {
+              return AdminSubscription();
+            },
+          ),
+              GoRoute(
+                path: '/security',
+                builder: (BuildContext context, GoRouterState state) {
+                  return Container();
+                },
+              ),
+            
+              GoRoute(
+                path: '/admin-manage-flag',
+                builder: (BuildContext context, GoRouterState state) {
+                  return Container();
+                },
+              ),
+              GoRoute(
+                path: '/admin-settings',
+                builder: (BuildContext context, GoRouterState state) {
+                  return Container();
+                },
+              ),
+              GoRoute(
+                path: '/add-user',
+                builder: (BuildContext context, GoRouterState state) {
+                  return Container();
+                },
+              ),
+                GoRoute(
+                path: RouteString.subscriptionReview,
+                builder: (BuildContext context, GoRouterState state) {
+                  return SubscriptionReviewAndConfirmation();
+                },
+              ),
+
+                GoRoute(
+                path: RouteString.suscriptionSettings,
+                builder: (BuildContext context, GoRouterState state) {
+                  return SubscriptionSettings();
+                },
+              ),
+
+
+
+ GoRoute(
+                path: RouteString.manageUserSubscription,
+                builder: (BuildContext context, GoRouterState state) {
+                  return ManageUserSubscription();
+                },
+              ),
+
+ GoRoute(
+                path: RouteString.createSubscription,
+                builder: (BuildContext context, GoRouterState state) {
+                  return CreateNewSubscriptionPlan();
+                },
+              ),
+
+               GoRoute(
+                path: RouteString.planLimitFeatures,
+                builder: (BuildContext context, GoRouterState state) {
+                  return SetPlanLimitsFeature();
+                },
+              ),
+
+          
+
+               GoRoute(
+                path: RouteString.adminCreateNewUser,
+                builder: (BuildContext context, GoRouterState state) {
+                  return AdminCreateNewUser();
+                },
+              ),
+
+
+               GoRoute(
+                path: RouteString.adminEditUser,
+                builder: (BuildContext context, GoRouterState state) {
+                  return AdminEditUser();
+                },
+              ),
+
+
+
+
               
-              path: '/base-dashboard',
-              builder: (BuildContext context, GoRouterState state) {
-                return BaseDashBoard();
-              },
+  GoRoute(
+                path: RouteString.createOrganization,
+                builder: (BuildContext context, GoRouterState state) {
+                  return UserOrganizationsScreen();
+                },
+              ),
               
-            ),
-            GoRoute(
-              path: '/admin-dashboard-desktop-view',
-              builder: (BuildContext context, GoRouterState state) {
-                return AdminDashboardDesktopView();
-              },
-            ),
-            GoRoute(
-              path: '/user-management',
-              builder: (BuildContext context, GoRouterState state) {
-                return AdminUserManagement();
-              },
-            ),
-            GoRoute(
-              path: '/card-management',
-              builder: (BuildContext context, GoRouterState state) {
-                return CardTableScreen();
-              },
-            ),
-            GoRoute(
-              path: '/analytics',
-              builder: (BuildContext context, GoRouterState state) {
-                return Container();
-              },
-            ),
-            GoRoute(
-              path: '/security',
-              builder: (BuildContext context, GoRouterState state) {
-                return Container();
-              },
-            ),
-            GoRoute(
-              path: '/admin-subscription',
-              builder: (BuildContext context, GoRouterState state) {
-                return Container();
-              },
-            ),
-            GoRoute(
-              path: '/admin-manage-flag',
-              builder: (BuildContext context, GoRouterState state) {
-                return Container();
-              },
-            ),
-            GoRoute(
-              path: '/admin-settings',
-              builder: (BuildContext context, GoRouterState state) {
-                return Container();
-              },
-            ),
-            GoRoute(
-              path: '/add-user',
-              builder: (BuildContext context, GoRouterState state) {
-                return Container();
-              },
-            ),
-          ],
-        ),
+
+                 GoRoute(
+                path: RouteString.addUserAccount,
+                builder: (BuildContext context, GoRouterState state) {
+                  return AddUserAccount();
+                },
+              ),
+
+                GoRoute(
+                path: RouteString.additionalInformation,
+                builder: (BuildContext context, GoRouterState state) {
+                  return AdditionalInformationWidget();
+                },
+              ),
+
+
+                 GoRoute(
+                path: RouteString.accountSettings,
+                builder: (BuildContext context, GoRouterState state) {
+                  return AccountSettings();
+                },
+              ),
+
+
+                 GoRoute(
+                path: RouteString.accountReview,
+                builder: (BuildContext context, GoRouterState state) {
+                  return ReviewAccount();
+                },
+              ),           
+
+              
+              
+            ],
+          ),
+
+           GoRoute(
+                path: RouteString.baseDashboard,
+                builder: (BuildContext context, GoRouterState state) {
+                  return BaseDashBoard();
+                },
+              ),
+          GoRoute(
+            path: '/admin-dashboard-desktop-view',
+            builder: (BuildContext context, GoRouterState state) {
+              return AdminDashboardDesktopView();
+            },
+          ),
+          GoRoute(
+            path: '/user-management',
+            builder: (BuildContext context, GoRouterState state) {
+              return AdminUserManagement();
+            },
+          ),
+          GoRoute(
+            path: '/analytics',
+            builder: (BuildContext context, GoRouterState state) {
+              return Container();
+            },
+          ),
+          GoRoute(
+            path: '/security',
+            builder: (BuildContext context, GoRouterState state) {
+              return Container();
+            },
+          ),
+         
+          GoRoute(
+            path: '/admin-manage-flag',
+            builder: (BuildContext context, GoRouterState state) {
+              return Container();
+            },
+          ),
+          GoRoute(
+            path: '/admin-settings',
+            builder: (BuildContext context, GoRouterState state) {
+              return Container();
+            },
+          ),
+          GoRoute(
+            path: '/add-user',
+            builder: (BuildContext context, GoRouterState state) {
+              return Container();
+            },
+          ),
         GoRoute(
           path: RouteString.getStarted,
           builder: (BuildContext context, GoRouterState state) {
@@ -226,12 +393,7 @@ final GoRouter router = GoRouter(
             return const MainDashboard();
           },
         ),
-        // GoRoute(
-        //   path: RouteString.colorPallete,
-        //   builder: (BuildContext context, GoRouterState state) {
-        //     return const ColorPaletteCard();
-        //   },
-        // ),
+      
         GoRoute(
           path: RouteString.font,
           builder: (BuildContext context, GoRouterState state) {
@@ -245,14 +407,7 @@ final GoRouter router = GoRouter(
           },
         ),
 
-        //        GoRoute(
-        //   path: RouteString.cardLayout1,
-        //   builder: (BuildContext context, GoRouterState state) {
-        //     return const CardLayout1(
-
-        //     );
-        //   },
-        // ),
+    
 
         GoRoute(
           path: RouteString.cardLayout1,
@@ -395,7 +550,5 @@ final GoRouter router = GoRouter(
         
 
         
-      ],
-    ),
-  ],
-);
+   ] ),  ],
+    );

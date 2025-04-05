@@ -59,13 +59,16 @@ class _CardLayout2State extends ConsumerState<CardLayout2> {
                 ],
               ),
               const SizedBox(height: 50),
-              WonderCardButton(
-                buttonWidth: 346,
-                variant: ButtonVariant.outline,
-                text: 'Change Card Layout',
-                onPressed: () => showLayoutSelection(context),
-                backgroundColor: AppColors.transparent,
-                borderColor: AppColors.grayScale,
+              SizedBox(
+                  width: 346,
+                child: WonderCardButton(
+                
+                  variant: ButtonVariant.outline,
+                  text: 'Change Card Layout',
+                  onPressed: () => showLayoutSelection(context),
+                  backgroundColor: AppColors.transparent,
+                  borderColor: AppColors.grayScale,
+                ),
               ),
               const SizedBox(height: 30),
               _buildColorSelector(cardColor),
@@ -156,27 +159,36 @@ class _CardLayout2State extends ConsumerState<CardLayout2> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        WonderCardButton(
-            backgroundColor: color,
-            buttonWidth: 65,
-            trailingIcon: const HeroIcon(HeroIcons.backward,
-                color: AppColors.defaultWhite, size: 16),
-            text: '',
-            onPressed: () {}),
-        WonderCardButton(
-            backgroundColor: color,
-            textColor: AppColors.defaultWhite,
-            buttonWidth: 136,
-            text: 'Preview',
-            onPressed: () {}),
-        WonderCardButton(
-            backgroundColor: color,
-            textColor: AppColors.defaultWhite,
-            buttonWidth: 136,
-            text: 'Next',
-            trailingIcon: const HeroIcon(HeroIcons.forward,
-                color: AppColors.defaultWhite, size: 16),
-            onPressed: () {}),
+        SizedBox(
+              width: 65,
+          child: WonderCardButton(
+              backgroundColor: color,
+          
+              trailingIcon: const HeroIcon(HeroIcons.backward,
+                  color: AppColors.defaultWhite, size: 16),
+              text: '',
+              onPressed: () {}),
+        ),
+        SizedBox(
+             width: 136,
+          child: WonderCardButton(
+              backgroundColor: color,
+              textColor: AppColors.defaultWhite,
+           
+              text: 'Preview',
+              onPressed: () {}),
+        ),
+        SizedBox(
+             width: 136,
+          child: WonderCardButton(
+              backgroundColor: color,
+              textColor: AppColors.defaultWhite,
+           
+              text: 'Next',
+              trailingIcon: const HeroIcon(HeroIcons.forward,
+                  color: AppColors.defaultWhite, size: 16),
+              onPressed: () {}),
+        ),
       ],
     );
   }

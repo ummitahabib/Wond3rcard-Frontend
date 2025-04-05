@@ -13,7 +13,6 @@ class LoginMobile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authController = ref.watch(authProvider);
 
     return Scaffold(
       body: Stack(
@@ -45,7 +44,7 @@ class LoginMobile extends HookConsumerWidget {
                   padding: const EdgeInsets.symmetric(
                     horizontal: size25,
                   ),
-                  child: LoginTextField(authController: authController),
+                  child: LoginTextField(),
                 ),
               ],
             ),

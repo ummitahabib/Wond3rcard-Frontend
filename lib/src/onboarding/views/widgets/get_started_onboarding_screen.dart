@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/authentication/data/controller/auth_controller.dart';
 import 'package:wond3rcard/src/onboarding/views/widgets/get_started_bg.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
@@ -13,8 +15,20 @@ class GetStartedOnboardingScreen extends HookConsumerWidget {
   const GetStartedOnboardingScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+ useEffect(() {
+  final authController = ref.read(authProvider);
+  authController.checkLoginStatus(context);
+  return null;
+}, []);
+
     return Scaffold(body: _getStartedStack(context));
   }
+
+
+
+
+
 
   Stack _getStartedStack(BuildContext context) {
     return Stack(
@@ -51,12 +65,15 @@ class GetStartedOnboardingScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: SpacingConstants.size15),
                   Center(
-                    child: WonderCardButton(
-                      buttonTextType: ButtonTextType.withForwardArrow,
-                      text: AppStrings.getStarted,
-                      textColor: AppColors.primaryShade,
-                      onPressed: () => context.go(RouteString.firstScreen),
-                      backgroundColor: AppColors.defaultWhite,
+                    child: SizedBox(
+                      height: 52,
+                      child: WonderCardButton(
+                        buttonTextType: ButtonTextType.withForwardArrow,
+                        text: AppStrings.getStarted,
+                        textColor: AppColors.primaryShade,
+                        onPressed: () => context.go(RouteString.firstScreen),
+                        backgroundColor: AppColors.defaultWhite,
+                      ),
                     ),
                   ),
                 ],

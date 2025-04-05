@@ -3,4 +3,5 @@ enum UserType {
   premium,
   team,
   business,
+  unknown
 }

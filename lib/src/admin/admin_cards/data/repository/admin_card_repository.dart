@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:wond3rcard/src/admin/admin_cards/data/model/admin_card_model.dart';
 import 'package:wond3rcard/src/core/networking/end_points.dart';
+import 'package:wond3rcard/src/utils/storage_utils.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 final cardRepositoryProvider = Provider<CardRepository>((ref) {
@@ -11,7 +12,9 @@ final cardRepositoryProvider = Provider<CardRepository>((ref) {
 
 class CardRepository {
   Future<List<CardModel>> fetchCards() async {
-             final String token = SessionString.accessTokenString;
+            final String? token =
+      StorageUtil.getString(key: SessionString.accessTokenString);
+
     try {
         final response = await http.get(
        headers: {

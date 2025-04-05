@@ -21,7 +21,7 @@ class EditProfileMobile extends HookConsumerWidget {
           final adminUserController = ref.read(profileProvider);
          
             Future.delayed(Duration.zero, () async {
-              await adminUserController.getProfile();
+              await adminUserController.getProfile(context);
             });
           
         });

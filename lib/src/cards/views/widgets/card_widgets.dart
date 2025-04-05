@@ -30,19 +30,25 @@ Container deleteCardWidget({Color? color}) {
             deleteCardConfirmation,
             style: WonderCardTypography.regularTextTitle1(),
           ),
-          WonderCardButton(
-            text: delete,
-            onPressed: () async {},
-            backgroundColor: AppColors.defaultWhite,
-            borderRadius: BorderRadius.circular(SpacingConstants.size8),
-            buttonWidth: size347,
+          SizedBox(
+              width: size347,
+            child: WonderCardButton(
+              text: delete,
+              onPressed: () async {},
+              backgroundColor: AppColors.defaultWhite,
+              borderRadius: BorderRadius.circular(SpacingConstants.size8),
+            
+            ),
           ),
-          WonderCardButton(
-            text: cancel,
-            onPressed: () async {},
-            backgroundColor: AppColors.grayScale,
-            borderRadius: BorderRadius.circular(SpacingConstants.size8),
-            buttonWidth: size347,
+          SizedBox(
+             width: size347,
+            child: WonderCardButton(
+              text: cancel,
+              onPressed: () async {},
+              backgroundColor: AppColors.grayScale,
+              borderRadius: BorderRadius.circular(SpacingConstants.size8),
+             
+            ),
           ),
         ]),
       ));
@@ -145,13 +151,15 @@ Container cardOptionWidget() {
   );
 }
 
-WonderCardButton saveContactButton() {
-  return WonderCardButton(
-    onPressed: () {},
-    text: saveContact,
-    backgroundColor: AppColors.primaryShade,
-    buttonWidth: size225,
-    borderRadius: BorderRadius.circular(SpacingConstants.size10),
+Widget saveContactButton() {
+  return SizedBox(
+       width: size225,
+    child: WonderCardButton(
+      onPressed: () {},
+      text: saveContact,
+      backgroundColor: AppColors.primaryShade,
+      borderRadius: BorderRadius.circular(SpacingConstants.size10),
+    ),
   );
 }
 

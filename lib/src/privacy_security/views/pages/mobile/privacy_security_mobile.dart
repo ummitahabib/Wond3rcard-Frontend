@@ -23,7 +23,7 @@ class PrivacySecurityScreenMobile extends HookConsumerWidget {
           final adminUserController = ref.read(profileProvider);
          
             Future.delayed(Duration.zero, () async {
-              await adminUserController.getProfile();
+              await adminUserController.getProfile(context);
             });
           
         });
@@ -34,68 +34,86 @@ class PrivacySecurityScreenMobile extends HookConsumerWidget {
     return Scaffold(appBar: _appBar(), body: _body(adminUserController.profileData!));
   }
 
-  Column _body(UserProfileResponse profile) {
-    return Column(
-      children: [
-        ReusableProfileHeader(profile: profile,),
-        Container(
-            width: size355,
-            height: size308,
-            decoration: BoxDecoration(
-                color: AppColors.defaultWhite,
-                borderRadius: BorderRadius.circular(size25)),
-            child: Column(
-              children: [
-                reusableRowWidget(
-                  icon: HeroIcons.shieldExclamation,
-                  onTap: () {},
-                  text: twoFactorAuthText,
-                ),
-                reusableRowWidget(
-                  icon: HeroIcons.shieldExclamation,
-                  onTap: () {},
-                  text: multiFactorAuthText,
-                ),
-                reusableRowWidget(
-                  icon: HeroIcons.shieldExclamation,
-                  onTap: () {},
-                  text: changePasswordText,
-                ),
-                reusableRowWidget(
-                  icon: HeroIcons.trash,
-                  onTap: () {},
-                  text: deleteAccountText,
-                ),
-              ],
-            )),
-      ],
+    Widget _body(UserProfileResponse profile) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16, bottom: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ReusableProfileHeader(profile: profile,),
+          SizedBox(height: 30,),
+          Container(
+              width: size355,
+              height: 400,
+              decoration: BoxDecoration(
+                  color: AppColors.defaultWhite,
+                  borderRadius: BorderRadius.circular(size25)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  reusableRowWidget(
+                    icon: HeroIcons.shieldExclamation,
+                    onTap: () {},
+                    text: twoFactorAuthText,
+                  ),
+                  SizedBox(height: 10,),
+                  reusableRowWidget(
+                    icon: HeroIcons.shieldExclamation,
+                    onTap: () {},
+                    text: multiFactorAuthText,
+                  ),
+                     SizedBox(height: 10,),
+                  reusableRowWidget(
+                    icon: HeroIcons.shieldExclamation,
+                    onTap: () {},
+                    text: changePasswordText,
+                  ),
+                     SizedBox(height: 10,),
+                  reusableRowWidget(
+                    icon: HeroIcons.trash,
+                    onTap: () {},
+                    text: deleteAccountText,
+                  ),
+                ],
+              )),
+        ],
+      ),
     );
   }
 
   AppBar _appBar() {
     return AppBar(
-      leading: Container(
-        width: size40,
-        height: SpacingConstants.size40,
-        decoration: BoxDecoration(
-            color: AppColors.defaultWhite,
-            borderRadius: BorderRadius.circular(size8)),
-        child: Center(
-          child: Icon(
-            Icons.arrow_back_ios,
+      title:  Text(
+          privacyAndSecurityText,
+          style: WonderCardTypography.boldTextH5(
+            fontSize: SpacingConstants.size15,
             color: AppColors.grayScale,
           ),
         ),
-      ),
-      actions: [
-        Text(
-          privacyAndSecurityText,
-          style: WonderCardTypography.boldTextH5(
-            fontSize: SpacingConstants.size23,
-            color: AppColors.grayScale,
-          ),
-        )
-      ],
+      centerTitle: true,
+      leading: reusableBackIcon(),
+     
     );
   }
+
+
 }
+
+
+  Container reusableBackIcon() {
+    return Container(
+      width: size40,
+      height: SpacingConstants.size40,
+      decoration: BoxDecoration(
+          color: AppColors.defaultWhite,
+          borderRadius: BorderRadius.circular(size8)),
+      child: Center(
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: AppColors.grayScale,
+        ),
+      ),
+    );
+  }

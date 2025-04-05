@@ -24,7 +24,7 @@ class ProfileScreenMobile extends HookConsumerWidget {
           final adminUserController = ref.read(profileProvider);
          
             Future.delayed(Duration.zero, () async {
-              await adminUserController.getProfile();
+              await adminUserController.getProfile(context);
             });
           
         });
@@ -170,7 +170,8 @@ class ReusableProfileHeader extends StatelessWidget {
             ),
             child: Text(
               textAlign: TextAlign.center,
-              profile.payload.user.userType,
+              profile.payload.user.userTier.plan,
+              //userType,
               style: TextStyle(
                 fontFamily: 'Barlow',
                 fontSize: 8.59,

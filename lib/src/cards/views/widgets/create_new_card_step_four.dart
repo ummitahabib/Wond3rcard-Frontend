@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_card_reusable_app_bar.dart';
@@ -30,10 +32,10 @@ class CreateNewCardStepFour extends HookConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 child: WonderCardButton(
                   showLoader: cardController.loading,
-                  text: 'Submit',
+                  text: 'Save and Continue',
                   onPressed: () async {
                     try {
-                      await ref.watch(cardProvider).createCard(context);
+                              context.go(RouteString.createNewCardStepFive);
                     } catch (e) {
                       print('Error: $e');
                     }
@@ -48,35 +50,55 @@ class CreateNewCardStepFour extends HookConsumerWidget {
   }
 }
 
+// // GestureDetector uploadPhotoMethod({
+
+//   required CardNotifier cardController,
+// }) {
+//   return GestureDetector(
+//     onTap: () => cardController.pickImage(),
+//     child: Center(
+//       child: cardController.uploadedImage != null || cardController.webImage != null
+//           ? SizedBox(
+//               width: 94,
+//               height: 94,
+//               child: ClipRRect(
+//                 borderRadius: BorderRadius.circular(100),
+//                 child: kIsWeb
+//                     ? Image.memory(cardController.webImage!, fit: BoxFit.cover)
+//                     : Image.file(cardController.uploadedImage!, fit: BoxFit.cover),
+//               ),
+//             )
+//           : Image.asset(
+//               ImageAssets.profileImage,
+//               width: 94,
+//               height: 94,
+//             ),
+//     ),
+//   );
+// }
+
+
 GestureDetector uploadPhotoMethod({
   required CardNotifier cardController,
-  Function()? onTap,
 }) {
   return GestureDetector(
-    onTap: onTap ??
-        () async {
-          final File? pickedFile = await FileUploadUtility.pickImage();
-          if (pickedFile != null) {
-            cardController.setUploadedImage(pickedFile);
-          }
-        },
+    onTap: () async {
+      await cardController.pickImage();
+    },
     child: Center(
-      child: cardController.uploadedImage != null
+      child: (cardController.cardPhoto != null || cardController.webCardPhoto != null)
           ? SizedBox(
               width: 94,
               height: 94,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(SpacingConstants.size100),
-                child: Image.file(
-                  cardController.uploadedImage!,
-                  width: SpacingConstants.size250,
-                  height: SpacingConstants.size200,
-                  fit: BoxFit.cover,
-                ),
+                borderRadius: BorderRadius.circular(100),
+                child: kIsWeb
+                    ? Image.memory(cardController.webCardPhoto!, fit: BoxFit.cover)
+                    : Image.file(cardController.cardPhoto!, fit: BoxFit.cover),
               ),
             )
           : Image.asset(
-              ImageAssets.profileImage,
+             ImageAssets.profileImage,
               width: 94,
               height: 94,
             ),
