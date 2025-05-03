@@ -21,7 +21,7 @@ class CardRepository {
   CardRepository({required ApiClient client}) : _client = client;
 
   final String apiUrl =
-      "https://wond3rd-card-apis-q7hk5.ondigitalocean.app/api/cards/create";
+      "https://wond3rcard-backend.onrender.com/api/cards/create";
   late final Map<String, String> headers;
 
   Future<void> saveCard(CardModel card) async {
@@ -48,26 +48,26 @@ class CardRepository {
 
 
 
-  Future<RequestRes> createCard(CardModel card) async {
-        final String? authToken =
-        StorageUtil.getString(key: SessionString.accessTokenString);
-    try {
-      final formData = FormData.fromMap(card.toFormData() as Map<String, dynamic>);
-      final response = await _client
-          .put(getUrl(Endpoints.createCard), data: formData, options: Options(
-          headers: {
-            'Content-type': 'application/json',
-            "Accept": "application/json",
-            'Authorization': 'Bearer $authToken',
-          },
-        ),
-          )
-          .then((value) => value);
-      return RequestRes(response: response);
-    } catch (e) {
-      return RequestRes(error: ErrorRes(message: e.toString()));
-    }
+Future<RequestRes> createCard(FormData formData) async {
+  final String? authToken = StorageUtil.getString(key: SessionString.accessTokenString);
+  try {
+    final response = await _client.put(
+      getUrl(Endpoints.createCard),
+      data: formData,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $authToken',
+        },
+      ),
+    );
+    return RequestRes(response: response);
+  } catch (e) {
+    return RequestRes(error: ErrorRes(message: e.toString()));
   }
+}
+
 
   Future<RequestRes> createCardOrganization(
       Map<String, dynamic> requestBody) async {

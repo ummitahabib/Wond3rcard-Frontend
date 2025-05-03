@@ -10,12 +10,11 @@ class TransactionScreen extends ConsumerStatefulWidget {
 }
 
 class _TransactionScreenState extends ConsumerState<TransactionScreen> {
-  String selectedProvider = 'manual'; // Default provider
+  String selectedProvider = 'manual';
 
   @override
   void initState() {
     super.initState();
-    // Load transactions for default provider
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(transactionsProvider.notifier).getTransactions(selectedProvider);
     });
@@ -69,12 +68,14 @@ class _TransactionScreenState extends ConsumerState<TransactionScreen> {
                         elevation: 2,
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListTile(
-                          title: Text("Transaction ID: ${transaction.transactionId}"),
+                          title: Text(
+                              "Transaction ID: ${transaction.transactionId}"),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("User ID: ${transaction.userId}"),
-                              Text("Amount: \$${transaction.amount.toStringAsFixed(2)}"),
+                              Text(
+                                  "Amount: \$${transaction.amount.toStringAsFixed(2)}"),
                               Text("Provider: ${transaction.provider}"),
                               Text("Date: ${transaction.createdAt.toLocal()}"),
                             ],
@@ -86,7 +87,8 @@ class _TransactionScreenState extends ConsumerState<TransactionScreen> {
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) => Center(
-                  child: Text("Error: $error", style: const TextStyle(color: Colors.red)),
+                  child: Text("Error: $error",
+                      style: const TextStyle(color: Colors.red)),
                 ),
               ),
             ),

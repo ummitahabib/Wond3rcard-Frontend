@@ -13,7 +13,6 @@ import 'package:wond3rcard/src/admin/admin_dashboard/widgets/admin_dashboard_pag
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/user_type_filter.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 
-
 class CardManagementAdmin extends ConsumerWidget {
   const CardManagementAdmin({super.key});
 
@@ -24,7 +23,7 @@ class CardManagementAdmin extends ConsumerWidget {
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
-              Padding(
+            Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -32,16 +31,14 @@ class CardManagementAdmin extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 7,
-                    child: ManageUserTypeAndRecentlyJoinedWidget()),
-                    SizedBox(width: 15,),
-                  Expanded(
-                    flex: 3,
-                    child: RecentlyCreatedMainWidget()),
+                      flex: 7, child: ManageUserTypeAndRecentlyJoinedWidget()),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(flex: 3, child: RecentlyCreatedMainWidget()),
                 ],
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(10),
               child: CardTableScreen(),
@@ -53,17 +50,12 @@ class CardManagementAdmin extends ConsumerWidget {
   }
 }
 
-
-// CardTableScreen Class
 class CardTableScreen extends ConsumerWidget {
   const CardTableScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // State to track selected subscription filter
     final selectedFilter = ValueNotifier<String>('All');
-
-    // Watch card state from the controller
     final cardState = ref.watch(cardControllerProvider);
 
     return cardState.when(
@@ -74,7 +66,6 @@ class CardTableScreen extends ConsumerWidget {
 
         return Column(
           children: [
-            // Subscription Filter and Search Bar
             ValueListenableBuilder<String>(
               valueListenable: selectedFilter,
               builder: (context, value, _) {
@@ -94,9 +85,7 @@ class CardTableScreen extends ConsumerWidget {
                   ),
                   child: Row(
                     children: [
-                      // Subscription Filter Buttons
                       Row(
-                        // this will be base on card type
                         children: ['All', 'personal', 'Premium', 'Business']
                             .map((type) => WonderCardButton(
                                   onPressed: () => selectedFilter.value = type,
@@ -111,16 +100,9 @@ class CardTableScreen extends ConsumerWidget {
                                 ))
                             .toList(),
                       ),
-
-                      // Dynamic Date Display (Assuming it shows the current date range)
                       const DynamicDateText(),
-
                       const Spacer(),
-
-                      // Search Field (Assuming it's for card name, owner, etc.)
                       const ResponsiveSearchTextField(),
-
-                      // Document Icon
                       const HeroIcon(HeroIcons.document),
                     ],
                   ),
@@ -128,12 +110,9 @@ class CardTableScreen extends ConsumerWidget {
               },
             ),
             const SizedBox(height: 10),
-
-            // Filtered Data Table
             ValueListenableBuilder<String>(
               valueListenable: selectedFilter,
               builder: (context, value, _) {
-                // Filter cards based on the selected subscription type
                 final filteredCards = _filterCards(cards, value);
                 return _buildTable(filteredCards);
               },
@@ -146,13 +125,11 @@ class CardTableScreen extends ConsumerWidget {
     );
   }
 
-  /// Helper method to filter cards by subscription type
   List<CardModel> _filterCards(List<CardModel> cards, String filter) {
-    if (filter == 'All') return cards; // No filter applied
+    if (filter == 'All') return cards;
     return cards.where((card) => card.cardType == filter).toList();
   }
 
-  /// DataTable builder
   Widget _buildTable(List<CardModel> cards) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -195,10 +172,8 @@ class CardTableScreen extends ConsumerWidget {
     );
   }
 
-  /// Builds a DataRow for each card
   DataRow _buildDataRow(CardModel card) {
     return DataRow(cells: [
-      // Card Profile (Image or Placeholder)
       DataCell(
         card.cardPictureUrl != null
             ? Image.network(
@@ -211,44 +186,28 @@ class CardTableScreen extends ConsumerWidget {
               )
             : const Icon(Icons.image_not_supported),
       ),
-
-      // Card Details
       DataCell(Text(card.cardName ?? 'N/A')),
       DataCell(Text(card.contactInfo.email ?? 'N/A')),
       DataCell(Text(card.contactInfo.phone ?? 'N/A')),
       DataCell(Text(card.ownerId ?? 'N/A')),
-      DataCell(Text(card.sharedWith.toString() ?? '0')), 
-       DataCell(Text(card.sharedWith.toString() ?? '0')), 
+      DataCell(Text(card.sharedWith.toString() ?? '0')),
+      DataCell(Text(card.sharedWith.toString() ?? '0')),
       DataCell(Text(card.cardType ?? 'N/A')),
       DataCell(Text(card.active ? 'Active' : 'Inactive')),
     ]);
   }
 }
 
-
-
-
-
-
-
-
-
-
-
 class AdminDashboardCardListWidget extends HookConsumerWidget {
   const AdminDashboardCardListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-       
-      final cardState = ref.watch(cardControllerProvider);
+    final cardState = ref.watch(cardControllerProvider);
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(
         children: [
-
-          
-        
           Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 31),
             decoration: BoxDecoration(
@@ -277,11 +236,11 @@ class AdminDashboardCardListWidget extends HookConsumerWidget {
                       fontWeight: FontWeight.w400,
                     ),
                     children: [
-                     TextSpan(
+                      TextSpan(
                         text: cardState.when(
-                          data: (cards) => '(${cards.length})', 
-                          loading: () => '(...)', 
-                          error: (_, __) => '(Error)', 
+                          data: (cards) => '(${cards.length})',
+                          loading: () => '(...)',
+                          error: (_, __) => '(Error)',
                         ),
                       ),
                     ],

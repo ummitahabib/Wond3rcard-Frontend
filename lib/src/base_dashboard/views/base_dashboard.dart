@@ -38,7 +38,7 @@ class _BaseDashBoardState extends ConsumerState<BaseDashBoard> {
 
     final Map<int, Widget> widgetMap = {
       UserType.normal.getValue(): MainDashboard(),
-      UserType.premium.getValue(): AdminDashboardDesktopView(),
+      UserType.premium.getValue(): MainDashboard(),
       UserType.team.getValue(): MainDashboard(),
       UserType.business.getValue(): MainDashboard(),
          UserType.admin.getValue(): AdminDashboardDesktopView(),

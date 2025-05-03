@@ -1,8 +1,8 @@
 class Endpoints {
   static const String devBaseUrl =
-      "https://wond3rd-card-apis-q7hk5.ondigitalocean.app/api/";
+      "https://wond3rcard-backend.onrender.com/api/";
   static const String prodBaseUrl =
-      "https://wond3rd-card-apis-q7hk5.ondigitalocean.app/api/";
+      "https://wond3rcard-backend.onrender.com/api/";
   static bool isLiveEnvironment = false;
   static String baseUrl = isLiveEnvironment ? prodBaseUrl : devBaseUrl;
   static const String login = "auth/sign-in";

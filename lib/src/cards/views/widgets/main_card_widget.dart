@@ -55,7 +55,7 @@ class _MainCardWidgetState extends ConsumerState<MainCardWidget> {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
               await profileController.getProfile(context);
-              await ref.read(cardProvider).getAUsersCard(context);
+              await ref.read(cardProvider).getAUsersCard(context, '');
             });
           }
         });
@@ -316,9 +316,7 @@ class MyGridView extends HookConsumerWidget {
       Future.delayed(Duration.zero, () async {
         try {
           await ref.read(socialProvider).getSocialMedia(context);
-        } catch (error) {
-          // Handle errors if necessary
-        }
+        } catch (error) {}
       });
       return null;
     }, []);
@@ -345,16 +343,13 @@ class MyGridView extends HookConsumerWidget {
                 final savedUsername = data['username'] ?? 'Enter your username';
                 final savedBaseUrl = data['baseUrl'] ?? '';
                 final savedName = data['controllerName'] ?? 'facebook';
-
-                // Check if `socialMedia.name` contains the `savedBaseUrl`
                 final titleToDisplay = socialMedia.name.contains(savedBaseUrl)
                     ? socialMedia.name
                     : savedUsername;
 
                 return SocialMediaWidget(
-                  titleText: savedName, // Display the saved name
-                  image:
-                      savedBaseUrl, // Display the saved base URL as the image
+                  titleText: savedName,
+                  image: savedBaseUrl,
                 );
               },
             );

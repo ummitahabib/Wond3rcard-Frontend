@@ -1,4 +1,3 @@
-// Request Model: AddMemberRequest
 import 'package:wond3rcard/src/organization/data/model/member_model.dart';
 
 class AddMemberRequest {
@@ -13,7 +12,6 @@ class AddMemberRequest {
       };
 }
 
-// Response Model: Organization (Reusing existing fields)
 class Organization {
   final String id;
   final String creatorId;
@@ -53,5 +51,3 @@ class Organization {
     );
   }
 }
-
-

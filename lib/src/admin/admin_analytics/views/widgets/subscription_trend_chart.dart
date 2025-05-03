@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:wond3rcard/src/admin/admin_analytics/views/admin_analytics.dart';
 import 'package:wond3rcard/src/utils/util.dart';
@@ -39,94 +38,91 @@ class _SubscriptionTrendChartState extends State<SubscriptionTrendChart> {
               itemCount: subscriptions.length,
               itemBuilder: (context, index) {
                 final subscription = subscriptions[index];
-            
+
                 return Column(
                   children: [
                     Container(
                       padding: EdgeInsets.all(16),
-                       decoration: BoxDecoration(
+                      decoration: BoxDecoration(
                         color: const Color(0xFFEFEFEF),
                         borderRadius: BorderRadius.circular(5),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0x0F000000), 
+                            color: const Color(0x0F000000),
                             blurRadius: 48,
                             offset: const Offset(0, 2),
                           ),
                         ],
                       ),
-                      child: 
-                      Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  subscription.planName,
+                                  style: WonderCardTypography.boldTextBody(
+                                    color: Color(0xff1E2022),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
-                                  children:[
-                                  Text(
-                                    subscription.planName, style: WonderCardTypography.boldTextBody(
-                                      color: Color(0xff1E2022), fontSize:16 , fontWeight: FontWeight.w600,
-                                    ),
-                                    
-                                  ),  
-                                
-                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                       children: [
-                       Text(
-                        '${subscription.quantity}', style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xff77838F),
-                          
-                        )
-                       ),
-                      
-                        Text(
-                        '%${subscription.percentage}', style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xff6D41CA),
-                          
-                        )
-                       ),
-                                       ],
-                                     )
-                                ]),
-                              SizedBox(height: 18,),
-                            Stack(
                                   children: [
-                                    Container(
-                                      width: 519.84,
-                                      height: 8.33,
-                                      decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(7.5),
-                                      ),
-                                    ),
-                                    // Inner Purple Container
-                                    Positioned(
-                                      left: 0, // Align to the left of the outer container
-                                      child: Container(
-                      width: 519.84 * (subscription.percentage / 100),
-                      height: 8.33,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF402577), // Purple color
-                        borderRadius: BorderRadius.circular(7.5),
-                      ),
-                                      ),
-                                    ),
+                                    Text('${subscription.quantity}',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff77838F),
+                                        )),
+                                    Text('%${subscription.percentage}',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xff6D41CA),
+                                        )),
                                   ],
+                                )
+                              ]),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          Stack(
+                            children: [
+                              Container(
+                                width: 519.84,
+                                height: 8.33,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(7.5),
                                 ),
-                              
-                              
+                              ),
+                              Positioned(
+                                left: 0,
+                                child: Container(
+                                  width:
+                                      519.84 * (subscription.percentage / 100),
+                                  height: 8.33,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF402577),
+                                    borderRadius: BorderRadius.circular(7.5),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
-                SizedBox(height: 13,),
+                    SizedBox(
+                      height: 13,
+                    ),
                   ],
                 );
               },

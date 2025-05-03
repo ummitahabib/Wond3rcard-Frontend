@@ -10,3 +10,4 @@ Future<void> main() async {
   await StorageUtil.init();
   runApp(const ProviderScope(child: AppWidget()));
 }
+

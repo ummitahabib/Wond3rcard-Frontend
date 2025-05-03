@@ -19,7 +19,6 @@ class HeaderInterceptors extends Interceptor {
       "Content-Type": "application/json",
     });
 
-    // Add Authorization header only if the request requires it
     if (!options.uri.toString().contains('/sign-up') &&
         !options.uri.toString().contains('/login')) {
       String? token = await getAuthToken();
@@ -28,12 +27,10 @@ class HeaderInterceptors extends Interceptor {
       }
     }
 
-    // Handle special cases for multipart/form-data requests
     if (options.uri.toString().contains('/driver/register')) {
       options.headers['Content-Type'] = 'multipart/form-data';
     }
 
-    // Log request for debugging
     print("Request to ${options.uri} with headers: ${options.headers}");
 
     return handler.next(options);
@@ -41,25 +38,21 @@ class HeaderInterceptors extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // Log response for debugging
     print("Response from ${response.requestOptions.uri}: ${response.data}");
     return handler.next(response);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    // Handle 401 errors for token refresh
     if (err.response?.statusCode == 401) {
       final newToken = await refreshToken();
       if (newToken != null) {
-        // Retry the failed request with the new token
         err.requestOptions.headers['Authorization'] = 'Bearer $newToken';
         final clonedRequest = await Dio().fetch(err.requestOptions);
         return handler.resolve(clonedRequest);
       }
     }
 
-    // Log error for debugging
     print("Error during request to ${err.requestOptions.uri}: ${err.message}");
     return handler.next(err);
   }
@@ -68,9 +61,8 @@ class HeaderInterceptors extends Interceptor {
     final String? refreshedToken =
         StorageUtil.getString(key: SessionString.refreshTokenString);
 
-    // Simulate refreshing the token
     print("Refreshing token...");
-    await Future.delayed(const Duration(seconds: 1)); // Simulated delay
-    return refreshedToken; // Replace with real logic
+    await Future.delayed(const Duration(seconds: 1));
+    return refreshedToken;
   }
 }

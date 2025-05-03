@@ -5,9 +5,9 @@ import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/bu
 import 'package:wond3rcard/src/utils/util.dart';
 
 class AdminEditUser extends ConsumerWidget {
-   AdminEditUser({super.key});
+  AdminEditUser({super.key});
 
-final String routeName = RouteString.adminEditUser;
+  final String routeName = RouteString.adminEditUser;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,7 +41,6 @@ final String routeName = RouteString.adminEditUser;
             ),
           ),
           Container(
-             // margin: const EdgeInsets.only(top: 208, left: 434),
               padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 19),
               decoration: BoxDecoration(
                 color: AppColors.defaultWhite,
@@ -60,7 +59,6 @@ final String routeName = RouteString.adminEditUser;
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                      //width: 104,
                       height: 44,
                       child: WonderCardButton(
                           borderColor: AppColors.grayScale700,
@@ -76,7 +74,6 @@ final String routeName = RouteString.adminEditUser;
                     width: 5,
                   ),
                   SizedBox(
-                      //width: 157,
                       height: 44,
                       child: WonderCardButton(
                           borderColor: AppColors.grayScale700,
@@ -92,7 +89,6 @@ final String routeName = RouteString.adminEditUser;
                     width: 5,
                   ),
                   SizedBox(
-                     // width: 185,
                       height: 44,
                       child: WonderCardButton(
                           leadingIcon: Padding(
@@ -111,7 +107,6 @@ final String routeName = RouteString.adminEditUser;
                     width: 5,
                   ),
                   SizedBox(
-                    //  width: 185,
                       height: 44,
                       child: WonderCardButton(
                           borderColor: AppColors.grayScale700,
@@ -124,107 +119,106 @@ final String routeName = RouteString.adminEditUser;
                           text: 'Delete  Selected',
                           onPressed: () {})),
                 ],
-              ))
-     
-    , 
-     Padding(
-       padding: const EdgeInsets.all(16),
-       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          userDetailsWidget(),
-         
-            Container(
-              width: 836,
-       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 19),
-       decoration: BoxDecoration(
-         color: Colors.white,
-         borderRadius: BorderRadius.circular(8),
-         boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.15), 
-        blurRadius: 4,
-        spreadRadius: 0,
-        offset: const Offset(0, 0),
-      ),
-         ],
-       ),
-       child: 
-       Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-         children: [
-           Row(children: [
-            Text('User information', style: WonderCardTypography.boldTextH5(
-              fontSize: 23,
-              color: Color(0xff3A3541),
-            )),
-            Spacer(),
-           
-            SizedBox(
-              height: 40,
-              child: WonderCardButton(
-                
-                leadingIcon: HeroIcon(HeroIcons.pencil, color: AppColors.defaultWhite, size: 24,),
-                text: 'Edit Profile', onPressed: (){}),
-            )
-           ],),
-        SizedBox(height: 24,),
-
-        Container(
-
-  padding: const EdgeInsets.all(20),
-  decoration: BoxDecoration(
-    color: Colors.white, 
-    borderRadius: BorderRadius.circular(8),
-    border: Border.all(color: Color(0xFFBDBDBD), width: 1), 
-  ),
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-    children: [
-      Row(
-        
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-        headerAndTilteText(title: 'First Name', subTitle: 'Ummeeta'),
-        Spacer(),
-         headerAndTilteText(title: 'Surname', subTitle: 'Habib')
-      ],),
-
-      SizedBox(height: 25,),
-
-      Row(children: [
-        headerAndTilteText(title: 'Personal Email', subTitle: 'Example@gmail.com'),
-        Spacer(),
-         headerAndTilteText(title: 'Mobile', subTitle: '08123456789')
-      ],),
-      
-    ],
-  ),
-)
-
-        
-         ],
-       ),
-        
-        
-        
+              )),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                userDetailsWidget(),
+                Container(
+                  width: 836,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 18, horizontal: 19),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 4,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Text('User information',
+                              style: WonderCardTypography.boldTextH5(
+                                fontSize: 23,
+                                color: Color(0xff3A3541),
+                              )),
+                          Spacer(),
+                          SizedBox(
+                            height: 40,
+                            child: WonderCardButton(
+                                leadingIcon: HeroIcon(
+                                  HeroIcons.pencil,
+                                  color: AppColors.defaultWhite,
+                                  size: 24,
+                                ),
+                                text: 'Edit Profile',
+                                onPressed: () {}),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          border:
+                              Border.all(color: Color(0xFFBDBDBD), width: 1),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                headerAndTilteText(
+                                    title: 'First Name', subTitle: 'Ummeeta'),
+                                Spacer(),
+                                headerAndTilteText(
+                                    title: 'Surname', subTitle: 'Habib')
+                              ],
+                            ),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            Row(
+                              children: [
+                                headerAndTilteText(
+                                    title: 'Personal Email',
+                                    subTitle: 'Example@gmail.com'),
+                                Spacer(),
+                                headerAndTilteText(
+                                    title: 'Mobile', subTitle: '08123456789')
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           )
-       
-       
-        ],
-       ),
-
-
-
-     )
-     
         ],
       ),
     );
@@ -232,179 +226,165 @@ final String routeName = RouteString.adminEditUser;
 
   Container userDetailsWidget() {
     return Container(
-       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 19),
-       decoration: BoxDecoration(
-         color: Colors.white,
-         borderRadius: BorderRadius.circular(8),
-         boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.15), 
-        blurRadius: 4,
-        spreadRadius: 0,
-        offset: const Offset(0, 0),
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 19),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 4,
+            spreadRadius: 0,
+            offset: const Offset(0, 0),
+          ),
+        ],
       ),
-         ],
-       ),
-     
-          child: 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 19),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-               SizedBox(
-                width: 100,
-                height: 100,
-                 child: CircleAvatar(backgroundColor: AppColors.primaryShade, 
-                 
-                 ),
-               ),
-               Text('user name', style: TextStyle(
-            
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 19),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: CircleAvatar(
+                backgroundColor: AppColors.primaryShade,
+              ),
+            ),
+            Text(
+              'user name',
+              style: TextStyle(
                 fontFamily: 'Barlow',
-            fontWeight: FontWeight.w600,
-            fontSize: 24,
-            
-            
-               ),),
-               SizedBox(height: 8),
-               Text(
-                textAlign: TextAlign.center,
-                'user@gmail.com', style: TextStyle(
-                
+                fontWeight: FontWeight.w600,
+                fontSize: 24,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              textAlign: TextAlign.center,
+              'user@gmail.com',
+              style: TextStyle(
                 fontFamily: 'Barlow',
-            fontWeight: FontWeight.w400,
-            fontSize: 16,
-            color: AppColors.grayScale500,
-            
-               ),),
-               SizedBox(height: 10),
-               SizedBox(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color: AppColors.grayScale500,
+              ),
+            ),
+            SizedBox(height: 10),
+            SizedBox(
                 height: 26,
                 child: WonderCardButton(
-                backgroundColor: AppColors.warning,
-                textColor: AppColors.grayScale800,
-                leadingIcon: Icon(Icons.workspace_premium, color: AppColors.grayScale800),
-                text: 'Premium', onPressed: (){})),
-            
-            
-                Divider(thickness: 1, color: Color(0xffDDDDDD),)
-            ,   SizedBox(height: 15,),
-            
-                reusableEditUserText(),
-            
-                Divider(thickness: 1, color: Color(0xffDDDDDD),),
-                SizedBox(height: 15,),
-            
-             reusableEditUserText(
-              title: 'Last Login',
-              subTitle: '24- Oct-2024'
-             ),
-                SizedBox(height: 15,),
-            
-               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                 children: [
-                   Text(
-                      textAlign: TextAlign.center,
-                      'Status', style: TextStyle(
-                        color: Color(0xff5B5B5B),
-                   
-                   
-                        fontFamily: 'Barlow',
-                   fontWeight: FontWeight.w400,
-                   fontSize: 16,
-                   
-                   
-                      ),),
-                      SizedBox(height: 4,),
-            
-                      SizedBox(
-                        height: 24,
-                        child: WonderCardButton(
-                          backgroundColor: AppColors.success,
-                          text: 'Active', onPressed: (){}))
-            
-                 ],
-               ),
-                
+                    backgroundColor: AppColors.warning,
+                    textColor: AppColors.grayScale800,
+                    leadingIcon: Icon(Icons.workspace_premium,
+                        color: AppColors.grayScale800),
+                    text: 'Premium',
+                    onPressed: () {})),
+            Divider(
+              thickness: 1,
+              color: Color(0xffDDDDDD),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            reusableEditUserText(),
+            Divider(
+              thickness: 1,
+              color: Color(0xffDDDDDD),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            reusableEditUserText(title: 'Last Login', subTitle: '24- Oct-2024'),
+            SizedBox(
+              height: 15,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  textAlign: TextAlign.center,
+                  'Status',
+                  style: TextStyle(
+                    color: Color(0xff5B5B5B),
+                    fontFamily: 'Barlow',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                SizedBox(
+                    height: 24,
+                    child: WonderCardButton(
+                        backgroundColor: AppColors.success,
+                        text: 'Active',
+                        onPressed: () {}))
               ],
             ),
-          ),
-        );
+          ],
+        ),
+      ),
+    );
   }
 
   Column reusableEditUserText({String? title, String? subTitle}) {
-
-
     return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-              Text(
-                textAlign: TextAlign.center,
-               title ?? 'Date of creation', style: TextStyle(
-                  color: Color(0xff5B5B5B),
-
-
-                  fontFamily: 'Barlow',
-fontWeight: FontWeight.w400,
-fontSize: 16,
-
-
-                ),),
-                SizedBox(height: 4,),
-
-                  Text(
-                textAlign: TextAlign.center,
-               subTitle ?? '24- Oct-2024', style: TextStyle(
-                  color: Color(0xff5B5B5B),
-
-
-                  fontFamily: 'Barlow',
-fontWeight: FontWeight.w400,
-fontSize: 16,
-
-
-                ),),
-            ],);
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          textAlign: TextAlign.center,
+          title ?? 'Date of creation',
+          style: TextStyle(
+            color: Color(0xff5B5B5B),
+            fontFamily: 'Barlow',
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+          ),
+        ),
+        SizedBox(
+          height: 4,
+        ),
+        Text(
+          textAlign: TextAlign.center,
+          subTitle ?? '24- Oct-2024',
+          style: TextStyle(
+            color: Color(0xff5B5B5B),
+            fontFamily: 'Barlow',
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+          ),
+        ),
+      ],
+    );
   }
-
-
-
-
-
-
 
   Column headerAndTilteText({String? title, String? subTitle}) {
-
-
     return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-              Text(
-               title ?? '', style: WonderCardTypography.regularTextTitle2(
-                fontSize: 16,
-                color: Color(0xff3A3541),
-               )
-               
-               ),
-                SizedBox(height: 13,),
-
-                  Text(
-               subTitle ?? '', style: WonderCardTypography.boldTextTitleBold(
-                fontSize: 18, color: Color(0xff3A3541),
-               )
-               
-               
-               ),
-            ],);
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(title ?? '',
+            style: WonderCardTypography.regularTextTitle2(
+              fontSize: 16,
+              color: Color(0xff3A3541),
+            )),
+        SizedBox(
+          height: 13,
+        ),
+        Text(subTitle ?? '',
+            style: WonderCardTypography.boldTextTitleBold(
+              fontSize: 18,
+              color: Color(0xff3A3541),
+            )),
+      ],
+    );
   }
-
 }

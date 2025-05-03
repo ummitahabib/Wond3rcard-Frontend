@@ -7,14 +7,15 @@ import 'package:wond3rcard/src/utils/app_responsive.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 class MainDashboard extends HookConsumerWidget {
-  const MainDashboard({super.key});
+  const MainDashboard({super.key, this.child});
 
   static const routeName = RouteString.mainDashboard;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const AppResponsive(
-      desktop: MainDashboardDesktop(),
+    return  AppResponsive(
+      desktop: MainDashboardDesktop(child: child,),
       tablet: MainDashboardTablet(),
       mobile: MainDashboardMobile(),
     );

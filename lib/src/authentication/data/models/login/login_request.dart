@@ -14,7 +14,6 @@ class LoginModel {
   String? accessToken;
   String? refreshToken;
 
-  // Constructor for login input
   LoginModel({
     this.email,
     this.password,
@@ -26,7 +25,6 @@ class LoginModel {
     this.refreshToken,
   });
 
-  // Convert the object to JSON for sending login data
   String toJson() {
     final Map<String, dynamic> loginData = {
       "email": email,
@@ -37,7 +35,6 @@ class LoginModel {
     return jsonEncode(loginData);
   }
 
-  // Validate login input fields
   InputModel validateLoginData() {
     final bool isValidEmail = ApplicationHelpers().isValidEmail(email ?? "");
     final String isValidPassword =
@@ -62,7 +59,6 @@ class LoginModel {
     );
   }
 
-  // Parse the response JSON into a LoginModel object
   LoginModel.fromJson({required Map<String, dynamic> responseData}) {
     status = responseData['status'] as String?;
     message = responseData['message'] as String?;

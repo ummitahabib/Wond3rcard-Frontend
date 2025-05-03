@@ -80,6 +80,13 @@ dependencies:
   syncfusion_flutter_charts: 
   fl_chart: ^0.70.2
   intl: ^0.18.1
+  url_launcher: ^6.3.1
+  flutter_animate: ^4.5.2
+  simple_animations: ^5.1.0
+  scrollable_positioned_list: ^0.3.8
+  animated_card: ^2.0.0
+  marquee: ^2.3.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

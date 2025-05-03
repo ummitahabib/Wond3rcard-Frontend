@@ -67,7 +67,7 @@ class _CardLayout1State extends ConsumerState<CardLayout1> {
                   Positioned(
                     left: 25,
                     top: 159,
-                    child: uploadPhotoMethod(cardController: cardController),
+                    child: uploadPhotoMethod(context: context, ref: ref)
                   ),
                 ],
               ),

@@ -24,8 +24,7 @@ class SubscriptionPlanTable extends ConsumerWidget {
         .read(deleteSubscriptionProvider.notifier)
         .deleteSubscription(id, newTierId)
         .then((_) {
-      ref.refresh(
-          getSubscriptionTiersProvider); // Refresh the list after deletion
+      ref.refresh(getSubscriptionTiersProvider);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Subscription deleted successfully!"),
         backgroundColor: Colors.green,
@@ -51,77 +50,120 @@ class SubscriptionPlanTable extends ConsumerWidget {
             return Container(
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.15),
-                blurRadius: 3.63,
-                spreadRadius: 0,
-                offset: const Offset(0, 0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 3.63,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 0),
+                  ),
+                ],
               ),
-            ],
-          ),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: ConstrainedBox(
                   constraints: BoxConstraints(minWidth: constraints.maxWidth),
                   child: DataTable(
-                    columns:  [
-                      DataColumn(label: Text('Name', style: WonderCardTypography.regularTextTitle1(
-                        fontSize: 19, color: Color(0xff3A3541),
-                      ),),),
-                      DataColumn(label: Text('Price', style: WonderCardTypography.regularTextTitle1(
-                        fontSize: 19, color: Color(0xff3A3541),
-                      ),)),
-                      DataColumn(label: Text('Feature', style: WonderCardTypography.regularTextTitle1(
-                        fontSize: 19, color: Color(0xff3A3541),
-                      ),)),
-                      DataColumn(label: Text('Active Users', style: WonderCardTypography.regularTextTitle1(
-                        fontSize: 19, color: Color(0xff3A3541),
-                      ),)),
-                      DataColumn(label: Text('Action', style: WonderCardTypography.regularTextTitle1(
-                        fontSize: 19, color: Color(0xff3A3541),
-                      ),)),
+                    columns: [
+                      DataColumn(
+                        label: Text(
+                          'Name',
+                          style: WonderCardTypography.regularTextTitle1(
+                            fontSize: 19,
+                            color: Color(0xff3A3541),
+                          ),
+                        ),
+                      ),
+                      DataColumn(
+                          label: Text(
+                        'Price',
+                        style: WonderCardTypography.regularTextTitle1(
+                          fontSize: 19,
+                          color: Color(0xff3A3541),
+                        ),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Feature',
+                        style: WonderCardTypography.regularTextTitle1(
+                          fontSize: 19,
+                          color: Color(0xff3A3541),
+                        ),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Active Users',
+                        style: WonderCardTypography.regularTextTitle1(
+                          fontSize: 19,
+                          color: Color(0xff3A3541),
+                        ),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Action',
+                        style: WonderCardTypography.regularTextTitle1(
+                          fontSize: 19,
+                          color: Color(0xff3A3541),
+                        ),
+                      )),
                     ],
                     rows: tiers.map((tier) {
                       return DataRow(cells: [
-                        DataCell(Text(tier.name, style: _textStyle(
-color: Color(0xff344767),
-fontWeight: FontWeight.w700,
-                        ),),),
+                        DataCell(
+                          Text(
+                            tier.name,
+                            style: _textStyle(
+                              color: Color(0xff344767),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
                         DataCell(
                           Text(
                             'Free',
                             style: _textStyle(),
                           ),
                         ),
-                        DataCell(Text('Limited', style: _textStyle(),)),
-                        DataCell(Text('200,002', style: _textStyle(),)),
+                        DataCell(Text(
+                          'Limited',
+                          style: _textStyle(),
+                        )),
+                        DataCell(Text(
+                          '200,002',
+                          style: _textStyle(),
+                        )),
                         DataCell(
                           deleteState.isLoading
                               ? const CircularProgressIndicator()
                               : Container(
                                   margin: EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: AppColors.grayScale300),
-                                    borderRadius: BorderRadius.circular(8)
-                                  ),
+                                      border: Border.all(
+                                          color: AppColors.grayScale300),
+                                      borderRadius: BorderRadius.circular(8)),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                        icon: const HeroIcon(HeroIcons.pencilSquare, color: AppColors.grayScale400,),
-                                        onPressed: () =>
-                                            _deleteSubscription(context, ref, tier.id, tiers),
+                                        icon: const HeroIcon(
+                                          HeroIcons.pencilSquare,
+                                          color: AppColors.grayScale400,
+                                        ),
+                                        onPressed: () => _deleteSubscription(
+                                            context, ref, tier.id, tiers),
                                       ),
                                       IconButton(
-                                        icon: const HeroIcon(HeroIcons.trash, color: AppColors.redDisable),
-                                        onPressed: () =>
-                                            _deleteSubscription(context, ref, tier.id, tiers),
+                                        icon: const HeroIcon(HeroIcons.trash,
+                                            color: AppColors.redDisable),
+                                        onPressed: () => _deleteSubscription(
+                                            context, ref, tier.id, tiers),
                                       ),
                                     ],
                                   ),
@@ -144,7 +186,7 @@ fontWeight: FontWeight.w700,
   TextStyle _textStyle({FontWeight? fontWeight, Color? color}) {
     return TextStyle(
       fontFamily: 'Barlow',
-      fontWeight: fontWeight ??  FontWeight.w400,
+      fontWeight: fontWeight ?? FontWeight.w400,
       fontSize: 14,
       color: color ?? Color(0xff7B809A),
     );

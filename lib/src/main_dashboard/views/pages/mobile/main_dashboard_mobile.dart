@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/analytics/views/pages/analytics_main_page.dart';
 import 'package:wond3rcard/src/cards/views/pages/cards_main.dart';
-import 'package:wond3rcard/src/cards/views/widgets/create_card_ui.dart';
-import 'package:wond3rcard/src/cards/views/widgets/get_card_ui.dart';
 import 'package:wond3rcard/src/home/data/controller/home_controller.dart';
 import 'package:wond3rcard/src/home/views/home_main.dart';
 import 'package:wond3rcard/src/home/views/widgets/bottom_nav.dart';
@@ -28,11 +26,8 @@ class MainDashboardMobile extends HookConsumerWidget {
       index: homeController.activeIndex,
       children: [
         const HomeMain(),
-        //  CreateCardScreen(),
         CardsMain(),
-       ShareCardList(),
-      // GetCardScreen(),
-        //ShareQrWidget(),
+        ShareCardList(),
         const AnalyticsMainPage(),
         ProfileMainScreen(),
       ],

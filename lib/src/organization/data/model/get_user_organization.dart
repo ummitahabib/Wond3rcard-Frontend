@@ -25,7 +25,6 @@ class GetUserOrganization {
     required this.updatedAt,
   });
 
-  // Factory constructor to parse from JSON
   factory GetUserOrganization.fromJson(Map<String, dynamic> json) {
     return GetUserOrganization(
       id: json['_id'],
@@ -43,4 +42,3 @@ class GetUserOrganization {
     );
   }
 }
-

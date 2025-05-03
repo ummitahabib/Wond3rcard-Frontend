@@ -5,15 +5,15 @@ import 'package:wond3rcard/src/admin/admin_payment/admin_manual_payment/data/mod
 import 'package:wond3rcard/src/admin/admin_payment/admin_manual_payment/data/model/payment_analytics_model.dart';
 import 'package:wond3rcard/src/admin/admin_payment/admin_manual_payment/data/repository/admin_manual_payment_repository.dart';
 
-// Repository Provider
 final paymentRepositoryProvider = Provider((ref) => PaymentRepository());
 
-// Manual Payment State Provider
-final manualPaymentProvider = StateNotifierProvider<ManualPaymentNotifier, AsyncValue<ManualPaymentResponse?>>(
+final manualPaymentProvider = StateNotifierProvider<ManualPaymentNotifier,
+    AsyncValue<ManualPaymentResponse?>>(
   (ref) => ManualPaymentNotifier(ref.read(paymentRepositoryProvider)),
 );
 
-class ManualPaymentNotifier extends StateNotifier<AsyncValue<ManualPaymentResponse?>> {
+class ManualPaymentNotifier
+    extends StateNotifier<AsyncValue<ManualPaymentResponse?>> {
   final PaymentRepository _repository;
 
   ManualPaymentNotifier(this._repository) : super(const AsyncValue.data(null));
@@ -29,11 +29,8 @@ class ManualPaymentNotifier extends StateNotifier<AsyncValue<ManualPaymentRespon
   }
 }
 
-
-
-
-// Transactions State Provider
-final transactionsProvider = StateNotifierProvider<TransactionNotifier, AsyncValue<List<Transaction>>>(
+final transactionsProvider =
+    StateNotifierProvider<TransactionNotifier, AsyncValue<List<Transaction>>>(
   (ref) => TransactionNotifier(ref.read(paymentRepositoryProvider)),
 );
 
@@ -42,11 +39,11 @@ class TransactionNotifier extends StateNotifier<AsyncValue<List<Transaction>>> {
 
   TransactionNotifier(this._repository) : super(const AsyncValue.loading());
 
-  // Fetch transactions by provider
   Future<void> getTransactions(String provider) async {
     state = const AsyncValue.loading();
     try {
-      final transactions = await _repository.getTransactionsByProvider(provider);
+      final transactions =
+          await _repository.getTransactionsByProvider(provider);
       state = AsyncValue.data(transactions);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
@@ -54,21 +51,17 @@ class TransactionNotifier extends StateNotifier<AsyncValue<List<Transaction>>> {
   }
 }
 
-
-
-
-
-
-
-// Transactions State Provider
-final transactionsRecordProvider = StateNotifierProvider<TransactionRecordNotifier, AsyncValue<List<TransactionRecord>>>(
+final transactionsRecordProvider = StateNotifierProvider<
+    TransactionRecordNotifier, AsyncValue<List<TransactionRecord>>>(
   (ref) => TransactionRecordNotifier(ref.read(paymentRepositoryProvider)),
 );
 
-class TransactionRecordNotifier extends StateNotifier<AsyncValue<List<TransactionRecord>>> {
+class TransactionRecordNotifier
+    extends StateNotifier<AsyncValue<List<TransactionRecord>>> {
   final PaymentRepository _repository;
 
-  TransactionRecordNotifier(this._repository) : super(const AsyncValue.loading());
+  TransactionRecordNotifier(this._repository)
+      : super(const AsyncValue.loading());
 
   Future<void> getTransactions({
     String? provider,
@@ -101,20 +94,17 @@ class TransactionRecordNotifier extends StateNotifier<AsyncValue<List<Transactio
   }
 }
 
-
-
-
-
-
-// State Provider
-final paymentAnalyticsProvider = StateNotifierProvider<PaymentAnalyticsNotifier, AsyncValue<PaymentAnalytics>>(
+final paymentAnalyticsProvider = StateNotifierProvider<PaymentAnalyticsNotifier,
+    AsyncValue<PaymentAnalytics>>(
   (ref) => PaymentAnalyticsNotifier(ref.read(paymentRepositoryProvider)),
 );
 
-class PaymentAnalyticsNotifier extends StateNotifier<AsyncValue<PaymentAnalytics>> {
+class PaymentAnalyticsNotifier
+    extends StateNotifier<AsyncValue<PaymentAnalytics>> {
   final PaymentRepository _repository;
 
-  PaymentAnalyticsNotifier(this._repository) : super(const AsyncValue.loading()) {
+  PaymentAnalyticsNotifier(this._repository)
+      : super(const AsyncValue.loading()) {
     fetchPaymentAnalytics();
   }
 

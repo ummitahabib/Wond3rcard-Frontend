@@ -7,18 +7,24 @@ class CreateOrganizationScreen extends ConsumerStatefulWidget {
   const CreateOrganizationScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<CreateOrganizationScreen> createState() => _CreateOrganizationScreenState();
+  ConsumerState<CreateOrganizationScreen> createState() =>
+      _CreateOrganizationScreenState();
 }
 
-class _CreateOrganizationScreenState extends ConsumerState<CreateOrganizationScreen> {
+class _CreateOrganizationScreenState
+    extends ConsumerState<CreateOrganizationScreen> {
   final _nameController = TextEditingController();
   final _industryController = TextEditingController();
   final _websiteController = TextEditingController();
   final _memberIdController = TextEditingController();
 
-  // Dropdown options for business type
-  final List<String> businessTypes = ["LLC", "Corporation", "Nonprofit", "Startup"];
-  String _selectedBusinessType = "Startup"; // Default value
+  final List<String> businessTypes = [
+    "LLC",
+    "Corporation",
+    "Nonprofit",
+    "Startup"
+  ];
+  String _selectedBusinessType = "Startup";
 
   void _submit() {
     final request = CreateOrganizationRequest(
@@ -42,14 +48,11 @@ class _CreateOrganizationScreenState extends ConsumerState<CreateOrganizationScr
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            // Organization Name Field
             TextField(
               controller: _nameController,
               decoration: const InputDecoration(labelText: 'Organization Name'),
             ),
             const SizedBox(height: 16),
-
-            // Business Type Dropdown
             DropdownButtonFormField<String>(
               value: _selectedBusinessType,
               decoration: const InputDecoration(labelText: 'Business Type'),
@@ -66,46 +69,38 @@ class _CreateOrganizationScreenState extends ConsumerState<CreateOrganizationScr
               },
             ),
             const SizedBox(height: 16),
-
-            // Industry Field
             TextField(
               controller: _industryController,
               decoration: const InputDecoration(labelText: 'Industry'),
             ),
             const SizedBox(height: 16),
-
-            // Company Website Field
             TextField(
               controller: _websiteController,
               decoration: const InputDecoration(labelText: 'Company Website'),
               keyboardType: TextInputType.url,
             ),
             const SizedBox(height: 16),
-
-            // Member ID Field
             TextField(
               controller: _memberIdController,
               decoration: const InputDecoration(labelText: 'Member ID'),
             ),
             const SizedBox(height: 20),
-
-            // State handling: Success, Loading, Error
             organizationState.when(
               data: (organization) {
                 if (organization != null) {
                   return Text(
                     'Organization Created: ${organization.name}',
-                    style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.green, fontWeight: FontWeight.bold),
                   );
                 }
                 return const SizedBox.shrink();
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => Text('Error: $error', style: const TextStyle(color: Colors.red)),
+              error: (error, _) => Text('Error: $error',
+                  style: const TextStyle(color: Colors.red)),
             ),
             const SizedBox(height: 20),
-
-            // Submit Button
             ElevatedButton(
               onPressed: _submit,
               child: const Text('Create Organization'),

@@ -5,8 +5,6 @@ import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 part 'create_card_model.freezed.dart';
 part 'create_card_model.g.dart';
 
-
-/// ✅ Custom Converter for File (Mobile)
 class FileConverter implements JsonConverter<File?, String?> {
   const FileConverter();
 
@@ -22,7 +20,6 @@ class FileConverter implements JsonConverter<File?, String?> {
   }
 }
 
-/// ✅ Custom Converter for Uint8List (Web)
 class Uint8ListConverter implements JsonConverter<Uint8List?, List<int>?> {
   const Uint8ListConverter();
 
@@ -63,13 +60,9 @@ class CreateCardModel with _$CreateCardModel {
     required String address,
     required List<Map<String, dynamic>> socialMediaLinks,
     String? textColor,
-
-    // ✅ Mobile file upload
     @FileConverter() File? cardPhoto,
     @FileConverter() File? cardCoverPhoto,
     @FileConverter() File? cardVideo,
-
-    // ✅ Web file upload
     @Uint8ListConverter() Uint8List? webCardPhoto,
     @Uint8ListConverter() Uint8List? webCardCoverPhoto,
   }) = _CreateCardModel;

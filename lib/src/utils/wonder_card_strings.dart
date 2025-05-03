@@ -82,7 +82,11 @@ class RouteString {
   static const String adminDashboard = '/admin-dashboard';
   static const String getStarted = '/getStarted';
   static const String firstScreen = '/onboardingFirstScreen';
+  static const String firstScreenDesktop = '/firstScreenDesktop';
+  static const String secondScreenDesktop = '/secondScreenDesktop';
   static const String secondScreen = '/onboardingSecondScreen';
+  static const String thirdScreenDesktop = '/thirdScreenDesktop';
+  static const String fourthScreenDesktop = '/fourthScreenDesktop';
   static const String thirdScreen = '/onboardingThirdScreen';
   static const String fourthScreen = '/onboardingFourthScreen';
   static const String fifthScreen = '/onboardingFifthScreen';
@@ -98,6 +102,8 @@ class RouteString {
   static const String mainDashboard = '/mainDashboard';
   static const String verifyPasswordOtp = '/verifyPasswordOtp';
   static const String changePassword = '/changePassword';
+  static const String editCardScreen = '/editCardScreen';
+  static const String connections = '/connections';
   static const String forgetPasswordOtpVerification =
       '/forgetPasswordOtpVerification';
   static const String colorPallete = '/colorPallete';
@@ -126,8 +132,10 @@ class RouteString {
       '/admin-dashboard-desktop-view';
   static const String userManagement = '/user-management';
   static const String cardManagement = '/card-management';
+  static const String selectedCardAnalytics = '/analytics';
   static const String analytics = '/analytics';
   static const String security = '/security';
+  static const String contacts = '/contacts';
  static const String adminSubscription = '/admin-subscription';
   static const String adminManageFlag = '/admin-manage-flag';
   static const String notFound = '/not-found';
@@ -135,6 +143,8 @@ class RouteString {
   static const String baseDashboard = '/base-dashboard';
   static const String viewPhysicalCard = '/view-physical-card';
   static const String physicalCard = '/physical-card';
+  static const String orderPhysicalCard = '/order-physical-card';
+  static const String memebershipSubscription = '/memebershipSubscription';
   static const String createSubscription = '/create-subscription';
   static const String adminEditUser = '/admin-edit-user';
   static const String adminCreateNewUser = '/admin-create-new-user';
@@ -149,6 +159,7 @@ class RouteString {
   static const String subscriptionReview = '/subscription-review';
   static const String suscriptionSettings = '/subscription-settings';
   static const String manageUserSubscription = '/manage-user-subscription';
+  static const String wondercardWebsite = '/wond3rCard-website';
 }
 
 class SessionString {
@@ -242,3 +253,5 @@ const String fetchingAddressText = "Fetching address...";
 const String enterAddressOrSelectMap = "Enter Address (or select from map)";
 const String searchForPlaceText = "Search for a place...";
 const String searchAndSelectLocationText = "Search & Select Location";
+   const String defaultProfileImage =
+      'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';

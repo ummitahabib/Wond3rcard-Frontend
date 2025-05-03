@@ -16,15 +16,16 @@ import 'package:wond3rcard/src/organization/data/model/team_params.dart';
 import 'package:wond3rcard/src/organization/data/model/update_organization_request.dart';
 import 'package:wond3rcard/src/organization/data/repository/organization_repository.dart';
 
-// Repository Provider
-final organizationRepositoryProvider = Provider((ref) => OrganizationRepository());
+final organizationRepositoryProvider =
+    Provider((ref) => OrganizationRepository());
 
-// State Notifier Provider
-final createOrganizationProvider = StateNotifierProvider<OrganizationNotifier, AsyncValue<CreateOrganizationResponse?>>(
+final createOrganizationProvider = StateNotifierProvider<OrganizationNotifier,
+    AsyncValue<CreateOrganizationResponse?>>(
   (ref) => OrganizationNotifier(ref.read(organizationRepositoryProvider)),
 );
 
-class OrganizationNotifier extends StateNotifier<AsyncValue<CreateOrganizationResponse?>> {
+class OrganizationNotifier
+    extends StateNotifier<AsyncValue<CreateOrganizationResponse?>> {
   final OrganizationRepository _repository;
 
   OrganizationNotifier(this._repository) : super(const AsyncValue.data(null));
@@ -40,15 +41,12 @@ class OrganizationNotifier extends StateNotifier<AsyncValue<CreateOrganizationRe
   }
 }
 
-
-final userOrganizationsProvider = FutureProvider<List<GetUserOrganization>>((ref) async {
+final userOrganizationsProvider =
+    FutureProvider<List<GetUserOrganization>>((ref) async {
   final repository = ref.watch(organizationRepositoryProvider);
   return repository.fetchUserOrganizations();
 });
 
-
-
-// Add Member Notifier
 class AddMemberNotifier extends StateNotifier<AsyncValue<Organization?>> {
   final OrganizationRepository repository;
 
@@ -71,23 +69,18 @@ class AddMemberNotifier extends StateNotifier<AsyncValue<Organization?>> {
   }
 }
 
-// Provide the Add Member Notifier
 final addMemberProvider =
     StateNotifierProvider<AddMemberNotifier, AsyncValue<Organization?>>(
   (ref) => AddMemberNotifier(ref.watch(organizationRepositoryProvider)),
 );
 
-
-
-
-
 class UpdateOrganizationNotifier
     extends StateNotifier<AsyncValue<UpdateOrganizationResponse?>> {
   final OrganizationRepository repository;
 
-  UpdateOrganizationNotifier(this.repository) : super(const AsyncValue.data(null));
+  UpdateOrganizationNotifier(this.repository)
+      : super(const AsyncValue.data(null));
 
-  // Update organization
   Future<void> updateOrganization({
     required String orgId,
     required UpdateOrganizationRequest request,
@@ -103,41 +96,37 @@ class UpdateOrganizationNotifier
   }
 }
 
-// Provider for updating organization
-final updateOrganizationProvider = StateNotifierProvider<UpdateOrganizationNotifier, AsyncValue<UpdateOrganizationResponse?>>(
-  (ref) => UpdateOrganizationNotifier(ref.watch(organizationRepositoryProvider)),
+final updateOrganizationProvider = StateNotifierProvider<
+    UpdateOrganizationNotifier, AsyncValue<UpdateOrganizationResponse?>>(
+  (ref) =>
+      UpdateOrganizationNotifier(ref.watch(organizationRepositoryProvider)),
 );
 
-
-
-
-// Notifier to handle delete organization
 class DeleteOrganizationNotifier extends StateNotifier<AsyncValue<void>> {
   final OrganizationRepository repository;
 
-  DeleteOrganizationNotifier(this.repository) : super(const AsyncValue.data(null));
+  DeleteOrganizationNotifier(this.repository)
+      : super(const AsyncValue.data(null));
 
-  // Method to delete an organization
   Future<void> deleteOrganization(String orgId) async {
     state = const AsyncValue.loading();
     try {
       await repository.deleteOrganization(orgId);
-      state = const AsyncValue.data(null); // Success
+      state = const AsyncValue.data(null);
     } catch (e, stackTrace) {
-      state = AsyncValue.error(e, stackTrace); // Error
+      state = AsyncValue.error(e, stackTrace);
     }
   }
 }
 
-// Provider for deleting organization
-final deleteOrganizationProvider = StateNotifierProvider<DeleteOrganizationNotifier, AsyncValue<void>>(
-  (ref) => DeleteOrganizationNotifier(ref.watch(organizationRepositoryProvider)),
+final deleteOrganizationProvider =
+    StateNotifierProvider<DeleteOrganizationNotifier, AsyncValue<void>>(
+  (ref) =>
+      DeleteOrganizationNotifier(ref.watch(organizationRepositoryProvider)),
 );
 
-
-
-final removeMemberProvider = StateNotifierProvider.family<
-    RemoveMemberNotifier, AsyncValue<Organization>, String>(
+final removeMemberProvider = StateNotifierProvider.family<RemoveMemberNotifier,
+    AsyncValue<Organization>, String>(
   (ref, orgId) => RemoveMemberNotifier(
     ref.read(organizationRepositoryProvider),
     orgId,
@@ -163,10 +152,8 @@ class RemoveMemberNotifier extends StateNotifier<AsyncValue<Organization>> {
   }
 }
 
-
-
-final changeRoleProvider = StateNotifierProvider.family<
-    ChangeRoleNotifier, AsyncValue<OrganizationModel>, String>(
+final changeRoleProvider = StateNotifierProvider.family<ChangeRoleNotifier,
+    AsyncValue<OrganizationModel>, String>(
   (ref, orgId) => ChangeRoleNotifier(
     ref.read(organizationRepositoryProvider),
     orgId,
@@ -195,22 +182,25 @@ class ChangeRoleNotifier extends StateNotifier<AsyncValue<OrganizationModel>> {
   }
 }
 
-final createTeamProvider = StateNotifierProvider.family<CreateTeamNotifier, AsyncValue<TeamModel>, String>(
-  (ref, orgId) => CreateTeamNotifier(ref.read(organizationRepositoryProvider), orgId),
+final createTeamProvider = StateNotifierProvider.family<CreateTeamNotifier,
+    AsyncValue<TeamModel>, String>(
+  (ref, orgId) =>
+      CreateTeamNotifier(ref.read(organizationRepositoryProvider), orgId),
 );
 
 class CreateTeamNotifier extends StateNotifier<AsyncValue<TeamModel>> {
   final OrganizationRepository repository;
   final String orgId;
 
-  CreateTeamNotifier(this.repository, this.orgId) : super(AsyncValue.data(TeamModel(
-    id: '',
-    name: '',
-    description: '',
-    organizationId: '',
-    members: [],
-    createdAt: DateTime.now(),
-  )));
+  CreateTeamNotifier(this.repository, this.orgId)
+      : super(AsyncValue.data(TeamModel(
+          id: '',
+          name: '',
+          description: '',
+          organizationId: '',
+          members: [],
+          createdAt: DateTime.now(),
+        )));
 
   Future<void> createTeam(CreateTeamRequest request) async {
     state = const AsyncValue.loading();
@@ -223,13 +213,11 @@ class CreateTeamNotifier extends StateNotifier<AsyncValue<TeamModel>> {
   }
 }
 
-
 final addMemberToTeamProvider = StateNotifierProvider.family<
     AddMemberToTeamNotifier, AsyncValue<Team>, AddMemberParams>(
   (ref, params) =>
       AddMemberToTeamNotifier(ref.read(organizationRepositoryProvider), params),
 );
-
 
 class AddMemberToTeamNotifier extends StateNotifier<AsyncValue<Team>> {
   final OrganizationRepository repository;
@@ -260,11 +248,6 @@ class AddMemberToTeamNotifier extends StateNotifier<AsyncValue<Team>> {
   }
 }
 
-
-
-
-
-// Fetch team members provider
 final teamMembersProvider = FutureProvider.family<GetTeamMembers, TeamParams>(
   (ref, params) async {
     final repository = ref.read(organizationRepositoryProvider);
@@ -275,12 +258,8 @@ final teamMembersProvider = FutureProvider.family<GetTeamMembers, TeamParams>(
   },
 );
 
-
-
-
-
-final assignRoleProvider = FutureProvider.family.autoDispose<
-    AssignRoleResponse, AssignRoleParams>(
+final assignRoleProvider =
+    FutureProvider.family.autoDispose<AssignRoleResponse, AssignRoleParams>(
   (ref, params) async {
     final repository = ref.read(organizationRepositoryProvider);
     return repository.assignRole(
@@ -292,14 +271,8 @@ final assignRoleProvider = FutureProvider.family.autoDispose<
   },
 );
 
-
-
-
-
-
-// Remove team member provider
-final removeTeamMemberProvider = FutureProvider.family.autoDispose<
-    RemoveTeamMemberResponse, RemoveTeamMemberParams>(
+final removeTeamMemberProvider = FutureProvider.family
+    .autoDispose<RemoveTeamMemberResponse, RemoveTeamMemberParams>(
   (ref, params) async {
     final repository = ref.read(organizationRepositoryProvider);
     return repository.removeTeamMember(
@@ -309,4 +282,3 @@ final removeTeamMemberProvider = FutureProvider.family.autoDispose<
     );
   },
 );
-

@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-//import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:wond3rcard/src/analytics/data/controller/analytics_controller.dart';
 import 'package:wond3rcard/src/analytics/data/model/get_analytics_response.dart';
-import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
-import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
-import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class RadialChartBar extends HookConsumerWidget {
   const RadialChartBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Map<String, Color> labels = {
-      'Qr Code': const Color(0xff3a0ca3),
-      'Email': const Color(0xffb5179e),
-      'Social Links': const Color(0xffffc300),
+    final Map<String, Color> labelColors = {
+      'Qr Code': Color(0xffFACC15),
+      'Email': Color(0xff6D41CA),
+      'Social Links': Color(0xff03A526),
     };
 
     final trafficData = useState<Map<String, double>>({
@@ -33,122 +29,82 @@ class RadialChartBar extends HookConsumerWidget {
           await analyticsController.getInteraction();
         }
         if (analyticsController.analytics != null) {
-          updateTrafficData(
-            analyticsController.analytics!,
-            trafficData,
-          );
+          updateTrafficData(analyticsController.analytics!, trafficData);
         }
       });
       return null;
     }, []);
 
-    return Card(
-      color: AppColors.defaultWhite,
-      surfaceTintColor: AppColors.defaultWhite,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: SizedBox(
-            //         height: 200,
-            //         child: SfRadialGauge(
-            //           axes: [
-            //             RadialAxis(
-            //               labelOffset: 0,
-            //               pointers: trafficData.value.entries.map((entry) {
-            //                 final index =
-            //                     labels.keys.toList().indexOf(entry.key);
-            //                 return RangePointer(
-            //                   value: entry.value,
-            //                   cornerStyle: CornerStyle.bothCurve,
-            //                   color: labels.values.elementAt(index),
-            //                   width: 30,
-            //                 );
-            //               }).toList(),
-            //               axisLineStyle: const AxisLineStyle(thickness: 30),
-            //               startAngle: 130,
-            //               endAngle: 130,
-            //               showLabels: false,
-            //               showTicks: false,
-            //               annotations: [
-            //                 GaugeAnnotation(
-            //                   widget: Column(
-            //                     children: [
-            //                       Text(
-            //                         '${getTotalTraffic(trafficData.value)}%',
-            //                         style: const TextStyle(
-            //                             fontWeight: FontWeight.bold,
-            //                             fontSize: 26,
-            //                             color: Colors.grey),
-            //                       ),
-            //                       const Text(
-            //                         'Traffic this year',
-            //                         style: TextStyle(
-            //                             fontWeight: FontWeight.bold,
-            //                             fontSize: 14,
-            //                             color: Colors.grey),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                   positionFactor: 0.2,
-            //                 ),
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //     const SizedBox(
-            //       width: 10,
-            //     ),
-            //     Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: List<Widget>.generate(
-            //         labels.length,
-            //         (index) => buildLabelsChart(labels.keys.elementAt(index),
-            //             labels.values.elementAt(index)),
-            //       ),
-            //     ),
-            //   ],
-            // ),
+    final totalTraffic = getTotalTraffic(trafficData.value);
 
-            const SizedBox(
-              height: 10,
+    final List<_ChartData> chartData = trafficData.value.entries.map(
+      (entry) {
+        return _ChartData(
+          entry.key,
+          entry.value,
+          labelColors[entry.key]!,
+        );
+      },
+    ).toList();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      margin: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          SfCircularChart(
+            title: ChartTitle(
+              alignment: ChartAlignment.near,
+              text: 'Traffic this year (${totalTraffic.toStringAsFixed(0)}%)',
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
             ),
-          ],
-        ),
+            legend: Legend(
+              isVisible: true,
+              position: LegendPosition.right,
+              overflowMode: LegendItemOverflowMode.wrap,
+              iconHeight: 10,
+              iconWidth: 10,
+            ),
+            series: <RadialBarSeries<_ChartData, String>>[
+              RadialBarSeries<_ChartData, String>(
+                dataSource: chartData,
+                xValueMapper: (_ChartData data, _) => data.label,
+                yValueMapper: (_ChartData data, _) => data.value,
+                pointColorMapper: (_ChartData data, _) => data.color,
+                dataLabelMapper: (_ChartData data, _) =>
+                    '${data.value.toStringAsFixed(0)}%',
+                maximumValue: 100,
+                radius: '100%',
+                innerRadius: '30%',
+                gap: '8%',
+                cornerStyle: CornerStyle.bothCurve,
+                dataLabelSettings: const DataLabelSettings(
+                  isVisible: true,
+                  labelPosition: ChartDataLabelPosition.outside,
+                  textStyle: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  Widget buildLabelsChart(String label, Color color) {
-    return Row(
-      children: [
-        Container(
-          height: 15,
-          width: 15,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(5),
-          ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Text(label),
-      ],
-    );
-  }
-
-  void updateTrafficData(AnalyticsResponse trafficSource,
-      ValueNotifier<Map<String, double>> trafficData) {
+  void updateTrafficData(
+    AnalyticsResponse trafficSource,
+    ValueNotifier<Map<String, double>> trafficData,
+  ) {
     trafficData.value = {
       'Qr Code': trafficSource.payload.analytics.totalQRCode.toDouble(),
       'Email': trafficSource.payload.analytics.totalEmail.toDouble(),
@@ -158,161 +114,14 @@ class RadialChartBar extends HookConsumerWidget {
   }
 
   double getTotalTraffic(Map<String, double> trafficData) {
-    return trafficData.values.reduce((sum, element) => sum + element);
+    return trafficData.values.fold(0, (sum, value) => sum + value);
   }
 }
 
-// class RadialChatBar extends HookConsumerWidget {
-//   const RadialChatBar({super.key});
+class _ChartData {
+  final String label;
+  final double value;
+  final Color color;
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final Map<String, Color> Labels = {
-//       'Qr Code': const Color(0xff3a0ca3),
-//       'Email': const Color(0xffb5179e),
-//       'Social Links': const Color(0xffffc300),
-//     };
-
-//     return Card(
-//         color: AppColors.defaultWhite,
-//         surfaceTintColor: AppColors.defaultWhite,
-//         shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.circular(20),
-//         ),
-//         child: Padding(
-//           padding: const EdgeInsets.all(8),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Row(
-//                 children: [
-//                   Expanded(
-//                     child: SizedBox(
-//                       height: 200,
-//                       child: SfRadialGauge(axes: [
-//                         RadialAxis(
-//                           labelOffset: 0,
-//                           pointers: const [
-//                             RangePointer(
-//                                 value: 20,
-//                                 cornerStyle: CornerStyle.bothCurve,
-//                                 color: Color(0xffb5179e),
-//                                 width: 30)
-//                           ],
-//                           axisLineStyle: const AxisLineStyle(thickness: 30),
-//                           startAngle: 130,
-//                           endAngle: 130,
-//                           showLabels: false,
-//                           showTicks: false,
-//                           annotations: const [
-//                             GaugeAnnotation(
-//                               widget: Column(
-//                                 children: [
-//                                   Text(
-//                                     '77%',
-//                                     style: TextStyle(
-//                                         fontWeight: FontWeight.bold,
-//                                         fontSize: 26,
-//                                         color: Colors.grey),
-//                                   ),
-//                                   Text(
-//                                     'Visitors this year',
-//                                     style: TextStyle(
-//                                         fontWeight: FontWeight.bold,
-//                                         fontSize: 26,
-//                                         color: Colors.grey),
-//                                   ),
-//                                 ],
-//                               ),
-//                               positionFactor: 0.2,
-//                             ),
-//                           ],
-//                         ),
-//                         RadialAxis(
-//                           pointers: const [
-//                             RangePointer(
-//                               value: 20,
-//                               cornerStyle: CornerStyle.bothCurve,
-//                               color: Color(0xff3a0ca3),
-//                               width: 30,
-//                             )
-//                           ],
-//                           startAngle: 10,
-//                           endAngle: 10,
-//                           showLabels: false,
-//                           showTicks: false,
-//                           showAxisLine: false,
-//                         ),
-//                         RadialAxis(
-//                           pointers: const [
-//                             RangePointer(
-//                               value: 20,
-//                               cornerStyle: CornerStyle.bothCurve,
-//                               color: Color(0xfff72585),
-//                               width: 30,
-//                             )
-//                           ],
-//                           startAngle: 90,
-//                           endAngle: 90,
-//                           showLabels: false,
-//                           showTicks: false,
-//                           showAxisLine: false,
-//                         ),
-//                         RadialAxis(
-//                           pointers: const [
-//                             RangePointer(
-//                               value: 20,
-//                               cornerStyle: CornerStyle.bothCurve,
-//                               color: Color(0xffffc300),
-//                               width: 30,
-//                             )
-//                           ],
-//                           startAngle: 40,
-//                           endAngle: 40,
-//                           showLabels: false,
-//                           showTicks: false,
-//                           showAxisLine: false,
-//                         ),
-//                       ]),
-//                     ),
-//                   ),
-//                   const SizedBox(
-//                     width: 10,
-//                   ),
-//                   Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: List<Widget>.generate(
-//                       4,
-//                       (index) => LabelsChart(Labels.keys.elementAt(index),
-//                           Labels.values.elementAt(index)),
-//                     ),
-//                   )
-//                 ],
-//               ),
-//               const SizedBox(
-//                 height: 10,
-//               ),
-//             ],
-//           ),
-//         ));
-//   }
-
-//   LabelsChart(String label, Color color) {
-//     return Row(
-//       children: [
-//         Container(
-//           height: 15,
-//           width: 15,
-//           decoration: BoxDecoration(
-//             color: color,
-//             borderRadius: BorderRadius.circular(5),
-//           ),
-//         ),
-//         const SizedBox(
-//           width: 5,
-//         ),
-//         Text(label)
-//       ],
-//     );
-//   }
-// }
+  _ChartData(this.label, this.value, this.color);
+}

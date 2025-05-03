@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/home/views/widgets/name_and_job.dart';
 import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
-import 'package:wond3rcard/src/utils/assets.dart';
-import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 
 class HomeMobile extends HookConsumerWidget {
   const HomeMobile({super.key});
@@ -156,7 +153,7 @@ class HomeBody extends HookConsumerWidget {
                       padding: const EdgeInsets.only(bottom: 60),
                       child: Column(
                         children: [
-                          addCardMainRowWidget(),
+                          addCardMainRowWidget(context),
                           const SizedBox(height: 20),
                           const SingleChildScrollView(
                             child: Row(
@@ -167,7 +164,6 @@ class HomeBody extends HookConsumerWidget {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                // recentConnection(context),
                                 RecentConnectionWidget(),
                               ],
                             ),
@@ -175,6 +171,20 @@ class HomeBody extends HookConsumerWidget {
                         ],
                       ),
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        context.go(RouteString.connections);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryShade,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text('Connections'),
+                      ),
+                    )
                   ],
                 ),
               ),

@@ -82,71 +82,32 @@ GestureDetector cardRow({
   return GestureDetector(
     onTap: onTap,
     child: Container(
+      padding: EdgeInsets.all(15),
+      margin: EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: color ?? AppColors.defaultWhite,
         borderRadius: BorderRadius.circular(SpacingConstants.size8),
       ),
-      child: Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            icon == null
-                ? const SizedBox()
-                : HeroIcon(
-                    icon ?? HeroIcons.documentDuplicate,
-                    color: iconColor ?? AppColors.grayScale700,
-                  ),
-            const SizedBox(
-              height: SpacingConstants.size15,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          icon == null
+              ? const SizedBox()
+              : HeroIcon(
+                  icon ?? HeroIcons.documentDuplicate,
+                  color: iconColor ?? AppColors.grayScale700,
+                ),
+          Spacer(),
+          Text(
+            text!,
+            style: WonderCardTypography.boldTextTitleBold(
+              color: AppColors.grayScale700,
+              fontSize: SpacingConstants.size18,
             ),
-            Text(
-              text!,
-              style: WonderCardTypography.boldTextTitleBold(
-                color: AppColors.grayScale700,
-                fontSize: SpacingConstants.size18,
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
-    ),
-  );
-}
-
-Container cardOptionWidget() {
-  return Container(
-    decoration: DecorationBox.cardBoxDecoration(),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(SpacingConstants.size8),
-          child: Text(
-            'Ummeeta Habeeb',
-            style: WonderCardTypography.boldTextH5(),
-          ),
-        ),
-        cardRow(
-          onTap: () {},
-          text: editCard,
-          icon: HeroIcons.pencilSquare,
-        ),
-        cardRow(
-          onTap: () {},
-          text: shareCard,
-          icon: HeroIcons.paperAirplane,
-        ),
-        cardRow(
-          onTap: () {},
-          text: shareCard,
-        ),
-        cardRow(
-          onTap: () {},
-          text: downloadCard,
-          icon: HeroIcons.trash,
-        ),
-      ],
     ),
   );
 }

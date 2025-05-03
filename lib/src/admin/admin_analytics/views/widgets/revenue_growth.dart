@@ -10,7 +10,7 @@ class RevenueGrowthChart extends StatefulWidget {
 }
 
 class _RevenueGrowthChartState extends State<RevenueGrowthChart> {
-    String _selectedView = 'Default';
+  String _selectedView = 'Default';
   List<_SalesData> data = [];
 
   @override
@@ -58,15 +58,14 @@ class _RevenueGrowthChartState extends State<RevenueGrowthChart> {
 
   @override
   Widget build(BuildContext context) {
-       return        Container(
-        padding: EdgeInsets.all(16),
-  decoration: reusableContainerDeco(),
-       
-         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-               children: [
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: reusableContainerDeco(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
           DropdownButton<String>(
             value: _selectedView,
             items: ['Default', 'Monthly', 'Yearly']
@@ -84,34 +83,29 @@ class _RevenueGrowthChartState extends State<RevenueGrowthChart> {
               }
             },
           ),
-          
-            SfCartesianChart(
-              primaryXAxis: CategoryAxis(),
-              title: ChartTitle(text: 'Revenue Growth Analysis', alignment: ChartAlignment.near ),
-              legend: Legend(isVisible: true),
-              tooltipBehavior: TooltipBehavior(enable: true),
-              series: <CartesianSeries<_SalesData, String>>[
-                LineSeries<_SalesData, String>(
-                  dataSource: data,
-                  xValueMapper: (_SalesData sales, _) => sales.year,
-                  yValueMapper: (_SalesData sales, _) => sales.sales,
-                  name: 'Sales',
-                  color: Colors.purple, // Set line color to purple
-                  dataLabelSettings: DataLabelSettings(isVisible: true),
-                )
-              ],
-            ),
-               
-               ],
-             ),
-       );
- 
+          SfCartesianChart(
+            primaryXAxis: CategoryAxis(),
+            title: ChartTitle(
+                text: 'Revenue Growth Analysis',
+                alignment: ChartAlignment.near),
+            legend: Legend(isVisible: true),
+            tooltipBehavior: TooltipBehavior(enable: true),
+            series: <CartesianSeries<_SalesData, String>>[
+              LineSeries<_SalesData, String>(
+                dataSource: data,
+                xValueMapper: (_SalesData sales, _) => sales.year,
+                yValueMapper: (_SalesData sales, _) => sales.sales,
+                name: 'Sales',
+                color: Colors.purple,
+                dataLabelSettings: DataLabelSettings(isVisible: true),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
-
-
 }
-
-
 
 class _SalesData {
   _SalesData(this.year, this.sales);
@@ -119,4 +113,3 @@ class _SalesData {
   final String year;
   final double sales;
 }
-

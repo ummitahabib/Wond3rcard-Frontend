@@ -56,12 +56,14 @@ class CardsMobile extends HookConsumerWidget {
           )
         ],
       ),
-      body: Column(
-        children: [
-          CardsTabWidget(
-            cardController: cardController,
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CardsTabWidget(
+              cardController: cardController,
+            )
+          ],
+        ),
       ),
     );
   }

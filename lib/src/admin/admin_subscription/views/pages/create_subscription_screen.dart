@@ -7,20 +7,24 @@ class CreateSubscriptionScreen extends ConsumerStatefulWidget {
   const CreateSubscriptionScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<CreateSubscriptionScreen> createState() => _CreateSubscriptionScreenState();
+  ConsumerState<CreateSubscriptionScreen> createState() =>
+      _CreateSubscriptionScreenState();
 }
 
-class _CreateSubscriptionScreenState extends ConsumerState<CreateSubscriptionScreen> {
+class _CreateSubscriptionScreenState
+    extends ConsumerState<CreateSubscriptionScreen> {
   final TextEditingController monthlyPriceController = TextEditingController();
-  final TextEditingController monthlyDurationController = TextEditingController();
+  final TextEditingController monthlyDurationController =
+      TextEditingController();
   final TextEditingController yearlyPriceController = TextEditingController();
-  final TextEditingController yearlyDurationController = TextEditingController();
+  final TextEditingController yearlyDurationController =
+      TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController trialPeriodController = TextEditingController();
   final TextEditingController featuresController = TextEditingController();
 
-  String selectedPlan = "Basic"; // Default dropdown value
-  bool autoRenew = true; // Default switch value
+  String selectedPlan = "Basic";
+  bool autoRenew = true;
 
   void _createSubscription() {
     final subscription = Subscription(
@@ -38,10 +42,12 @@ class _CreateSubscriptionScreenState extends ConsumerState<CreateSubscriptionScr
       description: descriptionController.text,
       trialPeriod: int.tryParse(trialPeriodController.text) ?? 14,
       autoRenew: autoRenew,
-      features: featuresController.text.split(','), // Splitting comma-separated features
+      features: featuresController.text.split(','),
     );
 
-    ref.read(createSubscriptionProvider.notifier).createSubscription(subscription);
+    ref
+        .read(createSubscriptionProvider.notifier)
+        .createSubscription(subscription);
   }
 
   @override
@@ -55,11 +61,11 @@ class _CreateSubscriptionScreenState extends ConsumerState<CreateSubscriptionScr
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Dropdown for Subscription Name
               DropdownButtonFormField<String>(
                 value: selectedPlan,
                 items: ["Business", "Basic", "Premium"]
-                    .map((plan) => DropdownMenuItem(value: plan, child: Text(plan)))
+                    .map((plan) =>
+                        DropdownMenuItem(value: plan, child: Text(plan)))
                     .toList(),
                 onChanged: (value) {
                   setState(() {
@@ -68,49 +74,38 @@ class _CreateSubscriptionScreenState extends ConsumerState<CreateSubscriptionScr
                 },
                 decoration: const InputDecoration(labelText: "Plan Name"),
               ),
-
-              // Monthly Price
               TextField(
                 controller: monthlyPriceController,
                 decoration: const InputDecoration(labelText: "Monthly Price"),
                 keyboardType: TextInputType.number,
               ),
-
-              // Monthly Duration
               TextField(
                 controller: monthlyDurationController,
-                decoration: const InputDecoration(labelText: "Monthly Duration (Days)"),
+                decoration:
+                    const InputDecoration(labelText: "Monthly Duration (Days)"),
                 keyboardType: TextInputType.number,
               ),
-
-              // Yearly Price
               TextField(
                 controller: yearlyPriceController,
                 decoration: const InputDecoration(labelText: "Yearly Price"),
                 keyboardType: TextInputType.number,
               ),
-
-              // Yearly Duration
               TextField(
                 controller: yearlyDurationController,
-                decoration: const InputDecoration(labelText: "Yearly Duration (Days)"),
+                decoration:
+                    const InputDecoration(labelText: "Yearly Duration (Days)"),
                 keyboardType: TextInputType.number,
               ),
-
-              // Description
               TextField(
                 controller: descriptionController,
                 decoration: const InputDecoration(labelText: "Description"),
               ),
-
-              // Trial Period
               TextField(
                 controller: trialPeriodController,
-                decoration: const InputDecoration(labelText: "Trial Period (Days)"),
+                decoration:
+                    const InputDecoration(labelText: "Trial Period (Days)"),
                 keyboardType: TextInputType.number,
               ),
-
-              // Features Input
               TextField(
                 controller: featuresController,
                 decoration: const InputDecoration(
@@ -118,8 +113,6 @@ class _CreateSubscriptionScreenState extends ConsumerState<CreateSubscriptionScr
                   hintText: "e.g. Limited Access, Priority Support",
                 ),
               ),
-
-              // Auto-renew Toggle
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -134,22 +127,17 @@ class _CreateSubscriptionScreenState extends ConsumerState<CreateSubscriptionScr
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
-
-              // Subscription Creation Status
               subscriptionState.when(
                 data: (data) => data != null
                     ? Text("Subscription Created: ${data.name}",
                         style: const TextStyle(color: Colors.green))
                     : Container(),
                 loading: () => const CircularProgressIndicator(),
-                error: (error, _) => Text("Error: $error", style: const TextStyle(color: Colors.red)),
+                error: (error, _) => Text("Error: $error",
+                    style: const TextStyle(color: Colors.red)),
               ),
-
               const SizedBox(height: 20),
-
-              // Submit Button
               ElevatedButton(
                 onPressed: _createSubscription,
                 child: const Text("Create Subscription"),

@@ -44,7 +44,7 @@ class PhysicalCardWidget extends ConsumerWidget {
                       ),
                       backgroundColor: AppColors.primaryShade,
                       textColor: AppColors.defaultWhite,
-                      text: 'Order Card',
+                      text: 'View Cards',
                       onPressed: () {
                       context.go(RouteString.viewPhysicalCard);
                       }))

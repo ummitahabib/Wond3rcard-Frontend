@@ -3,8 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/analytics/data/controller/analytics_controller.dart';
-import 'package:wond3rcard/src/analytics/views/widgets/all_cards_analytics_screen.dart';
-import 'package:wond3rcard/src/analytics/views/widgets/analytics_ui_widgets.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
@@ -33,46 +31,45 @@ class ContactEngagement extends HookConsumerWidget {
 
     return Column(
       children: [
-        //  Card(
-        //         color: AppColors.defaultWhite,
-        //         surfaceTintColor: AppColors.defaultWhite,
-        //         shape:
-        //             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-
         Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: AppColors.defaultWhite,
             borderRadius: BorderRadius.circular(12),
           ),
-          height: 187,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            child: Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'Contact Engagement',
-                    style: WonderCardTypography.boldTextTitleBold(
-                      color: AppColors.grayScale,
-                      fontSize: 18,
-                    ),
+          child: Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Contact Engagement',
+                  style: WonderCardTypography.boldTextTitleBold(
+                    color: AppColors.grayScale,
+                    fontSize: 18,
                   ),
-                  contactEngagementChildren(
-                    numberOfTaps:
-                        '${analyticsController.analytics?.payload.analytics.totalPhone ?? emptyString}',
-                    text: 'Phone',
-                    icon: HeroIcons.phone,
-                  ),
-                  contactEngagementChildren(
-                    numberOfTaps:
-                        '${analyticsController.analytics?.payload.analytics.totalEmail ?? emptyString}',
-                    text: 'Email',
-                    icon: HeroIcons.inbox,
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                contactEngagementChildren(
+                  numberOfTaps:
+                      '${analyticsController.analytics?.payload.analytics.totalPhone ?? emptyString}',
+                  text: 'Phone',
+                  icon: HeroIcons.phone,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                contactEngagementChildren(
+                  numberOfTaps:
+                      '${analyticsController.analytics?.payload.analytics.totalEmail ?? emptyString}',
+                  text: 'Email',
+                  icon: HeroIcons.inbox,
+                ),
+              ],
             ),
           ),
         ),

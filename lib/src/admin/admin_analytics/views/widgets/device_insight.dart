@@ -47,11 +47,11 @@ class DeviceInsight extends StatelessWidget {
               return DeviceInsightWidget(user: deviceInsightList[index]);
             },
           ),
-
-          SizedBox(height: 20,),
-            Text('Traffic Source'),
-
-      TrafficSourceWidget(),
+          SizedBox(
+            height: 20,
+          ),
+          Text('Traffic Source'),
+          TrafficSourceWidget(),
         ],
       ),
     );
@@ -112,9 +112,9 @@ class DeviceInsightWidget extends StatelessWidget {
               ),
             ],
           ),
-      SizedBox(height: 30,),
-    
-      
+          SizedBox(
+            height: 30,
+          ),
         ],
       ),
     );
@@ -149,15 +149,8 @@ final List<DeviceInsightDataModel> deviceInsightList = [
     imageUrl: SvgAssets.tablet,
     data: "0.82%",
   ),
-
 ];
 
-
-
-
-
-
-// Model for Data Traffic Source
 class DataTrafficSource {
   final String name;
   final double percentage;
@@ -165,21 +158,17 @@ class DataTrafficSource {
   DataTrafficSource({required this.name, required this.percentage});
 }
 
-
-
 class TrafficSourceWidget extends StatelessWidget {
   const TrafficSourceWidget({super.key});
 
-  // Generate dummy data
   List<DataTrafficSource> get trafficSources => [
         DataTrafficSource(name: 'QR Code', percentage: 20),
         DataTrafficSource(name: 'Email', percentage: 30),
         DataTrafficSource(name: 'Social', percentage: 80),
       ];
 
-  // Function to calculate dynamic color based on percentage
   Color getDynamicColor(double percentage) {
-    int alpha = (255 * (percentage / 100)).toInt(); // Adjust opacity
+    int alpha = (255 * (percentage / 100)).toInt();
     return Colors.purple.withAlpha(alpha);
   }
 
@@ -187,11 +176,11 @@ class TrafficSourceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-       crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: trafficSources.map((source) {
         return Container(
-        padding: EdgeInsets.all(24),
+          padding: EdgeInsets.all(24),
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: getDynamicColor(source.percentage),

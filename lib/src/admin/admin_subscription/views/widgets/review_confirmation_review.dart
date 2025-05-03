@@ -1,22 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/data/controller/create_subscription_controller.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/reusbale_header_widget.dart';
 import 'package:wond3rcard/src/privacy_security/views/pages/mobile/privacy_security_mobile.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
 import 'package:wond3rcard/src/utils/util.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/data/controller/create_subscription_controller.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/data/models/admin_subscription_model.dart';
 
-class SubscriptionReviewAndConfirmation extends ConsumerWidget {
 
 
-final String routeName = RouteString.subscriptionReview;
-
+class SubscriptionReviewAndConfirmation extends StatefulHookConsumerWidget {
   const SubscriptionReviewAndConfirmation({super.key});
 
-
+  final String routeName = RouteString.subscriptionReview;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _SubscriptionReviewAndConfirmationState();
+}
+class _SubscriptionReviewAndConfirmationState extends ConsumerState<SubscriptionReviewAndConfirmation> {
+
+  
+  @override
+  Widget build(BuildContext context) {
+
+ final notifier = ref.read(createSubscriptionProvider.notifier);
+
+    final subscriptionState = ref.watch(createSubscriptionProvider);
+
+    
+      void createSubscriptionMethod() {
+    final subscription = Subscription(
+      name: notifier.selectedPlan,
+      billingCycle: BillingCycle(
+        monthly: Plan(
+          price: int.tryParse(notifier.monthlyPriceController.text) ?? 0,
+          durationInDays: int.tryParse(notifier.monthlyDurationController.text) ?? 30,
+        ),
+        yearly: Plan(
+          price: int.tryParse(notifier.yearlyPriceController.text) ?? 0,
+          durationInDays: int.tryParse(notifier.yearlyDurationController.text) ?? 365,
+        ),
+      ),
+      description: notifier.descriptionController.text,
+      trialPeriod: int.tryParse(notifier.trialPeriodController.text) ?? 14,
+      autoRenew: notifier.autoRenew,
+      features: notifier.featuresController.text.split(','), 
+    );
+
+    ref.read(createSubscriptionProvider.notifier).createSubscription(subscription);
+  }
+
+
   return Scaffold(
     backgroundColor: AppColors.grayScale50,
     body: SingleChildScrollView(
@@ -155,6 +192,19 @@ final String routeName = RouteString.subscriptionReview;
                                     ),
                                   )
                              , SizedBox(width: 20,),
+
+              subscriptionState.when(
+                data: (data) => data != null
+                    ? Text("Subscription Created: ${data.name}",
+                        style: const TextStyle(color: Colors.green))
+                    : Container(),
+                loading: () => const CircularProgressIndicator(),
+                error: (error, _) => Text("Error: $error", style: const TextStyle(color: Colors.red)),
+              ),
+
+              const SizedBox(height: 20),
+
+             
                                   SizedBox(
                                     width: 166,
                                     height: 50,
@@ -162,6 +212,7 @@ final String routeName = RouteString.subscriptionReview;
                                       textColor: Colors.white,
                                       
                                       onPressed: (){
+                                        createSubscriptionMethod();
                                       },
                                       text: 'Confirm & Create',
                                       trailingIcon: Icon(Icons.arrow_forward_ios, color: AppColors.defaultWhite,)
@@ -303,3 +354,4 @@ final String routeName = RouteString.subscriptionReview;
   ],
 );
   }
+

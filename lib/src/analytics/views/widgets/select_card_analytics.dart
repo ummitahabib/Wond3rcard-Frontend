@@ -178,7 +178,7 @@ class SelectCardAnalytics extends HookConsumerWidget {
           return GestureDetector(
             onTap: () {
               selectedFilter.value = filter.label;
-              filter.onTap(); // Trigger the associated action
+              filter.onTap();
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 5),

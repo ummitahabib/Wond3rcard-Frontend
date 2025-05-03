@@ -73,6 +73,14 @@ class WonderCardTypography {
         color: color ?? AppColors.defaultWhite);
   }
 
+  static TextStyle boldTextH3({double? fontSize, Color? color}) {
+    return TextStyle(
+        fontFamily: 'Barlow',
+        fontSize: fontSize ?? SpacingConstants.size28,
+        fontWeight: FontWeight.w700,
+        color: color ?? AppColors.defaultWhite);
+  }
+
   static TextStyle boldTextH5({
     double? fontSize,
     Color? color,
@@ -106,8 +114,6 @@ class WonderCardTypography {
     return TextStyle(
         fontFamily: wonderCardFontName,
         fontSize: fontSize ?? SpacingConstants.size13,
-        // fontWeight: fontWeight ?? FontWeight.w700,
-        // height: height ?? SpacingConstants.size13,
         color: color ?? AppColors.primaryShade);
   }
 

@@ -23,9 +23,8 @@ class AssignRoleResponse {
       name: json['name'],
       description: json['description'],
       organizationId: json['organizationId'],
-      members: (json['members'] as List)
-          .map((m) => Member.fromJson(m))
-          .toList(),
+      members:
+          (json['members'] as List).map((m) => Member.fromJson(m)).toList(),
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );
@@ -52,7 +51,6 @@ class Member {
   }
 }
 
-// Enum for available roles
 enum TeamRole { admin, lead, moderator, member }
 
 extension TeamRoleExtension on TeamRole {

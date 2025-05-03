@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:wond3rcard/src/admin/admin_analytics/views/admin_analytics.dart';
 
 class CancellationPieChart extends StatelessWidget {
   final List<CancellationReason> data;
@@ -11,25 +10,32 @@ class CancellationPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return 
-    Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SfCircularChart(
-          title: ChartTitle(text: 'Subscription Cancellation Reasons'),
-          legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
-          tooltipBehavior: TooltipBehavior(enable: true),
-          series: <PieSeries<CancellationReason, String>>[
-            PieSeries<CancellationReason, String>(
-              dataSource: data,
-              xValueMapper: (CancellationReason reason, _) => reason.reason,
-              yValueMapper: (CancellationReason reason, _) => reason.percentage,
-              pointColorMapper: (CancellationReason reason, _) => reason.color,
-              dataLabelMapper: (CancellationReason reason, _) =>
-                  '${reason.reason}: ${reason.percentage.toStringAsFixed(0)}%',
-              dataLabelSettings: DataLabelSettings(isVisible: true),
-            ),
-          ],
-        ),
-      
+       Container(
+        decoration: reusableContainerDeco(),
+         margin: EdgeInsets.all(16),
+         padding: EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SfCircularChart(
+            title: ChartTitle(text: 'Subscription Cancellation Reasons', alignment: ChartAlignment.near),
+            legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+            tooltipBehavior: TooltipBehavior(enable: true),
+            series: <PieSeries<CancellationReason, String>>[
+              PieSeries<CancellationReason, String>(
+                dataSource: data,
+                xValueMapper: (CancellationReason reason, _) => reason.reason,
+                yValueMapper: (CancellationReason reason, _) => reason.percentage,
+                pointColorMapper: (CancellationReason reason, _) => reason.color,
+                dataLabelMapper: (CancellationReason reason, _) =>
+                    '${reason.percentage.toStringAsFixed(0)}%',
+                dataLabelSettings: DataLabelSettings(isVisible: true),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

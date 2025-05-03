@@ -46,6 +46,7 @@ class _AddressFieldState extends ConsumerState<AddressField> {
     return Column(
       children: [
         TextField(
+          
           controller: _addressController,
           decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -61,6 +62,7 @@ class _AddressFieldState extends ConsumerState<AddressField> {
               onPressed: _openMap,
             ),
           ),
+          
         ),
       ],
     );

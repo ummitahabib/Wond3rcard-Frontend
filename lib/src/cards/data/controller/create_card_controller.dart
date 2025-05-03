@@ -21,15 +21,13 @@ class CreateCardController extends StateNotifier<AsyncValue<void>> {
 
   CreateCardController(this._repository) : super(const AsyncValue.data(null));
 
-  /// Picks an image for mobile
   Future<File?> pickImage(ImageSource source) async {
-    if (kIsWeb) return null; // Use pickWebImage() for web
+    if (kIsWeb) return null;
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
     return pickedFile != null ? File(pickedFile.path) : null;
   }
 
-  /// Picks an image for Web
   Future<Uint8List?> pickWebImage() async {
     final completer = Completer<Uint8List?>();
     final input = html.FileUploadInputElement()..accept = 'image/*';
@@ -47,7 +45,6 @@ class CreateCardController extends StateNotifier<AsyncValue<void>> {
     return completer.future;
   }
 
-  /// Creates a new card
   Future<void> createCard(CreateCardModel card) async {
     state = const AsyncValue.loading();
     try {

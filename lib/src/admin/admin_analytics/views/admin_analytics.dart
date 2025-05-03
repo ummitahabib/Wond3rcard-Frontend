@@ -28,48 +28,9 @@ class AdminAnalytics extends HookConsumerWidget {
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
+            analyticsHeader(context),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  HeroIcon(
-                    HeroIcons.userGroup,
-                    color: Color(0xff0F172A),
-                    size: 24,
-                  ),
-                  Text('/  Pages  /  Analytics /'),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      customDialog(context, AddUserAccount());
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF6D41CA),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.document_scanner, color: Colors.white),
-                          Text(
-                            'Export & Reports',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -191,7 +152,7 @@ SizedBox(height: 10,),
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
         
-        children: [    SubscriptionChart(),  CancellationPieChart(data: cancellationData),],),
+        children: [    Expanded(child: SubscriptionChart()),  Expanded(child:CancellationPieChart(data: cancellationData),),],),
    
 
   Column(
@@ -252,12 +213,13 @@ SizedBox(height: 10,),
        , 
 
 Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  mainAxisAlignment: MainAxisAlignment.start,
   crossAxisAlignment: CrossAxisAlignment.start, 
   mainAxisSize: MainAxisSize.min,
+
   children: [
-    CardStatsTable(stats: cardStatsList),
-    MostViewCards(),
+    Expanded(child: CardStatsTable(stats: cardStatsList)),
+    Expanded(child: MostViewCards()),
   ],
 )
 
@@ -267,6 +229,53 @@ Row(
         ),
       ),
     );
+  }
+
+  Padding analyticsHeader(BuildContext context) {
+    return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                HeroIcon(
+                  HeroIcons.userGroup,
+                  color: Color(0xff0F172A),
+                  size: 24,
+                ),
+                Text('/  Pages  /  Analytics /'),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    customDialog(context, AddUserAccount());
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF6D41CA),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.edit_document, color: Colors.white),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Export & Reports',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
   }
 }
 

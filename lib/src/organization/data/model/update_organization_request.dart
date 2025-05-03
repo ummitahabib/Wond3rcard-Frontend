@@ -1,4 +1,3 @@
-// Request model for updating an organization
 class UpdateOrganizationRequest {
   final String name;
   final String businessType;
@@ -14,7 +13,6 @@ class UpdateOrganizationRequest {
     required this.creatorId,
   });
 
-  // Convert to JSON for the request payload
   Map<String, dynamic> toJson() {
     return {
       "name": name,
@@ -26,7 +24,6 @@ class UpdateOrganizationRequest {
   }
 }
 
-// Response model for updated organization
 class UpdateOrganizationResponse {
   final String id;
   final String name;
@@ -42,7 +39,6 @@ class UpdateOrganizationResponse {
     required this.companyWebsite,
   });
 
-  // Factory constructor to parse JSON response
   factory UpdateOrganizationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateOrganizationResponse(
       id: json['_id'],

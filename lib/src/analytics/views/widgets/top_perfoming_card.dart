@@ -3,11 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/analytics/data/controller/analytics_controller.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
-class TopPerformingCard extends HookConsumerWidget {
-  const TopPerformingCard({super.key});
+class TopPerformingCardWidget extends HookConsumerWidget {
+  const TopPerformingCardWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,10 +33,17 @@ class TopPerformingCard extends HookConsumerWidget {
   }
 
   Widget card(BuildContext context, AnalyticsNotifier analyticsController) {
-    return Card(
+    return Container(
+       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColors.defaultWhite,
+            borderRadius: BorderRadius.circular(12),
+          ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'Top Performing Cards',
@@ -45,7 +53,9 @@ class TopPerformingCard extends HookConsumerWidget {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(
                 width: 16,
@@ -67,12 +77,16 @@ class TopPerformingCard extends HookConsumerWidget {
               ),
             ],
           ),
-          Expanded(
+          Container(
+            height: 503,
+            padding: EdgeInsets.all(10),
+            margin: EdgeInsets.all(10),
             child: ListView.builder(
-              itemCount: analyticsController.analytics!.payload.analytics
+              physics: BouncingScrollPhysics(),
+              itemCount: analyticsController.analytics?.payload.analytics
                   .topPerformingCards.topPerformingCards.length,
               itemBuilder: (context, index) {
-                final card = analyticsController.analytics!.payload.analytics
+                final card = analyticsController.analytics?.payload.analytics
                     .topPerformingCards.topPerformingCards[index];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,14 +98,14 @@ class TopPerformingCard extends HookConsumerWidget {
                           ImageAssets.crown,
                         ),
                         Text(
-                          card.cardName,
+                          card?.cardName ?? emptyString,
                           style: WonderCardTypography.boldTextTitleBold(
                             fontSize: 18,
                             color: AppColors.grayScale,
                           ),
                         ),
                         Text(
-                          '${card.percentage}%',
+                          '${card?.percentage ?? emptyString}%',
                           style: WonderCardTypography.boldTextH5(
                             fontSize: 23,
                             color: AppColors.grayScale,
@@ -116,15 +130,15 @@ class TopPerformingCard extends HookConsumerWidget {
                             children: [
                               topPerformingCardColumn(
                                 'Views',
-                                '${analyticsController.analytics!.payload.analytics.totalViews}',
+                                '${analyticsController.analytics?.payload.analytics.totalViews}',
                               ),
                               topPerformingCardColumn(
                                 'Taps',
-                                '${card.interactionCount}',
+                                '${card?.interactionCount ?? emptyString}',
                               ),
                               topPerformingCardColumn(
                                 'Shares',
-                                '${analyticsController.analytics!.payload.analytics.totalShares}',
+                                '${analyticsController.analytics?.payload.analytics.totalShares}',
                               ),
                             ],
                           ),
@@ -136,6 +150,7 @@ class TopPerformingCard extends HookConsumerWidget {
               },
             ),
           ),
+       
         ],
       ),
     );
@@ -143,6 +158,9 @@ class TopPerformingCard extends HookConsumerWidget {
 
   Column topPerformingCardColumn(String text, String data) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           text,

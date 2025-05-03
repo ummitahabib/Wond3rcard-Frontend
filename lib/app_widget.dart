@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wond3rcard/src/utils/app_responsive.dart';
 import 'package:wond3rcard/src/utils/app_router_desktop.dart';
 import 'package:wond3rcard/src/utils/app_router_mobile.dart';
-
-import 'package:flutter/material.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});

@@ -15,7 +15,6 @@ class FontCustomizationCard extends StatefulHookConsumerWidget {
 }
 
 class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
-  // List of available fonts
   final List<String> availableFonts = [
     'Roboto',
     'Lato',
@@ -28,7 +27,6 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
     'Playfair Display',
   ];
 
-  // State variables
   late String selectedFont;
   late double fontSize;
 
@@ -75,15 +73,11 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
             ),
           ),
           const SizedBox(height: 20),
-
-          // Font Selection Title
           const Text(
             "Select a Font:",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-
-          // Font Selection List
           ListView.builder(
             shrinkWrap: true,
             itemCount: availableFonts.length,
@@ -91,9 +85,9 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
               final fontName = availableFonts[index];
               return GestureDetector(
                 onTap: () {
-                  selectedFontState.value = fontName; // Update selected font
-                  _savePreferences(selectedFontState.value,
-                      fontSizeState.value); // Save preference
+                  selectedFontState.value = fontName;
+                  _savePreferences(
+                      selectedFontState.value, fontSizeState.value);
                 },
                 child: Container(
                   margin:
@@ -123,15 +117,11 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
             },
           ),
           const SizedBox(height: 10),
-
-          // Font Size Slider Title
           const Text(
             "Adjust Font Size:",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-
-          // Font Size Slider
           Slider(
             value: fontSizeState.value,
             min: 12,
@@ -139,7 +129,7 @@ class _FontCustomizationCardState extends ConsumerState<FontCustomizationCard> {
             divisions: 24,
             label: fontSizeState.value.round().toString(),
             onChanged: (value) {
-              fontSizeState.value = value; // Update font size
+              fontSizeState.value = value;
               _savePreferences(selectedFontState.value, fontSizeState.value);
             },
           ),

@@ -39,7 +39,6 @@ class ChangeRoleScreen extends ConsumerWidget {
     );
   }
 
-  // Role dropdown for changing member role
   Widget _buildRoleDropdown(
     MemberModel member,
     ChangeRoleNotifier notifier,
@@ -55,7 +54,8 @@ class ChangeRoleScreen extends ConsumerWidget {
       }).toList(),
       onChanged: (newRole) async {
         if (newRole != null && newRole != member.role) {
-          final confirm = await _showConfirmationDialog(context, member, newRole);
+          final confirm =
+              await _showConfirmationDialog(context, member, newRole);
           if (confirm) {
             await notifier.changeRole(member.memberId, newRole);
             if (context.mounted) {
@@ -69,7 +69,6 @@ class ChangeRoleScreen extends ConsumerWidget {
     );
   }
 
-  // Confirmation dialog before changing role
   Future<bool> _showConfirmationDialog(
     BuildContext context,
     MemberModel member,
@@ -89,7 +88,8 @@ class ChangeRoleScreen extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text('Confirm', style: TextStyle(color: Colors.blue)),
+                child:
+                    const Text('Confirm', style: TextStyle(color: Colors.blue)),
               ),
             ],
           ),

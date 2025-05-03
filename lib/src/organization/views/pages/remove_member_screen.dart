@@ -43,7 +43,6 @@ class RemoveMemberScreen extends ConsumerWidget {
     );
   }
 
-  // Confirm and remove member
   Future<void> _confirmRemove(
     BuildContext context,
     RemoveMemberNotifier notifier,

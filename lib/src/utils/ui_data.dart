@@ -5,6 +5,8 @@ import 'package:wond3rcard/src/admin/common/data/model/admin_nav_item.dart';
 import 'package:wond3rcard/src/admin/common/widgets/admin_route_menu_item.dart';
 import 'package:wond3rcard/src/analytics/data/model/analytics_card_data_model.dart';
 import 'package:wond3rcard/src/home/data/model/nav_item_model.dart';
+import 'package:wond3rcard/src/main_dashboard/data/model/user_nav_item_model.dart';
+import 'package:wond3rcard/src/main_dashboard/views/widgets/user_route_menu.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
@@ -189,3 +191,44 @@ List<AdminSubscriptionModel> subscriptionAnalyticsData = [
   AdminSubscriptionModel(title: 'Most Active Plan', value: '12.2k'),
     AdminSubscriptionModel(title: 'Plan Canceling rate', value: '12.2k'),
 ];
+
+
+
+
+
+List<UserNavItem> userNavItems(BuildContext context) {
+  return [
+    UserNavItem(
+      title: 'Dashboard',
+      icon: SvgAssets.userDasboard,
+      route: UserRouteMenu.home,
+    ),
+    UserNavItem(
+      title: 'Card',
+      icon: SvgAssets.userManagement,
+      route: UserRouteMenu.card,
+    ),
+    UserNavItem(
+      title: 'Share',
+      icon: SvgAssets.userCardManagement,
+      route: UserRouteMenu.share,
+    ),
+    UserNavItem(
+      title: 'Contact',
+      icon: SvgAssets.analytics,
+      route: UserRouteMenu.connections,
+    ),
+    UserNavItem(
+      title: 'Analytics',
+      icon: SvgAssets.security,
+      route: UserRouteMenu.analytics,
+    ),
+    UserNavItem(
+      title: 'Profile',
+      icon: SvgAssets.flag,
+      route: UserRouteMenu.profile,
+    ),
+  
+  ];
+}
+

@@ -10,9 +10,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AccountSettings extends HookConsumerWidget {
-
-
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final emailController = useTextEditingController();
@@ -22,72 +19,60 @@ class AccountSettings extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-                       Padding(
-                         padding: const EdgeInsets.all(16),
-                         child: Row(
-                                           children: [
-                                             Container(
-                                               width: 40,
-                                               height: 40,
-                                               decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Color(0xffFFFFFF)),
-                                               child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.black,
-                          size: 24,
-                                               ),
-                                             ),
-                                         Spacer(),
-                                         SizedBox()
-                                           ],
-                                         ),
-                       ),
-                  
-                   
-
-           Container(
-             padding: EdgeInsets.all(40),
-              margin: EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: AppColors.defaultWhite,
-                borderRadius: BorderRadius.circular(10),
-              ),
+            Padding(
+              padding: const EdgeInsets.all(16),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
-                  reuseableHeaderWidget(
-                    number: '1',
-                    text: 'User Information',
-                    activeColor: AppColors.primaryShade200,
-
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Color(0xffFFFFFF)),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: 24,
+                    ),
                   ),
-
+                  Spacer(),
+                  SizedBox()
+                ],
+              ),
+            ),
+            Container(
+                padding: EdgeInsets.all(40),
+                margin: EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: AppColors.defaultWhite,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
                     reuseableHeaderWidget(
-                    number: '2',
-                    text: 'Account Settings',
-                    activeColor: AppColors.primaryShade,
-                    
-                  ),
-
-                   reuseableHeaderWidget(
-                    number: '3',
-                    text: 'Additional Information',
-                    activeColor: AppColors.primaryShade200,
-                    
-                  ),
-
-
-                     reuseableHeaderWidget(
-                    number: '4',
-                    text: 'Review',
-                    activeColor: AppColors.primaryShade200,
-                    
-                  ),
-                ],)
-           ),
-
+                      number: '1',
+                      text: 'User Information',
+                      activeColor: AppColors.primaryShade200,
+                    ),
+                    reuseableHeaderWidget(
+                      number: '2',
+                      text: 'Account Settings',
+                      activeColor: AppColors.primaryShade,
+                    ),
+                    reuseableHeaderWidget(
+                      number: '3',
+                      text: 'Additional Information',
+                      activeColor: AppColors.primaryShade200,
+                    ),
+                    reuseableHeaderWidget(
+                      number: '4',
+                      text: 'Review',
+                      activeColor: AppColors.primaryShade200,
+                    ),
+                  ],
+                )),
             Container(
               padding: EdgeInsets.all(16),
               margin: EdgeInsets.all(24),
@@ -105,10 +90,7 @@ class AccountSettings extends HookConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                  
-                  
-                  
-            Text(
+                        Text(
                           'User Information',
                           style: TextStyle(
                             color: Color(0xff3A3541),
@@ -131,148 +113,145 @@ class AccountSettings extends HookConsumerWidget {
                       ],
                     ),
                     SizedBox(height: size30),
-               
                     Row(
-                      
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                      Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                        children: [
-                         SizedBox(
-                           width: 354,
-                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                             children: [
-                              Text('User type', style: WonderCardTypography.bodyLarge(
-                                                   color: AppColors.grayScale,
-                                                 )),
-                               SizedBox(height: 13,),
-                               UserTypeCustomDropdown(),
-                             ],
-                           ),
-                         ),
-                  
-                  SizedBox(height: 16,),
-                   
-                   Column(
-                     children: [
-                      Text('Email Notification', style: WonderCardTypography.bodyLarge(
-                        color: AppColors.grayScale,
-                      )),
-                      SizedBox(height: 13,),
-                       Switch.adaptive(value: true, onChanged: (bool value) {}),
-                     ],
-                   )
-                 
-                        ],
-                      )
-                  
-                  ,
-                 SizedBox(width: 80,),
-                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                        children: [
-                           SizedBox(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
                               width: 354,
-                             child: Column(
-                              
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                               children: [
-                                 Text('User Status', style: WonderCardTypography.bodyLarge(
-                        color: AppColors.grayScale,
-                      )),
-                             SizedBox(height: 13,),
-                                 UserTypeStatusDropDown(),
-                               ],
-                             ),
-                           ),
-                  
-                  SizedBox(height: 16,),
-                  
-                     SizedBox(
-                        width: 354,
-                       child: CustomTextField(
-                        textColor: AppColors.grayScale600,
-                        type: TextFieldType.defaultType,
-                        text: 'Card Limit',
-                        inputType: TextInputType.emailAddress,
-                        isRequired: true,
-                        hintText: '5 default',
-                        textEditingController: emailController,
-                                     ),
-                     ),
-                 
-                 
-                        ],
-                      )
-                  
-                   
-                   
-                    ],),
-                  
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('User type',
+                                      style: WonderCardTypography.bodyLarge(
+                                        color: AppColors.grayScale,
+                                      )),
+                                  SizedBox(
+                                    height: 13,
+                                  ),
+                                  UserTypeCustomDropdown(),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Column(
+                              children: [
+                                Text('Email Notification',
+                                    style: WonderCardTypography.bodyLarge(
+                                      color: AppColors.grayScale,
+                                    )),
+                                SizedBox(
+                                  height: 13,
+                                ),
+                                Switch.adaptive(
+                                    value: true, onChanged: (bool value) {}),
+                              ],
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          width: 80,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 354,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('User Status',
+                                      style: WonderCardTypography.bodyLarge(
+                                        color: AppColors.grayScale,
+                                      )),
+                                  SizedBox(
+                                    height: 13,
+                                  ),
+                                  UserTypeStatusDropDown(),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            SizedBox(
+                              width: 354,
+                              child: CustomTextField(
+                                textColor: AppColors.grayScale600,
+                                type: TextFieldType.defaultType,
+                                text: 'Card Limit',
+                                inputType: TextInputType.emailAddress,
+                                isRequired: true,
+                                hintText: '5 default',
+                                textEditingController: emailController,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                         SizedBox(
-                        width: 166,
-                        height: 50,
-                        child: WonderCardButton(
-                          backgroundColor: AppColors.grayScale50,
-                          textColor: AppColors.primaryShade,
-                          
-                          onPressed: (){
-                            context.go(RouteString.addUserAccount);
-                          },
-                          text: 'Back',
-                          trailingIcon: Icon(Icons.arrow_back_ios, color: AppColors.primaryShade,)
+                        SizedBox(
+                          width: 166,
+                          height: 50,
+                          child: WonderCardButton(
+                              backgroundColor: AppColors.grayScale50,
+                              textColor: AppColors.primaryShade,
+                              onPressed: () {
+                                context.go(RouteString.addUserAccount);
+                              },
+                              text: 'Back',
+                              trailingIcon: Icon(
+                                Icons.arrow_back_ios,
+                                color: AppColors.primaryShade,
+                              )),
                         ),
-                      )
-                 , SizedBox(width: 20,),
-                      SizedBox(
-                        width: 166,
-                        height: 50,
-                        child: WonderCardButton(
-                          textColor: Colors.white,
-                          
-                          onPressed: (){
-                            context.go(RouteString.additionalInformation);
-                          },
-                          text: 'Next',
-                          trailingIcon: Icon(Icons.arrow_forward_ios, color: AppColors.defaultWhite,)
+                        SizedBox(
+                          width: 20,
                         ),
-                      )
-                  
-                  
-                    ],)
-                   
+                        SizedBox(
+                          width: 166,
+                          height: 50,
+                          child: WonderCardButton(
+                              textColor: Colors.white,
+                              onPressed: () {
+                                context.go(RouteString.additionalInformation);
+                              },
+                              text: 'Next',
+                              trailingIcon: Icon(
+                                Icons.arrow_forward_ios,
+                                color: AppColors.defaultWhite,
+                              )),
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),
             ),
-      
           ],
         ),
       ),
     );
   }
-
-
 }
-
-
-
-
-
 
 class UserTypeCustomDropdown extends StatefulWidget {
   const UserTypeCustomDropdown({super.key});
@@ -282,7 +261,7 @@ class UserTypeCustomDropdown extends StatefulWidget {
 }
 
 class _UserTypeCustomDropdownState extends State<UserTypeCustomDropdown> {
-  String selectedValue = 'Basic'; // Default value
+  String selectedValue = 'Basic';
 
   final List<String> options = ['Basic', 'Premium', 'Business'];
 
@@ -293,11 +272,11 @@ class _UserTypeCustomDropdownState extends State<UserTypeCustomDropdown> {
       height: 46,
       padding: const EdgeInsets.fromLTRB(15, 13, 15, 16),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFEFEF), // Background color
-        borderRadius: BorderRadius.circular(8), // Border radius
+        color: const Color(0xFFEFEFEF),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: const Color(0xFFDBDCDE), // Border color
-          width: 1, // Border width
+          color: const Color(0xFFDBDCDE),
+          width: 1,
         ),
       ),
       child: DropdownButtonHideUnderline(
@@ -314,19 +293,13 @@ class _UserTypeCustomDropdownState extends State<UserTypeCustomDropdown> {
               child: Text(option),
             );
           }).toList(),
-          icon: const Icon(Icons.arrow_drop_down), // Dropdown icon
-          style: const TextStyle(color: Colors.black), // Text color
+          icon: const Icon(Icons.arrow_drop_down),
+          style: const TextStyle(color: Colors.black),
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
 
 class UserTypeStatusDropDown extends StatefulWidget {
   const UserTypeStatusDropDown({super.key});
@@ -336,9 +309,12 @@ class UserTypeStatusDropDown extends StatefulWidget {
 }
 
 class _UserTypeStatusDropDownState extends State<UserTypeStatusDropDown> {
-  String selectedValue = 'Active'; // Default value
+  String selectedValue = 'Active';
 
-  final List<String> options = ['Active', 'InActive',];
+  final List<String> options = [
+    'Active',
+    'InActive',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -347,11 +323,11 @@ class _UserTypeStatusDropDownState extends State<UserTypeStatusDropDown> {
       height: 46,
       padding: const EdgeInsets.fromLTRB(15, 13, 15, 16),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFEFEF), // Background color
-        borderRadius: BorderRadius.circular(8), // Border radius
+        color: const Color(0xFFEFEFEF),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: const Color(0xFFDBDCDE), // Border color
-          width: 1, // Border width
+          color: const Color(0xFFDBDCDE),
+          width: 1,
         ),
       ),
       child: DropdownButtonHideUnderline(
@@ -368,8 +344,8 @@ class _UserTypeStatusDropDownState extends State<UserTypeStatusDropDown> {
               child: Text(option),
             );
           }).toList(),
-          icon: const Icon(Icons.arrow_drop_down), // Dropdown icon
-          style: const TextStyle(color: Colors.black), // Text color
+          icon: const Icon(Icons.arrow_drop_down),
+          style: const TextStyle(color: Colors.black),
         ),
       ),
     );

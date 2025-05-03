@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
-import 'package:wond3rcard/src/cards/views/widgets/card_widgets.dart';
+import 'package:wond3rcard/src/cards/views/widgets/card_options.dart';
 import 'package:wond3rcard/src/cards/views/widgets/no_cards_widget.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +10,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:smart_wrap/smart_wrap.dart';
 import 'package:wond3rcard/src/home/views/widgets/name_and_job.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
+import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,22 +47,27 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
     );
 
     return cardController.getCardsResponse != null
-        ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: widget
-                    .cardController!.getCardsResponse?.payload?.cards?.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      GestureDetector(
+        ? SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: isDesktop(context)
+                ? GridView.builder(
+
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30,vertical: 30),
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: widget.cardController?.getCardsResponse?.payload
+                            ?.cards?.length ??
+                        0,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
                         onTap: () {
                           context.go('${RouteString.cardDetails}/$index');
                         },
@@ -69,19 +75,56 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                           bool confirmDelete = await _showDeleteDialog(context);
                           if (confirmDelete) {
                             await ref.read(cardProvider).deleteCard(
-                                cardController.getCards[index].id, context);
+                                cardController.getCardsResponse?.payload
+                                        ?.cards?[index].id ??
+                                    '',
+                                context,
+                                
+                                );
                           }
                         },
                         child: _cardLists(cardController, index),
-                      ),
-                      SizedBox(
-                        height: 13,
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
+                      );
+                    },
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 12),
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: widget.cardController?.getCardsResponse?.payload
+                            ?.cards?.length ??
+                        0,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              context.go('${RouteString.cardDetails}/$index');
+                            },
+                            onDoubleTap: () async {
+                              bool confirmDelete =
+                                  await _showDeleteDialog(context);
+                              if (confirmDelete) {
+                                await ref.read(cardProvider).deleteCard(
+                                    cardController.getCardsResponse?.payload
+                                            ?.cards?[index].id ??
+                                        '',
+                                    context);
+                              }
+                            },
+                            child: _cardLists(cardController, index),
+                          ),
+                          const SizedBox(
+                            height: 13,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
           )
         : NoCardsWidget();
   }
@@ -157,25 +200,24 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                               emptyString,
                         ),
                         const Spacer(),
-                        qrCodeContainer(
-                          onTap: (){
-                            context.go(RouteString.shareCardLink);
-                          }
-                        ),
+                        qrCodeContainer(onTap: () {
+                          context.go(RouteString.shareCardLink);
+                        }),
                         SizedBox(width: 12),
-                       qrCodeContainer(
-                           onTap: () {
-                         showModalBottomSheet(
-                           context: context,
-                           builder: (BuildContext context) {
-                             return cardOptionWidget(); 
-                           },
-                         );
-                       },
-                         icon: HeroIcons.ellipsisVertical,
-                         iconColor: const Color(0xff0F172A),
-                       )
-
+                        qrCodeContainer(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CardOptions(
+                                  index: index,
+                                );
+                              },
+                            );
+                          },
+                          icon: HeroIcons.ellipsisVertical,
+                          iconColor: const Color(0xff0F172A),
+                        )
                       ],
                     ),
                   ),

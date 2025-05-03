@@ -9,7 +9,6 @@ class SocialMediaResponse {
     required this.payload,
   });
 
-  // Convert SocialMediaResponse to Map
   Map<String, dynamic> toMap() {
     return {
       'message': message,
@@ -17,7 +16,6 @@ class SocialMediaResponse {
     };
   }
 
-  // Create SocialMediaResponse from Map
   factory SocialMediaResponse.fromMap(Map<String, dynamic> map) {
     return SocialMediaResponse(
       message: map['message'] ?? '',
@@ -26,10 +24,8 @@ class SocialMediaResponse {
     );
   }
 
-  // Convert SocialMediaResponse to JSON
   String toJson() => json.encode(toMap());
 
-  // Create SocialMediaResponse from JSON
   factory SocialMediaResponse.fromJson(String source) =>
       SocialMediaResponse.fromMap(json.decode(source));
 }
@@ -55,7 +51,6 @@ class SocialMedia {
     this.updatedAt,
   });
 
-  // Convert SocialMedia to Map
   Map<String, dynamic> toMap() {
     return {
       '_id': id,
@@ -69,7 +64,6 @@ class SocialMedia {
     };
   }
 
-  // Create SocialMedia from Map
   factory SocialMedia.fromMap(Map<String, dynamic> map) {
     return SocialMedia(
       id: map['_id'] ?? '',
@@ -82,11 +76,7 @@ class SocialMedia {
       updatedAt: DateTime.parse(map['updatedAt']),
     );
   }
-
-  // Convert SocialMedia to JSON
   String toJson() => json.encode(toMap());
-
-  // Create SocialMedia from JSON
   factory SocialMedia.fromJson(String source) =>
       SocialMedia.fromMap(json.decode(source));
 }

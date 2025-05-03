@@ -7,17 +7,12 @@ import 'package:wond3rcard/src/admin/common/widgets/dynamic_date_time.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 
-
-// SubscriptionSettings Page
 class SubscriptionSettings extends ConsumerWidget {
   const SubscriptionSettings({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // State to track selected subscription filter
     final selectedFilter = ValueNotifier<String>('All');
-
-    // Example billing data (Replace with your actual data)
     final List<Map<String, dynamic>> subscriptionData = [
       {
         'userName': 'John Doe',
@@ -66,8 +61,7 @@ class SubscriptionSettings extends ConsumerWidget {
               padding: const EdgeInsets.all(8.0),
               child: const Icon(Icons.settings, color: Colors.white),
             ),
-            text:'Payment Settings',
-           
+            text: 'Payment Settings',
           ),
           const SizedBox(width: 15),
           Icon(Icons.notification_add, color: AppColors.primaryShade),
@@ -87,77 +81,61 @@ class SubscriptionSettings extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 20),
-
-
-
-   Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Wrap(
-            spacing: 8.0,
-            runSpacing: 8.0,
-            children: billingAndPayment
-                .map(
-                    (billing) => reusableAdminSubscription(billing))
-                .toList(),
-          ),
-        ),
-
-    const SizedBox(height: 20),
-
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Wrap(
+                spacing: 8.0,
+                runSpacing: 8.0,
+                children: billingAndPayment
+                    .map((billing) => reusableAdminSubscription(billing))
+                    .toList(),
+              ),
+            ),
+            const SizedBox(height: 20),
             ValueListenableBuilder<String>(
               valueListenable: selectedFilter,
               builder: (context, value, _) {
                 return Container(
                   padding: EdgeInsets.all(30),
-                   decoration: BoxDecoration(
-          color: Colors.white, // Background color
-          borderRadius: BorderRadius.circular(8), // Border radius
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x26000000), // #00000026
-              offset: Offset(0, 0), // No horizontal/vertical offset
-              blurRadius: 4, // Blur radius
-              spreadRadius: 0, // Spread radius
-            ),
-          ],
-        ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x26000000),
+                        offset: Offset(0, 0),
+                        blurRadius: 4,
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
                   child: Row(
                     children: [
                       Row(
-                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: ['All', 'Basic', 'Premium', 'Business']
-                            .map((type) => 
-                            
-                            WonderCardButton(
-                               
+                            .map((type) => WonderCardButton(
                                   onPressed: () => selectedFilter.value = type,
                                   leadingIcon: const Icon(Icons.people),
                                   text: type,
-                                      backgroundColor: value == type
-                                        ? AppColors.primaryShade
-                                        : Colors.white,
-                      
-                                        textColor:  value == type
-                                        ? AppColors.defaultWhite
-                                        : AppColors.grayScale600,
-                                 
-                                )
-                                
-                                )
+                                  backgroundColor: value == type
+                                      ? AppColors.primaryShade
+                                      : Colors.white,
+                                  textColor: value == type
+                                      ? AppColors.defaultWhite
+                                      : AppColors.grayScale600,
+                                ))
                             .toList(),
                       ),
-                  DynamicDateText(),
-                Spacer(),
-                ResponsiveSearchTextField(),
-                HeroIcon(HeroIcons.document),
-                   
+                      DynamicDateText(),
+                      Spacer(),
+                      ResponsiveSearchTextField(),
+                      HeroIcon(HeroIcons.document),
                     ],
                   ),
                 );
               },
             ),
             const SizedBox(height: 20),
-
             const Text(
               'Payment Transactions',
               style: TextStyle(
@@ -166,8 +144,6 @@ class SubscriptionSettings extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 10),
-
-            // Filtered Data Table
             ValueListenableBuilder<String>(
               valueListenable: selectedFilter,
               builder: (context, value, _) {
@@ -195,8 +171,8 @@ class SubscriptionSettings extends ConsumerWidget {
                           children: [
                             Icon(Icons.circle,
                                 size: 12,
-                                color: getStatusColor(
-                                    billing['paymentStatus'])),
+                                color:
+                                    getStatusColor(billing['paymentStatus'])),
                             const SizedBox(width: 8),
                             Text(billing['paymentStatus']),
                           ],
@@ -205,9 +181,7 @@ class SubscriptionSettings extends ConsumerWidget {
                       DataCell(
                         IconButton(
                           icon: const Icon(Icons.more_vert),
-                          onPressed: () {
-                            // Handle actions (e.g., view details, refund)
-                          },
+                          onPressed: () {},
                         ),
                       ),
                     ]);
@@ -221,7 +195,6 @@ class SubscriptionSettings extends ConsumerWidget {
     );
   }
 
-  // Helper function to get payment status colors
   static Color getStatusColor(String status) {
     switch (status.toLowerCase()) {
       case 'completed':

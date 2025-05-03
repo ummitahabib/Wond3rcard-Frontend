@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,38 +37,7 @@ class CardNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-
-    File? _cardPhoto;
-  Uint8List? _webCardPhoto;
-
-  File? get cardPhoto => _cardPhoto;
-  Uint8List? get webCardPhoto => _webCardPhoto;
-
-  void setCardPhoto(File? image) {
-    _cardPhoto = image;
-    notifyListeners();
-  }
-
-  void setWebCardPhoto(Uint8List? image) {
-    _webCardPhoto = image;
-    notifyListeners();
-  }
-
-  /// Image picker method
-  Future<void> pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      if (kIsWeb) {
-        _webCardPhoto = await image.readAsBytes();
-      } else {
-        _cardPhoto = File(image.path);
-      }
-      notifyListeners();
-    }
-  }
-
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Uint8List? _selectedImage;
 
@@ -82,11 +52,11 @@ class CardNotifier extends ChangeNotifier {
   String selectedFont = 'Roboto';
   CardType selectedCardType = CardType.personal;
 
-  late CardModel _cardModel;
+  CardModel? _cardModel;
 
-  CardModel get cardModel => _cardModel;
+  CardModel? get cardModel => _cardModel;
 
-  set cardModel(CardModel card) {
+  set cardModel(CardModel? card) {
     _cardModel = card;
     notifyListeners();
   }
@@ -118,12 +88,29 @@ class CardNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  PlatformFile? _selectedPhoto;
 
+  PlatformFile? get selectedPhoto => _selectedPhoto;
 
+  void setSelectedPhoto(PlatformFile? file) {
+    _selectedPhoto = file;
+    notifyListeners();
+  }
 
- 
+  Future<void> pickImage(BuildContext context) async {
+    final result = await FilePicker.platform.pickFiles(
+      withData: true,
+      type: FileType.image,
+    );
 
+    if (result != null && result.files.isNotEmpty) {
+      final file = result.files.first;
 
+      if (context.mounted) {
+        setSelectedPhoto(file);
+      }
+    }
+  }
 
   final TextEditingController cardType = TextEditingController();
   final TextEditingController cardName = TextEditingController();
@@ -174,62 +161,16 @@ class CardNotifier extends ChangeNotifier {
   }
 
   Future<bool> createCard(
-      BuildContext context, Map<String, bool> activeSocialMedia) async {
+      BuildContext context, List<Map<String, dynamic>> socialMediaLinks) async {
     try {
+      if (selectedPhoto == null) {
+        alert.showErrorToast(
+            message: "Please upload an image before creating the card.");
+        print("❌ Card creation failed: Card photo or cover photo is null.");
+        return false;
+      }
+
       final String? cardId = StorageUtil.getString(key: SessionString.userId);
-      final prefs = await SharedPreferences.getInstance();
-
-
-      List<String> socialMediaKeys =
-          prefs.getKeys().where((key) => key.endsWith('_username')).toList();
-
-      List<Map<String, dynamic>> socialMediaLinks = [];
-         String? base64Image;
-      if (_selectedImage != null) {
-        base64Image = base64Encode(_selectedImage!);
-      }
-
-      for (String key in socialMediaKeys) {
-        try {
-      
-          String baseKey = key.replaceAll('_username', '');
-          String? baseUrl = prefs.getString('${baseKey}_baseUrl');
-          String? username = prefs.getString('${baseKey}_username');
-          String? controllerName = prefs.getString('${baseKey}_controllerName');
-
-          if (baseUrl != null &&
-              username != null &&
-              baseUrl.isNotEmpty &&
-              username.isNotEmpty) {
-            String cleanLink = baseUrl.endsWith('/')
-                ? baseUrl.substring(0, baseUrl.length - 1)
-                : baseUrl;
-            bool isActive =
-                activeSocialMedia[controllerName ?? baseKey] ?? false;
-
-            Map<String, dynamic> socialMediaEntry = {
-              "media": {
-                "iconUrl": baseUrl,
-                "name": controllerName ?? baseKey,
-                "type": "social",
-                "link": '$cleanLink/$username',
-              },
-              "active": isActive
-            };
-
-            socialMediaLinks.add(socialMediaEntry);
-            print("✅ Added social media: $socialMediaEntry");
-          } else {
-            print(
-                "⚠️ Skipped social media entry due to missing data for key: $baseKey");
-          }
-        } catch (e) {
-          print("❌ Error processing social media key: $key - Error: $e");
-        }
-      }
-
-      print("✅ Final social media links: ${jsonEncode(socialMediaLinks)}");
-
       String defaultColor = "#000000";
       String validatedSecondaryColor =
           cardBackground.text.isNotEmpty ? cardBackground.text : defaultColor;
@@ -260,21 +201,22 @@ class CardNotifier extends ChangeNotifier {
         textColor: validatedTextColor,
         website: website.text,
         socialMediaLinks: socialMediaLinks,
-     cardPhoto: _cardPhoto,
-        webCardPhoto: _webCardPhoto,
+        cardPhoto: selectedPhoto,
+        cardCoverPhoto: selectedPhoto,
       );
 
-      print("Sending card data: ${jsonEncode(createCard.toFormData())}");
+      final formData = await createCard.toFormData();
 
       loading = true;
       final response =
-          await ref.read(cardRepositoryProvider).createCard(createCard);
+          await ref.read(cardRepositoryProvider).createCard(formData);
       loading = false;
 
       if (response.hasError()) {
-        print('API Error: ${response.error!.message}');
+        print('❌ API Error: ${response.error!.message}');
         alert.showErrorToast(message: response.error!.message);
       } else {
+        print("✅ Card created successfully: ${createCard.cardName}");
         cardModel = createCard;
         clearControllers();
         context.go(RouteString.mainDashboard);
@@ -282,7 +224,7 @@ class CardNotifier extends ChangeNotifier {
       }
     } catch (e) {
       loading = false;
-      print(' Card creation error: $e');
+      print('❌ Card creation error: $e');
       alert.showErrorToast(message: "An error occurred: ${e.toString()}");
     }
     return false;
@@ -309,8 +251,7 @@ class CardNotifier extends ChangeNotifier {
     }
   }
 
-  Future<CardModel> getAUsersCard(BuildContext context) async {
-    final String cardId = '';
+  Future<CardModel?> getAUsersCard(BuildContext context, String cardId) async {
     try {
       loading = true;
       final response =
@@ -332,7 +273,7 @@ class CardNotifier extends ChangeNotifier {
     return cardModel;
   }
 
-  Future<CardModel> viewCard(BuildContext context) async {
+  Future<CardModel?> viewCard(BuildContext context) async {
     try {
       final String cardId = '';
       loading = true;
@@ -363,7 +304,7 @@ class CardNotifier extends ChangeNotifier {
         alert.showErrorToast(message: response.error?.message ?? emptyString);
         loading = false;
       } else {
-        await getAUsersCard(context);
+        await getAUsersCard(context, cardId);
       }
     } catch (e) {}
   }

@@ -48,7 +48,7 @@ class _CardsTabWidgetState extends State<CardsTabWidget> {
                     ),
                     SizedBox(width: 8),
                     Text(
-                      'Digital Card',
+                      'Digital Cards',
                       style: TextStyle(
                         color: isDigitalSelected
                             ? Colors.white

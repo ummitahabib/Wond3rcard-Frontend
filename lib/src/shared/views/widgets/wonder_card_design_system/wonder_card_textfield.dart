@@ -35,6 +35,7 @@ class CustomTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatter;
   final Color? fillColor;
   final TextAlign? textAlign;
+  final String? prefixText;
 
   const CustomTextField({
     super.key,
@@ -63,6 +64,7 @@ class CustomTextField extends StatefulWidget {
     this.fillColor,
     this.enabled = true,
     this.textAlign,
+    this.prefixText,
   });
 
   @override
@@ -164,6 +166,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   maxLines: widget.maxLines,
                   enabled: widget.enabled,
                   decoration: InputDecoration(
+                    prefixText: widget.prefixText, 
                     errorText: widget.errorText,
                     hintText: widget.hintText,
                     hintStyle: WonderCardTypography.hintTextSytle(

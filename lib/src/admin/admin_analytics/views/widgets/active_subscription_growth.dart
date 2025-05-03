@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:wond3rcard/src/admin/admin_analytics/views/admin_analytics.dart';
 
 class SubscriptionData {
   final String month;
@@ -43,50 +44,54 @@ class _SubscriptionChartState extends State<SubscriptionChart> {
     final currentData = _allData.where((data) => data.month == _selectedMonth).toList();
 
     return 
-       Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            DropdownButton<String>(
-              value: _selectedMonth,
-              onChanged: (value) {
-                setState(() {
-                  _selectedMonth = value!;
-                });
-              },
-              items: _availableMonths.map((String month) {
-                return DropdownMenuItem<String>(
-                  value: month,
-                  child: Text(month),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 20),
-            SfCartesianChart(
-              primaryXAxis: CategoryAxis(),
-              title: ChartTitle(text: 'Subscription Growth'),
-              legend: Legend(isVisible: true),
-              tooltipBehavior: TooltipBehavior(enable: true),
-              series: <CartesianSeries>[
-                ColumnSeries<SubscriptionData, String>(
-                  dataSource: currentData,
-                  xValueMapper: (SubscriptionData data, _) => data.month,
-                  yValueMapper: (SubscriptionData data, _) => data.premium,
-                  name: 'Premium Plan',
-                  color: Colors.blue,
-                ),
-                ColumnSeries<SubscriptionData, String>(
-                  dataSource: currentData,
-                  xValueMapper: (SubscriptionData data, _) => data.month,
-                  yValueMapper: (SubscriptionData data, _) => data.business,
-                  name: 'Business Plan',
-                  color: Colors.orange,
-                ),
-              ],
-            ),
-          ],
-        ),
-   
-    );
+       Container(
+        decoration: reusableContainerDeco(),
+         margin: EdgeInsets.all(16),
+         padding: EdgeInsets.all(16),
+         child: Column(
+           mainAxisAlignment: MainAxisAlignment.start,
+           crossAxisAlignment: CrossAxisAlignment.start,
+           mainAxisSize: MainAxisSize.min,
+           children: [
+             DropdownButton<String>(
+               value: _selectedMonth,
+               onChanged: (value) {
+                 setState(() {
+                   _selectedMonth = value!;
+                 });
+               },
+               items: _availableMonths.map((String month) {
+                 return DropdownMenuItem<String>(
+                   value: month,
+                   child: Text(month),
+                 );
+               }).toList(),
+             ),
+             SizedBox(height: 20),
+             SfCartesianChart(
+               primaryXAxis: CategoryAxis(),
+               title: ChartTitle(text: 'Subscription Growth'),
+               legend: Legend(isVisible: true),
+               tooltipBehavior: TooltipBehavior(enable: true),
+               series: <CartesianSeries>[
+                 ColumnSeries<SubscriptionData, String>(
+                   dataSource: currentData,
+                   xValueMapper: (SubscriptionData data, _) => data.month,
+                   yValueMapper: (SubscriptionData data, _) => data.premium,
+                   name: 'Premium Plan',
+                   color: Colors.blue,
+                 ),
+                 ColumnSeries<SubscriptionData, String>(
+                   dataSource: currentData,
+                   xValueMapper: (SubscriptionData data, _) => data.month,
+                   yValueMapper: (SubscriptionData data, _) => data.business,
+                   name: 'Business Plan',
+                   color: Colors.orange,
+                 ),
+               ],
+             ),
+           ],
+         ),
+       );
   }
 }

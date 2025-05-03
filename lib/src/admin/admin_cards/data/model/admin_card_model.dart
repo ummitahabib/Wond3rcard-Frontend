@@ -1,26 +1,3 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-// part 'admin_card_model.freezed.dart';
-// part 'admin_card_model.g.dart';
-
-// @freezed
-// class CardModel with _$CardModel {
-//   const factory CardModel({
-//     required String id,
-//     required String cardName,
-//     required String firstName,
-//     required String lastName,
-//     required String email,
-//     required String phone,
-//   }) = _CardModel;
-
-//   factory CardModel.fromJson(Map<String, dynamic> json) =>
-//       _$CardModelFromJson(json);
-// }
-
-
-
-import 'dart:convert';
 
 class CardModel {
   final String id;

@@ -18,7 +18,8 @@ class OnboardingSecondScreenMobile extends HookConsumerWidget {
     TextEditingController phoneNumberController = TextEditingController();
     return Scaffold(
       backgroundColor: AppColors.grayScale50,
-      body: SingleChildScrollView(
+      body: 
+      SingleChildScrollView(
         child: Container(
           color: AppColors.grayScale50,
           width: MediaQuery.of(context).size.width,
@@ -120,6 +121,7 @@ class OnboardingSecondScreenMobile extends HookConsumerWidget {
           ),
         ),
       ),
+   
     );
   }
 }

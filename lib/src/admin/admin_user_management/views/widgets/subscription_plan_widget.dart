@@ -11,9 +11,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SubscriptionPlanWidget extends HookConsumerWidget {
-
-
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final emailController = useTextEditingController();
@@ -23,72 +20,60 @@ class SubscriptionPlanWidget extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-                       Padding(
-                         padding: const EdgeInsets.all(16),
-                         child: Row(
-                                           children: [
-                                             Container(
-                                               width: 40,
-                                               height: 40,
-                                               decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Color(0xffFFFFFF)),
-                                               child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.black,
-                          size: 24,
-                                               ),
-                                             ),
-                                         Spacer(),
-                                         SizedBox()
-                                           ],
-                                         ),
-                       ),
-                  
-                   
-
-           Container(
-             padding: EdgeInsets.all(40),
-              margin: EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: AppColors.defaultWhite,
-                borderRadius: BorderRadius.circular(10),
-              ),
+            Padding(
+              padding: const EdgeInsets.all(16),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
-                  reuseableHeaderWidget(
-                    number: '1',
-                    text: 'User Information',
-                    activeColor: AppColors.primaryShade,
-
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Color(0xffFFFFFF)),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: 24,
+                    ),
                   ),
-
+                  Spacer(),
+                  SizedBox()
+                ],
+              ),
+            ),
+            Container(
+                padding: EdgeInsets.all(40),
+                margin: EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: AppColors.defaultWhite,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
                     reuseableHeaderWidget(
-                    number: '2',
-                    text: 'Account Settings',
-                    activeColor: AppColors.primaryShade200,
-                    
-                  ),
-
-                   reuseableHeaderWidget(
-                    number: '3',
-                    text: 'Additional Information',
-                    activeColor: AppColors.primaryShade200,
-                    
-                  ),
-
-
-                     reuseableHeaderWidget(
-                    number: '4',
-                    text: 'Review',
-                    activeColor: AppColors.primaryShade200,
-                    
-                  ),
-                ],)
-           ),
-
+                      number: '1',
+                      text: 'User Information',
+                      activeColor: AppColors.primaryShade,
+                    ),
+                    reuseableHeaderWidget(
+                      number: '2',
+                      text: 'Account Settings',
+                      activeColor: AppColors.primaryShade200,
+                    ),
+                    reuseableHeaderWidget(
+                      number: '3',
+                      text: 'Additional Information',
+                      activeColor: AppColors.primaryShade200,
+                    ),
+                    reuseableHeaderWidget(
+                      number: '4',
+                      text: 'Review',
+                      activeColor: AppColors.primaryShade200,
+                    ),
+                  ],
+                )),
             Container(
               padding: EdgeInsets.all(16),
               margin: EdgeInsets.all(24),
@@ -106,10 +91,7 @@ class SubscriptionPlanWidget extends HookConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                  
-                  
-                  
-            Text(
+                        Text(
                           'Subscription Plan',
                           style: TextStyle(
                             color: Color(0xff3A3541),
@@ -132,242 +114,270 @@ class SubscriptionPlanWidget extends HookConsumerWidget {
                       ],
                     ),
                     SizedBox(height: size30),
-                   
                     Row(
-                      
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                      children: [
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                        children: [
-                           SizedBox(
-                              width: 354,
-                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                               children: [
-                                Text('Select Subscription Plan', style: TextStyle(
-                                  fontFamily: 'Barlow',
-fontWeight: FontWeight.w400,
-fontSize: 14.22,
-color: Color(0xff3A3541),
-
-                                ),),
-                                 CustomDropdown(
-                                  options: ['organization', 'business'],
-                                  selectedValue: 'organization',
-                                 ),
-                               ],
-                             ),
-                           ),
-                  
-                  SizedBox(height: 16,),
-                        SizedBox(
-                              width: 354,
-                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                               children: [
-                                Text('Payment status', style: TextStyle(
-                                  fontFamily: 'Barlow',
-fontWeight: FontWeight.w400,
-fontSize: 14.22,
-color: Color(0xff3A3541),
-
-                                ),),
-                                 CustomDropdown(
-                                  options: ['paid', 'pending', 'try again'],
-                                  selectedValue: 'paid',
-                                 ),
-                               ],
-                             ),
-                           ),
-                  
-
-
-
-                    SizedBox(height: 16,),
-                        SizedBox(
-                              width: 354,
-                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                               children: [
-                                Text('Payment method', style: TextStyle(
-                                  fontFamily: 'Barlow',
-fontWeight: FontWeight.w400,
-fontSize: 14.22,
-color: Color(0xff3A3541),
-
-                                ),),
-                                 CustomDropdown(
-                                  options: ['cash', 'bank', 'transfer'],
-                                  selectedValue: 'cash',
-                                 ),
-                               ],
-                             ),
-                           ),
-                  
-
-
-
-                    SizedBox(height: 16,),
-                        SizedBox(
-                              width: 354,
-                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                               children: [
-                                Text('Starting date', style: TextStyle(
-                                  fontFamily: 'Barlow',
-fontWeight: FontWeight.w400,
-fontSize: 14.22,
-color: Color(0xff3A3541),
-
-                                ),),
-                                 DatePickerWidget()
-                               ],
-                             ),
-                           ),
-                  
-                 
-                        ],
-                      )
-                  
-                  ,
-                 SizedBox(width: 80,),
-                   Container(
-                    padding: EdgeInsets.all(20),
-                    margin: EdgeInsets.all(30),
-                      decoration: BoxDecoration(
-          color: Colors.white, // Background color
-          borderRadius: BorderRadius.circular(8), // Border radius
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x26000000), // Shadow color (#00000026)
-              offset: Offset(0, 0), // Shadow position
-              blurRadius: 4, // Blur radius
-            ),
-          ],
-        ),
-                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-Text('230/Organisation', style: WonderCardTypography.headlineH1(
-
-
-
-),), 
-
-FittedBox(child: Text('For professionals who want full control, insights, and customization for their business cards.', style: WonderCardTypography.bodySmall(),),),
-
-SizedBox(
-  
-  width: 290,
-height: 32,
-  child: WonderCardButton(text: 'Yearly Subscription', onPressed: (){})),
-
-
-Column(children: [
-  reusablePlanData(),
-  SizedBox(height: 23,),
-  reusablePlanData(text: 'Create multiple business cards'),
-    SizedBox(height: 23,),
-   reusablePlanData(text: 'Advanced Analytics ( geo-location, devices) etc'),
-     SizedBox(height: 23,),
-    reusablePlanData(text: 'Custom Branding (Logos, color themes, '),
-      SizedBox(height: 23,),
-      reusablePlanData(text: 'No Team Management'),
-],)
-
-                          ]
+                            SizedBox(
+                              width: 354,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Select Subscription Plan',
+                                    style: TextStyle(
+                                      fontFamily: 'Barlow',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.22,
+                                      color: Color(0xff3A3541),
+                                    ),
+                                  ),
+                                  CustomDropdown(
+                                    options: ['organization', 'business'],
+                                    selectedValue: 'organization',
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            SizedBox(
+                              width: 354,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Payment status',
+                                    style: TextStyle(
+                                      fontFamily: 'Barlow',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.22,
+                                      color: Color(0xff3A3541),
+                                    ),
+                                  ),
+                                  CustomDropdown(
+                                    options: ['paid', 'pending', 'try again'],
+                                    selectedValue: 'paid',
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            SizedBox(
+                              width: 354,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Payment method',
+                                    style: TextStyle(
+                                      fontFamily: 'Barlow',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.22,
+                                      color: Color(0xff3A3541),
+                                    ),
+                                  ),
+                                  CustomDropdown(
+                                    options: ['cash', 'bank', 'transfer'],
+                                    selectedValue: 'cash',
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            SizedBox(
+                              width: 354,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Starting date',
+                                    style: TextStyle(
+                                      fontFamily: 'Barlow',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.22,
+                                      color: Color(0xff3A3541),
+                                    ),
+                                  ),
+                                  DatePickerWidget()
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                   )
-                  
-                   
-                   
-                    ],),
-                  
+                        SizedBox(
+                          width: 80,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          margin: EdgeInsets.all(30),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x26000000),
+                                offset: Offset(0, 0),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '230/Organisation',
+                                  style: WonderCardTypography.headlineH1(),
+                                ),
+                                FittedBox(
+                                  child: Text(
+                                    'For professionals who want full control, insights, and customization for their business cards.',
+                                    style: WonderCardTypography.bodySmall(),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: 290,
+                                    height: 32,
+                                    child: WonderCardButton(
+                                        text: 'Yearly Subscription',
+                                        onPressed: () {})),
+                                Column(
+                                  children: [
+                                    reusablePlanData(),
+                                    SizedBox(
+                                      height: 23,
+                                    ),
+                                    reusablePlanData(
+                                        text: 'Create multiple business cards'),
+                                    SizedBox(
+                                      height: 23,
+                                    ),
+                                    reusablePlanData(
+                                        text:
+                                            'Advanced Analytics ( geo-location, devices) etc'),
+                                    SizedBox(
+                                      height: 23,
+                                    ),
+                                    reusablePlanData(
+                                        text:
+                                            'Custom Branding (Logos, color themes, '),
+                                    SizedBox(
+                                      height: 23,
+                                    ),
+                                    reusablePlanData(
+                                        text: 'No Team Management'),
+                                  ],
+                                )
+                              ]),
+                        )
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                      SizedBox(
-                        width: 166,
-                        height: 50,
-                        child: WonderCardButton(
-                          textColor: Colors.white,
-                          
-                          onPressed: (){
-                            context.go(RouteString.accountSettings);
-                          },
-                          text: 'Next',
-                          trailingIcon: Icon(Icons.arrow_forward_ios, color: AppColors.defaultWhite,)
-                        ),
-                      )
-                    ],)
-                   
+                        SizedBox(
+                          width: 166,
+                          height: 50,
+                          child: WonderCardButton(
+                              textColor: Colors.white,
+                              onPressed: () {
+                                context.go(RouteString.accountSettings);
+                              },
+                              text: 'Next',
+                              trailingIcon: Icon(
+                                Icons.arrow_forward_ios,
+                                color: AppColors.defaultWhite,
+                              )),
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),
             ),
-      
           ],
         ),
       ),
     );
   }
 
-  Row reusablePlanData({String? text }) {
+  Row reusablePlanData({String? text}) {
     return Row(
-  children: [
-   Icon(Icons.mark_chat_read, color: AppColors.grayScale, size: 24,),
-   SizedBox(width: 8,),
-    Text( text ?? 'Everything in free plan', style: WonderCardTypography.textCaption()),
-  ],
-);
+      children: [
+        Icon(
+          Icons.mark_chat_read,
+          color: AppColors.grayScale,
+          size: 24,
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Text(text ?? 'Everything in free plan',
+            style: WonderCardTypography.textCaption()),
+      ],
+    );
   }
 
   Row reuseableHeaderWidget({
-  String? number, 
-  String? text,
-  Color? activeColor,
+    String? number,
+    String? text,
+    Color? activeColor,
   }) {
     return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(width: 30, height: 30, decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100), color: activeColor ?? AppColors.primaryShade,
-                ),
-                child: Center(child: Text(number ?? emptyString, style: WonderCardTypography.titleH6(
-                  color: Colors.white, fontSize: 18
-                ),)),
-                ),
-                SizedBox(width: 15,),
-                Text(text ?? emptyString, style: WonderCardTypography.headlineH3(
-                  color: activeColor ?? AppColors.primaryShade, 
-                ))
-              ],
-            );
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: activeColor ?? AppColors.primaryShade,
+          ),
+          child: Center(
+              child: Text(
+            number ?? emptyString,
+            style:
+                WonderCardTypography.titleH6(color: Colors.white, fontSize: 18),
+          )),
+        ),
+        SizedBox(
+          width: 15,
+        ),
+        Text(text ?? emptyString,
+            style: WonderCardTypography.headlineH3(
+              color: activeColor ?? AppColors.primaryShade,
+            ))
+      ],
+    );
   }
 }
-
-
-
-
-
-
 
 class DatePickerWidget extends StatefulWidget {
   const DatePickerWidget({super.key});
@@ -402,11 +412,11 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         height: 46,
         padding: const EdgeInsets.fromLTRB(15, 13, 15, 16),
         decoration: BoxDecoration(
-          color: const Color(0xFFEFEFEF), // Background color
-          borderRadius: BorderRadius.circular(8), // Border radius
+          color: const Color(0xFFEFEFEF),
+          borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: const Color(0xFFDBDCDE), // Border color
-            width: 1, // Border width
+            color: const Color(0xFFDBDCDE),
+            width: 1,
           ),
         ),
         child: TextField(

@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wond3rcard/src/contact/data/controller/contact_controller.dart';
+
+class ConnectionsListScreen extends ConsumerWidget {
+  const ConnectionsListScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final connections = ref.watch(connectionListProvider);
+
+    return Scaffold(
+      
+      body: connections.when(
+        data: (list) => ListView.separated(
+          itemCount: list.length,
+          separatorBuilder: (_, __) => const Divider(),
+          itemBuilder: (context, index) {
+            final user = list[index];
+            return ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.deepPurple,
+                child: Text(user['firstname']?.substring(0, 1).toUpperCase() ?? '?'),
+              ),
+              title: Text('${user['firstname']} ${user['lastname']}'),
+              subtitle: Text(user['email']),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                // Optional: Navigate to contact details page
+              },
+            );
+          },
+        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, _) => Center(child: Text('Error: $error')),
+      ),
+    );
+  }
+}

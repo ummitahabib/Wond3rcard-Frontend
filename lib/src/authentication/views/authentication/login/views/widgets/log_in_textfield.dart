@@ -22,11 +22,11 @@ class LoginTextField extends  HookConsumerWidget {
     final authController = ref.read(authProvider);
 
 
-  SizedBox _wonderCardLoginButton(BuildContext context) {
+  SizedBox wonderCardLoginButton(BuildContext context) {
     return SizedBox(
       width: size360,
       child: WonderCardButton(
-          showLoader: authController.loadingLogin,
+          showLoader: authController.loadingLogin ?? false,
           loadererColor: AppColors.defaultWhite,
           textColor: AppColors.defaultWhite,
           text: loginText,
@@ -34,13 +34,13 @@ class LoginTextField extends  HookConsumerWidget {
           try {
               authController.signInMethod(context);();
           } catch (e) {
-            print('login errror $e');
+            debugPrint('Login error: $e');
              }
           }),
     );
   }
 
-  CustomTextField _emailTextField() {
+  CustomTextField emailTextField() {
     return CustomTextField(
       textColor: AppColors.grayScale600,
       type: TextFieldType.Email,
@@ -52,7 +52,7 @@ class LoginTextField extends  HookConsumerWidget {
     );
   }
 
-  CustomTextField _passwordTextfield() {
+  CustomTextField passwordTextField() {
     return CustomTextField(
       textColor: AppColors.grayScale600,
       text: enterYourPasswordText,
@@ -73,15 +73,15 @@ class LoginTextField extends  HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _emailTextField(),
-              _passwordTextfield(),
+              emailTextField(),
+              passwordTextField(),
             ],
           ),
         ),
         const SizedBox(
           height: SpacingConstants.size30,
         ),
-        _wonderCardLoginButton(context),
+        wonderCardLoginButton(context),
         const SizedBox(
           height: SpacingConstants.size8,
         ),
@@ -105,6 +105,8 @@ class LoginTextField extends  HookConsumerWidget {
             ],
           ),
         )
+     
+     
       ],
     );
     

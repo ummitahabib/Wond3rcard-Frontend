@@ -12,7 +12,7 @@ class CardStatsTable extends StatelessWidget {
     return 
        Container(
         padding: const EdgeInsets.all(16),
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(16),
            decoration: reusableContainerDeco(),
          child: Column(
            children: [

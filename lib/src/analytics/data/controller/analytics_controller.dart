@@ -33,8 +33,6 @@ class AnalyticsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   GetCardsResponse? _getCards;
   GetCardsResponse? get getCards => _getCards;
 
@@ -42,7 +40,6 @@ class AnalyticsNotifier extends ChangeNotifier {
     _getCards = card;
     notifyListeners();
   }
-
 
   List<AnalyticsResponse> _analyticsModel = [];
 
@@ -66,11 +63,9 @@ class AnalyticsNotifier extends ChangeNotifier {
     try {
       loading = true;
       final InteractionRequest interactionRequest = InteractionRequest(
-        cardId: getCards?.id ?? emptyString ,
+        cardId: getCards?.id ?? emptyString,
         cardOwnerId: getCards?.ownerId ?? emptyString,
-        // deviceInfo: '',
         interactionType: '',
-        // interactor: '',
         ipAddress: '',
       );
       final response = await ref

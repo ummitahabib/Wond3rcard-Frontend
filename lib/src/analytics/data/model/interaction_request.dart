@@ -26,7 +26,6 @@ class InteractionRequest {
     );
   }
 
-  // Convert InteractionRequest to JSON
   Map<String, dynamic> toJson() {
     return {
       'cardId': cardId,
@@ -50,7 +49,6 @@ class Interactor {
     required this.fullName,
   });
 
-  // Convert JSON to Interactor
   factory Interactor.fromJson(Map<String, dynamic> json) {
     return Interactor(
       isWonderCardUser: json['isWonderCardUser'],
@@ -59,7 +57,6 @@ class Interactor {
     );
   }
 
-  // Convert Interactor to JSON
   Map<String, dynamic> toJson() {
     return {
       'isWonderCardUser': isWonderCardUser,
@@ -80,7 +77,6 @@ class DeviceInfo {
     required this.device,
   });
 
-  // Convert JSON to DeviceInfo
   factory DeviceInfo.fromJson(Map<String, dynamic> json) {
     return DeviceInfo(
       agent: json['agent'],
@@ -89,7 +85,6 @@ class DeviceInfo {
     );
   }
 
-  // Convert DeviceInfo to JSON
   Map<String, dynamic> toJson() {
     return {
       'agent': agent,

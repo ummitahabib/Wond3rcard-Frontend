@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-//import 'package:syncfusion_flutter_charts/charts.dart';
-//import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wond3rcard/src/analytics/data/controller/analytics_controller.dart';
 import 'package:wond3rcard/src/analytics/data/model/get_analytics_response.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
-import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
-import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
 class GeographicalDistributionChart extends HookConsumerWidget {
   const GeographicalDistributionChart({super.key});
@@ -34,51 +30,45 @@ class GeographicalDistributionChart extends HookConsumerWidget {
       return null;
     }, []);
 
-    return Card(
-      color: AppColors.defaultWhite,
-      surfaceTintColor: AppColors.defaultWhite,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: AppColors.defaultWhite,
+        borderRadius: BorderRadius.circular(12),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Geographical Distribution by Country',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: Colors.black,
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            'Geographical Distribution by Country',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.black,
             ),
-            const SizedBox(height: 10),
-            // SizedBox(
-            //   height: 200,
-            //   child: SfCircularChart(
-            //     legend: const Legend(
-            //       isVisible: true,
-            //       position: LegendPosition.bottom,
-            //       overflowMode: LegendItemOverflowMode.wrap,
-            //     ),
-            //     series: <CircularSeries>[
-            //       PieSeries<GeoDistributionByCountry, String>(
-            //         dataSource: geoData.value,
-            //         xValueMapper: (GeoDistributionByCountry data, _) =>
-            //             data.country,
-            //         yValueMapper: (GeoDistributionByCountry data, _) =>
-            //             int.tryParse(data.percentage.replaceAll('%', '')),
-            //         dataLabelMapper: (GeoDistributionByCountry data, _) =>
-            //             '${data.country}: ${data.percentage}',
-            //         dataLabelSettings: const DataLabelSettings(isVisible: true),
-            //         enableTooltip: true,
-            //       )
-            //     ],
-            //   ),
-            // ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 10),
+          Center(
+            child: SfCircularChart(
+              legend: Legend(
+                  isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+              tooltipBehavior: TooltipBehavior(enable: true),
+              series: <CircularSeries>[
+                PieSeries<CountryData, String>(
+                  dataSource: chartData,
+                  xValueMapper: (CountryData data, _) => data.country,
+                  yValueMapper: (CountryData data, _) => data.value,
+                  dataLabelMapper: (CountryData data, _) =>
+                      '${data.value.toStringAsFixed(1)}%',
+                  dataLabelSettings: DataLabelSettings(isVisible: true),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -90,3 +80,19 @@ class GeographicalDistributionChart extends HookConsumerWidget {
     geoData.value = geoDistributionByCountry;
   }
 }
+
+class CountryData {
+  final String country;
+  final double value;
+
+  CountryData(this.country, this.value);
+}
+
+final List<CountryData> chartData = [
+  CountryData('US', 30),
+  CountryData('UK', 20),
+  CountryData('Canada', 10),
+  CountryData('Australia', 27),
+  CountryData('Germany', 34),
+  CountryData('Others', 9),
+];

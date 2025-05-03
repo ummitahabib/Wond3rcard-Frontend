@@ -30,8 +30,7 @@ class SelectAnalytics extends StatelessWidget {
       child: Container(
           width: 160,
           height: 40,
-          margin: const EdgeInsets.only(
-              bottom: 6), // Gap (applied via margin for spacing)
+          margin: const EdgeInsets.only(bottom: 6),
           decoration: BoxDecoration(
             color: isActive! ? AppColors.primaryShade : AppColors.defaultWhite,
             borderRadius: BorderRadius.circular(8),
@@ -51,7 +50,9 @@ class SelectAnalytics extends StatelessWidget {
               children: [
                 HeroIcon(
                   icon ?? HeroIcons.chartBar,
-                  color: AppColors.defaultWhite,
+                  color: isActive!
+                      ? AppColors.defaultWhite
+                      : AppColors.primaryShade,
                 ),
                 Text(text ?? emptyString,
                     style: WonderCardTypography.boldTextTitle2(

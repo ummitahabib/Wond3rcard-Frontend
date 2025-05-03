@@ -1,9 +1,9 @@
 class ManualPaymentRequest {
   final String userId;
   final String amount;
-  final String plan; // "premium" or "business"
-  final String billingCycle; // "monthly" or "yearly"
-  final String paymentMethod; // "bank transfer" or "cash"
+  final String plan;
+  final String billingCycle;
+  final String paymentMethod;
 
   ManualPaymentRequest({
     required this.userId,
