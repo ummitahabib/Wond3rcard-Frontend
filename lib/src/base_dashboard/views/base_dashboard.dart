@@ -41,7 +41,8 @@ class _BaseDashBoardState extends ConsumerState<BaseDashBoard> {
       UserType.premium.getValue(): MainDashboard(),
       UserType.team.getValue(): MainDashboard(),
       UserType.business.getValue(): MainDashboard(),
-         UserType.admin.getValue(): AdminDashboardDesktopView(),
+         UserType.admin.getValue(): Container(),
+         //AdminDashboardDesktopView(),
       UserType.unknown.getValue(): MainDashboard(),
     };
 
