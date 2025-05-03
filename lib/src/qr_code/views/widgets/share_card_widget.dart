@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
@@ -6,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
+import 'package:wond3rcard/src/qr_code/data/controller/share_card_controller.dart';
 import 'package:wond3rcard/src/qr_code/data/controller/share_card_qr_controller.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
@@ -33,8 +35,8 @@ class ShareQrWidget extends HookConsumerWidget {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
-              await profileController.getProfile();
-              await ref.read(cardProvider).getAUsersCard(context);
+              await profileController.getProfile(context);
+              await ref.read(cardProvider).getAUsersCard(context, '');
             });
           }
         });
@@ -132,7 +134,7 @@ class ShareQrWidget extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  linkContainer('Copy link', HeroIcons.link, () {}),
+                  LinkContainer(cardId: cardController.getCardsResponse?.payload?.cards?[index].id ?? '',),
                   linkContainer('Share link', HeroIcons.arrowUpTray, () {}),
                 ],
               )
@@ -143,12 +145,20 @@ class ShareQrWidget extends HookConsumerWidget {
     );
   }
 
+
+
+
+
+
+  
+
   GestureDetector linkContainer(
     String text,
     HeroIcons icon,
     Function()? onTap,
   ) {
-    return GestureDetector(
+    return 
+    GestureDetector(
       onTap: onTap,
       child: Container(
         width: 158.5,
@@ -177,6 +187,7 @@ class ShareQrWidget extends HookConsumerWidget {
         ),
       ),
     );
+ 
   }
 }
 
@@ -291,13 +302,30 @@ class CustomRowContainer extends StatelessWidget {
 
 
 
-class ShareCardWithBarCode extends ConsumerWidget {
+class ShareCardWithBarCode extends ConsumerStatefulWidget {
   final String cardId;
 
-  const ShareCardWithBarCode({super.key, required this.cardId});
+  const ShareCardWithBarCode({Key? key, required this.cardId}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ShareCardWithBarCode> createState() =>
+      _ShareCardWithBarCodeState();
+}
+
+class _ShareCardWithBarCodeState extends ConsumerState<ShareCardWithBarCode> {
+  @override
+  void initState() {
+    super.initState();
+    // Trigger the API call only once when the widget is initialized
+    Future.microtask(() {
+      ref
+          .read(shareCardQrControllerProvider.notifier)
+          .getQrCode(widget.cardId);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final qrCodeState = ref.watch(shareCardQrControllerProvider);
 
     return Container(
@@ -311,24 +339,91 @@ class ShareCardWithBarCode extends ConsumerWidget {
           strokeCap: StrokeCap.round,
         ),
       ),
- child: qrCodeState.when(
+      child: qrCodeState.when(
         data: (qrData) => QrImageView(
           data: qrData,
           version: QrVersions.auto,
           size: 229,
           gapless: false,
         ),
-        loading: () => const CircularProgressIndicator(),
-        error: (error, _) => const Center(
-          child: Text(
-            'Failed to load QR Code',
-            textAlign: TextAlign.center,
-          ),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (_, __) => QrImageView(
+          data: "DUMMY_QR_CODE", // Display dummy QR code in case of an error
+          version: QrVersions.auto,
+          size: 229,
+          gapless: false,
         ),
       ),
-  
     );
   }
 }
 
 
+
+
+
+
+
+class LinkContainer extends ConsumerWidget {
+  final String cardId;
+
+  const LinkContainer({Key? key, required this.cardId}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final linkState = ref.watch(shareCardLinkControllerProvider);
+
+    return InkWell(
+      onTap: () async {
+        final notifier = ref.read(shareCardLinkControllerProvider.notifier);
+        await notifier.getShareableLink(cardId);
+
+        linkState.when(
+          data: (link) {
+            Clipboard.setData(ClipboardData(text: link));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Link copied to clipboard!")),
+            );
+          },
+          loading: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Fetching link...")),
+            );
+          },
+          error: (error, _) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Failed to fetch link.")),
+            );
+          },
+        );
+      },
+      child:  Container(
+        width: 158.5,
+        height: 61.59,
+        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 9),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.defaultWhite,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              'Copy link',
+              style: const TextStyle(
+                fontFamily: wonderCardFontName,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            HeroIcon(
+              HeroIcons.link,
+              color: AppColors.grayScale700,
+            )
+          ],
+        ),
+      ),
+ 
+    );
+  }
+}

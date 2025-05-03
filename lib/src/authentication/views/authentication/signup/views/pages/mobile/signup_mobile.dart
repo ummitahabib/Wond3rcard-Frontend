@@ -29,11 +29,7 @@ class _SignUpMobileState extends ConsumerState<SignUpMobile> {
 
     authController = ref.read(authProvider);
     previewController = ref.read(previewProvider);
-
-    // Load user details
     previewController.loadUserDetails();
-
-    // Initialize text controllers with preview data
     _initializeControllers();
   }
 
@@ -47,17 +43,6 @@ class _SignUpMobileState extends ConsumerState<SignUpMobile> {
         previewController.lastName?.isNotEmpty == true
             ? previewController.lastName!
             : '';
-
-    // authController.otherName.text =
-    //     previewController.otherName?.isNotEmpty == true
-    //         ? previewController.otherName!
-    //         : '';
-
-    // authController.emailController.text =
-    //     previewController.email?.isNotEmpty == true
-    //         ? previewController.email!
-    //         : '';
-
     authController.workMail.text =
         previewController.workEmail?.isNotEmpty == true
             ? previewController.workEmail!
@@ -72,11 +57,6 @@ class _SignUpMobileState extends ConsumerState<SignUpMobile> {
         previewController.jobTitle?.isNotEmpty == true
             ? previewController.jobTitle!
             : '';
-
-    // authController.phoneNumberController.text =
-    //     previewController.phone?.isNotEmpty == true
-    //         ? previewController.mobileNumber!
-    //         : '';
   }
 
   @override

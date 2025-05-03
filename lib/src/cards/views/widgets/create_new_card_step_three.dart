@@ -38,7 +38,6 @@ class _CreateNewCardStepThreeState
   @override
   Widget build(BuildContext context) {
     final cardController = ref.watch(cardProvider);
-
     return Scaffold(
       appBar: CreateCardReusableAppBar(
         route: RouteString.createNewCardTwo,
@@ -49,52 +48,93 @@ class _CreateNewCardStepThreeState
         child: Padding(
           padding: const EdgeInsets.symmetric(
               vertical: SpacingConstants.size20, horizontal: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextField(
-                hintText: 'Enter website',
-                text: 'Websites',
-                fillColor: AppColors.defaultWhite,
-                textEditingController: cardController.contactInfoWebsite,
-              ),
-              CustomTextField(
-                hintText: 'Enter work email',
-                text: 'Work Email',
-                fillColor: AppColors.defaultWhite,
-                textEditingController: cardController.contactInfoEmail,
-              ),
-              CustomTextField(
-                hintText: 'Enter job title',
-                text: 'Job title',
-                fillColor: AppColors.defaultWhite,
-                textEditingController: cardController.position,
-              ),
-              CustomTextField(
-                hintText: 'Enter notes',
-                text: 'Notes',
-                fillColor: AppColors.defaultWhite,
-                textEditingController: cardController.notes,
-              ),
-              CustomTextField(
-                hintText: 'Enter video url',
-                text: 'Video url',
-                fillColor: AppColors.defaultWhite,
-                textEditingController: cardController.videoUrl,
-              ),
-              const SizedBox(height: 15),
-              Center(
-                child: WonderCardButton(
-                  showLoader: cardController.loading,
-                  text: 'Save and Continue',
-                  onPressed: () {
-                    context.go(RouteString.createNewCardFour);
-                  },
-                ),
-              ),
-            ],
-          ),
+          child: isDesktop(context)
+              ? Center(
+                  child: Container(
+                      width: MediaQuery.of(context).size.width / 4,
+                      padding: EdgeInsets.all(20),
+                      margin: EdgeInsets.all(20),
+                      child: step3Form(cardController, context)),
+                )
+              : step3Form(cardController, context),
         ),
+      ),
+    );
+  }
+
+  Form step3Form(CardNotifier cardController, BuildContext context) {
+    return Form(
+      key: cardController.formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomTextField(
+            hintText: 'Enter work email',
+            text: 'Work Email',
+            fillColor: AppColors.defaultWhite,
+            textEditingController: cardController.contactInfoEmail,
+            isRequired: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Work email is required';
+              }
+              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                return 'Enter a valid email address';
+              }
+              return null;
+            },
+          ),
+          CustomTextField(
+            hintText: 'Enter job title',
+            text: 'Job title',
+            fillColor: AppColors.defaultWhite,
+            textEditingController: cardController.position,
+            isRequired: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Job title is required';
+              }
+              return null;
+            },
+          ),
+          CustomTextField(
+            hintText: 'Enter notes',
+            text: 'Notes',
+            fillColor: AppColors.defaultWhite,
+            textEditingController: cardController.notes,
+            isRequired: false,
+            maxLines: 4,
+          ),
+          CustomTextField(
+            hintText: 'Enter video url (e.g., https://example.com)',
+            text: 'Video URL',
+            fillColor: AppColors.defaultWhite,
+            textEditingController: cardController.videoUrl,
+            isRequired: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Video URL is required';
+              }
+              if (!Uri.tryParse(value)!.hasAbsolutePath) {
+                return 'Enter a valid URL';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 15),
+          Center(
+            child: WonderCardButton(
+              textColor: AppColors.defaultWhite,
+              showLoader: cardController.loading,
+              text: 'Save and Continue',
+              onPressed: () {
+                if (cardController.formKey.currentState?.validate() ?? false) {
+                  context.go(RouteString.createNewCardFour);
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

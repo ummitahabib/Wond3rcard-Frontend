@@ -91,32 +91,24 @@ class AuthRepository {
     }
   }
 
-  Future<RequestRes> deleteAccount({required String email}) async {
-    final String? authToken =
-        StorageUtil.getString(key: SessionString.accessTokenString);
+  Future<void> deleteAccount() async {
     try {
-      final Map<String, dynamic> data = {
-        "email": email,
-      };
-      final response = _client.post(
-        getUrl(Endpoints.resetMfa),
-        data: data,
-        options: Options(
-          headers: {
-            'Content-type': 'application/json',
-            "Accept": "application/json",
-            'Authorization': 'Bearer $authToken',
-          },
-        ),
+      final String? token =
+          StorageUtil.getString(key: SessionString.accessTokenString);
+      Response response = await _client.delete(
+        "auth-delete-account",
+        headers: {
+          'Content-type': 'application/json',
+          "Accept": "application/json",
+          'Authorization': 'Bearer $token',
+        },
       );
 
-      //await _client.deleteAccount(data, 'Bearer $authToken');
-
-      return RequestRes(response: response);
+      if (response.statusCode != 200) {
+        throw Exception("Failed to delete subscription");
+      }
     } catch (e) {
-      return RequestRes(
-        error: ErrorRes(message: e.toString()),
-      );
+      throw Exception("Error: $e");
     }
   }
 
@@ -244,6 +236,26 @@ class AuthRepository {
     } catch (e) {
       print('this is the forgetpassword error $e');
       return RequestRes(error: ErrorRes(message: e.toString()));
+    }
+  }
+
+  Future<void> logout() async {
+          final String? token =
+      StorageUtil.getString(key: SessionString.accessTokenString);
+    try {
+      await _client.post(
+        getUrl('auth/logout'),
+        
+        options: Options(
+           headers: {
+          'Content-type': 'application/json',
+          "Accept": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        )
+      );
+    } catch (e) {
+      throw Exception('Logout failed: $e');
     }
   }
 }

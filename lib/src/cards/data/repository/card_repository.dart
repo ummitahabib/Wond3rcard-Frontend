@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/model/card_model.dart';
@@ -20,29 +20,54 @@ class CardRepository {
 
   CardRepository({required ApiClient client}) : _client = client;
 
-  Future<RequestRes> createCard(Map<String, dynamic> requestBody) async {
+  final String apiUrl =
+      "https://wond3rcard-backend.onrender.com/api/cards/create";
+  late final Map<String, String> headers;
+
+  Future<void> saveCard(CardModel card) async {
+    var request = http.MultipartRequest('PUT', Uri.parse(apiUrl));
     final String? authToken =
         StorageUtil.getString(key: SessionString.accessTokenString);
+    headers = {
+      'Authorization': 'Bearer $authToken',
+    };
+    
+
     try {
-      print('Request body: $requestBody');
-      final response = await _client.put(
-        getUrl(Endpoints.createCard),
-        data: requestBody,
-        options: Options(
-          headers: {
-            'Content-type': 'application/json',
-            "Accept": "application/json",
-            'Authorization': 'Bearer $authToken',
-          },
-        ),
-      );
-      print('API Response: ${response}');
-      return RequestRes(response: response);
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+      if (response.statusCode == 201) {
+        print("Card Created Successfully: $responseBody");
+      } else {
+        print("Failed to create card: $responseBody");
+      }
     } catch (e) {
-      print('Repository error card repo: $e');
-      return RequestRes(error: ErrorRes(message: e.toString()));
+      print("Error: $e");
     }
   }
+
+
+
+Future<RequestRes> createCard(FormData formData) async {
+  final String? authToken = StorageUtil.getString(key: SessionString.accessTokenString);
+  try {
+    final response = await _client.put(
+      getUrl(Endpoints.createCard),
+      data: formData,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $authToken',
+        },
+      ),
+    );
+    return RequestRes(response: response);
+  } catch (e) {
+    return RequestRes(error: ErrorRes(message: e.toString()));
+  }
+}
+
 
   Future<RequestRes> createCardOrganization(
       Map<String, dynamic> requestBody) async {

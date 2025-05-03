@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/analytics/data/model/get_analytics_response.dart';
 import 'package:wond3rcard/src/analytics/data/model/interaction_request.dart';
 import 'package:wond3rcard/src/analytics/data/repository/analytics_repository.dart';
+import 'package:wond3rcard/src/cards/data/model/get_a_card.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 final analyticsProvider = ChangeNotifierProvider<AnalyticsNotifier>((ref) {
@@ -32,6 +33,14 @@ class AnalyticsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  GetCardsResponse? _getCards;
+  GetCardsResponse? get getCards => _getCards;
+
+  set getCards(GetCardsResponse? card) {
+    _getCards = card;
+    notifyListeners();
+  }
+
   List<AnalyticsResponse> _analyticsModel = [];
 
   List<AnalyticsResponse> get analyticsModel => _analyticsModel;
@@ -54,11 +63,9 @@ class AnalyticsNotifier extends ChangeNotifier {
     try {
       loading = true;
       final InteractionRequest interactionRequest = InteractionRequest(
-        cardId: '',
-        cardOwnerId: '',
-        // deviceInfo: '',
+        cardId: getCards?.id ?? emptyString,
+        cardOwnerId: getCards?.ownerId ?? emptyString,
         interactionType: '',
-        // interactor: '',
         ipAddress: '',
       );
       final response = await ref

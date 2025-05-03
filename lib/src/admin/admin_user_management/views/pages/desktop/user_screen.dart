@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/data/controller/user_controller.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/data/model/user/user_model.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 
 
 class UserScreenManagement extends ConsumerWidget {
@@ -33,7 +35,7 @@ class UserScreenManagement extends ConsumerWidget {
                     DataColumn(label: _tableHeader('Status')),
                     DataColumn(label: _tableHeader('Actions')),
                   ],
-                  rows: users.map((user) => _buildDataRow(user)).toList(),
+                  rows: users.map((user) => _buildDataRow(user, context)).toList(),
                 ),
               ),
             );
@@ -54,7 +56,7 @@ class UserScreenManagement extends ConsumerWidget {
   }
 
   /// Builds a DataRow for each user
-  DataRow _buildDataRow(User user) {
+  DataRow _buildDataRow(User user, BuildContext context) {
     return DataRow(
       cells: [
         DataCell(
@@ -67,7 +69,7 @@ class UserScreenManagement extends ConsumerWidget {
         DataCell(Text(user.userRole.toUpperCase())),
         DataCell(Text(user.userTier.plan)),
         DataCell(_statusIndicator(user.userStatus)),
-        DataCell(_actionIcons()),
+        DataCell(_actionIcons(context)),
       ],
     );
   }
@@ -105,19 +107,19 @@ class UserScreenManagement extends ConsumerWidget {
   }
 
   /// Displays action buttons for edit/delete
-  Widget _actionIcons() {
+  Widget _actionIcons(BuildContext context) {
     return Row(
       children: [
         IconButton(
           icon: Icon(Icons.edit, color: Colors.blue),
           onPressed: () {
-            // Handle Edit Action
+          context.go(RouteString.adminEditUser);
           },
         ),
         IconButton(
           icon: Icon(Icons.delete, color: Colors.red),
           onPressed: () {
-            // Handle Delete Action
+           context.go(RouteString.adminDeleteUser);
           },
         ),
       ],

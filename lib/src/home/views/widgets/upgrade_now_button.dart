@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/home/data/controller/home_controller.dart';
@@ -54,25 +55,29 @@ SizedBox personalProfileButton(
   );
 }
 
-Container qrCodeContainer({
+Widget qrCodeContainer({
   HeroIcons? icon,
   Color? iconColor,
   double? iconSize,
+  void Function()? onTap,
 }) {
-  return Container(
-    padding: const EdgeInsetsDirectional.all(6.6),
-    width: SpacingConstants.size40,
-    height: SpacingConstants.size40,
-    decoration: BoxDecoration(
-      color: AppColors.grayScale50,
-      borderRadius: BorderRadius.circular(
-        SpacingConstants.size15,
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsetsDirectional.all(6.6),
+      width: SpacingConstants.size40,
+      height: SpacingConstants.size40,
+      decoration: BoxDecoration(
+        color: AppColors.grayScale50,
+        borderRadius: BorderRadius.circular(
+          SpacingConstants.size15,
+        ),
       ),
-    ),
-    child: HeroIcon(
-      size: iconSize ?? 18.15,
-      icon ?? HeroIcons.qrCode,
-      color: iconColor ?? AppColors.badgeColor,
+      child: HeroIcon(
+        size: iconSize ?? 18.15,
+        icon ?? HeroIcons.qrCode,
+        color: iconColor ?? AppColors.badgeColor,
+      ),
     ),
   );
 }
@@ -81,6 +86,7 @@ Column recentConnection(BuildContext context) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
     children: [
       Container(
         padding: const EdgeInsets.all(10),
@@ -90,6 +96,7 @@ Column recentConnection(BuildContext context) {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
               'Recent Connect',
@@ -105,6 +112,7 @@ Column recentConnection(BuildContext context) {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 userProfileImage(
                   width: 30,
@@ -197,22 +205,25 @@ Container addCardWidget() {
   );
 }
 
-Column connectText({required String text}) {
+Column connectText({
+  required String text,
+  Color? color,
+}) {
   return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
     Text(
         textAlign: TextAlign.center,
         '$text +',
-        style: const TextStyle(
-          color: AppColors.defaultWhite,
+        style: TextStyle(
+          color: color ?? AppColors.defaultWhite,
           fontFamily: 'Barlow',
           fontSize: 36,
           fontWeight: FontWeight.w700,
         )),
-    const Text(
+    Text(
       textAlign: TextAlign.center,
       'Connected',
       style: TextStyle(
-        color: AppColors.defaultWhite,
+        color: color ?? AppColors.defaultWhite,
         fontFamily: 'Barlow',
         fontSize: 18,
         fontWeight: FontWeight.w700,
@@ -223,12 +234,10 @@ Column connectText({required String text}) {
 
 Container personalProfileTag({String? text}) {
   return Container(
-    width: 158,
-    height: 40,
+    margin: EdgeInsets.all(8),
+    padding: EdgeInsets.all(8),
     decoration: BoxDecoration(
-        color: AppColors.grayScale50,
-        borderRadius: BorderRadius.circular(SpacingConstants.size100)),
-    padding: const EdgeInsets.all(9),
+        color: AppColors.grayScale50, borderRadius: BorderRadius.circular(12)),
     child: Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -254,7 +263,7 @@ Container personalProfileTag({String? text}) {
   );
 }
 
-SingleChildScrollView addCardMainRowWidget() {
+SingleChildScrollView addCardMainRowWidget(BuildContext context) {
   return SingleChildScrollView(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -287,7 +296,11 @@ SingleChildScrollView addCardMainRowWidget() {
                     fontWeight: FontWeight.w700))
           ],
         ),
-        addCardWidget()
+        GestureDetector(
+            onTap: () {
+              context.go(RouteString.createNewCard);
+            },
+            child: addCardWidget())
       ],
     ),
   );
@@ -349,8 +362,6 @@ Center headerContainer() {
           child: Image.asset(
             ImageAssets.curve,
             fit: BoxFit.cover,
-            // height: 111.5,
-            //  width: 357,
           ),
         ),
       ],
@@ -392,7 +403,7 @@ Row stackAvatar(List<UserProfile> userProfiles) {
   return Row(
     children: List.generate(userProfiles.length, (index) {
       return Transform.translate(
-        offset: Offset(index * -15.0, 0), // Adjust -15.0 for desired overlap
+        offset: Offset(index * -15.0, 0),
         child: SizedBox(
           width: SpacingConstants.size45,
           height: SpacingConstants.size45,
@@ -495,7 +506,7 @@ class ConnectionsMedia extends HookConsumerWidget {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
-              await profileController.getProfile();
+              await profileController.getProfile(context);
             });
           }
         });

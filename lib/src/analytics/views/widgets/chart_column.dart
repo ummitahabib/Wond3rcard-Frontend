@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-//import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wond3rcard/src/analytics/data/model/analytics_card_data_model.dart';
 import 'package:wond3rcard/src/analytics/data/model/chart_column_data.dart';
 import 'package:wond3rcard/src/analytics/data/model/get_analytics_response.dart';
@@ -119,40 +118,6 @@ class ChartColumn extends HookConsumerWidget {
                     ),
                   ],
                 ),
-          // SfCartesianChart(
-          //   plotAreaBackgroundColor: AppColors.transparent,
-          //   margin: const EdgeInsets.symmetric(vertical: 10),
-          //   borderColor: AppColors.transparent,
-          //   borderWidth: 0,
-          //   plotAreaBorderWidth: 0,
-          //   enableSideBySideSeriesPlacement: false,
-          //   primaryXAxis: const CategoryAxis(
-          //     isVisible: false,
-          //   ),
-          //   primaryYAxis: const NumericAxis(
-          //     isVisible: false,
-          //     minimum: 0,
-          //   ),
-          //   series: <CartesianSeries>[
-          //     ColumnSeries<ChartColumnData, String>(
-          //       borderRadius: BorderRadius.circular(20),
-          //       dataSource: chartData.value,
-          //       width: size0point5
-          //       color: Colors.amber,
-          //       // const Color(0xFFE9EDF7),
-          //       xValueMapper: (ChartColumnData data, _) => data.x,
-          //       yValueMapper: (ChartColumnData data, _) => data.y,
-          //     ),
-          //     ColumnSeries<ChartColumnData, String>(
-          //       borderRadius: BorderRadius.circular(20),
-          //       dataSource: chartData.value,
-          //       width: size0point5
-          //       color: AppColors.primaryShade,
-          //       xValueMapper: (ChartColumnData data, _) => data.x,
-          //       yValueMapper: (ChartColumnData data, _) => data.y1,
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );

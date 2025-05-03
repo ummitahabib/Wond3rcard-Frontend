@@ -183,23 +183,18 @@ class ApiClient {
             options: options,
             data: data,
           )
-          .timeout(const Duration(seconds: 120)); // Timeout configuration
-
-      // Process and return the response
+          .timeout(const Duration(seconds: 120));
       return _returnResponse(response);
     } on DioException catch (e) {
-      // Handle Dio-specific exceptions
       final msg = DataException.fromDioError(e);
       if (e.response == null || e.response!.data == null) {
         throw Exception("Network error: ${msg.message}");
       } else {
-        throw processError(e.response!); // Process error for non-null response
+        throw processError(e.response!);
       }
     } on TimeoutException catch (e) {
-      // Handle timeout-specific exceptions
       throw Exception("Request timeout: ${e.message}");
     } catch (e) {
-      // Handle generic exceptions
       throw Exception("An unexpected error occurred: $e");
     }
   }
@@ -223,10 +218,7 @@ class ApiClient {
   }
 
   bool isResponseOk(int statusCode) {
-    if (statusCode == 401) {
-      // SnackbarUtil.showErrorSnack(navigatorKey.currentState!.context, "Session Expired. Please Login Again");
-      // Navigator.pushNamedAndRemoveUntil(navigatorKey.currentState!.context, LoginPage.routeName, (route) => false);
-    }
+    if (statusCode == 401) {}
     return statusCode >= 200 && statusCode <= 299;
   }
 
@@ -241,8 +233,6 @@ class ApiClient {
           response.data["error"] ??
           response.data["status"] ??
           "Server error. Please contact support for help.";
-      // SnackbarUtil.showErrorSnack(navigatorKey.currentState!.context, "Session Expired. Please Login Again");
-      // Navigator.pushNamedAndRemoveUntil(navigatorKey.currentState!.context, LoginPage.routeName, (route) => false);
     }
     return response.data["message"] ??
         response.data["error_description"] ??
@@ -278,8 +268,7 @@ class _CustomInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // Set validateStatus to always return true (ignore all status codes)
     options.validateStatus = (status) => true;
-    return handler.next(options); // continue with the request
+    return handler.next(options);
   }
 }

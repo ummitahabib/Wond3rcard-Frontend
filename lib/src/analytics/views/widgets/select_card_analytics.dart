@@ -25,7 +25,7 @@ class SelectCardAnalytics extends HookConsumerWidget {
           if (cardController.cards.isEmpty) {
             Future.delayed(Duration.zero, () async {
               await cardController.getAllUsersCard();
-              await profileController.getProfile();
+              await profileController.getProfile(context);
             });
           }
         });
@@ -178,7 +178,7 @@ class SelectCardAnalytics extends HookConsumerWidget {
           return GestureDetector(
             onTap: () {
               selectedFilter.value = filter.label;
-              filter.onTap(); // Trigger the associated action
+              filter.onTap();
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 5),

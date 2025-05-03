@@ -30,19 +30,25 @@ Container deleteCardWidget({Color? color}) {
             deleteCardConfirmation,
             style: WonderCardTypography.regularTextTitle1(),
           ),
-          WonderCardButton(
-            text: delete,
-            onPressed: () async {},
-            backgroundColor: AppColors.defaultWhite,
-            borderRadius: BorderRadius.circular(SpacingConstants.size8),
-            buttonWidth: size347,
+          SizedBox(
+              width: size347,
+            child: WonderCardButton(
+              text: delete,
+              onPressed: () async {},
+              backgroundColor: AppColors.defaultWhite,
+              borderRadius: BorderRadius.circular(SpacingConstants.size8),
+            
+            ),
           ),
-          WonderCardButton(
-            text: cancel,
-            onPressed: () async {},
-            backgroundColor: AppColors.grayScale,
-            borderRadius: BorderRadius.circular(SpacingConstants.size8),
-            buttonWidth: size347,
+          SizedBox(
+             width: size347,
+            child: WonderCardButton(
+              text: cancel,
+              onPressed: () async {},
+              backgroundColor: AppColors.grayScale,
+              borderRadius: BorderRadius.circular(SpacingConstants.size8),
+             
+            ),
           ),
         ]),
       ));
@@ -76,82 +82,45 @@ GestureDetector cardRow({
   return GestureDetector(
     onTap: onTap,
     child: Container(
+      padding: EdgeInsets.all(15),
+      margin: EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: color ?? AppColors.defaultWhite,
         borderRadius: BorderRadius.circular(SpacingConstants.size8),
       ),
-      child: Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            icon == null
-                ? const SizedBox()
-                : HeroIcon(
-                    icon ?? HeroIcons.documentDuplicate,
-                    color: iconColor ?? AppColors.grayScale700,
-                  ),
-            const SizedBox(
-              height: SpacingConstants.size15,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          icon == null
+              ? const SizedBox()
+              : HeroIcon(
+                  icon ?? HeroIcons.documentDuplicate,
+                  color: iconColor ?? AppColors.grayScale700,
+                ),
+          Spacer(),
+          Text(
+            text!,
+            style: WonderCardTypography.boldTextTitleBold(
+              color: AppColors.grayScale700,
+              fontSize: SpacingConstants.size18,
             ),
-            Text(
-              text!,
-              style: WonderCardTypography.boldTextTitleBold(
-                color: AppColors.grayScale700,
-                fontSize: SpacingConstants.size18,
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     ),
   );
 }
 
-Container cardOptionWidget() {
-  return Container(
-    decoration: DecorationBox.cardBoxDecoration(),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(SpacingConstants.size8),
-          child: Text(
-            'Ummeeta Habeeb',
-            style: WonderCardTypography.boldTextH5(),
-          ),
-        ),
-        cardRow(
-          onTap: () {},
-          text: editCard,
-          icon: HeroIcons.pencilSquare,
-        ),
-        cardRow(
-          onTap: () {},
-          text: shareCard,
-          icon: HeroIcons.paperAirplane,
-        ),
-        cardRow(
-          onTap: () {},
-          text: shareCard,
-        ),
-        cardRow(
-          onTap: () {},
-          text: downloadCard,
-          icon: HeroIcons.trash,
-        ),
-      ],
+Widget saveContactButton() {
+  return SizedBox(
+       width: size225,
+    child: WonderCardButton(
+      onPressed: () {},
+      text: saveContact,
+      backgroundColor: AppColors.primaryShade,
+      borderRadius: BorderRadius.circular(SpacingConstants.size10),
     ),
-  );
-}
-
-WonderCardButton saveContactButton() {
-  return WonderCardButton(
-    onPressed: () {},
-    text: saveContact,
-    backgroundColor: AppColors.primaryShade,
-    buttonWidth: size225,
-    borderRadius: BorderRadius.circular(SpacingConstants.size10),
   );
 }
 

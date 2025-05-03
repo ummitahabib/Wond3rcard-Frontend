@@ -26,9 +26,8 @@ class MainDashboardMobile extends HookConsumerWidget {
       index: homeController.activeIndex,
       children: [
         const HomeMain(),
-        const CardsMain(),
+        CardsMain(),
         ShareCardList(),
-        //ShareQrWidget(),
         const AnalyticsMainPage(),
         ProfileMainScreen(),
       ],

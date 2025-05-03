@@ -65,10 +65,7 @@ class _OnboardingFifthScreenMobileState
                         : socialController.socialMedias.isEmpty
                             ? const Center(
                                 child: Text('No social media links found.'))
-                            : Center(
-                                child: SocialMediaList(
-                                    socialController: socialController),
-                              ),
+                            : Container(),
                     const Spacer(),
                     ContinueWidget(
                       showLoader: socialController.loading,
@@ -94,9 +91,9 @@ class _OnboardingFifthScreenMobileState
 }
 
 class SocialMediaList extends StatefulHookConsumerWidget {
-  SocialMediaList({super.key, this.socialController});
+  final ValueNotifier<List<SocialMediaLink>> selectedLinks;
 
-  SocialMediaNotifier? socialController;
+  const SocialMediaList({super.key, required this.selectedLinks});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -104,38 +101,81 @@ class SocialMediaList extends StatefulHookConsumerWidget {
 }
 
 class _SocialMediaListState extends ConsumerState<SocialMediaList> {
+  final Map<String, bool> selected = {};
+  final Map<String, TextEditingController> usernameControllers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    for (var media in staticSocialMediaList) {
+      selected[media.name] = false;
+      usernameControllers[media.name] = TextEditingController();
+    }
+  }
+
+  void updateSelectedLinks() {
+    widget.selectedLinks.value = staticSocialMediaList
+        .where((media) => selected[media.name] == true)
+        .map(
+          (media) => SocialMediaLink(
+            media: media,
+            username: usernameControllers[media.name]?.text ?? '',
+            active: true,
+          ),
+        )
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
         width: SpacingConstants.size346,
-        height: SpacingConstants.size400,
         decoration: DecorationBox.detailContainerDecorationBox(),
         padding: const EdgeInsets.all(8),
         child: ListView.builder(
-          itemCount: widget.socialController!.socialMedias.length,
+          shrinkWrap: true,
+          itemCount: staticSocialMediaList.length,
           itemBuilder: (context, index) {
-            final socialMedia = widget.socialController!.socialMedias[index];
-            final isExpanded =
-                widget.socialController!.expandedItems[index] ?? false;
+            final media = staticSocialMediaList[index];
+            final isSelected = selected[media.name] ?? false;
 
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DetailsContainer(
-                  isExpanded: isExpanded,
-                  toggleExpansion: () {
+                ListTile(
+                  leading: Image.asset(media.iconPath, width: 30, height: 30),
+                  title: Text(media.name),
+                  subtitle: Text(media.type),
+                  trailing: Checkbox(
+                    value: isSelected,
+                    onChanged: (val) {
+                      setState(() {
+                        selected[media.name] = val ?? false;
+                        updateSelectedLinks();
+                      });
+                    },
+                  ),
+                  onTap: () {
                     setState(() {
-                      widget.socialController!.expandedItems[index] =
-                          !(widget.socialController!.expandedItems[index] ??
-                              false);
+                      selected[media.name] = !(selected[media.name] ?? false);
+                      updateSelectedLinks();
                     });
                   },
-                  socialMedia: socialMedia,
                 ),
-                const SizedBox(
-                  height: 9,
-                ),
+                if (isSelected)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: TextField(
+                      controller: usernameControllers[media.name],
+                      decoration: InputDecoration(
+                        labelText: 'Enter ${media.name} username',
+                      ),
+                      onChanged: (_) => updateSelectedLinks(),
+                    ),
+                  ),
+                const SizedBox(height: 10),
               ],
             );
           },
@@ -143,4 +183,68 @@ class _SocialMediaListState extends ConsumerState<SocialMediaList> {
       ),
     );
   }
+}
+
+List<SocialMedia> staticSocialMediaList = [
+  SocialMedia(
+    name: 'Behance',
+    type: 'Education/Work',
+    iconPath: 'images/behance.png',
+    baseUrl: 'https://www.behance.net/',
+  ),
+  SocialMedia(
+    name: 'LinkedIn',
+    type: 'Professional Network',
+    iconPath: 'images/linkedIn.png',
+    baseUrl: 'https://www.linkedin.com/in/',
+  ),
+  SocialMedia(
+    name: 'Instagram',
+    type: 'Photo/Video Sharing',
+    iconPath: 'images/instagram.png',
+    baseUrl: 'https://www.instagram.com/',
+  ),
+  SocialMedia(
+    name: 'Twitter',
+    type: 'Microblogging',
+    iconPath: 'images/x-icon.png',
+    baseUrl: 'https://twitter.com/',
+  ),
+];
+
+class SocialMedia {
+  final String name;
+  final String type;
+  final String iconPath;
+  final String baseUrl;
+
+  SocialMedia({
+    required this.name,
+    required this.type,
+    required this.iconPath,
+    required this.baseUrl,
+  });
+}
+
+class SocialMediaLink {
+  final SocialMedia media;
+  final String username;
+  final bool active;
+
+  SocialMediaLink({
+    required this.media,
+    required this.username,
+    required this.active,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'media': {
+          'iconUrl': media.iconPath,
+          'name': media.name,
+          'type': media.type,
+          'link': '${media.baseUrl}${username.trim()}', 
+        },
+        'username': username,
+        'active': active,
+      };
 }

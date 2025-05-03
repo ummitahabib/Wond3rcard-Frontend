@@ -54,12 +54,6 @@ class SignUpRequest {
   }
 
   InputModel validateSignUpData() {
-    // if (firstName!.length < 3) {
-    //   return InputModel(error: AppStrings.inValidFirstName, isValidInput: false);
-    // }
-    // if (lastName!.length < 3) {
-    //   return InputModel(error: AppStrings.inValidLastName, isValidInput: false);
-    // }
     if (!ApplicationHelpers().isValidEmail(email!)) {
       return InputModel(error: AppStrings.inValidEmail, isValidInput: false);
     }

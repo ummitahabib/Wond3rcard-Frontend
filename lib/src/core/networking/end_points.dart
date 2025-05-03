@@ -1,8 +1,8 @@
 class Endpoints {
   static const String devBaseUrl =
-      "https://wond3rd-card-apis-q7hk5.ondigitalocean.app/api/";
+      "https://wond3rcard-backend.onrender.com/api/";
   static const String prodBaseUrl =
-      "https://wond3rd-card-apis-q7hk5.ondigitalocean.app/api/";
+      "https://wond3rcard-backend.onrender.com/api/";
   static bool isLiveEnvironment = false;
   static String baseUrl = isLiveEnvironment ? prodBaseUrl : devBaseUrl;
   static const String login = "auth/sign-in";
@@ -88,6 +88,24 @@ class Endpoints {
       'interaction/by-time-period/?timePeriod';
   static const String getUserCardAnalytics =
       'interaction/user-card-analytics?cardId=676fbb644d3061c0b3a4839c';
+
+
+
+      //-----------------------------admin-feature-flag-----------------------
+      static const String createFlag = 'feature-flags/create-feature';
+      static const String getAllFlags = 'feature-flags';
+      static const String updateFlag = 'feature-flags/update-feature';
+       static const String deleteFlag = 'feature-flags/delete-feature';
+       static const String getFlagByTier = 'feature-flags/by-tier/';
+       static const String logAnalytics = 'analytics/log';
+       static const String getAnalyticsInsight = 'analytics/insights';
+
+
+
+       //---------------------------------Create Subscriptin---------------------//
+
+       static const String createSusbcription = 'admin/subscription-tiers';
+
 }
 
 String getUrl(String route) {

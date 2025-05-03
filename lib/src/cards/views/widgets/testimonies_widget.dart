@@ -16,7 +16,6 @@ class MyTestimonies {
   });
 }
 
-// Dummy data for the testimonies
 final List<MyTestimonies> dumMyTestimonies = [
   MyTestimonies(
     jobTitle: 'CEO, Learnoch',

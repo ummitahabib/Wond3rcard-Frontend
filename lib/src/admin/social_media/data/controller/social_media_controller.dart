@@ -115,39 +115,17 @@ class SocialMediaNotifier extends ChangeNotifier {
     }
   }
 
-  // Future<SocialMedia> getSocialMedia(BuildContext context) async {
-  //   try {
-  //     loading = true;
-  //     final response =
-  //         await ref.watch(socialMediaRepositoryProvider).getSocialMedias();
-  //     if (response.hasError()) {
-  //       alert.showErrorToast(message: response.error!.message);
-  //       loading = false;
-  //     } else {
-  //       socialMedias = response.response ?? [];
-  //     }
-  //   } catch (e) {
-  //     alert.showErrorToast(message: 'an error occured ');
-  //     print(e);
-  //     return socialMediaModel!;
-  //   }
-  //   return socialMediaModel!;
-  // }
-
   Future<void> getSocialMedia(BuildContext context) async {
     try {
       loading = true;
-
-      // Fetch data from repository
       final response =
           await ref.watch(socialMediaRepositoryProvider).getSocialMedias();
 
       if (response.hasError()) {
         alert.showErrorToast(message: response.error!.message);
       } else {
-        // Access the payload
         final socialMediaResponse = response.response as SocialMediaResponse;
-        socialMedias = socialMediaResponse.payload; // List<SocialMedia>
+        socialMedias = socialMediaResponse.payload;
       }
     } catch (e) {
       alert.showErrorToast(message: 'An error occurred');

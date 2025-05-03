@@ -8,7 +8,6 @@ import 'package:wond3rcard/src/profile/data/profile_controller/profile_controlle
 import 'package:wond3rcard/src/profile/data/profile_model/profile.dart';
 import 'package:wond3rcard/src/utils/user_role_enum.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
-
 class BaseDashBoard extends StatefulHookConsumerWidget {
   const BaseDashBoard({super.key});
 
@@ -21,35 +20,35 @@ class BaseDashBoard extends StatefulHookConsumerWidget {
 class _BaseDashBoardState extends ConsumerState<BaseDashBoard> {
   @override
   Widget build(BuildContext context) {
-    final authProvide = ref.read(profileProvider);
-    final profileData = useState<UserProfileResponse?>(null);
+    final authProvide = ref.watch(profileProvider);
+    final profileData = useState<UserProfileResponse?>(authProvide.profileData);
 
-    useEffect(
-      () {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-          if (authProvide.profileData == null) {
-            Future.delayed(Duration.zero, () async {
-              final profile = await authProvide.getProfile();
-              setState(() {
-                profileData.value = profile;
-              });
-            });
-          }
-        });
-        return null;
-      },
-      [],
-    );
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (profileData.value == null) {
+          final profile = await authProvide.getProfile(context);
+          profileData.value = profile; 
+        }
+      });
+      return null;
+    }, []);
+    if (profileData.value == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     final Map<int, Widget> widgetMap = {
-      UserRole.unknown.getValue(): MainDashboard(),
-      UserRole.customer.getValue(): MainDashboard(),
-      UserRole.admin.getValue(): AdminDashboardDesktopView(),
-      UserRole.moderator.getValue(): MainDashboard(),
+      UserType.normal.getValue(): MainDashboard(),
+      UserType.premium.getValue(): MainDashboard(),
+      UserType.team.getValue(): MainDashboard(),
+      UserType.business.getValue(): MainDashboard(),
+         UserType.admin.getValue(): Container(),
+         //AdminDashboardDesktopView(),
+      UserType.unknown.getValue(): MainDashboard(),
     };
+
     return RoleBasedAccessWidget(
       userRole: getUserRoleFromString(
-        authProvide.profileData!.payload.user.userType,
+        profileData.value?.payload.user.userRole ?? emptyString,
       ),
       widgetMap: widgetMap,
     );

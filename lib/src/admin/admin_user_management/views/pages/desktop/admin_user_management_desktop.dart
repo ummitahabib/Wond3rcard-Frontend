@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/add_user_widget.dart';
@@ -6,6 +7,7 @@ import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/admin_d
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/dashboard_users_and_recently_joined.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/recently_created_main_widget.dart';
 import 'package:wond3rcard/src/shared/views/widgets/modal_actions.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 
 
 
@@ -33,7 +35,7 @@ class AdminUserManagementDesktop extends HookConsumerWidget {
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      customDialog(context, AddUserAccount());
+                      context.go(RouteString.addUserAccount);
                     },
                     child: Container(
                       padding:

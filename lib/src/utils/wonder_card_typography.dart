@@ -73,6 +73,14 @@ class WonderCardTypography {
         color: color ?? AppColors.defaultWhite);
   }
 
+  static TextStyle boldTextH3({double? fontSize, Color? color}) {
+    return TextStyle(
+        fontFamily: 'Barlow',
+        fontSize: fontSize ?? SpacingConstants.size28,
+        fontWeight: FontWeight.w700,
+        color: color ?? AppColors.defaultWhite);
+  }
+
   static TextStyle boldTextH5({
     double? fontSize,
     Color? color,
@@ -106,8 +114,6 @@ class WonderCardTypography {
     return TextStyle(
         fontFamily: wonderCardFontName,
         fontSize: fontSize ?? SpacingConstants.size13,
-        // fontWeight: fontWeight ?? FontWeight.w700,
-        // height: height ?? SpacingConstants.size13,
         color: color ?? AppColors.primaryShade);
   }
 
@@ -146,4 +152,84 @@ class WonderCardTypography {
       fontWeight: FontWeight.w500,
     );
   }
+
+
+
+  static TextStyle headlineH3(
+      {Color? color, double? fontSize, FontWeight? fontWeight}) {
+    return TextStyle(
+      color: color ?? AppColors.primaryShade,
+      fontFamily: 'Lato',
+      fontSize: fontSize ?? 22.78,
+      fontStyle: FontStyle.normal,
+      fontWeight: fontWeight ?? FontWeight.w700,
+    );
+  }
+
+  static TextStyle bodyLarge(
+      {Color? color, double? fontSize, FontWeight? fontWeight}) {
+    return TextStyle(
+      color: color ?? AppColors.primaryShade,
+      fontFamily: 'Lato',
+      fontSize: fontSize ?? 14.22,
+      fontStyle: FontStyle.normal,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+
+
+  static TextStyle headlineH1(
+      {Color? color, double? fontSize, FontWeight? fontWeight}) {
+    return TextStyle(
+      color: color ?? Color(0xff3A3541
+),
+      fontFamily: 'Lato',
+      fontSize: fontSize ?? 28.3,
+      fontStyle: FontStyle.normal,
+      fontWeight: fontWeight ?? FontWeight.w700,
+    );
+  }
+
+
+
+
+
+  static TextStyle bodySmall(
+      {Color? color, double? fontSize, FontWeight? fontWeight}) {
+    return TextStyle(
+      color: color ?? Color(0xff89868D
+),
+      fontFamily: 'Lato',
+      fontSize: fontSize ?? 12.64,
+      fontStyle: FontStyle.normal,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  static TextStyle textCaption(
+      {Color? color, double? fontSize, FontWeight? fontWeight}) {
+    return TextStyle(
+      color: color ?? Color(0xff3A3541
+),
+      fontFamily: 'Lato',
+      fontSize: fontSize ?? 11,
+      fontStyle: FontStyle.normal,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+  
+  static TextStyle regularText5(
+      {Color? color, double? fontSize, FontWeight? fontWeight}) {
+    return TextStyle(
+      color: color ?? Color(0xff3A3541
+),
+      fontFamily: 'Barlow',
+      fontSize: fontSize ?? 23,
+      fontStyle: FontStyle.normal,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+  
+
 }

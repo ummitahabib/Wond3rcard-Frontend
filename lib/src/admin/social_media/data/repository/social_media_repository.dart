@@ -72,8 +72,6 @@ class SocialMediaRepository {
           'Authorization': 'Bearer $token',
         },
       );
-
-      // Parse response body
       final socialMediaResponse = SocialMediaResponse.fromMap(response);
 
       return RequestRes(response: socialMediaResponse);

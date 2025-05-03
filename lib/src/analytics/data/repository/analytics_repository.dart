@@ -5,6 +5,7 @@ import 'package:wond3rcard/src/core/networking/api_client.dart';
 import 'package:wond3rcard/src/core/networking/end_points.dart';
 import 'package:wond3rcard/src/core/networking/request_res.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
+import 'package:dio/dio.dart';
 
 final analyticsRepoRepository =
     Provider((ref) => AnalyticsRepository(client: ref.watch(apiProvider)));
@@ -19,7 +20,15 @@ class AnalyticsRepository {
 
     try {
       final response =
-          await _client.post(getUrl(Endpoints.interact), data: requestBody);
+          await _client.post('https://wond3rcard-backend.onrender.com/api/interaction/', data: requestBody, 
+            options: Options(
+           headers: {
+          'Content-type': 'application/json',
+          "Accept": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        )
+          );
       final resp = InteractionRequest.fromJson(response);
       return RequestRes(response: resp);
     } catch (e) {
@@ -32,7 +41,7 @@ class AnalyticsRepository {
       final String token = SessionString.accessTokenString;
 
       final response =
-          await _client.get(getUrl(Endpoints.getAnalytics), headers: {
+          await _client.get('https://wond3rcard-backend.onrender.com/api/interaction/', headers: {
         'Content-type': 'application/json',
         "Accept": "application/json",
         'Authorization': 'Bearer $token',

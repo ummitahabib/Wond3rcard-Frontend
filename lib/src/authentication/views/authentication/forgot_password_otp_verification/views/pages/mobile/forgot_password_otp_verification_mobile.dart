@@ -71,7 +71,6 @@ class ForgotPasswordOtpVerificationMobile extends HookConsumerWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: SpacingConstants.size20),
-                  // OTP Fields Row
                   SizedBox(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,7 +114,6 @@ class ForgotPasswordOtpVerificationMobile extends HookConsumerWidget {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: SpacingConstants.size20),
                   ContinueWidget(
                     showLoader: authController.loading,
@@ -133,7 +131,6 @@ class ForgotPasswordOtpVerificationMobile extends HookConsumerWidget {
                           authController.pinCode5,
                           authController.pinCode6,
                           ref,
-                          // authController.emailAddress,
                           context);
                     },
                     buttonText: confirmText,

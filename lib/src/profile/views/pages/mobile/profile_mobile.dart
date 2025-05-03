@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop.dart';
+import 'package:wond3rcard/src/authentication/data/controller/auth_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_model/profile.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
@@ -13,15 +17,15 @@ class ProfileScreenMobile extends HookConsumerWidget {
   const ProfileScreenMobile({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
- final adminUserController = ref.read(profileProvider);
+ final userProfile = ref.read(profileProvider);
     
         useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-          final adminUserController = ref.read(profileProvider);
+          final userProfile = ref.read(profileProvider);
          
             Future.delayed(Duration.zero, () async {
-              await adminUserController.getProfile();
+              await userProfile.getProfile(context);
             });
           
         });
@@ -30,6 +34,37 @@ class ProfileScreenMobile extends HookConsumerWidget {
       [],
     );
     
+
+  void _showLogoutDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: const Text("Confirm Logout"),
+          content: const Text("Are you sure you want to logout?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(ctx).pop(); 
+                await ref.read(logoutControllerProvider.notifier).logout();
+
+                if (context.mounted) {
+                  context.go(RouteString.logIn);
+                }
+              },
+              child: const Text("Yes, Logout", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -40,15 +75,7 @@ class ProfileScreenMobile extends HookConsumerWidget {
             ),
           ),
           centerTitle: true,
-          leading: Container(
-            padding: EdgeInsets.all(12),
-            width: 40,
-            height: SpacingConstants.size40,
-            decoration: BoxDecoration(
-                color: AppColors.defaultWhite,
-                borderRadius: BorderRadius.circular(8)),
-            child: SizedBox(),
-          ),
+         
         ),
         backgroundColor: AppColors.transparent,
         body: Center(
@@ -60,7 +87,7 @@ class ProfileScreenMobile extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ReusableProfileHeader(
-                    profile: adminUserController.profileData!,
+                    profile: userProfile.profileData!,
                   ),
                   Container(
                       width: 359,
@@ -76,16 +103,22 @@ class ProfileScreenMobile extends HookConsumerWidget {
                         children: [
                           reusableRowWidget(
                               icon: HeroIcons.user,
-                              onTap: () {},
+                              onTap: () {
+                                context.go(RouteString.editProfile);
+                              },
                               text: 'Edit Profile'),
                           reusableRowWidget(
                             icon: HeroIcons.shieldExclamation,
-                            onTap: () {},
+                            onTap: () {
+                              context.go(RouteString.memebershipSubscription);
+                            },
                             text: 'Membership',
                           ),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
-                              onTap: () {},
+                              onTap: () {
+                                 context.go(RouteString.privacySecurity);
+                              },
                               text: 'Privacy & security'),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
@@ -93,20 +126,26 @@ class ProfileScreenMobile extends HookConsumerWidget {
                               text: 'Notification'),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
-                              onTap: () {},
+                              onTap: () {
+                                context.go(RouteString.helpAndSupport);
+                              },
                               text: 'Help & Support'),
                           reusableRowWidget(
                             icon: HeroIcons.shieldExclamation,
-                            onTap: () {},
+                            onTap: () {
+                               context.go(RouteString.termsAndCondition);
+                            },
                             text: 'Terms and Condition',
                           ),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
-                              onTap: () {},
+                              onTap: () {
+                               context.go(RouteString.qAndA);
+                              },
                               text: 'Q & A'),
                           reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
-                              onTap: () {},
+                              onTap: () => _showLogoutDialog(context, ref),
                               text: 'Logout'),
                         ],
                       ))
@@ -157,7 +196,8 @@ class ReusableProfileHeader extends StatelessWidget {
             ),
             child: Text(
               textAlign: TextAlign.center,
-              profile.payload.user.userType,
+              profile.payload.user.userTier.plan,
+              //userType,
               style: TextStyle(
                 fontFamily: 'Barlow',
                 fontSize: 8.59,
@@ -193,48 +233,49 @@ class ReusableProfileHeader extends StatelessWidget {
   }
 }
 
-Container reusableRowWidget(
+Widget reusableRowWidget(
     {Widget? widget,
     required HeroIcons icon,
     required String text,
     required void Function() onTap}) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 12),
-    width: 335,
-    height: 54,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(width: 1, color: Color(0xffE0E0E0)),
-      color: AppColors.grayScale50,
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        HeroIcon(
-          icon,
-          size: 18.67,
-          color: AppColors.grayScale700,
-        ),
-        SizedBox(
-          width: 30,
-        ),
-        Text(
-          text,
-          style: WonderCardTypography.boldTextTitle2(
-            fontSize: 16,
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 12),
+      width: 335,
+      height: 54,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(width: 1, color: Color(0xffE0E0E0)),
+        color: AppColors.grayScale50,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          HeroIcon(
+            icon,
+            size: 18.67,
             color: AppColors.grayScale700,
           ),
-        ),
-        Spacer(),
-        GestureDetector(
-            onTap: onTap,
-            child: widget ??
-                HeroIcon(
-                  HeroIcons.arrowRight,
-                  size: 18.67,
-                  color: AppColors.grayScale700,
-                ))
-      ],
+          SizedBox(
+            width: 30,
+          ),
+          Text(
+            text,
+            style: WonderCardTypography.boldTextTitle2(
+              fontSize: 16,
+              color: AppColors.grayScale700,
+            ),
+          ),
+          Spacer(),
+          widget ??
+              HeroIcon(
+                HeroIcons.arrowRight,
+                size: 18.67,
+                color: AppColors.grayScale700,
+              )
+        ],
+      ),
     ),
   );
 }
