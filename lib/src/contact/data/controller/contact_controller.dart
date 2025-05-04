@@ -57,9 +57,6 @@ class ConnectUserController extends StateNotifier<AsyncValue<Map<String, dynamic
 }
 
 
-
-
-
 final connectionListProvider = StateNotifierProvider<ConnectionController, AsyncValue<List<Map<String, dynamic>>>>(
   (ref) => ConnectionController(ref.read(contactRepositoryProvider)),
 );

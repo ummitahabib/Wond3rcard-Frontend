@@ -136,7 +136,7 @@ class RouteString {
   static const String analytics = '/analytics';
   static const String security = '/security';
   static const String contacts = '/contacts';
- static const String adminSubscription = '/admin-subscription';
+  static const String adminSubscription = '/admin-subscription';
   static const String adminManageFlag = '/admin-manage-flag';
   static const String notFound = '/not-found';
   static const String adminSettings = '/settings';
@@ -160,6 +160,8 @@ class RouteString {
   static const String suscriptionSettings = '/subscription-settings';
   static const String manageUserSubscription = '/manage-user-subscription';
   static const String wondercardWebsite = '/wond3rCard-website';
+  static const String suggestion = '/suggestion';
+  static const String addContact = '/add-contact';
 }
 
 class SessionString {
@@ -253,5 +255,5 @@ const String fetchingAddressText = "Fetching address...";
 const String enterAddressOrSelectMap = "Enter Address (or select from map)";
 const String searchForPlaceText = "Search for a place...";
 const String searchAndSelectLocationText = "Search & Select Location";
-   const String defaultProfileImage =
-      'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
+const String defaultProfileImage =
+    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';

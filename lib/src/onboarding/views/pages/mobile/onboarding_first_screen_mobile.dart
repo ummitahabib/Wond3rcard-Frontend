@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/onboarding/data/controller/onboarding_controller.dart';
@@ -13,14 +14,16 @@ import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/wonder_card_text_button.dart';
 
+
 class OnboardingFirstScreenMobile extends HookConsumerWidget {
   const OnboardingFirstScreenMobile({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final onboardingNotifier = ref.read(onboardingProvider);
 
-    final TextEditingController firstNameController = TextEditingController();
-    final TextEditingController lastNameController = TextEditingController();
+    final firstNameController = useTextEditingController();
+    final lastNameController = useTextEditingController();
 
     return Scaffold(
       backgroundColor: AppColors.grayScale50,
@@ -29,37 +32,36 @@ class OnboardingFirstScreenMobile extends HookConsumerWidget {
           color: AppColors.grayScale50,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: _firstOnboardingStack(firstNameController, onboardingNotifier,
-              lastNameController, context),
+          child: _firstOnboardingStack(
+            firstNameController,
+            onboardingNotifier,
+            lastNameController,
+            context,
+          ),
         ),
       ),
     );
   }
 
   Stack _firstOnboardingStack(
-      TextEditingController firstNameController,
-      OnboardingModelNotifier onboardingNotifier,
-      TextEditingController lastNameController,
-      BuildContext context) {
+    TextEditingController firstNameController,
+    OnboardingModelNotifier onboardingNotifier,
+    TextEditingController lastNameController,
+    BuildContext context,
+  ) {
     return Stack(
       children: [
         Image.asset(ImageAssets.splashScreenOnboardFrame2),
         Padding(
           padding: const EdgeInsets.symmetric(
-              vertical: SpacingConstants.size30,
-              horizontal: SpacingConstants.size10),
+            vertical: SpacingConstants.size30,
+            horizontal: SpacingConstants.size10,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                  child: onboardingTitle(
-                firstScreenTitle,
-                firstScreenTitle2,
-              )),
-              const SizedBox(
-                height: SpacingConstants.size100,
-              ),
+              onboardingTitle(firstScreenTitle, firstScreenTitle2),
+              const SizedBox(height: SpacingConstants.size100),
               FirstOnboardingTextFields(
                 firstNameController: firstNameController,
                 lastNameController: lastNameController,
@@ -78,13 +80,10 @@ class OnboardingFirstScreenMobile extends HookConsumerWidget {
                     key: OnboardingString.lastName,
                     value: lastNameController.text,
                   );
-                  // ignore: use_build_context_synchronously
                   context.go(RouteString.secondScreen);
                 },
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   const SizedBox(),
@@ -104,7 +103,7 @@ class OnboardingFirstScreenMobile extends HookConsumerWidget {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -113,14 +112,11 @@ class OnboardingFirstScreenMobile extends HookConsumerWidget {
 Column onboardingTitle(String text1, String text2) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisAlignment: MainAxisAlignment.start,
     children: [
-      OnboardingScreenTitleText(
-        text: text1,
-      ),
-      OnboardingScreenTitleText(
-        text: text2,
-      ),
+      OnboardingScreenTitleText(text: text1),
+      OnboardingScreenTitleText(text: text2),
     ],
   );
 }
+
+

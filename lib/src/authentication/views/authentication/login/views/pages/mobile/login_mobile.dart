@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wond3rcard/src/authentication/data/controller/auth_controller.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/login/views/widgets/log_in_textfield.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
@@ -13,25 +12,30 @@ class LoginMobile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     return Scaffold(
       body: Stack(
         children: [
           Image.asset(ImageAssets.splashScreenOnboardFrame2),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: SpacingConstants.size20,
-              vertical: SpacingConstants.size20,
-            ),
-            child: Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _loginWelcomeText(),
-                  _logInWithEmailAndPassword(),
-                ],
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: size20,
+                  right: size20,
+                  top: size30,
+                ),
+                child: _loginWelcomeText(),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: SpacingConstants.size20,
+                ),
+                child: _logInWithEmailAndPassword(),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -39,13 +43,20 @@ class LoginMobile extends HookConsumerWidget {
                 vertical: SpacingConstants.size15),
             child: Column(
               children: [
-                Expanded(child: _logInBgImage(context)),
-                Padding(
+                Expanded(
+                    child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: size25,
-                  ),
+                      horizontal: SpacingConstants.size10,
+                      vertical: SpacingConstants.size15),
+                  child: _logInBgImage(context),
+                )),
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: SpacingConstants.size10,
+                      vertical: SpacingConstants.size15),
                   child: LoginTextField(),
-                ),
+                )),
               ],
             ),
           ),

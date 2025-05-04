@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 import 'dart:ui';
@@ -8,63 +9,65 @@ import 'package:wond3rcard/src/wonder_card_website/views/widget/section_widget.d
 
 final themeNotifier = ValueNotifier(ThemeMode.light);
 
-class IntrocductionSection extends StatelessWidget {
-  const IntrocductionSection({
+class IntroductionSection extends StatelessWidget {
+  const IntroductionSection({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Section(
       title: '',
+      color: Colors.transparent,
       child: Container(
-        padding: EdgeInsets.all(25),
-        margin: EdgeInsets.all(25),
+        padding: const EdgeInsets.all(25),
+        margin: const EdgeInsets.all(25),
         decoration: BoxDecoration(
-            color: Colors.purple[50], borderRadius: BorderRadius.circular(8)),
-        height: 500,
-        child: Row(
+          color: Colors.purple[50],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Flex(
+          direction: isMobile ? Axis.vertical : Axis.horizontal,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
+              flex: isMobile ? 0 : 1,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 50),
+                    padding: EdgeInsets.only(left: isMobile ? 20 : 50),
                     child: Text(
-                      softWrap: true,
                       'Digital',
                       style: GoogleFonts.poppins(
-                        fontSize: 32,
+                        fontSize: isMobile ? 24 : 32,
                         fontWeight: FontWeight.w400,
                         color: Colors.black,
                       ),
                     ).animate(delay: (100).ms).fadeIn(duration: 600.ms),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 50),
+                    padding: EdgeInsets.only(left: isMobile ? 20 : 50),
                     child: Text(
-                      softWrap: true,
                       'Business Card',
                       style: GoogleFonts.poppins(
-                        fontSize: 32,
+                        fontSize: isMobile ? 24 : 32,
                         fontWeight: FontWeight.w600,
                         color: Colors.deepPurple,
                       ),
                     ).animate(delay: (100).ms).fadeIn(duration: 600.ms),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 50),
+                    padding: EdgeInsets.only(left: isMobile ? 20 : 50),
                     child: Text(
-                      softWrap: true,
                       'With Wond3rCard',
                       style: GoogleFonts.poppins(
-                        fontSize: 32,
+                        fontSize: isMobile ? 24 : 32,
                         fontWeight: FontWeight.w600,
                         color: Colors.deepPurple,
                       ),
@@ -72,66 +75,61 @@ class IntrocductionSection extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Padding(
-                    padding: const EdgeInsets.only(left: 50),
+                    padding: EdgeInsets.only(left: isMobile ? 20 : 50),
                     child: Text(
-                      softWrap: true,
-                      'Create and share your digital business card with ease Say goodbye to outdated business cards and hello to interactive and dynamic digital networking!,',
+                      'Create and share your digital business card with ease. Say goodbye to outdated business cards and hello to interactive and dynamic digital networking!',
                       style: GoogleFonts.poppins(
-                        fontSize: 17,
+                        fontSize: isMobile ? 14 : 17,
                         color: Colors.black,
                       ),
                     ).animate(delay: (200).ms).fadeIn(duration: 600.ms),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 30, horizontal: 80),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: AppColors.primaryShade,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text(
-                            'Our Demo',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                            ),
-                          ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.go(RouteString.signup);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryShade,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: AppColors.defaultWhite,
-                              border: Border.all(
-                                color: AppColors.primaryShade,
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text(
-                            'Our Demo',
-                            style: TextStyle(
-                                color: AppColors.primaryShade, fontSize: 18),
-                          ),
-                        ),
-                      ],
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: const Text('Get Started',
+                            style:
+                                TextStyle(fontSize: 16, color: Colors.white)),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            Expanded(
-              child: Image.asset('images/phone-hand-mockup.png'),
-            ),
+            if (!isMobile)
+              Expanded(
+                flex: 1,
+                child: Image.asset(
+                  'images/phone-hand-mockup.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            if (isMobile)
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Image.asset(
+                  'images/phone-hand-mockup.png',
+                  fit: BoxFit.contain,
+                  height: 200,
+                ),
+              ),
           ],
         ),
       ),
-      color: Colors.transparent,
     );
   }
 }

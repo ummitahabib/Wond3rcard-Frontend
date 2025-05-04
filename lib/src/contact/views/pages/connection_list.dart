@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wond3rcard/src/contact/data/controller/contact_controller.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 
 class ConnectionsListScreen extends ConsumerWidget {
   const ConnectionsListScreen({super.key});
@@ -10,7 +12,19 @@ class ConnectionsListScreen extends ConsumerWidget {
     final connections = ref.watch(connectionListProvider);
 
     return Scaffold(
-      
+       floatingActionButton: CircleAvatar(
+        backgroundColor: AppColors.primaryShade,
+        child: IconButton(
+          color: AppColors.primaryShade,
+          icon: Icon(
+            Icons.add,
+            color: AppColors.defaultWhite,
+          ),
+          onPressed: () {
+            context.go(RouteString.suggestion);
+          },
+        ),
+      ),
       body: connections.when(
         data: (list) => ListView.separated(
           itemCount: list.length,
@@ -20,7 +34,8 @@ class ConnectionsListScreen extends ConsumerWidget {
             return ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.deepPurple,
-                child: Text(user['firstname']?.substring(0, 1).toUpperCase() ?? '?'),
+                child: Text(
+                    user['firstname']?.substring(0, 1).toUpperCase() ?? '?'),
               ),
               title: Text('${user['firstname']} ${user['lastname']}'),
               subtitle: Text(user['email']),
@@ -32,7 +47,26 @@ class ConnectionsListScreen extends ConsumerWidget {
           },
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: Text('Error: $error')),
+        error: (error, _) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error, color: Colors.red, size: 50),
+              const SizedBox(height: 16),
+              const Text(
+                'Network failed, try again later',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  ref.refresh(connectionListProvider);
+                },
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

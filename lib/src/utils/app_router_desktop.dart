@@ -41,7 +41,9 @@ import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_three.da
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_two.dart';
 import 'package:wond3rcard/src/cards/views/widgets/font_widget.dart';
 import 'package:wond3rcard/src/cards/views/widgets/main_card_widget.dart';
+import 'package:wond3rcard/src/contact/views/pages/add_contact_page.dart';
 import 'package:wond3rcard/src/contact/views/pages/connection_screen.dart';
+import 'package:wond3rcard/src/contact/views/pages/mobile/connection_suggestion_screen.dart';
 import 'package:wond3rcard/src/home/views/home_main.dart';
 import 'package:wond3rcard/src/main_dashboard/views/main_dashboard.dart';
 import 'package:wond3rcard/src/main_dashboard/views/pages/desktop/main_dashboard_desktop.dart';
@@ -195,6 +197,20 @@ GoRoute(
             return  ManageSubscriptionMainScreen();
           },
         ),
+
+         GoRoute(
+            path: RouteString.suggestion,
+            builder: (BuildContext context, GoRouterState state) {
+              return const ConnectionSuggestionScreen();
+            },
+          ),
+
+             GoRoute(
+            path: RouteString.addContact,
+            builder: (BuildContext context, GoRouterState state) {
+              return  AddContactPage();
+            },
+          ),
 
                  GoRoute(
             path: '${RouteString.shareCardLink}/:index',

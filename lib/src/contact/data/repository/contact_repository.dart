@@ -18,7 +18,7 @@ class ContactRepository {
     try {
 
       final response = await _dio.post(
-        getUrl('profile/:$userId/contacts/'),
+        getUrl('profile/$userId/contacts/'),
         data: {
           'contactEmail': contactEmail,
         },
@@ -40,7 +40,7 @@ class ContactRepository {
   Future<List<Map<String, dynamic>>> getContacts(String userId) async {
     try {
       final response = await _dio.get(
-        getUrl('profile/:userId/contacts/'),
+        getUrl('profile/$userId/contacts/'),
         
         options: Options(
            headers: {

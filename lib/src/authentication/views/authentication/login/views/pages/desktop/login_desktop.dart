@@ -34,39 +34,39 @@ class LoginData extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: SpacingConstants.size20,
-              vertical: SpacingConstants.size20,
-            ),
-            child: Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _loginWelcomeText(),
-                  _logInWithEmailAndPassword(),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: SpacingConstants.size10,
-                vertical: SpacingConstants.size15),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: size25,
-                  ),
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
-                      child: LoginTextField()),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: SpacingConstants.size20,
+                  right: SpacingConstants.size20,
+                  top: SpacingConstants.size20,
                 ),
-              ],
-            ),
+                child: _loginWelcomeText(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: SpacingConstants.size20,
+                  vertical: SpacingConstants.size20,
+                ),
+                child: _logInWithEmailAndPassword(),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: size25,
+                ),
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 4,
+                    child: LoginTextField()),
+              ),
+            ],
           ),
         ],
       ),

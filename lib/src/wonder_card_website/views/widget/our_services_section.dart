@@ -9,30 +9,48 @@ class OurServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Section(
       title: 'Our Services',
       child: Container(
-        padding: EdgeInsets.all(25),
-        margin: EdgeInsets.all(25),
+        padding: const EdgeInsets.all(25),
+        margin: const EdgeInsets.all(25),
         decoration: BoxDecoration(
-            color: Colors.transparent, borderRadius: BorderRadius.circular(8)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: Image.asset('images/card-bg.png'),
-            ),
-            Expanded(
-              child: GlassCard2(
-                title: 'Elevate your cards',
-                description:
-                    'Gone are the days of exchanging stale business cards that end up forgotten in a drawer. Experience the power of Wond3rCard, the digital solution designed to revolutionize your networking efforts Create and share your digital business card with ease Say goodbye to outdated business cards and hello to interactive and dynamic digital networking!, Create and share your digital business card with ease Say goodbye to outdated business cards and hello to interactive and dynamic digital networking!Create and share your digital business card with ease Say goodbye to outdated',
-              ),
-            ),
-          ],
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
         ),
+        child: isMobile
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset('images/card-bg.png'),
+                  const SizedBox(height: 20),
+                  const GlassCard2(
+                    title: 'Elevate your cards',
+                    description:
+                        'Gone are the days of exchanging stale business cards that end up forgotten in a drawer. Experience the power of Wond3rCard, the digital solution designed to revolutionize your networking efforts. Create and share your digital business card with ease. Say goodbye to outdated business cards and hello to interactive and dynamic digital networking!',
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Image.asset('images/card-bg.png'),
+                  ),
+                  const SizedBox(width: 20),
+                  const Expanded(
+                    child: GlassCard2(
+                      title: 'Elevate your cards',
+                      description:
+                          'Gone are the days of exchanging stale business cards that end up forgotten in a drawer. Experience the power of Wond3rCard, the digital solution designed to revolutionize your networking efforts. Create and share your digital business card with ease. Say goodbye to outdated business cards and hello to interactive and dynamic digital networking!',
+                    ),
+                  ),
+                ],
+              ),
       ),
       color: Colors.transparent,
     );

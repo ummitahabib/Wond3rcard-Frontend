@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/onboarding/data/controller/onboarding_controller.dart';
@@ -13,45 +14,43 @@ import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 class OnboardingThirdScreenMobile extends HookConsumerWidget {
   const OnboardingThirdScreenMobile({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final onboardingNotifier = ref.read(onboardingProvider);
 
-    final TextEditingController companyNameController = TextEditingController();
-    final TextEditingController jobTitleController = TextEditingController();
-    final TextEditingController websiteController = TextEditingController();
+    final companyNameController = useTextEditingController();
+    final jobTitleController = useTextEditingController();
+    final websiteController = useTextEditingController();
 
     return Scaffold(
       backgroundColor: AppColors.grayScale50,
       body: SingleChildScrollView(
         child: Container(
-          color: AppColors.grayScale50,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
+          color: AppColors.grayScale50,
           child: Stack(
             children: [
               Image.asset(ImageAssets.splashScreenOnboardFrame2),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    vertical: SpacingConstants.size30,
-                    horizontal: SpacingConstants.size10),
+                  vertical: SpacingConstants.size30,
+                  horizontal: SpacingConstants.size10,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(child: OnboardingThirdScreenTextDetails()),
-                    const SizedBox(
-                      height: SpacingConstants.size100,
-                    ),
+                    const OnboardingThirdScreenTextDetails(),
+                    const SizedBox(height: SpacingConstants.size100),
                     Padding(
-                      padding: const EdgeInsets.all(
-                        SpacingConstants.size14,
-                      ),
+                      padding: const EdgeInsets.all(SpacingConstants.size14),
                       child: ThirdScreenTextfield(
-                          companyNameController: companyNameController,
-                          onboardingNotifier: onboardingNotifier,
-                          jobTitleController: jobTitleController,
-                          websiteController: websiteController),
+                        companyNameController: companyNameController,
+                        onboardingNotifier: onboardingNotifier,
+                        jobTitleController: jobTitleController,
+                        websiteController: websiteController,
+                      ),
                     ),
                     const Spacer(),
                     ContinueWidget(
@@ -59,6 +58,7 @@ class OnboardingThirdScreenMobile extends HookConsumerWidget {
                         context.go(RouteString.secondScreen);
                       },
                       textColor: AppColors.defaultWhite,
+                      bgColor: AppColors.primaryShade,
                       onPress: () async {
                         await StorageUtil.putString(
                           key: OnboardingString.companyName,
@@ -74,15 +74,14 @@ class OnboardingThirdScreenMobile extends HookConsumerWidget {
                         );
                         context.go(RouteString.fourthScreen);
                       },
-                      bgColor: AppColors.primaryShade,
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height *
                           SpacingConstants.sizes0point1,
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

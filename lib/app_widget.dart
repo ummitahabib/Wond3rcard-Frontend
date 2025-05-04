@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wond3rcard/src/utils/app_router_desktop.dart';
 import 'package:wond3rcard/src/utils/app_router_mobile.dart';
@@ -14,7 +15,11 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth >= 950) {
+        if (
+        //  kIsWeb
+          constraints.maxWidth >= 950
+        
+        ) {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: routerDesktop,
