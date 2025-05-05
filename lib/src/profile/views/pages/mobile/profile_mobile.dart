@@ -65,95 +65,97 @@ class ProfileScreenMobile extends HookConsumerWidget {
   }
 
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Profile',
-            style: WonderCardTypography.boldTextH5(
-              fontSize: 23,
-              color: AppColors.grayScale,
-            ),
-          ),
-          centerTitle: true,
-         
-        ),
-        backgroundColor: AppColors.transparent,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding:  EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ReusableProfileHeader(
-                    profile: userProfile.profileData!,
-                  ),
-                  Container(
-                      width: 359,
-                      height: 546,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          reusableRowWidget(
-                              icon: HeroIcons.user,
-                              onTap: () {
-                                context.go(RouteString.editProfile);
-                              },
-                              text: 'Edit Profile'),
-                          reusableRowWidget(
-                            icon: HeroIcons.shieldExclamation,
-                            onTap: () {
-                              context.go(RouteString.memebershipSubscription);
-                            },
-                            text: 'Membership',
-                          ),
-                          reusableRowWidget(
-                              icon: HeroIcons.shieldExclamation,
-                              onTap: () {
-                                 context.go(RouteString.privacySecurity);
-                              },
-                              text: 'Privacy & security'),
-                          reusableRowWidget(
-                              icon: HeroIcons.shieldExclamation,
-                              onTap: () {},
-                              text: 'Notification'),
-                          reusableRowWidget(
-                              icon: HeroIcons.shieldExclamation,
-                              onTap: () {
-                                context.go(RouteString.helpAndSupport);
-                              },
-                              text: 'Help & Support'),
-                          reusableRowWidget(
-                            icon: HeroIcons.shieldExclamation,
-                            onTap: () {
-                               context.go(RouteString.termsAndCondition);
-                            },
-                            text: 'Terms and Condition',
-                          ),
-                          reusableRowWidget(
-                              icon: HeroIcons.shieldExclamation,
-                              onTap: () {
-                               context.go(RouteString.qAndA);
-                              },
-                              text: 'Q & A'),
-                          reusableRowWidget(
-                              icon: HeroIcons.shieldExclamation,
-                              onTap: () => _showLogoutDialog(context, ref),
-                              text: 'Logout'),
-                        ],
-                      ))
-                ],
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'Profile',
+              style: WonderCardTypography.boldTextH5(
+                fontSize: 23,
+                color: AppColors.grayScale,
               ),
             ),
+            centerTitle: true,
+           
           ),
-        ));
+          backgroundColor: AppColors.transparent,
+          body: Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:  EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ReusableProfileHeader(
+                      profile: userProfile.profileData!,
+                    ),
+                    Container(
+                        width: 359,
+                        height: 546,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            reusableRowWidget(
+                                icon: HeroIcons.user,
+                                onTap: () {
+                                  context.go(RouteString.editProfile);
+                                },
+                                text: 'Edit Profile'),
+                            reusableRowWidget(
+                              icon: HeroIcons.shieldExclamation,
+                              onTap: () {
+                                context.go(RouteString.memebershipSubscription);
+                              },
+                              text: 'Membership',
+                            ),
+                            reusableRowWidget(
+                                icon: HeroIcons.shieldExclamation,
+                                onTap: () {
+                                   context.go(RouteString.privacySecurity);
+                                },
+                                text: 'Privacy & security'),
+                            reusableRowWidget(
+                                icon: HeroIcons.shieldExclamation,
+                                onTap: () {},
+                                text: 'Notification'),
+                            reusableRowWidget(
+                                icon: HeroIcons.shieldExclamation,
+                                onTap: () {
+                                  context.go(RouteString.helpAndSupport);
+                                },
+                                text: 'Help & Support'),
+                            reusableRowWidget(
+                              icon: HeroIcons.shieldExclamation,
+                              onTap: () {
+                                 context.go(RouteString.termsAndCondition);
+                              },
+                              text: 'Terms and Condition',
+                            ),
+                            reusableRowWidget(
+                                icon: HeroIcons.shieldExclamation,
+                                onTap: () {
+                                 context.go(RouteString.qAndA);
+                                },
+                                text: 'Q & A'),
+                            reusableRowWidget(
+                                icon: HeroIcons.shieldExclamation,
+                                onTap: () => _showLogoutDialog(context, ref),
+                                text: 'Logout'),
+                          ],
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          )),
+    );
   }
 }
 

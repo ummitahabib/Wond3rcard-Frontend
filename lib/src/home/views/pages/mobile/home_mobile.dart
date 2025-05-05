@@ -43,22 +43,25 @@ class HomeBody extends HookConsumerWidget {
       backgroundColor: const Color(0xffEFEFEF),
       body: Stack(
         children: [
-          SizedBox(
+          Image.asset(
+            ImageAssets.bgBlur,
+            fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
-            child: Image.asset(
-              ImageAssets.bgBlur,
-              fit: BoxFit.cover,
-            ),
           ),
-          SafeArea(
+          SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.all(10),
                       decoration: const BoxDecoration(
                         color: Colors.transparent,
                         borderRadius: BorderRadius.only(
@@ -86,8 +89,7 @@ class HomeBody extends HookConsumerWidget {
                                   vertical: 10,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     userProfileImage(height: 65, width: 65),
@@ -111,15 +113,13 @@ class HomeBody extends HookConsumerWidget {
                                 ),
                               ),
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
+                                    padding: EdgeInsets.symmetric(horizontal: 20),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Spacer(),
                                         NameAndJob(),
@@ -127,19 +127,14 @@ class HomeBody extends HookConsumerWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 12),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        personalProfileTag(),
-                                        qrCodeContainer(),
-                                      ],
-                                    ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      personalProfileTag(),
+                                      qrCodeContainer(),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -148,45 +143,47 @@ class HomeBody extends HookConsumerWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 60),
-                      child: Column(
-                        children: [
-                          addCardMainRowWidget(context),
-                          const SizedBox(height: 20),
-                          const SingleChildScrollView(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ConnectionsMedia(),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                RecentConnectionWidget(),
-                              ],
-                            ),
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        addCardMainRowWidget(context),
+                        Container(
+                          margin: const EdgeInsets.all(14),
+                          padding:  const EdgeInsets.all(14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(child: ConnectionsMedia()),
+                              Spacer(),
+                              Expanded(child: RecentConnectionWidget()),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        context.go(RouteString.connections);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.all(15),
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryShade,
-                          borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Text('Connections'),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      context.go(RouteString.connections);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(15),
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryShade,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    )
-                  ],
-                ),
+                      child: Text('Connections'),
+                    ),
+                  )
+                ],
               ),
             ),
           ),

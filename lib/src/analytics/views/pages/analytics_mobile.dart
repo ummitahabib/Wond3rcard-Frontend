@@ -37,50 +37,52 @@ class AnalyticsMobile extends HookConsumerWidget {
     ];
 
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Text(
-                'Analytics',
-                style: WonderCardTypography.boldTextH4(
-                  color: AppColors.grayScale,
-                  fontSize: 23,
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  'Analytics',
+                  style: WonderCardTypography.boldTextH4(
+                    color: AppColors.grayScale,
+                    fontSize: 23,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SelectAnalytics(
-                  text: 'All Cards',
-                  isActive: analyticsController.selectedIndex == 0,
-                  onTap: () {
-                    ref.read(analyticsProvider).updateSelectedIndex(0);
-                  },
-                ),
-                const SizedBox(width: 8),
-                SelectAnalytics(
-                  icon: HeroIcons.creditCard,
-                  text: 'Select Card',
-                  isActive: analyticsController.selectedIndex == 1,
-                  onTap: () {
-                    analyticsController.updateSelectedIndex(1);
-                  },
-                ),
-              ],
-            ),
-            Expanded(
-              child: screens[analyticsController.selectedIndex],
-            ),
-          ],
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SelectAnalytics(
+                    text: 'All Cards',
+                    isActive: analyticsController.selectedIndex == 0,
+                    onTap: () {
+                      ref.read(analyticsProvider).updateSelectedIndex(0);
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  SelectAnalytics(
+                    icon: HeroIcons.creditCard,
+                    text: 'Select Card',
+                    isActive: analyticsController.selectedIndex == 1,
+                    onTap: () {
+                      analyticsController.updateSelectedIndex(1);
+                    },
+                  ),
+                ],
+              ),
+              Expanded(
+                child: screens[analyticsController.selectedIndex],
+              ),
+            ],
+          ),
         ),
       ),
     );

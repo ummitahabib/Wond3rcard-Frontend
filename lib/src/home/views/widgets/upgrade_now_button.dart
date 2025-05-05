@@ -63,7 +63,8 @@ Widget qrCodeContainer({
 }) {
   return GestureDetector(
     onTap: onTap,
-    child: Container(
+    child: 
+    Container(
       padding: const EdgeInsetsDirectional.all(6.6),
       width: SpacingConstants.size40,
       height: SpacingConstants.size40,
@@ -79,6 +80,8 @@ Widget qrCodeContainer({
         color: iconColor ?? AppColors.badgeColor,
       ),
     ),
+ 
+ 
   );
 }
 
@@ -238,27 +241,25 @@ Container personalProfileTag({String? text}) {
     padding: EdgeInsets.all(8),
     decoration: BoxDecoration(
         color: AppColors.grayScale50, borderRadius: BorderRadius.circular(12)),
-    child: Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Center(
-            child: Text(
-              text ?? 'Personal Profile',
-              style: TextStyle(
-                color: AppColors.primaryShade,
-                fontFamily: 'Barlow',
-                fontSize: 14.475,
-                fontWeight: FontWeight.w600,
-              ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Center(
+          child: Text(
+            text ?? 'Personal Profile',
+            style: TextStyle(
+              color: AppColors.primaryShade,
+              fontFamily: 'Barlow',
+              fontSize: 14.475,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          HeroIcon(
-            HeroIcons.checkBadge,
-            color: AppColors.grayScale,
-          )
-        ],
-      ),
+        ),
+        HeroIcon(
+          HeroIcons.checkBadge,
+          color: AppColors.grayScale,
+        )
+      ],
     ),
   );
 }
@@ -401,18 +402,16 @@ final List<UserProfile> userProfiles = [
 
 Row stackAvatar(List<UserProfile> userProfiles) {
   return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
     children: List.generate(userProfiles.length, (index) {
       return Transform.translate(
         offset: Offset(index * -15.0, 0),
-        child: SizedBox(
-          width: SpacingConstants.size45,
-          height: SpacingConstants.size45,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(SpacingConstants.size100),
-            child: Image.network(
-              userProfiles[index].profilePhoto,
-              fit: BoxFit.cover,
-            ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(SpacingConstants.size100),
+          child: Image.network(
+            userProfiles[index].profilePhoto,
+            fit: BoxFit.cover,
           ),
         ),
       );
@@ -518,41 +517,39 @@ class ConnectionsMedia extends HookConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 150,
-          height: 205,
-          padding: const EdgeInsets.fromLTRB(13, 0, 0, 0),
-          margin: const EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(size25),
               color: AppColors.defaultWhite),
-          child: Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                stackAvatar(userProfiles),
-                Text(
-                  '${profile!.connections.length}',
-                  style: const TextStyle(
-                    color: AppColors.grayScale,
-                    fontFamily: 'Barlow',
-                    fontSize: 40,
-                    fontWeight: FontWeight.w500,
-                  ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              stackAvatar(userProfiles),
+              Text(
+                '${profile!.connections.length}',
+                style: const TextStyle(
+                  color: AppColors.grayScale,
+                  fontFamily: 'Barlow',
+                  fontSize: 40,
+                  fontWeight: FontWeight.w500,
                 ),
-                const Text(
-                  'Active social link',
-                  style: TextStyle(
-                    color: AppColors.grayScale500,
-                    fontFamily: 'Inter',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
-                )
-              ],
-            ),
+              ),
+              const Text(
+                'Active social link',
+                style: TextStyle(
+                  color: AppColors.grayScale500,
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              )
+            ],
           ),
         ),
         upgradeButton(context)

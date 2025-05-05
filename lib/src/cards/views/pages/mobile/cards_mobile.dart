@@ -29,40 +29,42 @@ class CardsMobile extends HookConsumerWidget {
       [],
     );
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        leading: SizedBox(),
-        title: 'My Cards',
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: GestureDetector(
-              onTap: () {
-                context.go(RouteString.createNewCard);
-              },
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryShade,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const HeroIcon(
-                  HeroIcons.plus,
-                  color: AppColors.defaultWhite,
+    return SafeArea(
+      child: Scaffold(
+        appBar: CustomAppBar(
+          leading: SizedBox(),
+          title: 'My Cards',
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: GestureDetector(
+                onTap: () {
+                  context.go(RouteString.createNewCard);
+                },
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryShade,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const HeroIcon(
+                    HeroIcons.plus,
+                    color: AppColors.defaultWhite,
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CardsTabWidget(
-              cardController: cardController,
             )
           ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              CardsTabWidget(
+                cardController: cardController,
+              )
+            ],
+          ),
         ),
       ),
     );
