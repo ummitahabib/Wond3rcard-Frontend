@@ -16,8 +16,8 @@ class _AppWidgetState extends State<AppWidget> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (
-        //  kIsWeb
-          constraints.maxWidth >= 950
+        kIsWeb
+        //  constraints.maxWidth >= 950
         
         ) {
           return MaterialApp.router(
