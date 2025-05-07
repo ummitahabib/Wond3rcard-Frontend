@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:math';
+import 'package:wond3rcard/src/utils/util.dart';
 
 class ParticleBackground extends StatelessWidget {
   const ParticleBackground({super.key});
@@ -40,8 +41,8 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
     );
 
     _color1Animation = ColorTween(
-      begin: Colors.deepPurple,
-      end: Colors.purple,
+      begin: AppColors.primaryShade,
+      end: Colors.deepPurple,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _color2Animation = ColorTween(

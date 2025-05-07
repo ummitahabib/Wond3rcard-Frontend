@@ -60,6 +60,7 @@ import 'package:wond3rcard/src/profile/views/widgets/terms_and_condition.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:flutter/foundation.dart';
+import 'package:wond3rcard/src/wonder_card_website/views/pages/wondercard_website.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -74,7 +75,11 @@ final GoRouter routerMobile = GoRouter(
     GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return const OnboardingScreen();
+          if (kIsWeb) {
+            return WonderCardWebsite();
+          } else {
+            return const OnboardingScreen();
+          }
         },
         routes: <RouteBase>[
           GoRoute(
@@ -467,26 +472,25 @@ final GoRouter routerMobile = GoRouter(
             },
           ),
 
- GoRoute(
+          GoRoute(
             path: RouteString.suggestion,
             builder: (BuildContext context, GoRouterState state) {
               return const ConnectionSuggestionScreen();
             },
           ),
- GoRoute(
+          GoRoute(
             path: RouteString.contacts,
             builder: (BuildContext context, GoRouterState state) {
               return const ContactsPage();
             },
           ),
 
-             GoRoute(
+          GoRoute(
             path: RouteString.addContact,
             builder: (BuildContext context, GoRouterState state) {
               return const AddContactPage();
             },
           ),
-          
         ]),
   ],
 );
