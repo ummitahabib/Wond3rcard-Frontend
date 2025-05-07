@@ -191,7 +191,11 @@ class AuthNotifier extends ChangeNotifier {
     if (accessToken != null && accessToken.isNotEmpty) {
       context.go(RouteString.baseDashboard);
     } else {
-      context.go(RouteString.getStarted);
+      if (kIsWeb) {
+        context.go(RouteString.getStarted);
+      } else {
+        context.go(RouteString.wondercardWebsite);
+      }
     }
   }
 

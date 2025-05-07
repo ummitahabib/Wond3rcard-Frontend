@@ -15,21 +15,17 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (
-        kIsWeb
-        //  constraints.maxWidth >= 950
-        
-        ) {
+        if (kIsWeb) {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: routerDesktop,
           );
-        } else if (constraints.maxWidth >= 600) {
+        } else if (!kIsWeb && constraints.maxWidth >= 600) {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: routerMobile,
           );
-        } else if (constraints.maxWidth >= 300) {
+        } else if (!kIsWeb && constraints.maxWidth >= 300) {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: routerMobile,
