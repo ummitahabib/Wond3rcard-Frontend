@@ -59,9 +59,12 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
               await profileController.getProfile(context);
-              await ref.read(cardProvider).getAUsersCard(context, cardController.getCardsResponse?.payload
-                                        ?.cards?[widget.index].id ??
-                                    '',);
+              await ref.read(cardProvider).getAUsersCard(
+                    context,
+                    cardController.getCardsResponse?.payload
+                            ?.cards?[widget.index].id ??
+                        '',
+                  );
             });
           }
         });
@@ -78,212 +81,215 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
             color: Colors.black,
           ),
           onPressed: () {
-              context.go(RouteString.mainDashboard);
+            isDesktop(context)
+                ? context.go(RouteString.cardMain)
+                : context.go(RouteString.mainDashboard);
           },
         ),
       ),
       body: SingleChildScrollView(
-        child: isDesktop(context) ? Center(
-          child: Container(
-            color: AppColors.grayScale50,
-            width:  isDesktop(context) ?
-            MediaQuery.of(context).size.width / 4 : MediaQuery.of(context).size.width,
-            child: _cardDetails(context, profileController, cardController, profile),
-          ),
-        ) : Container(
-          color: AppColors.grayScale50,
-          width:   MediaQuery.of(context).size.width,
-          child: _cardDetails(context, profileController, cardController, profile),
-        )
-      ),
+          child: isDesktop(context)
+              ? Center(
+                  child: Container(
+                    color: AppColors.grayScale50,
+                    width: isDesktop(context)
+                        ? MediaQuery.of(context).size.width / 4
+                        : MediaQuery.of(context).size.width,
+                    child: _cardDetails(
+                        context, profileController, cardController, profile),
+                  ),
+                )
+              : Container(
+                  color: AppColors.grayScale50,
+                  width: MediaQuery.of(context).size.width,
+                  child: _cardDetails(
+                      context, profileController, cardController, profile),
+                )),
     );
   }
 
-  Column _cardDetails(BuildContext context, ProfileNotifier profileController, CardNotifier cardController, Profile? profile) {
+  Column _cardDetails(BuildContext context, ProfileNotifier profileController,
+      CardNotifier cardController, Profile? profile) {
     return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Stack(
           children: [
-            Stack(
-              children: [
-                Image.asset(
-                  ImageAssets.cardBanner,
-                  width: MediaQuery.of(context).size.width,
-                  height: 230,
-                  fit: BoxFit.cover,
-                ),
-                Positioned(
-                  left: 25,
-                  top: 120,
-                  child: userProfileImage(
-                    image: profileController
-                        .profileData?.payload.profile.profileUrl,
-                  ),
-                )
-              ],
+            Image.asset(
+              ImageAssets.cardBanner,
+              width: MediaQuery.of(context).size.width,
+              height: 230,
+              fit: BoxFit.cover,
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: SmartWrap(
-                type: WrapType.column,
-                runSpacing: 10.0,
-                spacing: 10.0,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    color: AppColors.transparent,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          cardController.getCardsResponse?.payload
-                                  ?.cards?[widget.index].cardName ??
-                              emptyString,
-                          style: WonderCardTypography.boldTextH5(
-                            fontSize: SpacingConstants.size23,
-                            color: AppColors.grayScale,
-                          ),
-                        ),
-                        Text(
-                          '${profile?.designation}@${profile?.companyName}',
-                          style: WonderCardTypography.boldTextTitle2(
-                            fontSize: SpacingConstants.size16,
-                            color: AppColors.grayScale600,
-                          ),
-                        ),
-                        const Divider(),
-                        ReusableUserDataCard(
-                          text: cardController.getCardsResponse?.payload
-                              ?.cards?[widget.index].contactInfo?.email,
-                          widget: const HeroIcon(
-                            HeroIcons.envelope,
-                            color: AppColors.primaryShade,
-                            size: SpacingConstants.size15,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        ReusableUserDataCard(
-                          text: cardController.getCardsResponse?.payload
-                              ?.cards?[widget.index].contactInfo?.phone,
-                          widget: const HeroIcon(
-                            HeroIcons.phone,
-                            color: AppColors.primaryShade,
-                            size: SpacingConstants.size15,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 35,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          width: 162,
-                          height: 60,
-                          decoration: BoxDecoration(
-                              color: AppColors.primaryShade,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text('Connect',
-                                  style:
-                                      WonderCardTypography.boldTextTitleBold(
-                                          fontSize: 18,
-                                          color: AppColors.defaultWhite)),
-                              SizedBox(width: 5),
-                              HeroIcon(
-                                HeroIcons.link,
-                                color: AppColors.defaultWhite,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                            width: 162,
-                            height: 60,
-                            decoration: BoxDecoration(
-                                color: AppColors.primaryShade,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: Text('Exchange Contact',
-                                  style:
-                                      WonderCardTypography.boldTextTitleBold(
-                                          fontSize: 18,
-                                          color: AppColors.defaultWhite)),
-                            )),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                      height: 341,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: AppColors.defaultWhite,
-                      ),
-                      child: Column(
-                        children: [
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Text(
-                                'Social media connect',
-                                style: WonderCardTypography.boldTextTitleBold(
-                                  fontSize: 18,
-                                  color: AppColors.grayScale600,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SocialsGridView(),
-                        ],
-                      )),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  HomeAddressWidget(),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  BusinessCatalogWidget(),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  TestimoniesWidget(),
-                  ContinueWidget(
-                    showLoader: cardController.loading,
-                    buttonText: editCard,
-                    textColor: AppColors.defaultWhite,
-                    bgColor: AppColors.primaryShade,
-                    onTap: () {
-                      context.go(RouteString.editCardScreen);
-                    },
-                    onPress: () {
-                  context.go(RouteString.editCardScreen);
-                    },
-                  ),
-                ],
+            Positioned(
+              left: 25,
+              top: 120,
+              child: userProfileImage(
+                image:
+                    profileController.profileData?.payload.profile.profileUrl,
               ),
             )
           ],
-        );
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: SmartWrap(
+            type: WrapType.column,
+            runSpacing: 10.0,
+            spacing: 10.0,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                color: AppColors.transparent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      cardController.getCardsResponse?.payload
+                              ?.cards?[widget.index].cardName ??
+                          emptyString,
+                      style: WonderCardTypography.boldTextH5(
+                        fontSize: SpacingConstants.size23,
+                        color: AppColors.grayScale,
+                      ),
+                    ),
+                    Text(
+                      '${profile?.designation}@${profile?.companyName}',
+                      style: WonderCardTypography.boldTextTitle2(
+                        fontSize: SpacingConstants.size16,
+                        color: AppColors.grayScale600,
+                      ),
+                    ),
+                    const Divider(),
+                    ReusableUserDataCard(
+                      text: cardController.getCardsResponse?.payload
+                          ?.cards?[widget.index].contactInfo?.email,
+                      widget: const HeroIcon(
+                        HeroIcons.envelope,
+                        color: AppColors.primaryShade,
+                        size: SpacingConstants.size15,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ReusableUserDataCard(
+                      text: cardController.getCardsResponse?.payload
+                          ?.cards?[widget.index].contactInfo?.phone,
+                      widget: const HeroIcon(
+                        HeroIcons.phone,
+                        color: AppColors.primaryShade,
+                        size: SpacingConstants.size15,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 35,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: 162,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          color: AppColors.primaryShade,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text('Connect',
+                              style: WonderCardTypography.boldTextTitleBold(
+                                  fontSize: 18, color: AppColors.defaultWhite)),
+                          SizedBox(width: 5),
+                          HeroIcon(
+                            HeroIcons.link,
+                            color: AppColors.defaultWhite,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                        width: 162,
+                        height: 60,
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryShade,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Text('Exchange Contact',
+                              style: WonderCardTypography.boldTextTitleBold(
+                                  fontSize: 18, color: AppColors.defaultWhite)),
+                        )),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Container(
+                  height: 341,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: AppColors.defaultWhite,
+                  ),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Text(
+                            'Social media connect',
+                            style: WonderCardTypography.boldTextTitleBold(
+                              fontSize: 18,
+                              color: AppColors.grayScale600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SocialsGridView(),
+                    ],
+                  )),
+              const SizedBox(
+                height: 8,
+              ),
+              HomeAddressWidget(),
+              const SizedBox(
+                height: 8,
+              ),
+              BusinessCatalogWidget(),
+              const SizedBox(
+                height: 8,
+              ),
+              TestimoniesWidget(),
+              ContinueWidget(
+                showLoader: cardController.loading,
+                buttonText: editCard,
+                textColor: AppColors.defaultWhite,
+                bgColor: AppColors.primaryShade,
+                onTap: () {
+                  context.go(RouteString.editCardScreen);
+                },
+                onPress: () {
+                  context.go(RouteString.editCardScreen);
+                },
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
 

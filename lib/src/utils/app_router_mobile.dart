@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wond3rcard/src/admin/admin_cards/views/card_table.dart';
-import 'package:wond3rcard/src/admin/admin_dashboard/pages/admin_dashboard.dart';
-import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop_view.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/pages/admin_user_management.dart';
-import 'package:wond3rcard/src/admin/admin_user_management/views/pages/desktop/user_screen.dart';
 import 'package:wond3rcard/src/analytics/views/widgets/selected_card_analytics.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/change_password/views/reset_password_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/delete_account/delete_account.dart';
@@ -48,26 +45,18 @@ import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_second_
 import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_third_screen_desktop.dart';
 import 'package:wond3rcard/src/onboarding/views/widgets/get_started_onboarding_screen.dart';
 import 'package:wond3rcard/src/preview_card/views/preview_main.dart';
-import 'package:wond3rcard/src/privacy_security/views/pages/mobile/privacy_security_mobile.dart';
 import 'package:wond3rcard/src/privacy_security/views/privacy_security.dart';
 import 'package:wond3rcard/src/profile/views/edit_profile.dart';
 import 'package:wond3rcard/src/profile/views/manage_subscription.dart';
-import 'package:wond3rcard/src/profile/views/pages/mobile/manage_subscription.dart';
 import 'package:wond3rcard/src/profile/views/profile.dart';
 import 'package:wond3rcard/src/profile/views/widgets/help_and_support.dart';
 import 'package:wond3rcard/src/profile/views/widgets/q_and_a.dart';
 import 'package:wond3rcard/src/profile/views/widgets/terms_and_condition.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
-import 'package:flutter/foundation.dart';
-import 'package:wond3rcard/src/wonder_card_website/views/pages/wondercard_website.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
-final GlobalKey<NavigatorState> _shellNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shell');
-final GlobalKey<NavigatorState> _internalNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'internal');
 
 final GoRouter routerMobile = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -75,11 +64,7 @@ final GoRouter routerMobile = GoRouter(
     GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          if (kIsWeb) {
-            return WonderCardWebsite();
-          } else {
-            return const OnboardingScreen();
-          }
+          return const OnboardingScreen();
         },
         routes: <RouteBase>[
           GoRoute(
@@ -404,13 +389,6 @@ final GoRouter routerMobile = GoRouter(
               return const EditProfileMainScreen();
             },
           ),
-
-          GoRoute(
-            path: RouteString.viewPhysicalCard,
-            builder: (BuildContext context, GoRouterState state) {
-              return const ViewPhysicalCardScreen();
-            },
-          ),
           GoRoute(
             path: RouteString.physicalCard,
             builder: (BuildContext context, GoRouterState state) {
@@ -489,6 +467,12 @@ final GoRouter routerMobile = GoRouter(
             path: RouteString.addContact,
             builder: (BuildContext context, GoRouterState state) {
               return const AddContactPage();
+            },
+          ),
+          GoRoute(
+            path: RouteString.viewPhysicalCard,
+            builder: (BuildContext context, GoRouterState state) {
+              return const ViewPhysicalCardScreen();
             },
           ),
         ]),
