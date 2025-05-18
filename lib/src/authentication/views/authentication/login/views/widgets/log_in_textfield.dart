@@ -11,59 +11,57 @@ import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
-class LoginTextField extends  HookConsumerWidget {
+class LoginTextField extends HookConsumerWidget {
   const LoginTextField({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authController = ref.watch(authProvider);
 
-    final authController = ref.read(authProvider);
+    SizedBox wonderCardLoginButton(BuildContext context) {
+      return SizedBox(
+        width: size360,
+        child: WonderCardButton(
+            showLoader: authController.loadingLogin,
+            loadererColor: AppColors.defaultWhite,
+            textColor: AppColors.defaultWhite,
+            text: loginText,
+            onPressed: () {
+              try {
+                authController.signInMethod(context);
+                ();
+              } catch (e) {
+                debugPrint('Login error: $e');
+              }
+            }),
+      );
+    }
 
+    CustomTextField emailTextField() {
+      return CustomTextField(
+        textColor: AppColors.grayScale600,
+        type: TextFieldType.Email,
+        text: enterYourEmailText,
+        inputType: TextInputType.emailAddress,
+        isRequired: true,
+        hintText: exampleEmailText,
+        textEditingController: authController.emailController,
+      );
+    }
 
-  SizedBox wonderCardLoginButton(BuildContext context) {
-    return SizedBox(
-      width: size360,
-      child: WonderCardButton(
-          showLoader: authController.loadingLogin ?? false,
-          loadererColor: AppColors.defaultWhite,
-          textColor: AppColors.defaultWhite,
-          text: loginText,
-          onPressed: () {
-          try {
-              authController.signInMethod(context);();
-          } catch (e) {
-            debugPrint('Login error: $e');
-             }
-          }),
-    );
-  }
-
-  CustomTextField emailTextField() {
-    return CustomTextField(
-      textColor: AppColors.grayScale600,
-      type: TextFieldType.Email,
-      text: enterYourEmailText,
-      inputType: TextInputType.emailAddress,
-      isRequired: true,
-      hintText: exampleEmailText,
-      textEditingController: authController.emailController,
-    );
-  }
-
-  CustomTextField passwordTextField() {
-    return CustomTextField(
-      textColor: AppColors.grayScale600,
-      text: enterYourPasswordText,
-      type: TextFieldType.Password,
-      inputType: TextInputType.visiblePassword,
-      isRequired: true,
-      hintText: password,
-      textEditingController: authController.passwordController,
-    );
-  }
-
+    CustomTextField passwordTextField() {
+      return CustomTextField(
+        textColor: AppColors.grayScale600,
+        text: enterYourPasswordText,
+        type: TextFieldType.Password,
+        inputType: TextInputType.visiblePassword,
+        isRequired: true,
+        hintText: password,
+        textEditingController: authController.passwordController,
+      );
+    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,12 +103,7 @@ class LoginTextField extends  HookConsumerWidget {
             ],
           ),
         )
-     
-     
       ],
     );
-    
   }
-
-
 }

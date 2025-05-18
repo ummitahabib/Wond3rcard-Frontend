@@ -28,6 +28,7 @@ import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_three.da
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_two.dart';
 import 'package:wond3rcard/src/cards/views/widgets/font_widget.dart';
 import 'package:wond3rcard/src/cards/views/widgets/main_card_widget.dart';
+import 'package:wond3rcard/src/contact/views/invitation.dart';
 import 'package:wond3rcard/src/contact/views/pages/add_contact_page.dart';
 import 'package:wond3rcard/src/contact/views/pages/connection_screen.dart';
 import 'package:wond3rcard/src/contact/views/pages/contacts_page.dart';
@@ -52,7 +53,9 @@ import 'package:wond3rcard/src/profile/views/profile.dart';
 import 'package:wond3rcard/src/profile/views/widgets/help_and_support.dart';
 import 'package:wond3rcard/src/profile/views/widgets/q_and_a.dart';
 import 'package:wond3rcard/src/profile/views/widgets/terms_and_condition.dart';
+import 'package:wond3rcard/src/qr_code/views/widgets/qr_code_scanner.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
+import 'package:wond3rcard/src/qr_code/views/widgets/view_card.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -66,7 +69,8 @@ final GoRouter routerMobile = GoRouter(
         builder: (BuildContext context, GoRouterState state) {
           return const OnboardingScreen();
         },
-        routes: <RouteBase>[
+        routes: 
+        <RouteBase>[
           GoRoute(
             path: RouteString.baseDashboard,
             builder: (BuildContext context, GoRouterState state) {
@@ -473,6 +477,27 @@ final GoRouter routerMobile = GoRouter(
             path: RouteString.viewPhysicalCard,
             builder: (BuildContext context, GoRouterState state) {
               return const ViewPhysicalCardScreen();
+            },
+          ),
+ GoRoute(
+            path: RouteString.userQrCode,
+            builder: (BuildContext context, GoRouterState state) {
+              return Container();
+              // QRScanPage();
+              // UserQRCodePage();
+            },
+          ),
+ GoRoute(
+            path: RouteString.viewCard,
+            builder: (BuildContext context, GoRouterState state) {
+              return const ViewCard();
+            },
+          ),
+
+           GoRoute(
+            path: RouteString.qrScanner,
+            builder: (BuildContext context, GoRouterState state) {
+              return  QRScannerPage();
             },
           ),
         ]),

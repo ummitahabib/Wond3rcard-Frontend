@@ -18,6 +18,7 @@ import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/add_use
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/additional_information_widget.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/review_widget.dart';
 import 'package:wond3rcard/src/analytics/views/pages/analytics_main_page.dart';
+import 'package:wond3rcard/src/analytics/views/widgets/select_card_analytics.dart';
 import 'package:wond3rcard/src/analytics/views/widgets/selected_card_analytics.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/change_password/views/reset_password_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/forgot_password_otp_verification/views/pages/forgot_password_otp_verification_main.dart';
@@ -83,6 +84,12 @@ final GoRouter routerDesktop = GoRouter(
           return const OnboardingScreen();
         },
         routes: <RouteBase>[
+          GoRoute(
+            path: RouteString.getStarted,
+            builder: (BuildContext context, GoRouterState state) {
+              return GetStartedOnboardingScreenDesktop();
+            },
+          ),
           ShellRoute(
             navigatorKey: _shellNavigatorKey,
             builder: (BuildContext context, GoRouterState state, Widget child) {
@@ -217,6 +224,15 @@ final GoRouter routerDesktop = GoRouter(
                   return Container();
                 },
               ),
+
+                              GoRoute(
+            path: '${RouteString.selectedCardAnalyticsUser}/:index',
+            builder: (BuildContext context, GoRouterState state) {
+              final index =
+                  int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
+              return SelectCardAnalytics(index: index);
+            },
+          ),
               GoRoute(
                 path: RouteString.orderPhysicalCard,
                 builder: (BuildContext context, GoRouterState state) {
@@ -564,12 +580,6 @@ final GoRouter routerDesktop = GoRouter(
             path: '/add-user',
             builder: (BuildContext context, GoRouterState state) {
               return Container();
-            },
-          ),
-          GoRoute(
-            path: RouteString.wondercardWebsite,
-            builder: (BuildContext context, GoRouterState state) {
-              return const GetStartedOnboardingScreenDesktop();
             },
           ),
           GoRoute(

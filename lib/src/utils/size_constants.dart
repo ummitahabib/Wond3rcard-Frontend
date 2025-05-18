@@ -288,3 +288,42 @@ bool isMobile(BuildContext context) => MediaQuery.of(context).size.width < 550;
 bool isTablet(BuildContext context) =>
     MediaQuery.of(context).size.width < 850 &&
     MediaQuery.of(context).size.width >= 550;
+
+
+
+
+
+class SizeConfig {
+  static MediaQueryData? _mediaQueryData;
+  static double? screenWidth;
+  static double? screenHeight;
+
+  static double? scaleWidth;
+  static double? scaleHeight;
+
+  static const double baseWidth = 360; 
+  static const double baseHeight = 800; 
+
+  static void init(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData!.size.width;
+    screenHeight = _mediaQueryData!.size.height;
+
+    scaleWidth = screenWidth! / baseWidth;
+    scaleHeight = screenHeight! / baseHeight;
+  }
+
+  static double w(double width) {
+    if (scaleWidth == null) {
+      throw Exception('SizeConfig.init(context) must be called before using w()');
+    }
+    return width * scaleWidth!;
+  }
+
+  static double h(double height) {
+    if (scaleHeight == null) {
+      throw Exception('SizeConfig.init(context) must be called before using h()');
+    }
+    return height * scaleHeight!;
+  }
+}

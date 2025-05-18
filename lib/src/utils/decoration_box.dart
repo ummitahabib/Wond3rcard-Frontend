@@ -81,7 +81,8 @@ class DecorationBox {
 
   static Radius radius() => const Radius.circular(size29point38);
   static BoxDecoration bottomNavBoxDecoration() {
-    return BoxDecoration(
+    return 
+    BoxDecoration(
         boxShadow: const [
           BoxShadow(
             color: Color(0x0F000000),
@@ -97,6 +98,7 @@ class DecorationBox {
           left: radius(),
           right: radius(),
         ));
+  
   }
 
   static BoxDecoration cardBoxDecoration({Color? color}) {

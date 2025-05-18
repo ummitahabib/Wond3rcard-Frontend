@@ -104,31 +104,28 @@ class AuthNotifier extends ChangeNotifier {
       alert.showErrorToast(message: 'Email and Password are required');
       return LoginReturnData.error;
     }
-
+    loadingLogin = true;
     final LoginModel loginModel = LoginModel(
       email: email,
       password: password,
       mfaCode: mfaCode,
       otpCode: otpCode,
     );
+
     final InputModel isValidLoginInput = loginModel.validateLoginData();
 
     if (!isValidLoginInput.isValidInput) {
       alert.showErrorToast(message: isValidLoginInput.error);
-      print('this is the print error ${isValidLoginInput.error}');
       return LoginReturnData.error;
     }
 
     try {
-      loadingLogin = true;
-
       final response =
           await ref.read(authRepositoryProvider).login(loginModel.toJson());
 
       if (response.error != null) {
         alert.showErrorToast(
             message: response.error!.message ?? 'Unknown error');
-        print('this is the unknown error ${response.error!.message}');
         if (response.error!.message ==
             AppStrings.unVerifiedAccountErrorMessage) {
           return LoginReturnData.unverifiedEmail;
@@ -139,21 +136,17 @@ class AuthNotifier extends ChangeNotifier {
       final LoginModel loginResponse = response.response as LoginModel;
       if (loginResponse.accessToken != null) {
         await storeLoginData(loginResponse, context);
-        context.go(RouteString.baseDashboard);
         return LoginReturnData.success;
       }
 
       alert.showErrorToast(message: 'Login failed. Invalid credentials.');
-      print('this is the error');
       return LoginReturnData.error;
     } catch (e, stacktrace) {
-      print('Error1: $e');
-      print('Login failed. Invalid credentials Stacktrace: $stacktrace');
+      debugPrint('Login failed: $e\n$stacktrace');
       alert.showErrorToast(message: 'Unable to complete process. Try again.');
-      print('Error2: $e');
       return LoginReturnData.error;
     } finally {
-      if (mounted) loadingLogin = false;
+      loadingLogin = false;
     }
   }
 
@@ -191,20 +184,20 @@ class AuthNotifier extends ChangeNotifier {
     if (accessToken != null && accessToken.isNotEmpty) {
       context.go(RouteString.baseDashboard);
     } else {
-      if (kIsWeb) {
-        context.go(RouteString.getStarted);
-      } else {
-        context.go(RouteString.wondercardWebsite);
-      }
+      context.go(RouteString.getStarted);
     }
   }
 
   Future<bool> signUp(BuildContext context) async {
     String? base64Image;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? storedImagePath = prefs.getString('profileImage');
-    if (storedImagePath != null && storedImagePath.isNotEmpty) {
-      try {
+    try {
+      loadingSignup = true;
+
+      // Retrieve stored profile image path
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? storedImagePath = prefs.getString('profileImage');
+
+      if (storedImagePath != null && storedImagePath.isNotEmpty) {
         if (kIsWeb) {
           final Uint8List? imageBytes =
               ref.read(onboardingProvider).uploadedImageBytes;
@@ -216,62 +209,57 @@ class AuthNotifier extends ChangeNotifier {
           final List<int> imageBytes = await imageFile.readAsBytes();
           base64Image = base64Encode(imageBytes);
         }
-      } catch (e) {
-        debugPrint("Error loading image: $e");
-        alert.showErrorToast(message: "Failed to load profile image.");
+      }
+
+      // Prepare signup data
+      final SignUpRequest signupData = SignUpRequest(
+        firstName: firstNameController.text.trim(),
+        lastName: lastNameController.text.trim(),
+        otherName: otherName.text.trim(),
+        email: emailController.text.trim(),
+        workMail: workMail.text.trim(),
+        password: passwordController.text.trim(),
+        companyName: companyNameController.text.trim(),
+        jobTitle: jobTitleController.text.trim(),
+        mobileNumber: phoneNumberController.text.trim(),
+        profilePhoto: base64Image,
+        fcmToken: fcmToken,
+      );
+
+      // Validate signup data
+      final InputModel isValidSignUpInput = signupData.validateSignUpData();
+      if (!isValidSignUpInput.isValidInput) {
+        alert.showErrorToast(message: isValidSignUpInput.error);
         return false;
       }
-    }
 
-    final SignUpRequest signupData = SignUpRequest(
-      firstName: firstNameController.text,
-      lastName: lastNameController.text,
-      otherName: otherName.text,
-      email: emailController.text,
-      workMail: workMail.text,
-      password: passwordController.text,
-      companyName: companyNameController.text,
-      jobTitle: jobTitleController.text,
-      mobileNumber: phoneNumberController.text,
-      profilePhoto: base64Image,
-      fcmToken: fcmToken,
-    );
+      // Save email to storage
+      StorageUtil.putString(key: userEmail, value: emailController.text.trim());
 
-    StorageUtil.putString(key: userEmail, value: emailController.text);
-
-    final InputModel isValidSignUpInput = signupData.validateSignUpData();
-    if (!isValidSignUpInput.isValidInput) {
-      alert.showErrorToast(message: isValidSignUpInput.error);
-      return false;
-    }
-
-    try {
-      loadingSignup = true;
-
+      // Make signup request
       final response = await ref.read(authRepositoryProvider).signUp(
             json.encode(signupData.toJson()),
           );
 
-      loadingSignup = false;
-
       if (response.hasError()) {
         alert.showErrorToast(message: response.error?.message ?? emptyString);
+        return false;
       } else {
         clearControllers();
         context.go(RouteString.otpVerification);
         return true;
       }
     } catch (e) {
-      loadingSignup = false;
+      debugPrint("SignUp Error: $e");
       alert.showErrorToast(message: "An unexpected error occurred.");
+      return false;
     } finally {
-      if (mounted) loadingSignup = false;
+      loadingSignup = false;
     }
-
-    return false;
   }
 
   Future<bool> resetMfaWithCode(int mfaCode) async {
+    loading = true;
     try {
       final result = await ref.read(authRepositoryProvider).resetMfa(
             code: mfaCode,
@@ -279,16 +267,13 @@ class AuthNotifier extends ChangeNotifier {
       if (result.error != null) {
         alert.showErrorToast(
             message: "Error resetting MFA: ${result.error?.message}");
-        loading = false;
         return false;
       } else {
         alert.showSuccessToast(message: "MFA reset successful");
-        loading = false;
         return true;
       }
     } catch (e) {
       log("Exception during MFA reset: $e");
-      loading = false;
       return false;
     } finally {
       if (mounted) loading = false;
@@ -299,6 +284,7 @@ class AuthNotifier extends ChangeNotifier {
       {required String email,
       required String otp,
       required BuildContext context}) async {
+    loading = true;
     try {
       final result = await ref.read(authRepositoryProvider).verifyAccount(
             email: email,
@@ -306,18 +292,15 @@ class AuthNotifier extends ChangeNotifier {
           );
       if (result.error != null) {
         alert.showErrorToast(message: result.error?.message ?? emptyString);
-        loading = false;
         return false;
       } else {
         context.go(RouteString.logIn);
         alert.showSuccessToast(message: "Account verification successful");
-        loading = false;
         return true;
       }
     } catch (e) {
       alert.showErrorToast(
           message: "Exception during account verification: $e");
-      loading = false;
       return false;
     } finally {
       if (mounted) loading = false;
@@ -325,6 +308,7 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Future<bool> requestAccountVerfication({required String email}) async {
+    loading = true;
     try {
       final result =
           await ref.read(authRepositoryProvider).requestAccountVerfication(
@@ -332,16 +316,13 @@ class AuthNotifier extends ChangeNotifier {
               );
       if (result.error != null) {
         log("Error verifying account: ${result.error?.message}");
-        loading = false;
         return false;
       } else {
         log("Account verification successful");
-        loading = false;
         return true;
       }
     } catch (e) {
       log("Exception during account verification: $e");
-      loading = false;
       return false;
     } finally {
       if (mounted) loading = false;
@@ -355,7 +336,6 @@ class AuthNotifier extends ChangeNotifier {
         "email": emailController.text,
       };
       final response = await ref.read(authRepositoryProvider).forgotPassword(a);
-      loading = false;
       if (response.hasError()) {
         alert.showErrorToast(message: response.error?.message ?? emptyString);
       } else {
@@ -373,6 +353,7 @@ class AuthNotifier extends ChangeNotifier {
 
   Future<bool> userSetUpMfa(
       {required String email, required String code}) async {
+    loading = true;
     try {
       final result = await ref.read(authRepositoryProvider).userSetupMfa(
             email: email,
@@ -380,16 +361,13 @@ class AuthNotifier extends ChangeNotifier {
           );
       if (result.error != null) {
         log("Error verifying account: ${result.error?.message}");
-        loading = false;
         return false;
       } else {
         log("Account verification successful");
-        loading = false;
         return true;
       }
     } catch (e) {
       log("Exception during account verification: $e");
-      loading = false;
       return false;
     } finally {
       if (mounted) loading = false;
@@ -397,22 +375,20 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Future<bool> verifyMfa(String code) async {
+    loading = true;
     try {
       final result = await ref.read(authRepositoryProvider).verifyMfa(
             code: code,
           );
       if (result.error != null) {
         log("Error verifying MFA: ${result.error?.message}");
-        loading = false;
         return false;
       } else {
         log("MFA verify successful");
-        loading = false;
         return true;
       }
     } catch (e) {
       log("Exception during MFA erification: $e");
-      loading = false;
       return false;
     } finally {
       if (mounted) loading = false;
@@ -420,18 +396,27 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Future<void> signInMethod(BuildContext context) async {
-    final LoginReturnData loginData = await login(context);
+    loadingLogin = true;
+    try {
+      final LoginReturnData loginData = await login(context);
 
-    if (loginData == LoginReturnData.unverifiedEmail) {
-      context.go(RouteString.verifyAccount);
-    } else if (loginData == LoginReturnData.success) {
-      context.go(RouteString.baseDashboard);
-    } else {
-      alert.showErrorToast(message: 'Unable to log in. Please try again.');
+      if (loginData == LoginReturnData.unverifiedEmail) {
+        context.go(RouteString.verifyAccount);
+      } else if (loginData == LoginReturnData.success) {
+        context.go(RouteString.baseDashboard);
+      } else {
+        alert.showErrorToast(message: 'Unable to log in. Please try again.');
+      }
+    } catch (e) {
+      debugPrint('Login error: $e');
+      alert.showErrorToast(message: 'An error occurred during login.');
+    } finally {
+      loadingLogin = false;
     }
   }
 
   Future<bool> resetPassword() async {
+    loading = true;
     try {
       final result = await ref.read(authRepositoryProvider).resetPassword(
             email: email,
@@ -440,16 +425,13 @@ class AuthNotifier extends ChangeNotifier {
           );
       if (result.error != null) {
         log("Error verifying account: ${result.error?.message}");
-        loading = false;
         return false;
       } else {
         log("Password reset successful");
-        loading = false;
         return true;
       }
     } catch (e) {
       log("Exception during account password reset: $e");
-      loading = false;
       return false;
     } finally {
       if (mounted) loading = false;

@@ -84,43 +84,81 @@ class ChartColumn extends HookConsumerWidget {
           ),
           const SizedBox(height: 12),
           analyticsController.analytics == null
-              ? const Center(child: CircularProgressIndicator())
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      analyticsController
-                          .analytics!.payload.analytics.comparison.views.current
-                          .toString(),
-                      style: WonderCardTypography.boldTextH5(
-                        fontSize: 23,
-                        color: AppColors.grayScale,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Wrap(
-                      children: [
-                        const HeroIcon(
-                          HeroIcons.arrowTrendingUp,
-                          color: AppColors.green,
-                          size: 24,
-                        ),
-                        Text(
-                          '${analyticsController.analytics!.payload.analytics.comparison.views.difference}% vs last month',
-                          style: const TextStyle(
-                            color: AppColors.success,
-                            fontFamily: 'Barlow',
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              ? _emptyAnalyticsInnerWidget()
+              : _analyticsInnerWidget(analyticsController),
         ],
       ),
     );
+  }
+
+
+
+  Column _emptyAnalyticsInnerWidget() {
+    return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('0',
+                    style: WonderCardTypography.boldTextH5(
+                      fontSize: 23,
+                      color: AppColors.grayScale,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    children: [
+                      const HeroIcon(
+                        HeroIcons.arrowTrendingUp,
+                        color: AppColors.green,
+                        size: 24,
+                      ),
+                      Text(
+                        '0% vs last month',
+                        style: const TextStyle(
+                          color: AppColors.success,
+                          fontFamily: 'Barlow',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+  }
+  Column _analyticsInnerWidget(AnalyticsNotifier analyticsController) {
+    return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text( 
+                  analyticsController
+                        .analytics!.payload.analytics.comparison.views.current
+                        .toString(),
+                    style: WonderCardTypography.boldTextH5(
+                      fontSize: 23,
+                      color: AppColors.grayScale,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    children: [
+                      const HeroIcon(
+                        HeroIcons.arrowTrendingUp,
+                        color: AppColors.green,
+                        size: 24,
+                      ),
+                      Text(
+                        '${analyticsController.analytics!.payload.analytics.comparison.views.difference}% vs last month',
+                        style: const TextStyle(
+                          color: AppColors.success,
+                          fontFamily: 'Barlow',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
   }
 
   void updateChartData(

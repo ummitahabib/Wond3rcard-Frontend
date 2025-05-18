@@ -96,7 +96,7 @@ class _SignUpDataState extends ConsumerState<SignUpData> {
                 ],
               ),
               const SizedBox(height: SpacingConstants.size40),
-              SignUpTextFields(authController: authController),
+              SignUpTextFields(),
             ],
           ),
         ),
@@ -105,13 +105,12 @@ class _SignUpDataState extends ConsumerState<SignUpData> {
   }
 }
 
-class SignUpTextFields extends StatelessWidget {
-  const SignUpTextFields({super.key, required this.authController});
-
-  final AuthNotifier authController;
+class SignUpTextFields extends HookConsumerWidget {
+  const SignUpTextFields({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authController = ref.watch(authProvider);
     return Padding(
       padding: const EdgeInsets.all(SpacingConstants.size14),
       child: SizedBox(
@@ -196,7 +195,7 @@ class SignUpTextFields extends StatelessWidget {
               ],
             ),
             ContinueWidget(
-              showLoader: authController.loadingSignup,
+              showLoader: ref.watch(authProvider).loadingSignup,
               onTap: () {
                 context.go(RouteString.logIn);
               },

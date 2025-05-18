@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 
 class HomeAddressWidget extends HookConsumerWidget {
   const HomeAddressWidget({super.key});
@@ -113,6 +115,89 @@ class HomeAddressWidget extends HookConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+class BusinessAddressSection extends StatelessWidget {
+  final String? businessName;
+  final String? address;
+  final String? city;
+  final String? state;
+  final String? country;
+  final String? postalCode;
+
+  const BusinessAddressSection({
+    super.key,
+    this.businessName,
+    this.address,
+    this.city,
+    this.state,
+    this.country,
+    this.postalCode,
+  });
+
+  String get fullAddress {
+    final parts = [address, city, state, postalCode, country];
+    return parts.where((part) => part != null && part.trim().isNotEmpty).join(', ');
+  }
+
+  void _openInMaps(String query) async {
+    final encodedQuery = Uri.encodeComponent(query);
+    final url = 'https://www.google.com/maps/search/?api=1&query=$encodedQuery';
+
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint("Could not open the map for: $query");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (fullAddress.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Card(
+      color: AppColors.defaultWhite,
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              businessName ?? 'Business Address',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              fullAddress,
+              style: const TextStyle(fontSize: 16, color: Colors.black87),
+            ),
+            const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton.icon(
+                onPressed: () => _openInMaps(fullAddress),
+                icon: const Icon(Icons.map),
+                label: const Text('Open in Maps'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

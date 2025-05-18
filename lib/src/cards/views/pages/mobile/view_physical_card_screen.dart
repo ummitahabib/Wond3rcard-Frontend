@@ -214,6 +214,8 @@ class BusinessCardWidget extends HookConsumerWidget {
         ),
       ),
     );
+  
+  
   }
 
   Row viewPhysicalCardChildren({

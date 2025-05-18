@@ -9,10 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_wrap/smart_wrap.dart';
 import 'package:wond3rcard/src/admin/social_media/data/controller/social_media_controller.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/card.dart';
 import 'package:wond3rcard/src/cards/views/widgets/business_catelog_widget.dart';
 import 'package:wond3rcard/src/cards/views/widgets/home_address_widget.dart';
 import 'package:wond3rcard/src/cards/views/widgets/testimonies_widget.dart';
-import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/onboarding/views/widgets/continue_widget.dart';
 import 'package:wond3rcard/src/preview_card/data/controller/preview_controller.dart';
 import 'package:wond3rcard/src/preview_card/views/pages/mobile/preview_card_mobile.dart';
@@ -23,6 +23,7 @@ import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CardDetails extends StatefulHookConsumerWidget {
   const CardDetails({super.key, required this.index});
@@ -125,9 +126,39 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
             Positioned(
               left: 25,
               top: 120,
-              child: userProfileImage(
-                image:
-                    profileController.profileData?.payload.profile.profileUrl,
+              child: Container(
+                decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x0F000000),
+                        offset: Offset(
+                          SpacingConstants.size0,
+                          SpacingConstants.size1,
+                        ),
+                        blurRadius: SpacingConstants.size2,
+                      ),
+                      BoxShadow(
+                        color: Color(0x1A000000),
+                        offset: Offset(
+                          SpacingConstants.size0,
+                          SpacingConstants.size1,
+                        ),
+                        blurRadius: SpacingConstants.size3,
+                      ),
+                    ],
+                    borderRadius:
+                        BorderRadius.circular(SpacingConstants.size100),
+                    border:
+                        Border.all(width: 4, color: AppColors.defaultWhite)),
+                child: CircleAvatar(
+                  radius: 40,
+                  backgroundColor: AppColors.defaultWhite,
+                  backgroundImage: NetworkImage(
+                    cardController.getCardsResponse?.payload
+                            ?.cards?[widget.index].cardPictureUrl ??
+                        emptyString,
+                  ),
+                ),
               ),
             )
           ],
@@ -193,7 +224,9 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      context.go(RouteString.connections);
+                    },
                     child: Container(
                       width: 162,
                       height: 60,
@@ -220,7 +253,9 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                     width: 20,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      context.go(RouteString.contacts);
+                    },
                     child: Container(
                         width: 162,
                         height: 60,
@@ -236,7 +271,7 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                 ],
               ),
               const SizedBox(
-                height: 8,
+                height: 15,
               ),
               Container(
                   height: 341,
@@ -244,27 +279,48 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                     borderRadius: BorderRadius.circular(12),
                     color: AppColors.defaultWhite,
                   ),
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Text(
-                            'Social media connect',
-                            style: WonderCardTypography.boldTextTitleBold(
-                              fontSize: 18,
-                              color: AppColors.grayScale600,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Text(
+                              'Social media connect',
+                              style: WonderCardTypography.boldTextTitleBold(
+                                fontSize: 18,
+                                color: AppColors.grayScale600,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SocialsGridView(),
-                    ],
+                        SocialMediaSection(
+                            socialLinks: cardController
+                                    .getCardsResponse
+                                    ?.payload
+                                    ?.cards?[widget.index]
+                                    .socialMediaLinks ??
+                                []),
+                      ],
+                    ),
                   )),
               const SizedBox(
                 height: 8,
               ),
-              HomeAddressWidget(),
+              BusinessAddressSection(
+                businessName: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].designation,
+                address: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].contactInfo?.address,
+                city: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].contactInfo?.website,
+                state: "Lagos State",
+                country: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].contactInfo?.email,
+                postalCode: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].contactInfo?.phone,
+              ),
               const SizedBox(
                 height: 8,
               ),
@@ -388,6 +444,68 @@ class SocialItemMediaWidget extends HookConsumerWidget {
           Text(titleText, style: WonderCardTypography.boldTextTitleBold())
         ],
       ),
+    );
+  }
+}
+
+class SocialMediaSection extends StatelessWidget {
+  final List<SocialMediaLink> socialLinks;
+
+  const SocialMediaSection({super.key, required this.socialLinks});
+
+  void _openLink(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint("Could not launch $url");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (socialLinks.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          child: ListView.separated(
+            padding: EdgeInsets.all(10),
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: socialLinks.length,
+            separatorBuilder: (_, __) => const Divider(),
+            itemBuilder: (context, index) {
+              final link = socialLinks[index];
+              final media = link.media;
+
+              if (!(link.active ?? false) ||
+                  media == null ||
+                  media.link == null) {
+                return const SizedBox.shrink();
+              }
+
+              return ListTile(
+                onTap: () => _openLink(media.link!),
+                leading: CircleAvatar(
+                  backgroundColor: Colors.grey.shade200,
+                  backgroundImage: media.iconUrl != null
+                      ? NetworkImage(media.iconUrl!)
+                      : null,
+                  child: media.iconUrl == null ? const Icon(Icons.link) : null,
+                ),
+                title: Text(media.name ?? 'Unknown'),
+                subtitle: Text('@${link.username ?? ''}'),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

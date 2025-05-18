@@ -223,6 +223,7 @@ class _ChooseAndUploadWidgetState extends ConsumerState<ChooseAndUploadWidget> {
 }
 
 final List<Widget> cardTemplates = const [
+  CardsTemplate5(),
   CardsTemplate1(),
   CardsTemplate2(),
   CardsTemplate3(),
@@ -233,6 +234,7 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    SizeConfig.init(context);
     final physicalCardController = ref.read(physicalCardProvider.notifier);
     final selectedIndex = ref.watch(physicalCardProvider).selectedIndex;
 

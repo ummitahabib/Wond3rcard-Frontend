@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:smart_wrap/smart_wrap.dart';
 import 'package:wond3rcard/src/analytics/data/controller/analytics_controller.dart';
@@ -36,7 +38,24 @@ class SelectedCardAnalytics extends HookConsumerWidget {
       return null;
     }, []);
     return Scaffold(
+      backgroundColor: Colors.red,
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            // context.go(RouteString.analytics);
+          },
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+                color: AppColors.defaultWhite,
+                borderRadius: BorderRadius.circular(10)),
+            child: const HeroIcon(
+              HeroIcons.arrowLeft,
+              color: AppColors.grayScale,
+            ),
+          ),
+        ),
         title: Text('Card analytics'),
       ),
       body: SingleChildScrollView(
@@ -157,13 +176,21 @@ class SelectedCardAnalytics extends HookConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               cardAnalyticsText(count: '203', text: 'Views'),
-                              SizedBox(width: 8,),
+                              SizedBox(
+                                width: 8,
+                              ),
                               cardAnalyticsText(count: '11', text: 'Shares'),
-                                 SizedBox(width: 8,),
+                              SizedBox(
+                                width: 8,
+                              ),
                               cardAnalyticsText(count: '89', text: 'Link Taps'),
-                                 SizedBox(width: 8,),
+                              SizedBox(
+                                width: 8,
+                              ),
                               cardAnalyticsText(count: '1023', text: 'Links'),
-                                 SizedBox(width: 8,),
+                              SizedBox(
+                                width: 8,
+                              ),
                               cardAnalyticsText(
                                   count: '129', text: 'Connection'),
                             ],
@@ -185,11 +212,11 @@ class SelectedCardAnalytics extends HookConsumerWidget {
                 LinkEngagementList(),
                 SizedBox(height: 10),
                 ContactEngagement(),
-                  SizedBox(height: 10),
+                SizedBox(height: 10),
                 AverageViewDuration(),
                 SizedBox(height: 10),
                 ViewerTypeWidget(),
-                 SizedBox(height: 10),
+                SizedBox(height: 10),
                 GeographicalDistributionChart(),
                 SizedBox(height: 10),
                 TopPerformingCardWidget(),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
@@ -28,7 +27,9 @@ class ConnectionMobile extends HookConsumerWidget {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await connectionsNotifier.getConnections();
         await profileNotifier.getProfile(context);
-        await ref.read(contactsControllerProvider(userId));
+        final uId = profileNotifier.profileData?.payload.user.id ?? '';
+        print('this is the userid $uId');
+        await ref.read(contactsControllerProvider(uId));
       });
       return null;
     }, []);
@@ -37,9 +38,9 @@ class ConnectionMobile extends HookConsumerWidget {
       contactsAsync.when(
         data: (contacts) {
           if (contacts.isEmpty) {
-            return const NoConnectionScreen();
+            return const NoContactsScreen();
           }
-          return  ConnectionsListScreen();
+          return ContactsPage();
         },
         loading: () => const ShimmerLoading(),
         error: (e, _) => Center(child: Text("Error loading connections: $e")),
@@ -47,9 +48,9 @@ class ConnectionMobile extends HookConsumerWidget {
       connectionsAsync.when(
         data: (connectionsList) {
           if (connectionsList.isEmpty) {
-            return const NoContactsScreen ();
+            return const NoConnectionScreen();
           }
-          return const ContactsPage();
+          return const ConnectionsListScreen();
         },
         loading: () => const ShimmerLoading(),
         error: (e, _) => Center(child: Text("Error loading contacts: $e")),
@@ -57,7 +58,6 @@ class ConnectionMobile extends HookConsumerWidget {
     ];
 
     return Scaffold(
-     
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -81,18 +81,18 @@ class ConnectionMobile extends HookConsumerWidget {
                 children: [
                   SelectAnalytics(
                     text: 'Connections',
-                    isActive: connectionsNotifier.selectedIndex == 0,
+                    isActive: connectionsNotifier.selectedIndex == 1,
                     onTap: () {
-                      connectionsNotifier.updateSelectedIndex(0);
+                      connectionsNotifier.updateSelectedIndex(1);
                     },
                   ),
                   const SizedBox(width: 8),
                   SelectAnalytics(
                     icon: HeroIcons.creditCard,
                     text: 'Contacts',
-                    isActive: connectionsNotifier.selectedIndex == 1,
+                    isActive: connectionsNotifier.selectedIndex == 0,
                     onTap: () {
-                      connectionsNotifier.updateSelectedIndex(1);
+                      connectionsNotifier.updateSelectedIndex(0);
                     },
                   ),
                 ],

@@ -133,6 +133,7 @@ class RouteString {
   static const String userManagement = '/user-management';
   static const String cardManagement = '/card-management';
   static const String selectedCardAnalytics = '/analytics';
+    static const String selectedCardAnalyticsUser = '/analytics-user';
   static const String analytics = '/analytics';
   static const String security = '/security';
   static const String contacts = '/contacts';
@@ -142,7 +143,9 @@ class RouteString {
   static const String adminSettings = '/settings';
   static const String baseDashboard = '/base-dashboard';
   static const String viewPhysicalCard = '/view-physical-card';
+  static const String userQrCode = '/userQrCode';
   static const String physicalCard = '/physical-card';
+  static const String viewCard = '/view-card';
   static const String orderPhysicalCard = '/order-physical-card';
   static const String memebershipSubscription = '/memebershipSubscription';
   static const String createSubscription = '/create-subscription';
@@ -162,6 +165,7 @@ class RouteString {
   static const String wondercardWebsite = '/wond3rCard-website';
   static const String suggestion = '/suggestion';
   static const String addContact = '/add-contact';
+  static const String qrScanner = '/qr-scanner';
 }
 
 class SessionString {
