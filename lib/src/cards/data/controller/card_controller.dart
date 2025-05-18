@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -60,6 +61,20 @@ class CardNotifier extends ChangeNotifier {
     _cardModel = card;
     notifyListeners();
   }
+
+
+
+  GetCard? _card;
+
+  GetCard? get card => _card;
+
+  set card(GetCard? crd) {
+    _card = crd;
+    notifyListeners();
+  }
+
+
+
 
   GetCard? _getCardsResponse;
 
@@ -257,7 +272,8 @@ class CardNotifier extends ChangeNotifier {
       final response =
           await ref.watch(cardRepositoryProvider).getAUsersCard(cardId);
       if (response.hasError()) {
-        alert.showErrorToast(message: response.error!.message);
+        // alert.showErrorToast(message: response.error!.message);
+        log(response.error!.message);
         loading = false;
       } else {
         _cardModel = response.response;
@@ -265,7 +281,8 @@ class CardNotifier extends ChangeNotifier {
         return cardModel;
       }
     } catch (e) {
-      alert.showErrorToast(message: 'error occured here please check');
+     // alert.showErrorToast(message: 'error occured here please check');
+      log('error occured here please check');
       loading = false;
       print(e);
       return cardModel;
@@ -279,7 +296,8 @@ class CardNotifier extends ChangeNotifier {
       loading = true;
       final response = await ref.watch(cardRepositoryProvider).viewCard(cardId);
       if (response.hasError()) {
-        alert.showErrorToast(message: response.error!.message);
+        log(response.error!.message);
+        // alert.showErrorToast(message: response.error!.message);
         loading = false;
       } else {
         _cardModel = response.response;
@@ -287,7 +305,8 @@ class CardNotifier extends ChangeNotifier {
         return cardModel;
       }
     } catch (e) {
-      alert.showErrorToast(message: 'error occured here please check');
+       log( 'error occured here please check');
+      // alert.showErrorToast(message: 'error occured here please check');
       loading = false;
       print(e);
       return cardModel;

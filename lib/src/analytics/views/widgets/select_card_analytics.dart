@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/analytics/views/widgets/chart_column.dart';
@@ -9,10 +10,12 @@ import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/shared/views/widgets/custom_app_bar.dart';
 import 'package:wond3rcard/src/utils/ui_data.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 
 class SelectCardAnalytics extends HookConsumerWidget {
-  const SelectCardAnalytics({super.key});
+  const SelectCardAnalytics({super.key, required this.index});
+  final int index;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cardController = ref.read(cardProvider);
@@ -38,15 +41,20 @@ class SelectCardAnalytics extends HookConsumerWidget {
 
     return Scaffold(
         appBar: CustomAppBar(
-            leading: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: AppColors.defaultWhite,
-                  borderRadius: BorderRadius.circular(10)),
-              child: const HeroIcon(
-                HeroIcons.backward,
-                color: AppColors.grayScale,
+            leading: GestureDetector(
+              onTap: () {
+                context.go(RouteString.analytics);
+              },
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    color: AppColors.defaultWhite,
+                    borderRadius: BorderRadius.circular(10)),
+                child: const HeroIcon(
+                  HeroIcons.arrowLeft,
+                  color: AppColors.grayScale,
+                ),
               ),
             ),
             title: 'Card analytics'),

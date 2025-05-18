@@ -17,11 +17,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 Container upgradeButton(BuildContext context) {
   return Container(
-      width: 142,
+    padding: EdgeInsets.all(10),
+    margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: AppColors.primaryShade,
           borderRadius: BorderRadius.circular(size25)),
-      height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -85,59 +85,59 @@ Widget qrCodeContainer({
   );
 }
 
-Column recentConnection(BuildContext context) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(size25),
-            color: AppColors.defaultWhite),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Recent Connect',
-              style: TextStyle(
-                color: AppColors.grayScale500,
-                fontFamily: 'Inter',
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                userProfileImage(
-                  width: 30,
-                  height: 30,
-                ),
-                Text(
-                  'ummeeta',
-                  style: WonderCardTypography.boldTextTitleBold(
-                    color: AppColors.grayScale,
-                    fontSize: SpacingConstants.size13,
-                  ),
-                ),
-                const HeroIcon(
-                  HeroIcons.ellipsisVertical,
-                  color: AppColors.grayScale,
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
-    ],
+Widget recentConnection(BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.all(10),
+    margin: const EdgeInsets.all(10),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(size25),
+        color: AppColors.defaultWhite),
+    child: Container()
+    //  Column(
+    //   mainAxisAlignment: MainAxisAlignment.start,
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   mainAxisSize: MainAxisSize.min,
+    //   children: [
+    //     const Text(
+    //       'Recent Connected',
+    //       style: TextStyle(
+    //         color: AppColors.grayScale500,
+    //         fontFamily: 'Inter',
+    //         fontSize: 12,
+    //         fontWeight: FontWeight.w700,
+    //       ),
+    //     ),
+    //     const SizedBox(
+    //       height: 8,
+    //     ),
+    //     Row(
+    //       mainAxisAlignment: MainAxisAlignment.start,
+    //       mainAxisSize: MainAxisSize.min,
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Expanded(
+    //           child: userProfileImage(
+    //           ),
+    //         ),
+    //         Expanded(
+    //           child: Text(
+    //             'ummeeta',
+    //             style: WonderCardTypography.boldTextTitleBold(
+    //               color: AppColors.grayScale,
+    //               fontSize: SpacingConstants.size13,
+    //             ),
+    //           ),
+    //         ),
+    //          Expanded(
+    //            child: HeroIcon(
+    //             HeroIcons.ellipsisVertical,
+    //             color: AppColors.grayScale,
+    //                        ),
+    //          )
+    //       ],
+    //     ),
+    //   ],
+    // ),
   );
 }
 
@@ -314,7 +314,8 @@ Container userProfileImage({
   double? imageHeight,
   String? image,
 }) {
-  return Container(
+  return 
+  Container(
     width: width ?? 94,
     height: height ?? 94,
     decoration: BoxDecoration(
@@ -338,13 +339,14 @@ Container userProfileImage({
         ],
         borderRadius: BorderRadius.circular(SpacingConstants.size100),
         border: Border.all(width: 4, color: AppColors.defaultWhite)),
-    child: Image.asset(
+    child: Image.network(
       image ?? ImageAssets.profile,
       fit: BoxFit.cover,
       width: imageWidth ?? 94,
       height: imageHeight ?? 94,
     ),
   );
+
 }
 
 Center headerContainer() {
@@ -399,25 +401,32 @@ final List<UserProfile> userProfiles = [
     address: 'Abuja Nigeria',
   ),
 ];
-
-Row stackAvatar(List<UserProfile> userProfiles) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: List.generate(userProfiles.length, (index) {
-      return Transform.translate(
-        offset: Offset(index * -15.0, 0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(SpacingConstants.size100),
-          child: Image.network(
-            userProfiles[index].profilePhoto,
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-    }),
+Widget stackAvatar(List<UserProfile> userProfiles) {
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: SizedBox(
+      height: 40, 
+      width: (userProfiles.length * 30.0) + 15,
+      child: Stack(
+        children: List.generate(userProfiles.length, (index) {
+          return Positioned(
+            left: index * 25.0, 
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(SpacingConstants.size100),
+              child: Image.network(
+                userProfiles[index].profilePhoto,
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
+        }),
+      ),
+    ),
   );
 }
+
 
 class RecentConnectionWidget extends StatelessWidget {
   const RecentConnectionWidget({super.key});
@@ -425,65 +434,61 @@ class RecentConnectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: AppColors.defaultWhite,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 15, bottom: 0, left: 15),
-                  child: Text(
-                    'Recent Connect',
-                    style: TextStyle(
-                      color: AppColors.grayScale500,
-                      fontFamily: 'Inter',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: AppColors.defaultWhite,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 15, bottom: 0, left: 15),
+              child: Text(
+                'Recent Connect',
+                style: TextStyle(
+                  color: AppColors.grayScale500,
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
                 ),
-                SizedBox(
-                  width: 150,
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            userProfileImage(width: 30, height: 30),
-                            Text(
-                              truncateName('username$index'),
-                              style: WonderCardTypography.boldTextTitleBold(
-                                color: AppColors.grayScale,
-                                fontSize: SpacingConstants.size13,
-                              ),
-                            ),
-                            const HeroIcon(
-                              HeroIcons.ellipsisVertical,
-                              color: AppColors.grayScale,
-                            ),
-                          ],
+              ),
+            ),
+            SizedBox(
+              width: 150,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        userProfileImage(width: 30, height: 30),
+                        Text(
+                          truncateName('username$index'),
+                          style: WonderCardTypography.boldTextTitleBold(
+                            color: AppColors.grayScale,
+                            fontSize: SpacingConstants.size13,
+                          ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+                        const HeroIcon(
+                          HeroIcons.ellipsisVertical,
+                          color: AppColors.grayScale,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -514,46 +519,52 @@ class ConnectionsMedia extends HookConsumerWidget {
       [],
     );
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(size25),
-              color: AppColors.defaultWhite),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              stackAvatar(userProfiles),
-              Text(
-                '${profile!.connections.length}',
-                style: const TextStyle(
-                  color: AppColors.grayScale,
-                  fontFamily: 'Barlow',
-                  fontSize: 40,
-                  fontWeight: FontWeight.w500,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(size25),
+                color: AppColors.defaultWhite),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                stackAvatar(userProfiles),
+                Text(
+                  '${profile!.connections.length}',
+                  style: const TextStyle(
+                    color: AppColors.grayScale,
+                    fontFamily: 'Barlow',
+                    fontSize: 40,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              const Text(
-                'Active social link',
-                style: TextStyle(
-                  color: AppColors.grayScale500,
-                  fontFamily: 'Inter',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
-              )
-            ],
+                const Text(
+                  'Active social link',
+                  style: TextStyle(
+                    color: AppColors.grayScale500,
+                    fontFamily: 'Inter',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        upgradeButton(context)
-      ],
+          GestureDetector(
+            onTap:(){
+              context.go(RouteString.userQrCode);
+            },    
+           child:  upgradeButton(context))
+        ],
+      ),
     );
   }
 }

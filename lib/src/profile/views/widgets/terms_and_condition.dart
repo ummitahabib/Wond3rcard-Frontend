@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
-import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
-import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 
 class TermsAndCondition extends StatelessWidget {
   const TermsAndCondition({super.key});
@@ -11,40 +9,23 @@ class TermsAndCondition extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              isDesktop(context)
+                  ? context.go(RouteString.profile)
+                  : context.go(RouteString.profile);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+            )),
+            centerTitle: true,
+            title: Text('Terms and Condition'),
+      ),
       backgroundColor: AppColors.defaultWhite,
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(13),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.defaultWhite,
-                      borderRadius: BorderRadius.circular(9),
-                    ),
-                    width: 40,
-                    height: 40,
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.black),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                  ),
-                  SizedBox(width: 40),
-                  Text(
-                    'Terms and Conditions',
-                    style: WonderCardTypography.boldTextH5(
-                        color: Colors.black, fontSize: 23),
-                  ),
-                  Spacer(),
-                  SizedBox(width: 41),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(15),

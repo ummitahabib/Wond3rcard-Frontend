@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/contact/data/controller/contact_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
@@ -45,7 +47,25 @@ class AddContactPage extends HookConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Contact')),
+      appBar: AppBar(
+          leading: GestureDetector(
+            onTap: () {
+              isDesktop(context)
+                  ? context.go(RouteString.baseDashboard)
+                  : context.go(RouteString.mainDashboard);
+            },
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: AppColors.defaultWhite,
+              ),
+              child: HeroIcon(HeroIcons.arrowLeft, color: AppColors.grayScale),
+            ),
+          ),
+          title: const Text('Add Contact')),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth > 600;

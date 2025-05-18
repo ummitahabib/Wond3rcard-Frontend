@@ -80,7 +80,7 @@ class SelectedCardWidget extends HookConsumerWidget {
       BuildContext context, CardNotifier cardController, int index) {
     return GestureDetector(
       onTap: () {
-        context.go('${RouteString.selectedCardAnalytics}/$index');
+        context.go('${RouteString.selectedCardAnalyticsUser}/$index');
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

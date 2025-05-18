@@ -34,20 +34,11 @@ class ManageSubscriptionDesktop extends HookConsumerWidget {
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () {
-              context.go('/base-dashboard');
+              context.go(RouteString.profile);
             },
-            child: Container(
-              padding: EdgeInsets.all(12),
-              margin: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                  color: AppColors.defaultWhite,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Center(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.grayScale,
-                ),
-              ),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: AppColors.grayScale,
             ),
           ),
           actions: [
@@ -234,8 +225,7 @@ class _AnimatedBusinessOverlayState extends State<AnimatedBusinessOverlay>
             ),
           ),
         ),
-
-        ],
+      ],
     );
   }
 }
