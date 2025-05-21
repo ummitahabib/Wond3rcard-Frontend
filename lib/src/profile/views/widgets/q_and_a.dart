@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
@@ -28,9 +30,12 @@ class QAndA extends StatelessWidget {
                     width: 40,
                     height: 40,
                     child: IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.black),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                        icon: Icon(Icons.arrow_back, color: Colors.black),
+                        onPressed: () {
+                          isDesktop(context)
+                              ? context.go(RouteString.profile)
+                              : Navigator.of(context).pop();
+                        }),
                   ),
                   SizedBox(width: 40),
                   Text(

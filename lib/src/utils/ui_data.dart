@@ -34,6 +34,13 @@ final List<NavItemModel> navItems = [
     activeColor: activeColor,
     inactiveColor: inActiveColor,
   ),
+
+    NavItemModel(
+    icon: HeroIcons.link,
+    label: emptyString,
+    activeColor: activeColor,
+    inactiveColor: inActiveColor,
+  ),
   NavItemModel(
     icon: HeroIcons.chartBar,
     label: emptyString,

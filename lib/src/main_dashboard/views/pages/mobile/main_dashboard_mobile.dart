@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/analytics/views/pages/analytics_main_page.dart';
 import 'package:wond3rcard/src/cards/views/pages/cards_main.dart';
+import 'package:wond3rcard/src/contact/views/pages/connection_screen.dart';
 import 'package:wond3rcard/src/home/data/controller/home_controller.dart';
 import 'package:wond3rcard/src/home/views/home_main.dart';
 import 'package:wond3rcard/src/home/views/widgets/bottom_nav.dart';
@@ -30,9 +31,11 @@ class MainDashboardMobile extends HookConsumerWidget {
         return const SafeArea(child: CardsMain());
       case 2:
         return  SafeArea(child: ShareCardList());
-      case 3:
-        return const SafeArea(child: AnalyticsMainPage());
+              case 3:
+        return  SafeArea(child: ConnectionMain());
       case 4:
+        return const SafeArea(child: AnalyticsMainPage());
+      case 5:
         return const SafeArea(child: ProfileMainScreen());
       default:
         return const Center(child: Text("Page not found"));

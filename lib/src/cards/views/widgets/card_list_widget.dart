@@ -52,9 +52,8 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
             height: MediaQuery.of(context).size.height,
             child: isDesktop(context)
                 ? GridView.builder(
-
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 30,vertical: 30),
+                        horizontal: 30, vertical: 30),
                     physics: const BouncingScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -75,11 +74,10 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                           bool confirmDelete = await _showDeleteDialog(context);
                           if (confirmDelete) {
                             await ref.read(cardProvider).deleteCard(
-                                cardController.getCardsResponse?.payload
-                                        ?.cards?[index].id ??
-                                    '',
-                                context,
-                                
+                                  cardController.getCardsResponse?.payload
+                                          ?.cards?[index].id ??
+                                      '',
+                                  context,
                                 );
                           }
                         },
@@ -159,11 +157,42 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    userProfileImage(
-                      image: cardController.getCardsResponse?.payload
-                              ?.cards?[index].cardPictureUrl ??
-                          ImageAssets.profileImage,
+                  
+                    Container(
+                      decoration: BoxDecoration(
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x0F000000),
+                              offset: Offset(
+                                SpacingConstants.size0,
+                                SpacingConstants.size1,
+                              ),
+                              blurRadius: SpacingConstants.size2,
+                            ),
+                            BoxShadow(
+                              color: Color(0x1A000000),
+                              offset: Offset(
+                                SpacingConstants.size0,
+                                SpacingConstants.size1,
+                              ),
+                              blurRadius: SpacingConstants.size3,
+                            ),
+                          ],
+                          borderRadius:
+                              BorderRadius.circular(SpacingConstants.size100),
+                          border: Border.all(
+                              width: 4, color: AppColors.defaultWhite)),
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: AppColors.defaultWhite,
+                        backgroundImage: NetworkImage(
+                          cardController.getCardsResponse?.payload
+                                  ?.cards?[index].cardPictureUrl ??
+                              ImageAssets.profileImage,
+                        ),
+                      ),
                     ),
+                 
                     const Spacer(),
                     NameAndJob(
                       text: cardController.getCardsResponse?.payload
@@ -252,5 +281,5 @@ Future<bool> _showDeleteDialog(BuildContext context) async {
           );
         },
       ) ??
-      false; // Default to false if the dialog is dismissed
+      false; 
 }

@@ -18,6 +18,7 @@ import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/add_use
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/additional_information_widget.dart';
 import 'package:wond3rcard/src/admin/admin_user_management/views/widgets/review_widget.dart';
 import 'package:wond3rcard/src/analytics/views/pages/analytics_main_page.dart';
+import 'package:wond3rcard/src/analytics/views/widgets/select_card_analytics.dart';
 import 'package:wond3rcard/src/analytics/views/widgets/selected_card_analytics.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/change_password/views/reset_password_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/forgot_password_otp_verification/views/pages/forgot_password_otp_verification_main.dart';
@@ -46,28 +47,21 @@ import 'package:wond3rcard/src/contact/views/pages/connection_screen.dart';
 import 'package:wond3rcard/src/contact/views/pages/mobile/connection_suggestion_screen.dart';
 import 'package:wond3rcard/src/home/views/home_main.dart';
 import 'package:wond3rcard/src/main_dashboard/views/main_dashboard.dart';
-import 'package:wond3rcard/src/main_dashboard/views/pages/desktop/main_dashboard_desktop.dart';
-import 'package:wond3rcard/src/onboarding/views/onboarding_fifth_screen_main.dart';
 import 'package:wond3rcard/src/onboarding/views/get_started_main.dart';
+import 'package:wond3rcard/src/onboarding/views/onboarding_fifth_screen_main.dart';
 import 'package:wond3rcard/src/onboarding/views/onboarding_fourth_screen.dart';
-import 'package:wond3rcard/src/onboarding/views/onboarding_main.dart';
-import 'package:wond3rcard/src/onboarding/views/onboarding_second_screen_main.dart';
-import 'package:wond3rcard/src/onboarding/views/onboarding_third_screen_main.dart';
 import 'package:wond3rcard/src/onboarding/views/pages/desktop/get_started_onbordind_desktop.dart';
 import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_first_screen_desktop.dart';
 import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_fourth_screen_desktop.dart';
 import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_second_screen_desktop.dart';
 import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_third_screen_desktop.dart';
-import 'package:wond3rcard/src/onboarding/views/widgets/get_started_onboarding_screen.dart';
 import 'package:wond3rcard/src/organization/views/pages/get_user_organization.dart';
 import 'package:wond3rcard/src/physical_card/views/screens/order_physical_card_screen.dart';
 import 'package:wond3rcard/src/physical_card/views/screens/payment_success_page.dart';
 import 'package:wond3rcard/src/preview_card/views/preview_main.dart';
-import 'package:wond3rcard/src/privacy_security/views/pages/mobile/privacy_security_mobile.dart';
 import 'package:wond3rcard/src/privacy_security/views/privacy_security.dart';
 import 'package:wond3rcard/src/profile/views/edit_profile.dart';
 import 'package:wond3rcard/src/profile/views/manage_subscription.dart';
-import 'package:wond3rcard/src/profile/views/pages/mobile/manage_subscription.dart';
 import 'package:wond3rcard/src/profile/views/profile.dart';
 import 'package:wond3rcard/src/profile/views/widgets/help_and_support.dart';
 import 'package:wond3rcard/src/profile/views/widgets/q_and_a.dart';
@@ -75,14 +69,11 @@ import 'package:wond3rcard/src/profile/views/widgets/terms_and_condition.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_list.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
-import 'package:wond3rcard/src/wonder_card_website/views/pages/wondercard_website.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shell');
-final GlobalKey<NavigatorState> _internalNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'internal');
 
 final GoRouter routerDesktop = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -90,9 +81,15 @@ final GoRouter routerDesktop = GoRouter(
     GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return  WonderCardWebsite();
+          return const OnboardingScreen();
         },
         routes: <RouteBase>[
+          GoRoute(
+            path: RouteString.getStarted,
+            builder: (BuildContext context, GoRouterState state) {
+              return GetStartedOnboardingScreenDesktop();
+            },
+          ),
           ShellRoute(
             navigatorKey: _shellNavigatorKey,
             builder: (BuildContext context, GoRouterState state, Widget child) {
@@ -116,111 +113,93 @@ final GoRouter routerDesktop = GoRouter(
                 builder: (BuildContext context, GoRouterState state) {
                   return CardsMain();
                 },
-              
               ),
-
-GoRoute(
+              GoRoute(
                 path: RouteString.shareCardLink,
                 builder: (BuildContext context, GoRouterState state) {
                   return ShareCardList();
                 },
-              
               ),
-              
-GoRoute(
+              GoRoute(
                 path: RouteString.connections,
                 builder: (BuildContext context, GoRouterState state) {
                   return ConnectionMain();
                 },
-              
               ),
-
-
-GoRoute(
+              GoRoute(
                 path: RouteString.analytics,
                 builder: (BuildContext context, GoRouterState state) {
                   return AnalyticsMainPage();
                 },
-              
               ),
-
-GoRoute(
+              GoRoute(
                 path: RouteString.profile,
                 builder: (BuildContext context, GoRouterState state) {
                   return ProfileMainScreen();
                 },
-              
               ),
-
-                        GoRoute(
-            path: RouteString.qAndA,
-            builder: (BuildContext context, GoRouterState state) {
-              return const QAndA();
-            },
-          ),
-          GoRoute(
-            path: RouteString.termsAndCondition,
-            builder: (BuildContext context, GoRouterState state) {
-              return const TermsAndCondition();
-            },
-          ),
-          GoRoute(
-            path: RouteString.helpAndSupport,
-            builder: (BuildContext context, GoRouterState state) {
-              return const HelpAndSupport();
-            },
-          ),
-          GoRoute(
-            path: RouteString.privacySecurity,
-            builder: (BuildContext context, GoRouterState state) {
-              return const PrivacySecurityMainScreen();
-            },
-          ),
-
-  GoRoute(
-          path: RouteString.viewPhysicalCard,
-          builder: (BuildContext context, GoRouterState state) {
-            return const ViewPhysicalCardScreen();
-          },
-        ),
-
-            GoRoute(
-            path: RouteString.editProfile,
-            builder: (BuildContext context, GoRouterState state) {
-              return const EditProfileMainScreen();
-            },
-          ),
-
-          GoRoute(
-          path: RouteString.memebershipSubscription,
-          builder: (BuildContext context, GoRouterState state) {
-            return  ManageSubscriptionMainScreen();
-          },
-        ),
-
-         GoRoute(
-            path: RouteString.suggestion,
-            builder: (BuildContext context, GoRouterState state) {
-              return const ConnectionSuggestionScreen();
-            },
-          ),
-
-             GoRoute(
-            path: RouteString.addContact,
-            builder: (BuildContext context, GoRouterState state) {
-              return  AddContactPage();
-            },
-          ),
-
-                 GoRoute(
-            path: '${RouteString.shareCardLink}/:index',
-            builder: (BuildContext context, GoRouterState state) {
-              final index =
-                  int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
-              return ShareQrWidget(index: index);
-            },
-          ),
-              
+              GoRoute(
+                path: RouteString.qAndA,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const QAndA();
+                },
+              ),
+              GoRoute(
+                path: RouteString.termsAndCondition,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const TermsAndCondition();
+                },
+              ),
+              GoRoute(
+                path: RouteString.helpAndSupport,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const HelpAndSupport();
+                },
+              ),
+              GoRoute(
+                path: RouteString.privacySecurity,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const PrivacySecurityMainScreen();
+                },
+              ),
+              GoRoute(
+                path: RouteString.viewPhysicalCard,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const ViewPhysicalCardScreen();
+                },
+              ),
+              GoRoute(
+                path: RouteString.editProfile,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const EditProfileMainScreen();
+                },
+              ),
+              GoRoute(
+                path: RouteString.memebershipSubscription,
+                builder: (BuildContext context, GoRouterState state) {
+                  return ManageSubscriptionMainScreen();
+                },
+              ),
+              GoRoute(
+                path: RouteString.suggestion,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const ConnectionSuggestionScreen();
+                },
+              ),
+              GoRoute(
+                path: RouteString.addContact,
+                builder: (BuildContext context, GoRouterState state) {
+                  return AddContactPage();
+                },
+              ),
+              GoRoute(
+                path: '${RouteString.shareCardLink}/:index',
+                builder: (BuildContext context, GoRouterState state) {
+                  final index =
+                      int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
+                  return ShareQrWidget(index: index);
+                },
+              ),
               GoRoute(
                 path: '/card-management',
                 builder: (BuildContext context, GoRouterState state) {
@@ -246,21 +225,28 @@ GoRoute(
                 },
               ),
 
-                        GoRoute(
-            path: RouteString.orderPhysicalCard,
-            builder: (BuildContext context, GoRouterState state) {
-              return OrderPhysicalCard();
-            },
-          ),
-
-                  GoRoute(
-            path: '${RouteString.cardDetails}/:index',
+                              GoRoute(
+            path: '${RouteString.selectedCardAnalyticsUser}/:index',
             builder: (BuildContext context, GoRouterState state) {
               final index =
                   int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
-              return CardDetails(index: index);
+              return SelectCardAnalytics(index: index);
             },
           ),
+              GoRoute(
+                path: RouteString.orderPhysicalCard,
+                builder: (BuildContext context, GoRouterState state) {
+                  return OrderPhysicalCard();
+                },
+              ),
+              GoRoute(
+                path: '${RouteString.cardDetails}/:index',
+                builder: (BuildContext context, GoRouterState state) {
+                  final index =
+                      int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
+                  return CardDetails(index: index);
+                },
+              ),
               GoRoute(
                 path: '/payment-success',
                 builder: (context, state) {
@@ -363,41 +349,36 @@ GoRoute(
                   return ReviewAccount();
                 },
               ),
-
-
-
-
-                      GoRoute(
-          path: RouteString.createNewCard,
-          builder: (BuildContext context, GoRouterState state) {
-            return const CreateNewCard();
-          },
-        ),
-        GoRoute(
-          path: RouteString.createNewCardTwo,
-          builder: (BuildContext context, GoRouterState state) {
-            return const CreateNewCardStepTwo();
-          },
-        ),
-        GoRoute(
-          path: RouteString.createNewCardThree,
-          builder: (BuildContext context, GoRouterState state) {
-            return const CreateNewCardStepThree();
-          },
-        ),
-        GoRoute(
-          path: RouteString.createNewCardFour,
-          builder: (BuildContext context, GoRouterState state) {
-            return const CreateNewCardStepFour();
-          },
-        ),
-        GoRoute(
-          path: RouteString.createNewCardStepFive,
-          builder: (BuildContext context, GoRouterState state) {
-            return const CreateNewCardStepFive();
-          },
-        ),
-       
+              GoRoute(
+                path: RouteString.createNewCard,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const CreateNewCard();
+                },
+              ),
+              GoRoute(
+                path: RouteString.createNewCardTwo,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const CreateNewCardStepTwo();
+                },
+              ),
+              GoRoute(
+                path: RouteString.createNewCardThree,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const CreateNewCardStepThree();
+                },
+              ),
+              GoRoute(
+                path: RouteString.createNewCardFour,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const CreateNewCardStepFour();
+                },
+              ),
+              GoRoute(
+                path: RouteString.createNewCardStepFive,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const CreateNewCardStepFive();
+                },
+              ),
             ],
           ),
           ShellRoute(
@@ -599,12 +580,6 @@ GoRoute(
             path: '/add-user',
             builder: (BuildContext context, GoRouterState state) {
               return Container();
-            },
-          ),
-          GoRoute(
-            path: RouteString.wondercardWebsite,
-            builder: (BuildContext context, GoRouterState state) {
-              return const GetStartedOnboardingScreenDesktop();
             },
           ),
           GoRoute(
@@ -820,9 +795,6 @@ GoRoute(
               return const ProfileMainScreen();
             },
           ),
-
-      
-
         ]),
   ],
 );

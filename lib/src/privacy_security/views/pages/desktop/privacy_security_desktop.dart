@@ -16,26 +16,28 @@ class PrivacySecurityScreenDesktop extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-       final userProfile = ref.read(profileProvider);
-    
-        useEffect(
+    final userProfile = ref.read(profileProvider);
+
+    useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           final userProfile = ref.read(profileProvider);
-         
-            Future.delayed(Duration.zero, () async {
-              await userProfile.getProfile(context);
-            });
-          
+
+          Future.delayed(Duration.zero, () async {
+            await userProfile.getProfile(context);
+          });
         });
         return null;
       },
       [],
     );
-    return Scaffold(appBar: _appBar(context), body: _body(userProfile.profileData!, context),);
+    return Scaffold(
+      appBar: _appBar(context),
+      body: _body(userProfile.profileData!, context),
+    );
   }
 
-    Widget _body(UserProfileResponse profile, BuildContext context) {
+  Widget _body(UserProfileResponse profile, BuildContext context) {
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(
@@ -43,8 +45,13 @@ class PrivacySecurityScreenDesktop extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Center(child: ReusableProfileHeader(profile: profile,)),
-          SizedBox(height: 30,),
+          Center(
+              child: ReusableProfileHeader(
+            profile: profile,
+          )),
+          SizedBox(
+            height: 30,
+          ),
           Center(
             child: Container(
                 width: size355,
@@ -63,21 +70,27 @@ class PrivacySecurityScreenDesktop extends HookConsumerWidget {
                       },
                       text: twoFactorAuthText,
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     reusableRowWidget(
                       icon: HeroIcons.shieldExclamation,
                       onTap: () {},
                       text: multiFactorAuthText,
                     ),
-                       SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     reusableRowWidget(
                       icon: HeroIcons.shieldExclamation,
                       onTap: () {
-                         context.go(RouteString.changePassword);
+                        context.go(RouteString.changePassword);
                       },
                       text: changePasswordText,
                     ),
-                       SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     reusableRowWidget(
                       icon: HeroIcons.trash,
                       onTap: () {
@@ -94,59 +107,46 @@ class PrivacySecurityScreenDesktop extends HookConsumerWidget {
   }
 
   AppBar _appBar(BuildContext context) {
-    return 
-    
-    
-AppBar(
-          leading: GestureDetector(
-            onTap: () {
-              context.go('/base-dashboard');
-            },
-            child: Container(
-              padding: EdgeInsets.all(12),
-              margin: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                  color: AppColors.defaultWhite,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Center(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.grayScale,
-                ),
-              ),
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Text(
-                'Privacy & Security',
-                style: WonderCardTypography.boldTextH5(
-                  fontSize: 23,
-                  color: AppColors.grayScale,
-                ),
-              ),
-            )
-          ],
-        );
-  }
-
-
-}
-
-
-  Container reusableBackIcon() {
-    return Container(
-      width: size40,
-      height: SpacingConstants.size40,
-      decoration: BoxDecoration(
-          color: AppColors.defaultWhite,
-          borderRadius: BorderRadius.circular(size8)),
-      child: Center(
+    return AppBar(
+      leading: GestureDetector(
+        onTap: () {
+          context.go(
+            RouteString.profile,
+          );
+        },
         child: Icon(
           Icons.arrow_back_ios,
           color: AppColors.grayScale,
         ),
       ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.all(12),
+          child: Text(
+            'Privacy & Security',
+            style: WonderCardTypography.boldTextH5(
+              fontSize: 23,
+              color: AppColors.grayScale,
+            ),
+          ),
+        )
+      ],
     );
   }
+}
+
+Container reusableBackIcon() {
+  return Container(
+    width: size40,
+    height: SpacingConstants.size40,
+    decoration: BoxDecoration(
+        color: AppColors.defaultWhite,
+        borderRadius: BorderRadius.circular(size8)),
+    child: Center(
+      child: Icon(
+        Icons.arrow_back_ios,
+        color: AppColors.grayScale,
+      ),
+    ),
+  );
+}

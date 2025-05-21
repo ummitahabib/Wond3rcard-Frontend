@@ -34,7 +34,7 @@ class ProfileNotifier extends ChangeNotifier {
       final response = await ref.read(profileRepoProvider).getProfile();
       loading = false;
       if (response.hasError()) {
-        alert.showErrorToast(message: response.error?.message ?? emptyString);
+       // alert.showErrorToast(message: response.error?.message ?? emptyString);
 
         print('this is the get profile error ${response.error?.message}');
       } else {
@@ -50,10 +50,10 @@ class ProfileNotifier extends ChangeNotifier {
         return profile;
       }
     } catch (e) {
-      print('this is the catch error $e');
-      alert.showErrorToast(
-        message: 'unableToCompleteProcess',
-      );
+      // print('this is the catch error $e');
+      // alert.showErrorToast(
+      //   message: 'unableToCompleteProcess',
+      // );
       loading = false;
       return null;
     }

@@ -12,48 +12,39 @@ import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
 class EditProfileDesktop extends HookConsumerWidget {
-  
   const EditProfileDesktop({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-     final userProfile = ref.read(profileProvider);
-     final authController = ref.read(authProvider);
-    
-        useEffect(
+    final userProfile = ref.read(profileProvider);
+    final authController = ref.read(authProvider);
+
+    useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           final userProfile = ref.read(profileProvider);
-         
-            Future.delayed(Duration.zero, () async {
-              await userProfile.getProfile(context);
-            });
-          
+
+          Future.delayed(Duration.zero, () async {
+            await userProfile.getProfile(context);
+          });
         });
         return null;
       },
       [],
     );
-    
+
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () {
-              context.go('/base-dashboard');
+              context.go(
+                RouteString.profile,
+              );
             },
-            child: Container(
-             padding: EdgeInsets.all(12),
-             margin: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                  color: AppColors.defaultWhite,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Center(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.grayScale,
-                ),
+            child: Icon(
+                Icons.arrow_back_ios,
+                color: AppColors.grayScale,
               ),
-            ),
           ),
           actions: [
             Padding(
@@ -68,7 +59,6 @@ class EditProfileDesktop extends HookConsumerWidget {
             )
           ],
         ),
-        
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -90,59 +80,68 @@ class EditProfileDesktop extends HookConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
-                            width: MediaQuery.of(context).size.width / 4,
-                          child: CustomTextField( fillColor: AppColors.defaultWhite,
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: CustomTextField(
+                            fillColor: AppColors.defaultWhite,
                             textColor: AppColors.grayScale600,
                             type: TextFieldType.Email,
                             text: 'Personal Email',
                             inputType: TextInputType.emailAddress,
-                            hintText: userProfile.profileData?.payload?.profile.email ?? emptyString,
+                            hintText: userProfile
+                                    .profileData?.payload?.profile.email ??
+                                emptyString,
                           ),
                         ),
-                     SizedBox(
-                           width: MediaQuery.of(context).size.width / 4,
-                       child: CustomTextField( fillColor: AppColors.defaultWhite,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: CustomTextField(
+                            fillColor: AppColors.defaultWhite,
                             textColor: AppColors.grayScale600,
                             type: TextFieldType.defaultType,
                             text: 'Last name',
                             inputType: TextInputType.name,
-                            hintText: userProfile.profileData?.payload?.profile.lastname ?? emptyString,
-                            textEditingController: authController.lastNameController,
+                            hintText: userProfile
+                                    .profileData?.payload?.profile.lastname ??
+                                emptyString,
+                            textEditingController:
+                                authController.lastNameController,
                           ),
-                     ),
-                      SizedBox(
-                             width: MediaQuery.of(context).size.width / 4,
-                        child: CustomTextField(
-                           fillColor: AppColors.defaultWhite,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: CustomTextField(
+                            fillColor: AppColors.defaultWhite,
                             textColor: AppColors.grayScale600,
                             type: TextFieldType.defaultType,
                             text: 'First Name',
                             inputType: TextInputType.name,
-                            hintText: userProfile.profileData?.payload?.profile.firstname ?? emptyString,
-                            textEditingController: authController.emailController,
+                            hintText: userProfile
+                                    .profileData?.payload?.profile.firstname ??
+                                emptyString,
+                            textEditingController:
+                                authController.emailController,
                           ),
-                      ),
-                    
-                    
-                                SizedBox(
-                                       width: MediaQuery.of(context).size.width / 4,
-                                  child: CustomTextField(
-                                                    fillColor: AppColors.defaultWhite,
-                                                          textColor: AppColors.grayScale600,
-                                                          type: TextFieldType.defaultType,
-                                                          text: 'Phone Number',
-                                                          inputType: TextInputType.name,
-                                                          hintText: userProfile.profileData?.payload?.profile.mobileNumber ?? emptyString,
-                                                          textEditingController: authController.emailController,
-                                                        ),
-                                ),
-                    
-                      
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: CustomTextField(
+                            fillColor: AppColors.defaultWhite,
+                            textColor: AppColors.grayScale600,
+                            type: TextFieldType.defaultType,
+                            text: 'Phone Number',
+                            inputType: TextInputType.name,
+                            hintText: userProfile.profileData?.payload?.profile
+                                    .mobileNumber ??
+                                emptyString,
+                            textEditingController:
+                                authController.emailController,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   SizedBox(
-                         width: MediaQuery.of(context).size.width / 4,
+                    width: MediaQuery.of(context).size.width / 4,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [

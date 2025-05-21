@@ -9,6 +9,7 @@ import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/qr_code/data/controller/share_card_controller.dart';
 import 'package:wond3rcard/src/qr_code/data/controller/share_card_qr_controller.dart';
+import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -25,7 +26,6 @@ class ShareQrWidget extends HookConsumerWidget {
 
   static const routeName = RouteString.shareCardLink;
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileController = ref.read(profileProvider);
@@ -35,8 +35,15 @@ class ShareQrWidget extends HookConsumerWidget {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
+              final String cardId = ref
+                      .read(cardProvider)
+                      .getCardsResponse
+                      ?.payload
+                      ?.cards?[index]
+                      .id ??
+                  '';
               await profileController.getProfile(context);
-              await ref.read(cardProvider).getAUsersCard(context, '');
+              await ref.read(cardProvider).getAUsersCard(context, cardId);
             });
           }
         });
@@ -53,19 +60,29 @@ class ShareQrWidget extends HookConsumerWidget {
                 fontSize: 23, color: AppColors.defaultWhite)),
         centerTitle: true,
         actions: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.defaultWhite,
+          GestureDetector(
+            onTap: () {
+              context.go(RouteString.qrScanner);
+            },
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: AppColors.defaultWhite,
+              ),
+              margin: const EdgeInsets.all(10),
+              child: Icon(Icons.qr_code_scanner_rounded,
+                  color: AppColors.grayScale),
             ),
-            margin: const EdgeInsets.all(10),
-            child: HeroIcon(HeroIcons.qrCode, color: AppColors.grayScale),
           ),
         ],
         leading: GestureDetector(
-          onTap: () => context.go(RouteString.mainDashboard),
+          onTap: () {
+            isDesktop(context)
+                ? context.go(RouteString.shareCardLink)
+                : context.go(RouteString.mainDashboard);
+          },
           child: Container(
             margin: const EdgeInsets.all(10),
             width: 40,
@@ -79,18 +96,18 @@ class ShareQrWidget extends HookConsumerWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 15),
-                width: 327,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 padding: const EdgeInsets.symmetric(
-                  vertical: 56,
-                  horizontal: 16,
+                  vertical: 10,
+                  horizontal: 10,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -99,10 +116,47 @@ class ShareQrWidget extends HookConsumerWidget {
                   ),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    userProfileImage(),
+                    // userProfileImage(),
+
+                    Container(
+                      decoration: BoxDecoration(
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x0F000000),
+                              offset: Offset(
+                                SpacingConstants.size0,
+                                SpacingConstants.size1,
+                              ),
+                              blurRadius: SpacingConstants.size2,
+                            ),
+                            BoxShadow(
+                              color: Color(0x1A000000),
+                              offset: Offset(
+                                SpacingConstants.size0,
+                                SpacingConstants.size1,
+                              ),
+                              blurRadius: SpacingConstants.size3,
+                            ),
+                          ],
+                          borderRadius:
+                              BorderRadius.circular(SpacingConstants.size100),
+                          border: Border.all(
+                              width: 4, color: AppColors.defaultWhite)),
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: AppColors.defaultWhite,
+                        backgroundImage: NetworkImage(
+                          cardController.getCardsResponse?.payload
+                                  ?.cards?[index].cardPictureUrl ??
+                              ImageAssets.profileImage,
+                        ),
+                      ),
+                    ),
+
                     Text(
                       '${cardController.getCardsResponse?.payload?.cards?[index].firstName ?? emptyString} ${cardController.getCardsResponse?.payload?.cards?[index].lastName ?? emptyString}',
                       style: const TextStyle(
@@ -111,32 +165,50 @@ class ShareQrWidget extends HookConsumerWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    ShareCardWithBarCode(cardId: cardController.getCardsResponse?.payload?.cards![index].id ?? emptyString),
+                    ShareCardWithBarCode(
+                        cardId: cardController
+                                .getCardsResponse?.payload?.cards![index].id ??
+                            emptyString),
                     const SizedBox(
                       height: 15,
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(18),
-                      width: 229,
-                      height: 52,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryShade,
-                        borderRadius: BorderRadius.circular(8),
+                    GestureDetector(
+                      onTap: () {
+                        context.go(RouteString.viewCard);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(18),
+                        width: 229,
+                        height: 52,
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryShade,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Center(
+                            child: Text('Preview Card',
+                                style:
+                                    TextStyle(color: AppColors.defaultWhite))),
                       ),
-                      child: const Center(
-                          child: Text('Preview Card',
-                              style: TextStyle(color: AppColors.defaultWhite))),
                     ),
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  LinkContainer(cardId: cardController.getCardsResponse?.payload?.cards?[index].id ?? '',),
-                  linkContainer('Share link', HeroIcons.arrowUpTray, () {}),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LinkContainer(
+                      cardId: cardController
+                              .getCardsResponse?.payload?.cards?[index].id ??
+                          '',
+                    ),
+                    SizedBox(width: 10),
+                    linkContainer('Share link', HeroIcons.arrowUpTray, () {}),
+                  ],
+                ),
               )
             ],
           ),
@@ -145,20 +217,12 @@ class ShareQrWidget extends HookConsumerWidget {
     );
   }
 
-
-
-
-
-
-  
-
   GestureDetector linkContainer(
     String text,
     HeroIcons icon,
     Function()? onTap,
   ) {
-    return 
-    GestureDetector(
+    return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 158.5,
@@ -187,10 +251,8 @@ class ShareQrWidget extends HookConsumerWidget {
         ),
       ),
     );
- 
   }
 }
-
 
 Container chooseCardToShare() {
   return Container(
@@ -290,22 +352,11 @@ class CustomRowContainer extends StatelessWidget {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 class ShareCardWithBarCode extends ConsumerStatefulWidget {
   final String cardId;
 
-  const ShareCardWithBarCode({Key? key, required this.cardId}) : super(key: key);
+  const ShareCardWithBarCode({Key? key, required this.cardId})
+      : super(key: key);
 
   @override
   ConsumerState<ShareCardWithBarCode> createState() =>
@@ -316,11 +367,12 @@ class _ShareCardWithBarCodeState extends ConsumerState<ShareCardWithBarCode> {
   @override
   void initState() {
     super.initState();
-    // Trigger the API call only once when the widget is initialized
     Future.microtask(() {
-      ref
-          .read(shareCardQrControllerProvider.notifier)
-          .getQrCode(widget.cardId);
+      ref.read(shareCardQrControllerProvider.notifier).getQrCode(widget.cardId);
+      ref.read(cardProvider).getAUsersCard(
+            context,
+            widget.cardId,
+          );
     });
   }
 
@@ -348,7 +400,7 @@ class _ShareCardWithBarCodeState extends ConsumerState<ShareCardWithBarCode> {
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, __) => QrImageView(
-          data: "DUMMY_QR_CODE", // Display dummy QR code in case of an error
+          data: "DUMMY_QR_CODE",
           version: QrVersions.auto,
           size: 229,
           gapless: false,
@@ -357,12 +409,6 @@ class _ShareCardWithBarCodeState extends ConsumerState<ShareCardWithBarCode> {
     );
   }
 }
-
-
-
-
-
-
 
 class LinkContainer extends ConsumerWidget {
   final String cardId;
@@ -397,7 +443,7 @@ class LinkContainer extends ConsumerWidget {
           },
         );
       },
-      child:  Container(
+      child: Container(
         width: 158.5,
         height: 61.59,
         padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 9),
@@ -423,7 +469,6 @@ class LinkContainer extends ConsumerWidget {
           ],
         ),
       ),
- 
     );
   }
 }

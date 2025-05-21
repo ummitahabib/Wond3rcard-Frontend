@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
@@ -44,7 +45,11 @@ class OrderPhysicalCard extends HookConsumerWidget {
           ),
         ),
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              isDesktop(context)
+                  ? context.go(RouteString.viewPhysicalCard)
+                  : context.go(RouteString.mainDashboard);
+            },
             icon: Icon(
               Icons.arrow_back_ios,
               color: AppColors.grayScale,
@@ -218,6 +223,7 @@ class _ChooseAndUploadWidgetState extends ConsumerState<ChooseAndUploadWidget> {
 }
 
 final List<Widget> cardTemplates = const [
+  CardsTemplate5(),
   CardsTemplate1(),
   CardsTemplate2(),
   CardsTemplate3(),
@@ -228,6 +234,7 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    SizeConfig.init(context);
     final physicalCardController = ref.read(physicalCardProvider.notifier);
     final selectedIndex = ref.watch(physicalCardProvider).selectedIndex;
 

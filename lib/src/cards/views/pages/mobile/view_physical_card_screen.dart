@@ -15,59 +15,68 @@ class ViewPhysicalCardScreen extends ConsumerWidget {
   final String routeName = RouteString.viewPhysicalCard;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-  
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Physical Card', style: WonderCardTypography.boldTextH5(
-          fontSize:23 , color:AppColors.grayScale , 
-        ),), 
-        leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios, color: AppColors.grayScale,)),
-        centerTitle: true,
-      ),
-      
-     body:  Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-   Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Card Name',
-                style: TextStyle(
-                  fontFamily: 'Barlow',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                ),
-              ),
-              Spacer(),
-              SizedBox(
-                  width: 141,
-                  height: 40,
-                  child: WonderCardButton(
-                      leadingIcon: HeroIcon(
-                        HeroIcons.shoppingBag,
-                        color: AppColors.defaultWhite,
-                      ),
-                      backgroundColor: AppColors.primaryShade,
-                      textColor: AppColors.defaultWhite,
-                      text: 'Order Card',
-                      onPressed: () {
-                             context.go(RouteString.orderPhysicalCard);
-                      }))
-            ],
+        title: Text(
+          'My Physical Card',
+          style: WonderCardTypography.boldTextH5(
+            fontSize: 23,
+            color: AppColors.grayScale,
           ),
         ),
-
-        BusinessCardWidget(),
-
-        
-      ],),
+        leading: IconButton(
+            onPressed: () {
+              isDesktop(context)
+                  ? context.go(RouteString.cardMain)
+                  : context.go(RouteString.mainDashboard);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: AppColors.grayScale,
+            )),
+        centerTitle: true,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Card Name',
+                  style: TextStyle(
+                    fontFamily: 'Barlow',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+                Spacer(),
+                SizedBox(
+                    width: 141,
+                    height: 40,
+                    child: WonderCardButton(
+                        leadingIcon: HeroIcon(
+                          HeroIcons.shoppingBag,
+                          color: AppColors.defaultWhite,
+                        ),
+                        backgroundColor: AppColors.primaryShade,
+                        textColor: AppColors.defaultWhite,
+                        text: 'Order Card',
+                        onPressed: () {
+                          context.go(RouteString.orderPhysicalCard);
+                        }))
+              ],
+            ),
+          ),
+          BusinessCardWidget(),
+        ],
+      ),
     );
   }
 }
@@ -77,7 +86,7 @@ class BusinessCardWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-        final profileController = ref.watch(profileProvider);
+    final profileController = ref.watch(profileProvider);
     useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -85,7 +94,7 @@ class BusinessCardWidget extends HookConsumerWidget {
           final profileController = ref.watch(profileProvider);
           if (cardController.cardModel == null) {
             Future.delayed(Duration.zero, () async {
-               await cardController.getAUsersCard(context, '');
+              await cardController.getAUsersCard(context, '');
               await profileController.getProfile(context);
             });
           }
@@ -95,12 +104,12 @@ class BusinessCardWidget extends HookConsumerWidget {
       [],
     );
 
-        return Center(
-          child: Container(
-            width: 352,
-            padding: EdgeInsets.all(10),
-            margin: EdgeInsets.all(10),
-                child: Stack(
+    return Center(
+      child: Container(
+        width: 352,
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(10),
+        child: Stack(
           children: [
             // Background SVG card template
             SvgPicture.asset(
@@ -109,7 +118,7 @@ class BusinessCardWidget extends HookConsumerWidget {
               height: 200,
               fit: BoxFit.cover,
             ),
-          
+
             // Content Overlay
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -123,19 +132,21 @@ class BusinessCardWidget extends HookConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
-                      children:  [
-                    
-                    
-                     Image.network(ImageAssets.profile, width: 24, height: 24,),
-                    
+                      children: [
+                        Image.network(
+                          ImageAssets.profile,
+                          width: 24,
+                          height: 24,
+                        ),
                         Text(
-                          profileController.profileData?.payload.profile.companyName ?? emptyString,
+                          profileController
+                                  .profileData?.payload.profile.companyName ??
+                              emptyString,
                           style: TextStyle(
                             fontFamily: 'Inter',
-                    fontWeight: FontWeight.w800,
-                    fontSize: 14,
-                    color: Colors.black,
-                    
+                            fontWeight: FontWeight.w800,
+                            fontSize: 14,
+                            color: Colors.black,
                           ),
                         ),
                         SizedBox(height: 6),
@@ -145,22 +156,25 @@ class BusinessCardWidget extends HookConsumerWidget {
                             fontSize: 10,
                             color: Color(0xff3B82F6),
                             fontWeight: FontWeight.w700,
-                            
                           ),
                         ),
                         SizedBox(height: 17),
-                       HeroIcon(HeroIcons.qrCode, size: 30,)
+                        HeroIcon(
+                          HeroIcons.qrCode,
+                          size: 30,
+                        )
                       ],
                     ),
                   ),
-          Spacer(),
+                  Spacer(),
                   Padding(
-                    padding: const EdgeInsets.only(left:20, top: 10, bottom: 10),
+                    padding:
+                        const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
-                      children:  [
+                      children: [
                         Text(
                           'Card Holder Name',
                           style: TextStyle(
@@ -171,7 +185,7 @@ class BusinessCardWidget extends HookConsumerWidget {
                         ),
                         SizedBox(height: 6),
                         Text(
-                                  'Designation',
+                          'Designation',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -180,11 +194,16 @@ class BusinessCardWidget extends HookConsumerWidget {
                         SizedBox(height: 8),
                         Container(
                           width: 69,
-                          height: 3, color: Color(0xff3B82F6),),
-                           SizedBox(height: 5),
-                           viewPhysicalCardChildren(icon: HeroIcons.phone , text: '000-123-456-7890'),
-                           viewPhysicalCardChildren(icon: HeroIcons.envelope , text: 'user@gmail.com'),
-                            viewPhysicalCardChildren(icon: HeroIcons.mapPin , text: '125 Street, USA'),
+                          height: 3,
+                          color: Color(0xff3B82F6),
+                        ),
+                        SizedBox(height: 5),
+                        viewPhysicalCardChildren(
+                            icon: HeroIcons.phone, text: '000-123-456-7890'),
+                        viewPhysicalCardChildren(
+                            icon: HeroIcons.envelope, text: 'user@gmail.com'),
+                        viewPhysicalCardChildren(
+                            icon: HeroIcons.mapPin, text: '125 Street, USA'),
                       ],
                     ),
                   ),
@@ -192,17 +211,17 @@ class BusinessCardWidget extends HookConsumerWidget {
               ),
             ),
           ],
-                ),
-              ),
-        );
- 
-
+        ),
+      ),
+    );
+  
+  
   }
 
-  Row viewPhysicalCardChildren(
-      {required String text,
-      required HeroIcons icon,
-      }) {
+  Row viewPhysicalCardChildren({
+    required String text,
+    required HeroIcons icon,
+  }) {
     return Row(
       children: [
         Container(
@@ -218,23 +237,14 @@ class BusinessCardWidget extends HookConsumerWidget {
             size: 5,
           ),
         ),
-      
-        Text(
-          text,
-          style: TextStyle(
-            fontFamily: 'Inter',
-fontWeight: FontWeight.w400,
-fontStyle: FontStyle.italic,
-fontSize: 8,
-
-          )
-        ),
-        
+        Text(text,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w400,
+              fontStyle: FontStyle.italic,
+              fontSize: 8,
+            )),
       ],
     );
   }
-
 }
-
-
-
