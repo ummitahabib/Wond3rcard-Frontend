@@ -94,7 +94,9 @@ class ManageSubscriptionDesktop extends HookConsumerWidget {
               AnimatedBusinessOverlay(
                 color: AppColors.primaryShade100,
                 icon: Icons.workspace_premium,
-                onTap: () {},
+                onTap: () {
+                 // SubscriptionPage
+                },
                 planText: 'Upgrade to Premium',
                 iconColor: AppColors.primaryShade,
                 textColor: AppColors.primaryShade,

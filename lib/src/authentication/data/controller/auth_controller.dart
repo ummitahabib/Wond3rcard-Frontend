@@ -173,7 +173,7 @@ class AuthNotifier extends ChangeNotifier {
     await ref.watch(profileProvider).getProfile(context);
 
     clearControllers();
-  }
+  }  
 
   Future<void> checkLoginStatus(BuildContext context) async {
     final String? accessToken =

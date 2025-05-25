@@ -8,6 +8,7 @@ import 'package:wond3rcard/src/profile/data/profile_controller/profile_controlle
 import 'package:wond3rcard/src/profile/data/profile_model/profile.dart';
 import 'package:wond3rcard/src/utils/user_role_enum.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
+
 class BaseDashBoard extends StatefulHookConsumerWidget {
   const BaseDashBoard({super.key});
 
@@ -27,7 +28,7 @@ class _BaseDashBoardState extends ConsumerState<BaseDashBoard> {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         if (profileData.value == null) {
           final profile = await authProvide.getProfile(context);
-          profileData.value = profile; 
+          profileData.value = profile;
         }
       });
       return null;
@@ -41,8 +42,7 @@ class _BaseDashBoardState extends ConsumerState<BaseDashBoard> {
       UserType.premium.getValue(): MainDashboard(),
       UserType.team.getValue(): MainDashboard(),
       UserType.business.getValue(): MainDashboard(),
-         UserType.admin.getValue(): Container(),
-         //AdminDashboardDesktopView(),
+      UserType.admin.getValue(): AdminDashboardDesktopView(),
       UserType.unknown.getValue(): MainDashboard(),
     };
 

@@ -5,3 +5,5 @@ class AppConstants {
 }
 
 const wonderCardFontName = 'Barlow';
+
+const kPaystackKey = 'pk_test_2c3f0b';

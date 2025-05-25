@@ -32,22 +32,19 @@ class ManageSubscriptionMobile extends HookConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           leading: GestureDetector(
             onTap: () {
               context.go('/base-dashboard');
             },
-            child: Container(
-              padding: EdgeInsets.all(12),
-              margin: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                  color: AppColors.defaultWhite,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Center(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.grayScale,
-                ),
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: AppColors.grayScale,
               ),
+              onPressed: () {
+                context.go('/base-dashboard');
+              },
             ),
           ),
           actions: [
@@ -100,23 +97,23 @@ class ManageSubscriptionMobile extends HookConsumerWidget {
                 textColor: AppColors.defaultWhite,
               ),
               SizedBox(height: 10),
-              AnimatedBusinessOverlay(
-                color: AppColors.primaryShade100,
-                icon: Icons.workspace_premium,
-                onTap: () {},
-                planText: 'Upgrade to Premium',
-                iconColor: AppColors.primaryShade,
-                textColor: AppColors.primaryShade,
+
+              GestureDetector(
+                onTap: () {
+                  context.go(RouteString.upgradeSubscription);
+                },
+                child: AnimatedBusinessOverlay(
+                  color: AppColors.primaryShade100,
+                  icon: Icons.workspace_premium,
+                  onTap: () {
+                    context.go(RouteString.subscriptionPlanSection);
+                  },
+                  planText: 'Upgrade Account',
+                  iconColor: AppColors.primaryShade,
+                  textColor: AppColors.primaryShade,
+                ),
               ),
-              SizedBox(height: 10),
-              AnimatedBusinessOverlay(
-                color: AppColors.primaryShade100,
-                icon: Icons.people,
-                onTap: () {},
-                planText: 'Upgrade to Business',
-                iconColor: AppColors.primaryShade,
-                textColor: AppColors.primaryShade,
-              ),
+
               SizedBox(
                 height: 20,
               ),
@@ -156,54 +153,54 @@ class AnimatedBusinessOverlay extends StatefulWidget {
 
 class _AnimatedBusinessOverlayState extends State<AnimatedBusinessOverlay>
     with SingleTickerProviderStateMixin {
-  bool _showOverlay = false;
-  late AnimationController _controller;
-  late Animation<Offset> _offsetAnimation;
+  // bool _showOverlay = false;
+  // late AnimationController _controller;
+  // late Animation<Offset> _offsetAnimation;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _controller = AnimationController(
+  //     duration: const Duration(milliseconds: 200),
+  //     vsync: this,
+  //   );
 
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0, 1), // Starts below
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
-  }
+  //   _offsetAnimation = Tween<Offset>(
+  //     begin: const Offset(0, 1), // Starts below
+  //     end: Offset.zero,
+  //   ).animate(CurvedAnimation(
+  //     parent: _controller,
+  //     curve: Curves.easeOut,
+  //   ));
+  // }
 
-  void _toggleOverlay() {
-    setState(() {
-      _showOverlay = true;
-    });
-    _controller.forward();
-  }
+  // void _toggleOverlay() {
+  //   setState(() {
+  //     _showOverlay = true;
+  //   });
+  //   _controller.forward();
+  // }
 
-  void _closeOverlay() {
-    _controller.reverse().then((_) {
-      setState(() {
-        _showOverlay = false;
-      });
-    });
-  }
+  // void _closeOverlay() {
+  //   _controller.reverse().then((_) {
+  //     setState(() {
+  //       _showOverlay = false;
+  //     });
+  //   });
+  // }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         GestureDetector(
-          onTap: _toggleOverlay,
+          onTap: widget.onTap,
           child: Container(
             margin: EdgeInsets.all(10),
             padding: const EdgeInsets.all(10),
@@ -234,8 +231,7 @@ class _AnimatedBusinessOverlayState extends State<AnimatedBusinessOverlay>
             ),
           ),
         ),
-
-        ],
+      ],
     );
   }
 }

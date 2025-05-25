@@ -3,67 +3,60 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop.dart';
 import 'package:wond3rcard/src/authentication/data/controller/auth_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_model/profile.dart';
-import 'package:wond3rcard/src/utils/assets.dart';
-import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/util.dart';
-import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
-import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
 class ProfileScreenMobile extends HookConsumerWidget {
   const ProfileScreenMobile({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
- final userProfile = ref.read(profileProvider);
-    
-        useEffect(
+    final userProfile = ref.read(profileProvider);
+
+    useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           final userProfile = ref.read(profileProvider);
-         
-            Future.delayed(Duration.zero, () async {
-              await userProfile.getProfile(context);
-            });
-          
+
+          Future.delayed(Duration.zero, () async {
+            await userProfile.getProfile(context);
+          });
         });
         return null;
       },
       [],
     );
-    
 
-  void _showLogoutDialog(BuildContext context, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          title: const Text("Confirm Logout"),
-          content: const Text("Are you sure you want to logout?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(ctx).pop(); 
-                await ref.read(logoutControllerProvider.notifier).logout();
+    void _showLogoutDialog(BuildContext context, WidgetRef ref) {
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Text("Confirm Logout"),
+            content: const Text("Are you sure you want to logout?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.of(ctx).pop();
+                  await ref.read(logoutControllerProvider.notifier).logout();
 
-                if (context.mounted) {
-                  context.go(RouteString.logIn);
-                }
-              },
-              child: const Text("Yes, Logout", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+                  if (context.mounted) {
+                    context.go(RouteString.logIn);
+                  }
+                },
+                child: const Text("Yes, Logout",
+                    style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -76,13 +69,12 @@ class ProfileScreenMobile extends HookConsumerWidget {
               ),
             ),
             centerTitle: true,
-           
           ),
           backgroundColor: AppColors.transparent,
           body: Center(
             child: SingleChildScrollView(
               child: Padding(
-                padding:  EdgeInsets.all(20),
+                padding: EdgeInsets.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -118,7 +110,7 @@ class ProfileScreenMobile extends HookConsumerWidget {
                             reusableRowWidget(
                                 icon: HeroIcons.shieldExclamation,
                                 onTap: () {
-                                   context.go(RouteString.privacySecurity);
+                                  context.go(RouteString.privacySecurity);
                                 },
                                 text: 'Privacy & security'),
                             reusableRowWidget(
@@ -134,14 +126,14 @@ class ProfileScreenMobile extends HookConsumerWidget {
                             reusableRowWidget(
                               icon: HeroIcons.shieldExclamation,
                               onTap: () {
-                                 context.go(RouteString.termsAndCondition);
+                                context.go(RouteString.termsAndCondition);
                               },
                               text: 'Terms and Condition',
                             ),
                             reusableRowWidget(
                                 icon: HeroIcons.shieldExclamation,
                                 onTap: () {
-                                 context.go(RouteString.qAndA);
+                                  context.go(RouteString.qAndA);
                                 },
                                 text: 'Q & A'),
                             reusableRowWidget(
@@ -211,7 +203,7 @@ class ReusableProfileHeader extends StatelessWidget {
             children: [
               Text(
                 textAlign: TextAlign.center,
-                "${profile.payload.profile.firstname } ${profile.payload.profile.lastname}",
+                "${profile.payload.profile.firstname} ${profile.payload.profile.lastname}",
                 style: TextStyle(
                   fontFamily: 'Barlow',
                   fontSize: 24,
@@ -220,7 +212,7 @@ class ReusableProfileHeader extends StatelessWidget {
               ),
               Text(
                 textAlign: TextAlign.center,
-                     "${profile.payload.profile.email}",
+                "${profile.payload.profile.email}",
                 style: TextStyle(
                   fontFamily: 'Barlow',
                   fontSize: 16,

@@ -104,8 +104,10 @@ class RouteString {
   static const String changePassword = '/changePassword';
   static const String editCardScreen = '/editCardScreen';
   static const String connections = '/connections';
+  static const String upgradeSubscription = '/upgradeSubscription';
   static const String forgetPasswordOtpVerification =
       '/forgetPasswordOtpVerification';
+  static const String subscriptionPlanSection = '/subscription-planection';
   static const String colorPallete = '/colorPallete';
   static const String font = '/font';
   static const String cardLayout = '/cardLayout';
@@ -133,7 +135,7 @@ class RouteString {
   static const String userManagement = '/user-management';
   static const String cardManagement = '/card-management';
   static const String selectedCardAnalytics = '/analytics';
-    static const String selectedCardAnalyticsUser = '/analytics-user';
+  static const String selectedCardAnalyticsUser = '/analytics-user';
   static const String analytics = '/analytics';
   static const String security = '/security';
   static const String contacts = '/contacts';
