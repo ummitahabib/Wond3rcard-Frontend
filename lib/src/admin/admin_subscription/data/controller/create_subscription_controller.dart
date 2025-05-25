@@ -101,3 +101,80 @@ final subscriptionByIdProvider =
     FutureProvider.family<Subscription, String>((ref, id) async {
   return ref.read(subscriptionRepositoryProvider).getSubscriptionById(id);
 });
+
+class SubscriptionController extends ChangeNotifier {
+  final CreateSubscriptionRepository _repo;
+
+  SubscriptionController(this._repo);
+
+  // Private fields
+  List<GetSubscriptionTier>? _subscriptionTiers;
+  GetSubscriptionTier? _subscriptionTier;
+  Subscription? _selectedSubscription;
+  bool _isLoading = false;
+  String? _error;
+
+  // Getters
+  List<GetSubscriptionTier>? get subscriptionTiers => _subscriptionTiers;
+  GetSubscriptionTier? get subscriptionTier => _subscriptionTier;
+  Subscription? get selectedSubscription => _selectedSubscription;
+  bool get isLoading => _isLoading;
+  String? get error => _error;
+
+  // Setters with notifyListeners
+  set subscriptionTiers(List<GetSubscriptionTier>? tiers) {
+    _subscriptionTiers = tiers;
+    notifyListeners();
+  }
+
+  set subscriptionTier(GetSubscriptionTier? tier) {
+    _subscriptionTier = tier;
+    notifyListeners();
+  }
+
+  set selectedSubscription(Subscription? subscription) {
+    _selectedSubscription = subscription;
+    notifyListeners();
+  }
+
+  set isLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  set error(String? value) {
+    _error = value;
+    notifyListeners();
+  }
+
+  // API methods
+  Future<void> fetchSubscriptionTiers() async {
+    isLoading = true;
+    try {
+      subscriptionTiers = await _repo.getSubscriptionTiers();
+      error = null;
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  Future<void> fetchSubscriptionById(String id) async {
+    isLoading = true;
+    try {
+      selectedSubscription = await _repo.getSubscriptionById(id);
+      error = null;
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+    }
+  }
+}
+
+final subscriptionControllerProvider =
+    ChangeNotifierProvider<SubscriptionController>((ref) {
+  final repo = ref.read(subscriptionRepositoryProvider);
+  return SubscriptionController(repo);
+});

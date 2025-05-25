@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/data/controller/create_subscription_controller.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/data/models/admin_subscription_model.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 
-class PricingPlansSection extends StatefulWidget {
+class PricingPlansSection extends StatefulHookConsumerWidget {
   const PricingPlansSection({super.key});
 
   @override
-  State<PricingPlansSection> createState() => _PricingPlansSectionState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _PricingPlansSectionState();
 }
 
-class _PricingPlansSectionState extends State<PricingPlansSection> {
+class _PricingPlansSectionState extends ConsumerState<PricingPlansSection> {
   bool isYearly = false;
 
   @override
   Widget build(BuildContext context) {
+    final subscriptionState = ref.watch(subscriptionControllerProvider);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final controller = ref.read(subscriptionControllerProvider);
+        if (subscriptionState.subscriptionTiers == null) {
+          await controller.fetchSubscriptionTiers();
+          await controller
+              .fetchSubscriptionById(controller.subscriptionTier?.id ?? '');
+        }
+      });
+      return null;
+    }, []);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -52,15 +71,11 @@ class _PricingPlansSectionState extends State<PricingPlansSection> {
         ),
         const SizedBox(height: 20),
         SingleChildScrollView(
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemCount: pricingPlans.length,
-            itemBuilder: (context, index) {
-              final plan = pricingPlans[index];
-              return PricingPlanCard(plan: plan, isYearly: isYearly);
-            },
-          ),
+          child: subscriptionState.selectedSubscription != null
+              ? PricingPlanCard(
+                  plan: subscriptionState.selectedSubscription!,
+                  isYearly: isYearly)
+              : const Center(child: CircularProgressIndicator()),
         ),
       ],
     );
@@ -68,7 +83,7 @@ class _PricingPlansSectionState extends State<PricingPlansSection> {
 }
 
 class PricingPlanCard extends StatelessWidget {
-  final PricingPlan plan;
+  final Subscription plan;
   final bool isYearly;
 
   const PricingPlanCard({
@@ -120,7 +135,7 @@ class PricingPlanCard extends StatelessWidget {
             ),
           const SizedBox(height: 10),
           Text(
-            plan.title,
+            plan.name,
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -129,7 +144,7 @@ class PricingPlanCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            isYearly ? plan.yearlyPrice : plan.monthlyPrice,
+            '${isYearly ? plan.billingCycle.yearly.price : plan.billingCycle.monthly.price}',
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
@@ -178,7 +193,7 @@ class PricingPlanCard extends StatelessWidget {
               ),
               child: Text(
                 textAlign: TextAlign.center,
-                'Choose Plan',
+                'Make Payment',
                 style: GoogleFonts.barlow(
                   fontWeight: FontWeight.w400,
                   fontSize: 18,
@@ -192,48 +207,3 @@ class PricingPlanCard extends StatelessWidget {
     );
   }
 }
-
-class PricingPlan {
-  final String title;
-  final String monthlyPrice;
-  final String yearlyPrice;
-  final List<String> features;
-  final bool isPopular;
-
-  PricingPlan({
-    required this.title,
-    required this.monthlyPrice,
-    required this.yearlyPrice,
-    required this.features,
-    this.isPopular = false,
-  });
-}
-
-final List<PricingPlan> pricingPlans = [
-  PricingPlan(
-    title: 'Basic',
-    monthlyPrice: '\$0/mo',
-    yearlyPrice: '\$0/yr',
-    features: ['1 User', 'Basic Support', 'Limited Features'],
-  ),
-  PricingPlan(
-    title: 'Pro',
-    monthlyPrice: '\$7.5/mo',
-    yearlyPrice: '\$91/yr',
-    features: ['5 Users', 'Priority Support', 'All Features Included'],
-    isPopular: true,
-  ),
-  PricingPlan(
-    title: 'Enterprise',
-    monthlyPrice: '\$55.25/mo',
-    yearlyPrice: '\$663/yr',
-    features: [
-      'Unlimited Users',
-      'Dedicated Support',
-      'Custom Solutions',
-      'Role-based access',
-      'Advanced Analytics',
-      'Enterprise support',
-    ],
-  ),
-];

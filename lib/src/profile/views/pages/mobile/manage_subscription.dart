@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/data/controller/create_subscription_controller.dart';
 import 'package:wond3rcard/src/authentication/data/controller/auth_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/utils/util.dart';
@@ -14,15 +15,17 @@ class ManageSubscriptionMobile extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(profileProvider);
-    final authController = ref.read(authProvider);
-
+    final subscriptionController = ref.read(subscriptionControllerProvider);
     useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           final userProfile = ref.read(profileProvider);
-
+          final controller = ref.read(subscriptionControllerProvider);
           Future.delayed(Duration.zero, () async {
             await userProfile.getProfile(context);
+            await controller.fetchSubscriptionTiers();
+            await controller
+                .fetchSubscriptionById(controller.subscriptionTier?.id ?? '');
           });
         });
         return null;
@@ -88,32 +91,25 @@ class ManageSubscriptionMobile extends HookConsumerWidget {
                 ),
               ),
               SizedBox(height: 35),
-              AnimatedBusinessOverlay(
-                color: AppColors.primaryShade,
-                icon: Icons.person,
-                onTap: () {},
-                planText: 'Basic Plan',
-                iconColor: AppColors.defaultWhite,
-                textColor: AppColors.defaultWhite,
-              ),
-              SizedBox(height: 10),
-
-              GestureDetector(
-                onTap: () {
-                  context.go(RouteString.upgradeSubscription);
-                },
-                child: AnimatedBusinessOverlay(
-                  color: AppColors.primaryShade100,
-                  icon: Icons.workspace_premium,
-                  onTap: () {
-                    context.go(RouteString.subscriptionPlanSection);
+              SingleChildScrollView(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: subscriptionController.subscriptionTiers!.length,
+                  itemBuilder: (context, index) {
+                    final plan =
+                        subscriptionController.subscriptionTiers![index];
+                    return AnimatedBusinessOverlay(
+                      color: AppColors.primaryShade,
+                      icon: Icons.person,
+                      onTap: () {},
+                      planText: plan.name,
+                      iconColor: AppColors.defaultWhite,
+                      textColor: AppColors.defaultWhite,
+                    );
                   },
-                  planText: 'Upgrade Account',
-                  iconColor: AppColors.primaryShade,
-                  textColor: AppColors.primaryShade,
                 ),
               ),
-
               SizedBox(
                 height: 20,
               ),
@@ -153,48 +149,6 @@ class AnimatedBusinessOverlay extends StatefulWidget {
 
 class _AnimatedBusinessOverlayState extends State<AnimatedBusinessOverlay>
     with SingleTickerProviderStateMixin {
-  // bool _showOverlay = false;
-  // late AnimationController _controller;
-  // late Animation<Offset> _offsetAnimation;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _controller = AnimationController(
-  //     duration: const Duration(milliseconds: 200),
-  //     vsync: this,
-  //   );
-
-  //   _offsetAnimation = Tween<Offset>(
-  //     begin: const Offset(0, 1), // Starts below
-  //     end: Offset.zero,
-  //   ).animate(CurvedAnimation(
-  //     parent: _controller,
-  //     curve: Curves.easeOut,
-  //   ));
-  // }
-
-  // void _toggleOverlay() {
-  //   setState(() {
-  //     _showOverlay = true;
-  //   });
-  //   _controller.forward();
-  // }
-
-  // void _closeOverlay() {
-  //   _controller.reverse().then((_) {
-  //     setState(() {
-  //       _showOverlay = false;
-  //     });
-  //   });
-  // }
-
-  // @override
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Stack(

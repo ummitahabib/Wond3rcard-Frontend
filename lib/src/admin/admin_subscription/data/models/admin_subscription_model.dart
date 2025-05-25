@@ -6,6 +6,7 @@ class Subscription {
   final bool autoRenew;
   final List<String> features;
   final String? id;
+    final bool isPopular;
 
   Subscription({
     required this.name,
@@ -15,6 +16,7 @@ class Subscription {
     required this.autoRenew,
     required this.features,
     this.id,
+      this.isPopular = false,
   });
 
   factory Subscription.fromJson(Map<String, dynamic> json) {

@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/admin/admin_subscription/data/controller/create_subscription_controller.dart';
 import 'package:wond3rcard/src/subscription/views/widgets/price_plan_section.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 
-class PlanSection extends StatelessWidget {
+class PlanSection extends HookConsumerWidget {
   const PlanSection({super.key});
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final subscriptionState = ref.watch(subscriptionControllerProvider);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final controller = ref.read(subscriptionControllerProvider);
+        if (subscriptionState.subscriptionTiers == null) {
+          await controller.fetchSubscriptionTiers();
+          await controller
+              .fetchSubscriptionById(controller.subscriptionTier?.id ?? '');
+        }
+      });
+      return null;
+    }, []);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
