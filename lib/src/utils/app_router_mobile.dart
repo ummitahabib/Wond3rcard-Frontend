@@ -546,12 +546,6 @@ final GoRouter routerMobile = GoRouter(
               // UserQRCodePage();
             },
           ),
-//  GoRoute(
-//             path: RouteString.viewCard,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return const ViewCard();
-//             },
-//           ),
           GoRoute(
             path: '/view-card/:id',
             builder: (BuildContext context, GoRouterState state) {
