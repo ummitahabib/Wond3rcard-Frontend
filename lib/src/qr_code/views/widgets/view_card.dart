@@ -15,18 +15,13 @@ import 'package:wond3rcard/src/qr_code/views/widgets/barcode_widget.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 
-
-
-
 class ViewCard extends HookConsumerWidget {
-  const ViewCard({super.key,
-  required this.cardId,
-  
+  const ViewCard({
+    super.key,
+    required this.cardId,
   });
 
-
- final String cardId;
-
+  final String cardId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -231,22 +226,13 @@ class ViewCard extends HookConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'Learnoch Edu',
+                                '${cardController.card?.payload?.cards?.first.cardName ?? emptyString}',
                                 style: TextStyle(
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w800,
                                   fontSize: 25,
                                   color: Colors.white,
                                 ),
-                              ),
-                              Text(
-                                'Personalized Learning AI ',
-                                style: TextStyle(
-                                    fontFamily: 'Barlow',
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 17,
-                                    fontStyle: FontStyle.italic,
-                                    color: Color(0xffDAB6FF)),
                               ),
                             ],
                           ),
@@ -255,9 +241,12 @@ class ViewCard extends HookConsumerWidget {
                       SizedBox(
                         height: SizeConfig.h(30),
                       ),
-                      CustomStyledContainer(),
+                      CustomStyledContainer(
+                        image:
+                            '${cardController.card?.payload?.cards?.first.cardPictureUrl ?? emptyString}',
+                      ),
                       Text(
-                        'MUHAMMAD',
+                        '${cardController.card?.payload?.cards?.first.firstName ?? emptyString}',
                         style: TextStyle(
                           fontFamily: 'Barlow',
                           fontWeight: FontWeight.w800,
@@ -266,7 +255,7 @@ class ViewCard extends HookConsumerWidget {
                         ),
                       ),
                       Text(
-                        'Garba wudil',
+                        '${cardController.card?.payload?.cards?.first.lastName ?? emptyString}',
                         style: TextStyle(
                           fontFamily: 'Barlow',
                           fontWeight: FontWeight.w600,
@@ -278,7 +267,7 @@ class ViewCard extends HookConsumerWidget {
                         height: SizeConfig.h(20),
                       ),
                       Text(
-                        'UIUX DESIGNER',
+                        '${cardController.card?.payload?.cards?.first.designation ?? emptyString}',
                         style: TextStyle(
                           fontFamily: 'Barlow',
                           fontWeight: FontWeight.w900,
@@ -308,21 +297,21 @@ class ViewCard extends HookConsumerWidget {
                               children: [
                                 viewCardRow(
                                   HeroIcons.phone,
-                                  '000-123-456-7890',
+                                  '${cardController.card?.payload?.cards?.first.contactInfo?.phone ?? emptyString}',
                                 ),
                                 SizedBox(
                                   height: SizeConfig.h(5),
                                 ),
                                 viewCardRow(
                                   HeroIcons.envelope,
-                                  'email@yourdomain.com',
+                                  '${cardController.card?.payload?.cards?.first.contactInfo?.email ?? emptyString}',
                                 ),
                                 SizedBox(
                                   height: SizeConfig.h(5),
                                 ),
                                 viewCardRow(
                                   HeroIcons.map,
-                                  '125 Street, USA',
+                                  '${cardController.card?.payload?.cards?.first.contactInfo?.address ?? emptyString}',
                                 ),
                               ],
                             ),
@@ -377,37 +366,43 @@ class ViewCard extends HookConsumerWidget {
 }
 
 class CustomStyledContainer extends StatelessWidget {
-  const CustomStyledContainer({super.key});
+  const CustomStyledContainer({super.key, required this.image});
 
+  final String image;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: SizeConfig.w(150),
-      height: SizeConfig.h(150),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(ImageAssets.profile),
-          fit: BoxFit.cover,
-        ),
-        color: const Color(0xFFADADAD),
-        borderRadius: BorderRadius.circular(100),
-        border: Border.all(
-          color: Colors.white,
-          width: SizeConfig.w(3.32),
-        ),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x1A000000),
-            offset: Offset(0, 0.55),
-            blurRadius: 1.66,
-          ),
-          BoxShadow(
-            color: Color(0x0F000000),
-            offset: Offset(0, 0.55),
-            blurRadius: 1.11,
-          ),
-        ],
-      ),
+    return CircleAvatar(
+      radius: 20,
+      child: Image.network(image),
     );
+
+    // Container(
+    //   width: SizeConfig.w(150),
+    //   height: SizeConfig.h(150),
+    //   decoration: BoxDecoration(
+    //     color: const Color(0xFFADADAD),
+    //     borderRadius: BorderRadius.circular(100),
+    //     border: Border.all(
+    //       color: Colors.white,
+    //       width: SizeConfig.w(3.32),
+    //     ),
+    //     boxShadow: const [
+    //       BoxShadow(
+    //         color: Color(0x1A000000),
+    //         offset: Offset(0, 0.55),
+    //         blurRadius: 1.66,
+    //       ),
+    //       BoxShadow(
+    //         color: Color(0x0F000000),
+    //         offset: Offset(0, 0.55),
+    //         blurRadius: 1.11,
+    //       ),
+    //     ],
+    //   ),
+    //   child: CircleAvatar(
+    //     radius: 20,
+    //     child: Image.network(image),
+    //   ),
+    // );
   }
 }
