@@ -553,9 +553,9 @@ final GoRouter routerMobile = GoRouter(
 //             },
 //           ),
           GoRoute(
-            path: '/view-card',
-            builder: (context, state) {
-              final id = state.uri.queryParameters['id'];
+            path: '/view-card/:id',
+            builder: (BuildContext context, GoRouterState state) {
+              final id = state.pathParameters['id'];
               return ViewCard(cardId: id ?? '');
             },
           ),
