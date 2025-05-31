@@ -1,6 +1,6 @@
 # wond3rcard
 
-A new Flutter project.
+wond3rcard
 
 ## Getting Started
 
