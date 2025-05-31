@@ -69,7 +69,7 @@
 //         builder: (BuildContext context, GoRouterState state) {
 //           return const OnboardingScreen();
 //         },
-//         routes: 
+//         routes:
 //         <RouteBase>[
 
 //           GoRoute(
@@ -121,18 +121,6 @@
 //             },
 //           ),
 
-//           GoRoute(
-//             path: RouteString.home,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return const HomeMain();
-//             },
-//           ),
-//           GoRoute(
-//             path: RouteString.mainDashboard,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return const MainDashboard();
-//             },
-//           ),
 //           // GoRoute(
 //           //   path: RouteString.colorPallete,
 //           //   builder: (BuildContext context, GoRouterState state) {
@@ -197,8 +185,6 @@
 //             },
 //           ),
 
-
-
 //           GoRoute(
 //             path: RouteString.secondScreenDesktop,
 //             builder: (BuildContext context, GoRouterState state) {
@@ -220,64 +206,9 @@
 //             },
 //           ),
 
-//           GoRoute(
-//             path: RouteString.suggestion,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return const ConnectionSuggestionScreen();
-//             },
-//           ),
-//           GoRoute(
-//             path: RouteString.contacts,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return const ContactsPage();
-//             },
-//           ),
-
-//           GoRoute(
-//             path: RouteString.addContact,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return const AddContactPage();
-//             },
-//           ),
-//           GoRoute(
-//             path: RouteString.viewPhysicalCard,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return const ViewPhysicalCardScreen();
-//             },
-//           ),
-//  GoRoute(
-//             path: RouteString.userQrCode,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return Container();
-//               // QRScanPage();
-//               // UserQRCodePage();
-//             },
-//           ),
-//  GoRoute(
-//             path: RouteString.viewCard,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return const ViewCard();
-//             },
-//           ),
-
-//            GoRoute(
-//             path: RouteString.qrScanner,
-//             builder: (BuildContext context, GoRouterState state) {
-//               return  QRScannerPage();
-//             },
-//           ),
 //         ]),
 //   ],
 // );
-
-
-
-
-
-
-
-
-
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -352,9 +283,8 @@ final GoRouter routerMobile = GoRouter(
         builder: (BuildContext context, GoRouterState state) {
           return const OnboardingScreen();
         },
-        routes: 
-        <RouteBase>[
-                  GoRoute(
+        routes: <RouteBase>[
+          GoRoute(
             path: RouteString.logIn,
             builder: (BuildContext context, GoRouterState state) {
               return const LogInMain();
@@ -366,6 +296,7 @@ final GoRouter routerMobile = GoRouter(
               return const SignUpMain();
             },
           ),
+
           GoRoute(
             path: RouteString.otpVerification,
             builder: (BuildContext context, GoRouterState state) {
@@ -396,14 +327,13 @@ final GoRouter routerMobile = GoRouter(
               return const ResetPasswordMain();
             },
           ),
-                    GoRoute(
+          GoRoute(
             path: RouteString.baseDashboard,
             builder: (BuildContext context, GoRouterState state) {
               return BaseDashBoard();
             },
           ),
-
-                    GoRoute(
+          GoRoute(
             path: RouteString.getStarted,
             builder: (BuildContext context, GoRouterState state) {
               return const GetStartedOnboardingScreenMain();
@@ -445,11 +375,7 @@ final GoRouter routerMobile = GoRouter(
               return const PreviewCardMainScreen();
             },
           ),
-
-
-
-
-                    GoRoute(
+          GoRoute(
             path: RouteString.createNewCard,
             builder: (BuildContext context, GoRouterState state) {
               return const CreateNewCard();
@@ -479,7 +405,6 @@ final GoRouter routerMobile = GoRouter(
               return const CreateNewCardStepFive();
             },
           ),
-
           GoRoute(
             path: RouteString.cardMain,
             builder: (BuildContext context, GoRouterState state) {
@@ -522,35 +447,30 @@ final GoRouter routerMobile = GoRouter(
               return const ProfileMainScreen();
             },
           ),
-
           GoRoute(
             path: RouteString.qAndA,
             builder: (BuildContext context, GoRouterState state) {
               return const QAndA();
             },
           ),
-
           GoRoute(
             path: RouteString.termsAndCondition,
             builder: (BuildContext context, GoRouterState state) {
               return const TermsAndCondition();
             },
           ),
-
           GoRoute(
             path: RouteString.helpAndSupport,
             builder: (BuildContext context, GoRouterState state) {
               return const HelpAndSupport();
             },
           ),
-
           GoRoute(
             path: RouteString.privacySecurity,
             builder: (BuildContext context, GoRouterState state) {
               return const PrivacySecurityMainScreen();
             },
           ),
-
           GoRoute(
             path: RouteString.editProfile,
             builder: (BuildContext context, GoRouterState state) {
@@ -563,7 +483,6 @@ final GoRouter routerMobile = GoRouter(
               return PhysicalCardWidget();
             },
           ),
-
           GoRoute(
             path: RouteString.orderPhysicalCard,
             builder: (BuildContext context, GoRouterState state) {
@@ -582,39 +501,97 @@ final GoRouter routerMobile = GoRouter(
               return TwoFaAuthMain();
             },
           ),
-
           GoRoute(
             path: RouteString.deleteAccount,
             builder: (BuildContext context, GoRouterState state) {
               return DeleteAccountMain();
             },
           ),
-
           GoRoute(
             path: RouteString.connections,
             builder: (BuildContext context, GoRouterState state) {
               return ConnectionMain();
             },
           ),
-
           GoRoute(
             path: RouteString.upgradeSubscription,
             builder: (BuildContext context, GoRouterState state) {
               return SubscriptionPage();
             },
           ),
-
-                    GoRoute(
+          GoRoute(
             path: RouteString.subscriptionPlanSection,
             builder: (BuildContext context, GoRouterState state) {
               return PlanSection();
             },
           ),
+          GoRoute(
+            path: RouteString.home,
+            builder: (BuildContext context, GoRouterState state) {
+              return const HomeMain();
+            },
+          ),
+          GoRoute(
+            path: RouteString.mainDashboard,
+            builder: (BuildContext context, GoRouterState state) {
+              return const MainDashboard();
+            },
+          ),
 
+          GoRoute(
+            path: RouteString.userQrCode,
+            builder: (BuildContext context, GoRouterState state) {
+              return Container();
+              // QRScanPage();
+              // UserQRCodePage();
+            },
+          ),
+//  GoRoute(
+//             path: RouteString.viewCard,
+//             builder: (BuildContext context, GoRouterState state) {
+//               return const ViewCard();
+//             },
+//           ),
+          GoRoute(
+            path: '/view-card',
+            builder: (context, state) {
+              final id = state.uri.queryParameters['id'];
+              return ViewCard(cardId: id ?? '');
+            },
+          ),
 
+          GoRoute(
+            path: RouteString.suggestion,
+            builder: (BuildContext context, GoRouterState state) {
+              return const ConnectionSuggestionScreen();
+            },
+          ),
+          GoRoute(
+            path: RouteString.contacts,
+            builder: (BuildContext context, GoRouterState state) {
+              return const ContactsPage();
+            },
+          ),
+
+          GoRoute(
+            path: RouteString.addContact,
+            builder: (BuildContext context, GoRouterState state) {
+              return const AddContactPage();
+            },
+          ),
+          GoRoute(
+            path: RouteString.viewPhysicalCard,
+            builder: (BuildContext context, GoRouterState state) {
+              return const ViewPhysicalCardScreen();
+            },
+          ),
+
+          GoRoute(
+            path: RouteString.qrScanner,
+            builder: (BuildContext context, GoRouterState state) {
+              return QRScannerPage();
+            },
+          ),
         ]),
   ],
-
-
-
 );

@@ -16,7 +16,15 @@ import 'package:wond3rcard/src/utils/util.dart';
 import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 
 class ViewCard extends HookConsumerWidget {
-  const ViewCard({super.key});
+  const ViewCard({super.key,
+  required this.cardId,
+  
+  });
+
+
+ final String cardId;
+
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileController = ref.read(profileProvider);
