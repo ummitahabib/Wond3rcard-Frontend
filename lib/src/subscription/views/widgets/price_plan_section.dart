@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/admin/admin_subscription/data/controller/create_subscription_controller.dart';
-import 'package:wond3rcard/src/admin/admin_subscription/data/models/admin_subscription_model.dart';
+import 'package:wond3rcard/src/payment/views/widgets/payment_method_dialog.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 
 class PricingPlansSection extends StatefulHookConsumerWidget {
@@ -18,21 +17,15 @@ class _PricingPlansSectionState extends ConsumerState<PricingPlansSection> {
   bool isYearly = false;
 
   @override
+  void initState() {
+    super.initState();
+    final controller = ref.read(subscriptionControllerProvider);
+    controller.loadPricingPlans();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final subscriptionState = ref.watch(subscriptionControllerProvider);
-
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        final controller = ref.read(subscriptionControllerProvider);
-        if (subscriptionState.subscriptionTiers == null) {
-          await controller.fetchSubscriptionTiers();
-          await controller
-              .fetchSubscriptionById(controller.subscriptionTier?.id ?? '');
-        }
-      });
-      return null;
-    }, []);
-
+    final controller = ref.read(subscriptionControllerProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -71,11 +64,15 @@ class _PricingPlansSectionState extends ConsumerState<PricingPlansSection> {
         ),
         const SizedBox(height: 20),
         SingleChildScrollView(
-          child: subscriptionState.selectedSubscription != null
-              ? PricingPlanCard(
-                  plan: subscriptionState.selectedSubscription!,
-                  isYearly: isYearly)
-              : const Center(child: CircularProgressIndicator()),
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemCount: controller.pricingPlans.length,
+            itemBuilder: (context, index) {
+              final plan = controller.pricingPlans[index];
+              return PricingPlanCard(plan: plan, isYearly: isYearly);
+            },
+          ),
         ),
       ],
     );
@@ -83,7 +80,7 @@ class _PricingPlansSectionState extends ConsumerState<PricingPlansSection> {
 }
 
 class PricingPlanCard extends StatelessWidget {
-  final Subscription plan;
+  final PricingPlan plan;
   final bool isYearly;
 
   const PricingPlanCard({
@@ -135,7 +132,7 @@ class PricingPlanCard extends StatelessWidget {
             ),
           const SizedBox(height: 10),
           Text(
-            plan.name,
+            plan.title,
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -144,7 +141,7 @@ class PricingPlanCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            '${isYearly ? plan.billingCycle.yearly.price : plan.billingCycle.monthly.price}',
+            isYearly ? plan.yearlyPrice : plan.monthlyPrice,
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
@@ -181,7 +178,12 @@ class PricingPlanCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (_) => PaymentMethodDialog(plan: plan),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: plan.isPopular
                     ? AppColors.primaryShade500
@@ -193,7 +195,7 @@ class PricingPlanCard extends StatelessWidget {
               ),
               child: Text(
                 textAlign: TextAlign.center,
-                'Make Payment',
+                'Choose Plan',
                 style: GoogleFonts.barlow(
                   fontWeight: FontWeight.w400,
                   fontSize: 18,
@@ -206,4 +208,20 @@ class PricingPlanCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class PricingPlan {
+  final String title;
+  final String monthlyPrice;
+  final String yearlyPrice;
+  final List<String> features;
+  final bool isPopular;
+
+  PricingPlan({
+    required this.title,
+    required this.monthlyPrice,
+    required this.yearlyPrice,
+    required this.features,
+    this.isPopular = false,
+  });
 }

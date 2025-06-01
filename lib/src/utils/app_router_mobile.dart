@@ -260,7 +260,7 @@ import 'package:wond3rcard/src/onboarding/views/widgets/get_started_onboarding_s
 import 'package:wond3rcard/src/preview_card/views/preview_main.dart';
 import 'package:wond3rcard/src/privacy_security/views/privacy_security.dart';
 import 'package:wond3rcard/src/profile/views/edit_profile.dart';
-import 'package:wond3rcard/src/profile/views/manage_subscription.dart';
+import 'package:wond3rcard/src/subscription/views/manage_subscription.dart';
 import 'package:wond3rcard/src/profile/views/profile.dart';
 import 'package:wond3rcard/src/profile/views/widgets/help_and_support.dart';
 import 'package:wond3rcard/src/profile/views/widgets/q_and_a.dart';

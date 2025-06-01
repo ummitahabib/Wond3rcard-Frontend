@@ -9,7 +9,6 @@ import 'package:wond3rcard/src/home/views/widgets/bottom_nav.dart';
 import 'package:wond3rcard/src/profile/views/profile.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_list.dart';
 
-
 class MainDashboardMobile extends HookConsumerWidget {
   const MainDashboardMobile({super.key});
 
@@ -30,9 +29,9 @@ class MainDashboardMobile extends HookConsumerWidget {
       case 1:
         return const SafeArea(child: CardsMain());
       case 2:
-        return  SafeArea(child: ShareCardList());
-              case 3:
-        return  SafeArea(child: ConnectionMain());
+        return SafeArea(child: ShareCardList());
+      case 3:
+        return SafeArea(child: ConnectionMain());
       case 4:
         return const SafeArea(child: AnalyticsMainPage());
       case 5:

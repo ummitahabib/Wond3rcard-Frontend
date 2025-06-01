@@ -4,6 +4,7 @@ import 'package:wond3rcard/src/admin/admin_subscription/data/models/admin_get_su
 import 'package:wond3rcard/src/admin/admin_subscription/data/models/admin_subscription_model.dart';
 import 'package:wond3rcard/src/admin/admin_subscription/data/models/update_subscription_model.dart';
 import 'package:wond3rcard/src/admin/admin_subscription/data/repository/create_subscription_repository.dart';
+import 'package:wond3rcard/src/subscription/views/widgets/price_plan_section.dart';
 
 final subscriptionRepositoryProvider =
     Provider((ref) => CreateSubscriptionRepository());
@@ -107,6 +108,9 @@ class SubscriptionController extends ChangeNotifier {
 
   SubscriptionController(this._repo);
 
+  List<PricingPlan> _pricingPlans = [];
+  List<PricingPlan> get pricingPlans => _pricingPlans;
+
   // Private fields
   List<GetSubscriptionTier>? _subscriptionTiers;
   GetSubscriptionTier? _subscriptionTier;
@@ -169,6 +173,44 @@ class SubscriptionController extends ChangeNotifier {
       error = e.toString();
     } finally {
       isLoading = false;
+    }
+  }
+
+  String _capitalize(String s) =>
+      s.isNotEmpty ? '${s[0].toUpperCase()}${s.substring(1)}' : s;
+
+  Future<void> loadPricingPlans() async {
+    isLoading = true;
+    try {
+      final tiers = await _repo.getSubscriptionTiers();
+      final List<PricingPlan> plans = [];
+
+      for (var tier in tiers) {
+        try {
+          final subscription = await _repo.getSubscriptionById(tier.id);
+
+          plans.add(PricingPlan(
+            title: _capitalize(tier.name),
+            monthlyPrice: '\$${subscription.billingCycle.monthly.price}/mo',
+            yearlyPrice: '\$${subscription.billingCycle.yearly.price}/yr',
+            features: subscription.features,
+            isPopular: subscription.name
+                .toLowerCase()
+                .contains('premium'), // optional rule
+          ));
+        } catch (e) {
+          // Ignore individual failures, or log
+          debugPrint('Failed to load subscription for tier ${tier.id}: $e');
+        }
+      }
+
+      _pricingPlans = plans;
+      error = null;
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 }

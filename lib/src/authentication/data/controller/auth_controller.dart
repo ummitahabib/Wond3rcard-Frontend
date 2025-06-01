@@ -94,6 +94,16 @@ class AuthNotifier extends ChangeNotifier {
     passwordController.clear();
   }
 
+  Future<void> refreshUser(BuildContext context) async {
+    try {
+      await ref.read(profileProvider).getProfile(context);
+      if (mounted) notifyListeners();
+    } catch (e, st) {
+      debugPrint('Error refreshing user: $e\n$st');
+      if (mounted) notifyListeners();
+    }
+  }
+
   Future<LoginReturnData> login(BuildContext context) async {
     final String email = emailController.text.trim();
     final String password = passwordController.text.trim();
@@ -173,7 +183,7 @@ class AuthNotifier extends ChangeNotifier {
     await ref.watch(profileProvider).getProfile(context);
 
     clearControllers();
-  }  
+  }
 
   Future<void> checkLoginStatus(BuildContext context) async {
     final String? accessToken =
