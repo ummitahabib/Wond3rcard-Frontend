@@ -114,7 +114,7 @@ Future<RequestRes> createCard(FormData formData) async {
         headers: {
           'Content-type': 'application/json',
           "Accept": "application/json",
-          'Authorization': 'Bearer $authToken',
+          'Authorization': 'Bearer',
         },
       );
       final cardResponse = GetCardsResponse.fromJson(response);

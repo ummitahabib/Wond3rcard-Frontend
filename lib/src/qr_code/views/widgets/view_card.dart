@@ -34,7 +34,10 @@ class ViewCard extends HookConsumerWidget {
           if (profileController.profileData == null) {
             Future.delayed(Duration.zero, () async {
               await profileController.getProfile(context);
-              await ref.read(cardProvider).getAUsersCard(context, '');
+              await ref.read(cardProvider).getAUsersCard(
+                    context,
+                    cardId,
+                  );
             });
           }
         });
