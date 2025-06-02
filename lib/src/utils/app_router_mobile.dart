@@ -296,7 +296,6 @@ final GoRouter routerMobile = GoRouter(
               return const SignUpMain();
             },
           ),
-
           GoRoute(
             path: RouteString.otpVerification,
             builder: (BuildContext context, GoRouterState state) {
@@ -537,7 +536,6 @@ final GoRouter routerMobile = GoRouter(
               return const MainDashboard();
             },
           ),
-
           GoRoute(
             path: RouteString.userQrCode,
             builder: (BuildContext context, GoRouterState state) {
@@ -548,12 +546,13 @@ final GoRouter routerMobile = GoRouter(
           ),
           GoRoute(
             path: '/view-card/:id',
-            builder: (BuildContext context, GoRouterState state) {
+            builder: (context, state) {
               final id = state.pathParameters['id'];
-              return ViewCard(cardId: id ?? '');
+              final indexStr = state.uri.queryParameters['index'];
+              final index = int.tryParse(indexStr ?? '0') ?? 0;
+              return ViewCard(cardId: id ?? '', index: index);
             },
           ),
-
           GoRoute(
             path: RouteString.suggestion,
             builder: (BuildContext context, GoRouterState state) {
@@ -566,7 +565,6 @@ final GoRouter routerMobile = GoRouter(
               return const ContactsPage();
             },
           ),
-
           GoRoute(
             path: RouteString.addContact,
             builder: (BuildContext context, GoRouterState state) {
@@ -579,7 +577,6 @@ final GoRouter routerMobile = GoRouter(
               return const ViewPhysicalCardScreen();
             },
           ),
-
           GoRoute(
             path: RouteString.qrScanner,
             builder: (BuildContext context, GoRouterState state) {

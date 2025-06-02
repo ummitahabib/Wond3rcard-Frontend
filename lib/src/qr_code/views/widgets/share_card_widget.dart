@@ -169,27 +169,6 @@ class ShareQrWidget extends HookConsumerWidget {
                         cardId: cardController
                                 .getCardsResponse?.payload?.cards![index].id ??
                             emptyString),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        context.go(RouteString.viewCard);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(18),
-                        width: 229,
-                        height: 52,
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryShade,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Center(
-                            child: Text('Preview Card',
-                                style:
-                                    TextStyle(color: AppColors.defaultWhite))),
-                      ),
-                    ),
                   ],
                 ),
               ),

@@ -19,9 +19,11 @@ class ViewCard extends HookConsumerWidget {
   const ViewCard({
     super.key,
     required this.cardId,
+    required this.index,
   });
 
   final String cardId;
+  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -229,7 +231,9 @@ class ViewCard extends HookConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                '${cardController.card?.payload?.cards?.first.cardName ?? emptyString}',
+                                cardController.getCardsResponse?.payload
+                                        ?.cards?[index].cardName ??
+                                    emptyString,
                                 style: TextStyle(
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w800,
@@ -245,11 +249,14 @@ class ViewCard extends HookConsumerWidget {
                         height: SizeConfig.h(30),
                       ),
                       CustomStyledContainer(
-                        image:
-                            '${cardController.card?.payload?.cards?.first.cardPictureUrl ?? emptyString}',
+                        image: cardController.getCardsResponse?.payload
+                                ?.cards?[index].cardPictureUrl ??
+                            emptyString,
                       ),
                       Text(
-                        '${cardController.card?.payload?.cards?.first.firstName ?? emptyString}',
+                        cardController.getCardsResponse?.payload?.cards?[index]
+                                .firstName ??
+                            emptyString,
                         style: TextStyle(
                           fontFamily: 'Barlow',
                           fontWeight: FontWeight.w800,
@@ -258,7 +265,9 @@ class ViewCard extends HookConsumerWidget {
                         ),
                       ),
                       Text(
-                        '${cardController.card?.payload?.cards?.first.lastName ?? emptyString}',
+                        cardController.getCardsResponse?.payload?.cards?[index]
+                                .lastName ??
+                            emptyString,
                         style: TextStyle(
                           fontFamily: 'Barlow',
                           fontWeight: FontWeight.w600,
@@ -270,7 +279,9 @@ class ViewCard extends HookConsumerWidget {
                         height: SizeConfig.h(20),
                       ),
                       Text(
-                        '${cardController.card?.payload?.cards?.first.designation ?? emptyString}',
+                        cardController.getCardsResponse?.payload?.cards?[index]
+                                .designation ??
+                            emptyString,
                         style: TextStyle(
                           fontFamily: 'Barlow',
                           fontWeight: FontWeight.w900,
@@ -300,21 +311,25 @@ class ViewCard extends HookConsumerWidget {
                               children: [
                                 viewCardRow(
                                   HeroIcons.phone,
-                                  '${cardController.card?.payload?.cards?.first.contactInfo?.phone ?? emptyString}',
+                                  cardController.getCardsResponse?.payload
+                                          ?.cards?[index].contactInfo?.phone ??
+                                      emptyString,
                                 ),
                                 SizedBox(
                                   height: SizeConfig.h(5),
                                 ),
                                 viewCardRow(
                                   HeroIcons.envelope,
-                                  '${cardController.card?.payload?.cards?.first.contactInfo?.email ?? emptyString}',
+                                  cardController.getCardsResponse?.payload
+                                          ?.cards?[index].contactInfo?.email ??
+                                      emptyString,
                                 ),
                                 SizedBox(
                                   height: SizeConfig.h(5),
                                 ),
                                 viewCardRow(
                                   HeroIcons.map,
-                                  '${cardController.card?.payload?.cards?.first.contactInfo?.address ?? emptyString}',
+                                  '${cardController.getCardsResponse?.payload?.cards?[index].contactInfo?.addresses ?? emptyString}',
                                 ),
                               ],
                             ),
