@@ -6,36 +6,44 @@ import 'package:wond3rcard/src/cards/data/model/test/get_card/card.dart'
     as model;
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 
+final selectedCardProvider = StateProvider<model.Card?>((ref) => null);
+
 class ListOfDropDownCards extends HookConsumerWidget {
   const ListOfDropDownCards({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cardController = ref.read(cardProvider);
+    final cardController = ref.watch(cardProvider);
+    final selectedCard = ref.watch(selectedCardProvider.notifier);
 
-    useEffect(
-      () {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-          final cardController = ref.read(cardProvider);
-          final profileController = ref.watch(profileProvider);
-          if (cardController.getCardsResponse == null) {
-            Future.delayed(Duration.zero, () async {
-              await cardController.getAllUsersCard();
-              await profileController.getProfile(context);
-            });
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final cardController = ref.read(cardProvider);
+        final profileController = ref.read(profileProvider);
+        if (cardController.getCardsResponse == null) {
+          await cardController.getAllUsersCard();
+          await profileController.getProfile(context);
+        } else if (ref.read(selectedCardProvider) == null) {
+          final cards = cardController.getCardsResponse?.payload?.cards;
+          if (cards != null && cards.isNotEmpty) {
+            selectedCard.state = cards.first;
           }
-        });
-        return null;
-      },
-      [],
-    );
+        }
+      });
+      return null;
+    }, []);
 
-    final selectedCard = useState<model.Card>(
-        cardController.getCardsResponse!.payload!.cards!.first);
+    final card = ref.watch(selectedCardProvider);
+
+    if (card == null ||
+        cardController.getCardsResponse?.payload?.cards == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final cards = cardController.getCardsResponse!.payload!.cards!;
 
     return GestureDetector(
-      onTap: () => _showCardSelectionModal(context,
-          cardController.getCardsResponse!.payload!.cards!, selectedCard),
+      onTap: () => _showCardSelectionModal(context, cards, selectedCard),
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.all(16),
@@ -49,8 +57,7 @@ class ListOfDropDownCards extends HookConsumerWidget {
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.grey.shade200,
-              backgroundImage:
-                  NetworkImage(selectedCard.value.cardPictureUrl ?? ''),
+              backgroundImage: NetworkImage(card.cardPictureUrl ?? ''),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -58,14 +65,14 @@ class ListOfDropDownCards extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    selectedCard.value.cardName ?? '',
+                    card.cardName ?? '',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
                   ),
                   Text(
-                    selectedCard.value.designation ?? '',
+                    card.designation ?? '',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey.shade700,
@@ -84,7 +91,7 @@ class ListOfDropDownCards extends HookConsumerWidget {
   void _showCardSelectionModal(
     BuildContext context,
     List<model.Card> cards,
-    ValueNotifier<model.Card> selectedCard,
+    StateController<model.Card?> selectedCard,
   ) {
     showModalBottomSheet(
       context: context,
@@ -98,13 +105,11 @@ class ListOfDropDownCards extends HookConsumerWidget {
           separatorBuilder: (_, __) => const Divider(height: 1),
           itemBuilder: (context, index) {
             final card = cards[index];
-            final isSelected = card.cardName == selectedCard.value.cardName;
+            final isSelected = card.cardName == selectedCard.state?.cardName;
 
             return ListTile(
               leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  card.cardPictureUrl ?? '',
-                ),
+                backgroundImage: NetworkImage(card.cardPictureUrl ?? ''),
               ),
               title: Text(
                 card.cardName ?? '',
@@ -112,14 +117,12 @@ class ListOfDropDownCards extends HookConsumerWidget {
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
-              subtitle: Text(
-                card.designation ?? '',
-              ),
+              subtitle: Text(card.designation ?? ''),
               trailing: isSelected
                   ? const Icon(Icons.check_circle, color: Colors.green)
                   : null,
               onTap: () {
-                selectedCard.value = card;
+                selectedCard.state = card;
                 Navigator.pop(context);
               },
             );

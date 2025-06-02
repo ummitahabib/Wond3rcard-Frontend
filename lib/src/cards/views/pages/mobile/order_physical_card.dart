@@ -229,6 +229,7 @@ final List<Widget> cardTemplates = const [
   CardsTemplate3(),
 ];
 
+
 class OrderPhysicalCardSection extends HookConsumerWidget {
   const OrderPhysicalCardSection({super.key});
 
@@ -279,10 +280,11 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
         ),
         const SizedBox(height: 16),
         SizedBox(
-          height: 205,
+          height: 300,
+          width: 380,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(10),
             itemCount: cardTemplates.length,
             separatorBuilder: (_, __) => const SizedBox(width: 12),
             itemBuilder: (context, index) {
@@ -298,9 +300,7 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                     ),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Center(
-                    child: cardTemplates[index],
-                  ),
+                  child: cardTemplates[index],
                 ),
               );
             },
@@ -328,6 +328,9 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
     );
   }
 }
+
+
+
 
 class ShippingAddressWidget extends HookConsumerWidget {
   const ShippingAddressWidget({super.key});
