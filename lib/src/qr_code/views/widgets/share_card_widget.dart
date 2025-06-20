@@ -20,7 +20,6 @@ import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
 //Todo rework on this file and break the widgets and method into smaller parts
 
-
 class ShareQrWidget extends HookConsumerWidget {
   const ShareQrWidget({super.key, required this.index});
 
@@ -35,19 +34,17 @@ class ShareQrWidget extends HookConsumerWidget {
     useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-          if (profileController.profileData == null) {
-            Future.delayed(Duration.zero, () async {
-              final String cardId = ref
-                      .read(cardProvider)
-                      .getCardsResponse
-                      ?.payload
-                      ?.cards?[index]
-                      .id ??
-                  '';
-              await profileController.getProfile(context);
-              await ref.read(cardProvider).getAUsersCard(context, cardId);
-            });
-          }
+          Future.delayed(Duration.zero, () async {
+            final String cardId = ref
+                    .read(cardProvider)
+                    .getCardsResponse
+                    ?.payload
+                    ?.cards?[index]
+                    .id ??
+                '';
+            await profileController.getProfile(context);
+            await ref.read(cardProvider).getAUsersCard(context, cardId);
+          });
         });
         return null;
       },
@@ -235,8 +232,6 @@ class ShareQrWidget extends HookConsumerWidget {
   }
 }
 
-
-
 Container chooseCardToShare() {
   return Container(
     padding: const EdgeInsets.symmetric(vertical: 27, horizontal: 23),
@@ -335,8 +330,6 @@ class CustomRowContainer extends StatelessWidget {
   }
 }
 
-
-
 class ShareCardWithBarCode extends ConsumerStatefulWidget {
   final String cardId;
 
@@ -394,10 +387,6 @@ class _ShareCardWithBarCodeState extends ConsumerState<ShareCardWithBarCode> {
     );
   }
 }
-
-
-
-
 
 class LinkContainer extends ConsumerWidget {
   final String cardId;

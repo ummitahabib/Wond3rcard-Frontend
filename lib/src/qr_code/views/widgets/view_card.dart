@@ -10,8 +10,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
-import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
-import 'package:wond3rcard/src/qr_code/views/widgets/barcode_widget.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 
@@ -29,18 +27,12 @@ class ViewCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cardController = ref.watch(cardProvider);
     final ExportDelegate exportDelegate = ExportDelegate();
-    useEffect(
-      () {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-           await ref.read(cardProvider).getAUsersCard(
-                    context,
-                    cardId,
-                  );
-        });
-        return null;
-      },
-      [],
-    );
+    useEffect(() {
+      Future.microtask(() async {
+        await ref.read(cardProvider).getAUsersCard(context, cardId);
+      });
+      return null;
+    }, []);
 
     SizeConfig.init(context);
 
@@ -225,9 +217,10 @@ class ViewCard extends HookConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                cardController.getCardsResponse?.payload
-                                        ?.cards?[index].cardName ??
-                                    emptyString,
+                                cardController.cardModel?.cardName ?? '',
+                                // getCardsResponse?.payload
+                                //         ?.cards?[index].cardName ??
+                                //     emptyString,
                                 style: TextStyle(
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w800,
@@ -248,10 +241,9 @@ class ViewCard extends HookConsumerWidget {
                             emptyString,
                       ),
                       Text(
-                       
                         cardController.getCardsResponse?.payload?.cards?[index]
                                 .firstName ??
-                             emptyString,
+                            emptyString,
                         style: TextStyle(
                           fontFamily: 'Barlow',
                           fontWeight: FontWeight.w800,
