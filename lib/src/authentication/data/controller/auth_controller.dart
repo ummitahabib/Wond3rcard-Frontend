@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:convert';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -67,6 +68,7 @@ class AuthNotifier extends ChangeNotifier {
     _loading = state;
     if (mounted) notifyListeners();
   }
+
 
   final String? emailAddress = StorageUtil.getString(key: userEmail);
 
@@ -198,30 +200,34 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
+
+
+
+
+  PlatformFile? _selectedPhoto;
+
+  PlatformFile? get selectedPhoto => _selectedPhoto;
+
+  void setSelectedPhoto(PlatformFile? file) {
+    _selectedPhoto = file;
+    notifyListeners();
+  }
+
+  Future<void> pickImage(BuildContext context) async {
+    final result = await FilePicker.platform.pickFiles(
+      withData: true,
+      type: FileType.image,
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      final file = result.files.first;
+      setSelectedPhoto(file);
+    }
+  }
+
   Future<bool> signUp(BuildContext context) async {
-    String? base64Image;
     try {
       loadingSignup = true;
-
-      // Retrieve stored profile image path
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? storedImagePath = prefs.getString('profileImage');
-
-      if (storedImagePath != null && storedImagePath.isNotEmpty) {
-        if (kIsWeb) {
-          final Uint8List? imageBytes =
-              ref.read(onboardingProvider).uploadedImageBytes;
-          if (imageBytes != null) {
-            base64Image = base64Encode(imageBytes);
-          }
-        } else {
-          final File imageFile = File(storedImagePath);
-          final List<int> imageBytes = await imageFile.readAsBytes();
-          base64Image = base64Encode(imageBytes);
-        }
-      }
-
-      // Prepare signup data
       final SignUpRequest signupData = SignUpRequest(
         firstName: firstNameController.text.trim(),
         lastName: lastNameController.text.trim(),
@@ -232,7 +238,7 @@ class AuthNotifier extends ChangeNotifier {
         companyName: companyNameController.text.trim(),
         jobTitle: jobTitleController.text.trim(),
         mobileNumber: phoneNumberController.text.trim(),
-        profilePhoto: base64Image,
+        profilePhoto: selectedPhoto?.path,
         fcmToken: fcmToken,
       );
 
@@ -256,7 +262,9 @@ class AuthNotifier extends ChangeNotifier {
         return false;
       } else {
         clearControllers();
-        context.go(RouteString.otpVerification);
+        if (context.mounted) {
+          context.go(RouteString.otpVerification);
+        }
         return true;
       }
     } catch (e) {

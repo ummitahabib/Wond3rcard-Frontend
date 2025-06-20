@@ -1,4 +1,5 @@
 class ImageAssets {
+  static const String frameCard  = 'images/card_frame.png';
   static const String bgBlur = 'images/bg_blur.png';
   static const String cardBanner = 'images/card_banner.png';
   static const String profileBg = 'images/profile_bg.png';
@@ -41,4 +42,5 @@ class SvgAssets {
   static const String mobile = 'images/mobile.svg';
   static const String tablet = 'images/tablet.svg';
   static const String desktop = 'images/desktop.svg';
+    static const String frameCard = 'images/card_frame.svg';
 }

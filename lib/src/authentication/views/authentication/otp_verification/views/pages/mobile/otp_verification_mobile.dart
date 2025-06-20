@@ -86,6 +86,7 @@ class OtpVerificationMobile extends HookConsumerWidget {
                     text: enterWorkEmail,
                     hintText: enterYourEmailText,
                     textEditingController: authController.emailController,
+                    borderColor: AppColors.borderPrimary,
                   ),
                   SizedBox(
                     child: Row(

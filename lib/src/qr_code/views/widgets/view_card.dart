@@ -254,9 +254,10 @@ class ViewCard extends HookConsumerWidget {
                             emptyString,
                       ),
                       Text(
+                       
                         cardController.getCardsResponse?.payload?.cards?[index]
                                 .firstName ??
-                            emptyString,
+                             'ummeeta',
                         style: TextStyle(
                           fontFamily: 'Barlow',
                           fontWeight: FontWeight.w800,
@@ -267,7 +268,7 @@ class ViewCard extends HookConsumerWidget {
                       Text(
                         cardController.getCardsResponse?.payload?.cards?[index]
                                 .lastName ??
-                            emptyString,
+                            'habib',
                         style: TextStyle(
                           fontFamily: 'Barlow',
                           fontWeight: FontWeight.w600,

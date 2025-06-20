@@ -1,13 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
+import 'package:wond3rcard/src/cards/data/model/card_model.dart';
 import 'package:wond3rcard/src/physical_card/data/model/physical_card_model.dart';
 import 'package:wond3rcard/src/physical_card/data/repository/physical_card_repository.dart';
+import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
+import 'dart:developer';
 
-final physicalCardControllerProvider =
-    StateNotifierProvider<PhysicalCardController, AsyncValue<PhysicalCardModel?>>(
+final physicalCardControllerProvider = StateNotifierProvider<
+    PhysicalCardController, AsyncValue<PhysicalCardModel?>>(
   (ref) => PhysicalCardController(ref),
 );
 
-class PhysicalCardController extends StateNotifier<AsyncValue<PhysicalCardModel?>> {
+class PhysicalCardController
+    extends StateNotifier<AsyncValue<PhysicalCardModel?>> {
   final Ref ref;
 
   PhysicalCardController(this.ref) : super(const AsyncData(null));
@@ -38,9 +44,6 @@ class PhysicalCardController extends StateNotifier<AsyncValue<PhysicalCardModel?
   }
 }
 
-
-
-
 final physicalCardListControllerProvider = StateNotifierProvider<
     PhysicalCardListController, AsyncValue<List<PhysicalCardModel>>>((ref) {
   return PhysicalCardListController(ref);
@@ -54,31 +57,29 @@ class PhysicalCardListController
 
   Future<void> getPhysicalCards() async {
     try {
-      final cards = await ref.read(physicalCardRepositoryProvider)
-          .getPhysicalCards();
+      final cards =
+          await ref.read(physicalCardRepositoryProvider).getPhysicalCards();
       state = AsyncData(cards);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
 
-
-
-
-    Future<void> getPhysicalCardsByUserId(String userId) async {
+  Future<void> getPhysicalCardsByUserId(String userId) async {
     try {
-      final cards = await ref.read(physicalCardRepositoryProvider)
-          .getPhysicalCards();
+      final cards = await ref
+          .read(physicalCardRepositoryProvider)
+          .getPhysicalCardsByUserId(userId);
       state = AsyncData(cards);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
 
-
-    Future<void> getPhysicalCardsByCardId(String cardId) async {
+  Future<void> getPhysicalCardsByCardId(String cardId) async {
     try {
-      final cards = await ref.read(physicalCardRepositoryProvider)
+      final cards = await ref
+          .read(physicalCardRepositoryProvider)
           .getPhysicalCardsByCardId(cardId);
       state = AsyncData(cards);
     } catch (e, st) {
@@ -86,12 +87,6 @@ class PhysicalCardListController
     }
   }
 }
-
-
-
-
-
-
 
 final deletePhysicalCardControllerProvider =
     StateNotifierProvider<DeletehysicalCardController, AsyncValue<String>>(
@@ -116,4 +111,59 @@ class DeletehysicalCardController extends StateNotifier<AsyncValue<String>> {
   }
 }
 
+final fullCardListProvider =
+  StateNotifierProvider<FullCardListController, AsyncValue<List<CardModel>>>(
+    (ref) {
+  return FullCardListController(ref);
+});
 
+class FullCardListController
+  extends StateNotifier<AsyncValue<List<CardModel>>> {
+  final Ref ref;
+
+  FullCardListController(this.ref) : super(const AsyncLoading());
+  Future<void> loadCardsForUser(BuildContext context) async {
+    try {
+      final profileController = ref.read(profileProvider);
+
+      // Fetch user profile and extract userId
+      await profileController.getProfile(context);
+      final userId = profileController.profileData?.payload.user.id ?? '';
+
+      if (userId.isEmpty) {
+        state = const AsyncData([]);
+        log('No userId found.');
+        return;
+      }
+
+      // Fetch physical cards for user
+      final physicalCards = await ref
+          .read(physicalCardRepositoryProvider)
+          .getPhysicalCardsByUserId(userId);
+
+      log('Physical cards: $physicalCards');
+
+      final cardIds = physicalCards
+          .map((e) => e.cardId.toString())
+          .where((id) => id.isNotEmpty)
+          .toList();
+
+      final cardRepo = ref.read(cardProvider);
+      final List<CardModel> detailedCards = [];
+
+      // Refactored: Remove BuildContext from getAUsersCard
+      for (final cardId in cardIds) {
+        final card = await cardRepo.getAUsersCard(context, cardId);
+        if (card != null) {
+          detailedCards.add(card);
+        }
+      }
+
+      log('Detailed cards: $detailedCards');
+      state = AsyncData(detailedCards);
+    } catch (e, st) {
+      log('Error loading cards: $e');
+      state = AsyncError(e, st);
+    }
+  }
+}

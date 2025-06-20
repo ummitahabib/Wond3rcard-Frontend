@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,33 @@ import 'package:wond3rcard/src/utils/storage_utils.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
-enum CardType { business, personal, organization }
+enum CardType { personal, teams, organization }
+
+extension CardTypeExtension on CardType {
+  static CardType fromName(String name) {
+    switch (name.toLowerCase()) {
+      case 'personal':
+        return CardType.personal;
+      case 'teams':
+        return CardType.teams;
+      case 'organization':
+        return CardType.organization;
+      default:
+        return CardType.personal;
+    }
+  }
+
+  String get name {
+    switch (this) {
+      case CardType.personal:
+        return 'Personal';
+      case CardType.teams:
+        return 'Teams';
+      case CardType.organization:
+        return 'Organization';
+    }
+  }
+}
 
 final cardProvider = ChangeNotifierProvider<CardNotifier>((ref) {
   return CardNotifier(ref);
@@ -62,8 +89,6 @@ class CardNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   GetCard? _card;
 
   GetCard? get card => _card;
@@ -72,9 +97,6 @@ class CardNotifier extends ChangeNotifier {
     _card = crd;
     notifyListeners();
   }
-
-
-
 
   GetCard? _getCardsResponse;
 
@@ -175,6 +197,30 @@ class CardNotifier extends ChangeNotifier {
     cardBackground.clear();
   }
 
+  void clearForm() {
+    firstName.clear();
+    lastName.clear();
+    middleName.clear();
+    suffix.clear();
+    contactInfoAddress.clear();
+    cardModel = null;
+  }
+
+  void clearFormStepTwo() {
+    contactInfoPhone.clear();
+    contactInfoWebsite.clear();
+    cardName.clear();
+    cardTypeController.clear();
+    selectedCardType = CardType.personal;
+  }
+
+  void clearStep3Fields() {
+    contactInfoEmail.clear();
+    position.clear();
+    notes.clear();
+    videoUrl.clear();
+  }
+
   Future<bool> createCard(
       BuildContext context, List<Map<String, dynamic>> socialMediaLinks) async {
     try {
@@ -245,6 +291,86 @@ class CardNotifier extends ChangeNotifier {
     return false;
   }
 
+//TODO: edit card not working properly need to be resolved
+
+  Future<bool> editCard(
+    BuildContext context,
+    List<Map<String, dynamic>> socialMediaLinks,
+  ) async {
+    try {
+      if (selectedPhoto == null) {
+        alert.showErrorToast(
+          message: "Please upload an image before editing the card.",
+        );
+        print("❌ Edit card failed: No card photo selected.");
+        return false;
+      }
+
+      final String? cardId = StorageUtil.getString(key: SessionString.userId);
+      final String? creatorId =
+          StorageUtil.getString(key: SessionString.userId);
+      final String? cardUniqueId =
+          StorageUtil.getString(key: SessionString.cardId);
+
+      String defaultColor = "#000000";
+      String validatedSecondaryColor =
+          cardBackground.text.isNotEmpty ? cardBackground.text : defaultColor;
+      String validatedTextColor =
+          textColor.text.isNotEmpty ? textColor.text : defaultColor;
+
+      final CardModel updatedCard = CardModel(
+        cardType: cardType.text,
+        ownerId: cardId,
+        cardName: cardName.text,
+        suffix: suffix.text,
+        firstName: firstName.text,
+        middleName: middleName.text,
+        lastName: lastName.text,
+        dateOfBirth: dateOfBirth.text,
+        notes: notes.text,
+        address: contactInfoAddress.text,
+        designation: designation.text,
+        email: contactInfoEmail.text,
+        fontFamilyName: selectedFont,
+        fontSize: fontSize.text.isNotEmpty ? fontSize.text : "16",
+        fontStyle: fontStyle.text.isNotEmpty ? fontStyle.text : "normal",
+        fontWeight: fontWeight.text.isNotEmpty ? fontWeight.text : "normal",
+        organizationId: organizationId.text,
+        phone: contactInfoPhone.text,
+        primaryColor: selectedColor.value.toString(),
+        secondaryColor: validatedSecondaryColor,
+        textColor: validatedTextColor,
+        website: website.text,
+        socialMediaLinks: socialMediaLinks,
+        cardPhoto: selectedPhoto,
+        cardCoverPhoto: selectedPhoto,
+      );
+      final FormData formData = await updatedCard.toFormData();
+
+      loading = true;
+      final response =
+          await ref.read(cardRepositoryProvider).updateUserCard(formData);
+      loading = false;
+
+      if (response.hasError()) {
+        print('❌ API Error: ${response.error!.message}');
+        alert.showErrorToast(message: response.error!.message);
+      } else {
+        print("✅ Card updated successfully: ${updatedCard.cardName}");
+        cardModel = updatedCard;
+        clearControllers();
+        context.go(RouteString.mainDashboard);
+        return true;
+      }
+    } catch (e) {
+      loading = false;
+      print('❌ Edit card error: $e');
+      alert.showErrorToast(message: "An error occurred: ${e.toString()}");
+    }
+
+    return false;
+  }
+
   Future<List<GetCardsResponse>> getAllUsersCard() async {
     try {
       loading = true;
@@ -281,7 +407,7 @@ class CardNotifier extends ChangeNotifier {
         return cardModel;
       }
     } catch (e) {
-     // alert.showErrorToast(message: 'error occured here please check');
+      // alert.showErrorToast(message: 'error occured here please check');
       log('error occured here please check');
       loading = false;
       print(e);
@@ -305,7 +431,7 @@ class CardNotifier extends ChangeNotifier {
         return cardModel;
       }
     } catch (e) {
-       log( 'error occured here please check');
+      log('error occured here please check');
       // alert.showErrorToast(message: 'error occured here please check');
       loading = false;
       print(e);

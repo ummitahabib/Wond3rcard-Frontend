@@ -69,7 +69,7 @@ class PhysicalCardRepository {
       String userId) async {
     final token = StorageUtil.getString(key: SessionString.accessTokenString);
 
-    final response = await dio.get('phy-cards/physical/:$userId',
+    final response = await dio.get('phy-cards/physical/$userId',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -85,7 +85,7 @@ class PhysicalCardRepository {
       String cardId) async {
     final token = StorageUtil.getString(key: SessionString.accessTokenString);
 
-    final response = await dio.get('phy-cards/physical/:$cardId',
+    final response = await dio.get('phy-cards/physical/$cardId',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',

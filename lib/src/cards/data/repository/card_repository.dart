@@ -31,7 +31,6 @@ class CardRepository {
     headers = {
       'Authorization': 'Bearer $authToken',
     };
-    
 
     try {
       final response = await request.send();
@@ -46,28 +45,26 @@ class CardRepository {
     }
   }
 
-
-
-Future<RequestRes> createCard(FormData formData) async {
-  final String? authToken = StorageUtil.getString(key: SessionString.accessTokenString);
-  try {
-    final response = await _client.put(
-      getUrl(Endpoints.createCard),
-      data: formData,
-      options: Options(
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $authToken',
-        },
-      ),
-    );
-    return RequestRes(response: response);
-  } catch (e) {
-    return RequestRes(error: ErrorRes(message: e.toString()));
+  Future<RequestRes> createCard(FormData formData) async {
+    final String? authToken =
+        StorageUtil.getString(key: SessionString.accessTokenString);
+    try {
+      final response = await _client.put(
+        getUrl(Endpoints.createCard),
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $authToken',
+          },
+        ),
+      );
+      return RequestRes(response: response);
+    } catch (e) {
+      return RequestRes(error: ErrorRes(message: e.toString()));
+    }
   }
-}
-
 
   Future<RequestRes> createCardOrganization(
       Map<String, dynamic> requestBody) async {
@@ -124,6 +121,7 @@ Future<RequestRes> createCard(FormData formData) async {
     }
   }
 
+
   Future<RequestRes> viewCard(String cardId) async {
     final String? authToken =
         StorageUtil.getString(key: SessionString.accessTokenString);
@@ -143,18 +141,16 @@ Future<RequestRes> createCard(FormData formData) async {
     }
   }
 
-  Future<RequestRes> updateUserCard(Map<String, dynamic> requestBody) async {
+  Future<RequestRes> updateUserCard(FormData formData) async {
     final String? authToken =
         StorageUtil.getString(key: SessionString.accessTokenString);
     try {
-      print('Request body: $requestBody');
       final response = await _client.patch(
         getUrl(Endpoints.updateUserCard),
-        data: requestBody,
+        data: formData,
         options: Options(
           headers: {
-            'Content-type': 'application/json',
-            "Accept": "application/json",
+            'Accept': 'application/json',
             'Authorization': 'Bearer $authToken',
           },
         ),

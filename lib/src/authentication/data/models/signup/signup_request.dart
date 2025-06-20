@@ -2,7 +2,6 @@ import 'package:wond3rcard/src/authentication/data/models/login/input_model.dart
 import 'package:wond3rcard/src/utils/application_helpers.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:dio/dio.dart';
-
 class SignUpRequest {
   String? firstName;
   String? lastName;
@@ -14,8 +13,8 @@ class SignUpRequest {
   String? jobTitle;
   String? mobileNumber;
   String? fcmToken;
-  String? profilePhoto;
-  String? coverPhoto;
+  String? profilePhoto; // Now a String (base64 or URL)
+  String? coverPhoto;   // Now a String (base64 or URL)
 
   SignUpRequest({
     this.firstName,
@@ -35,7 +34,7 @@ class SignUpRequest {
   Map<String, dynamic> toJson() {
     return {
       'firstName': firstName ?? "",
-      'lastName': lastName,
+      'lastName': lastName ?? "",
       'otherName': otherName ?? "",
       'email': email ?? "",
       'workMail': workMail ?? "",
@@ -43,18 +42,20 @@ class SignUpRequest {
       'companyName': companyName ?? "",
       'jobTitle': jobTitle ?? "",
       'mobileNumber': mobileNumber ?? "",
-      'fcmToken': fcmToken,
-      'profilePhoto': profilePhoto ?? emptyString,
-      'coverPhoto': coverPhoto ?? emptyString
+      'fcmToken': fcmToken ?? "",
+      'profilePhoto': profilePhoto ?? "",
+      'coverPhoto': coverPhoto ?? "",
     };
   }
 
-  FormData toFormData() {
-    return FormData.fromMap(toJson());
+  // No need for file-to-multipart conversion anymore
+  Future<FormData> toFormData() async {
+    final map = Map<String, dynamic>.from(toJson());
+    return FormData.fromMap(map);
   }
 
   InputModel validateSignUpData() {
-    if (!ApplicationHelpers().isValidEmail(email!)) {
+    if (email == null || !ApplicationHelpers().isValidEmail(email!)) {
       return InputModel(error: AppStrings.inValidEmail, isValidInput: false);
     }
     return InputModel(error: "success", isValidInput: true);

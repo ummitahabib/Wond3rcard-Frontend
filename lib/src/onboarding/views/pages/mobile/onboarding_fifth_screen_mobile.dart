@@ -2,15 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/onboarding/views/widgets/continue_widget.dart';
-import 'package:wond3rcard/src/onboarding/views/widgets/detail_container.dart';
-import 'package:wond3rcard/src/onboarding/views/widgets/title_section.dart';
-import 'package:wond3rcard/src/utils/assets.dart';
-import 'package:wond3rcard/src/utils/size_constants.dart';
-import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
-import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:wond3rcard/src/admin/social_media/data/controller/social_media_controller.dart';
+import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/decoration_box.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingFifthScreenMobile extends StatefulHookConsumerWidget {
   const OnboardingFifthScreenMobile({super.key});
@@ -22,22 +17,36 @@ class OnboardingFifthScreenMobile extends StatefulHookConsumerWidget {
 
 class _OnboardingFifthScreenMobileState
     extends ConsumerState<OnboardingFifthScreenMobile> {
+  late final ValueNotifier<List<SocialMediaLink>> selectedLinks;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedLinks = ValueNotifier<List<SocialMediaLink>>([]);
+  }
+
+  @override
+  void dispose() {
+    selectedLinks.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveSocialMediaLinks(List<SocialMediaLink> links) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> socialMediaJsonList = links.map((link) {
+      // Only store image, name, and url
+      final url = '${link.media.baseUrl}${link.username.trim()}';
+      return {
+        'iconPath': link.media.iconPath,
+        'name': link.media.name,
+        'url': url,
+      }.toString();
+    }).toList();
+    await prefs.setStringList('social_media_links', socialMediaJsonList);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final socialController = ref.watch(socialProvider);
-
-    useEffect(
-      () {
-        Future.delayed(Duration.zero, () async {
-          try {
-            await ref.read(socialProvider).getSocialMedia(context);
-          } catch (error) {}
-        });
-        return null;
-      },
-      [],
-    );
-
     return Scaffold(
       backgroundColor: AppColors.grayScale50,
       body: SingleChildScrollView(
@@ -56,25 +65,26 @@ class _OnboardingFifthScreenMobileState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const TitleSection(),
-                    const SizedBox(
-                      height: SpacingConstants.size50,
+                    Text(
+                      'Connect your Socials',
+                      style: WonderCardTypography.boldTextH4(
+                        fontSize: SpacingConstants.size28,
+                        color: AppColors.grayScale,
+                      ),
                     ),
-                    socialController.loading
-                        ? const Center(child: CircularProgressIndicator())
-                        : socialController.socialMedias.isEmpty
-                            ? const Center(
-                                child: Text('No social media links found.'))
-                            : Container(),
+                    const SizedBox(height: SpacingConstants.size30),
+                    SocialMediaList(selectedLinks: selectedLinks),
                     const Spacer(),
                     ContinueWidget(
-                      showLoader: socialController.loading,
-                      onTap: () {
-                        context.go(RouteString.fourthScreen);
+                      showLoader: false,
+                      onTap: () async {
+                        await _saveSocialMediaLinks(selectedLinks.value);
+                        context.go(RouteString.previewCard);
                       },
                       buttonText: previewCardText,
                       textColor: AppColors.defaultWhite,
-                      onPress: () {
+                      onPress: () async {
+                        await _saveSocialMediaLinks(selectedLinks.value);
                         context.go(RouteString.previewCard);
                       },
                       bgColor: AppColors.primaryShade,
@@ -242,7 +252,7 @@ class SocialMediaLink {
           'iconUrl': media.iconPath,
           'name': media.name,
           'type': media.type,
-          'link': '${media.baseUrl}${username.trim()}', 
+          'link': '${media.baseUrl}${username.trim()}',
         },
         'username': username,
         'active': active,

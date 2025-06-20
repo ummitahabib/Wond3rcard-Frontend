@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop.dart';
+import 'package:wond3rcard/src/physical_card/data/controller/physical_card_controller.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
-import 'package:go_router/go_router.dart';
 
-class PhysicalCardWidget extends ConsumerWidget {
-   PhysicalCardWidget({super.key});
 
-  final String routeName = RouteString.physicalCard;
+class PhysicalCardWidget extends HookConsumerWidget {
+  PhysicalCardWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Load full card data on first build
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(fullCardListProvider.notifier).loadCardsForUser(context);
+      });
+      return null;
+    }, []);
+
+    final fullCardsAsync = ref.watch(fullCardListProvider);
+
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 'My orders',
                 style: TextStyle(
                   fontFamily: 'Barlow',
@@ -33,108 +39,106 @@ class PhysicalCardWidget extends ConsumerWidget {
                   fontSize: 18,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               SizedBox(
-                  width: 141,
-                  height: 40,
-                  child: WonderCardButton(
-                      leadingIcon: HeroIcon(
-                        HeroIcons.shoppingBag,
-                        color: AppColors.defaultWhite,
-                      ),
-                      backgroundColor: AppColors.primaryShade,
-                      textColor: AppColors.defaultWhite,
-                      text: 'View Cards',
-                      onPressed: () {
-                      context.go(RouteString.viewPhysicalCard);
-                      }))
+                width: 200,
+                height: 40,
+                child: WonderCardButton(
+                  backgroundColor: AppColors.primaryShade,
+                  textColor: AppColors.defaultWhite,
+                  text: 'Create Physical Card',
+                  onPressed: () {
+                      context.go(RouteString.availableDigitalCards);
+                  },
+                ),
+              )
             ],
           ),
         ),
-        
-        GestureDetector(
-          onTap: (){
-            context.go(RouteString.viewPhysicalCard);
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.all(16),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: AppColors.defaultWhite,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryShade,
-                        shape: BoxShape.circle,
-                      ),
+        fullCardsAsync.when(
+          loading: () => const CircularProgressIndicator(),
+          error: (e, st) => Text('Error loading cards: $e'),
+          data: (cards) {
+            if (cards.isEmpty) {
+              return const Text("No cards available.");
+            }
+
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: cards.length,
+              itemBuilder: (context, index) {
+                final card = cards[index];
+                return GestureDetector(
+                  onTap: () {
+                    context.go(RouteString.viewPhysicalCard);
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppColors.defaultWhite,
                     ),
-                    Positioned.fill(
-                      child: ClipOval(
-                        child: Image.network(
-                          ImageAssets.bgBlur,
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
+                    child: Row(
+                      children: [
+                        Stack(
+                          children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryShade,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Positioned.fill(
+                              child: ClipOval(
+                                child: Image.network(
+                                  ImageAssets.bgBlur,
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('Card name',
-                          style: WonderCardTypography.boldTextH5(
-                            fontSize: 23,
-                            color: AppColors.grayScale700,
-                          )),
-                      Text('Designation',
-                          style: WonderCardTypography.regularTextTitle2(
-                              fontSize: 16, color: AppColors.grayScale600)),
-                      Row(
-                        children: [
-                          Text(
-                            'Active',
-                            style: WonderCardTypography.boldTextTitle2(
-                                fontSize: size16, color: AppColors.success),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                card.cardName ?? 'Unknown Card',
+                                style: WonderCardTypography.boldTextH5(
+                                  fontSize: 23,
+                                  color: AppColors.grayScale700,
+                                ),
+                              ),
+                              Text(
+                                card.designation ?? 'No Designation',
+                                style: WonderCardTypography.regularTextTitle2(
+                                  fontSize: 16,
+                                  color: AppColors.grayScale600,
+                                ),
+                              ),
+                            ],
                           ),
-                          Switch.adaptive(value: true, onChanged: (bool) {})
-                        ],
-                      )
-                    ],
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          color: AppColors.grayScale600,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppColors.grayScale600,
-                )
-              ],
-            ),
-          ),
+                );
+              },
+            );
+          },
         ),
-     
-     
       ],
     );
   }

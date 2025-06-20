@@ -15,7 +15,7 @@ import 'package:wond3rcard/src/cards/views/widgets/home_address_widget.dart';
 import 'package:wond3rcard/src/cards/views/widgets/testimonies_widget.dart';
 import 'package:wond3rcard/src/onboarding/views/widgets/continue_widget.dart';
 import 'package:wond3rcard/src/preview_card/data/controller/preview_controller.dart';
-import 'package:wond3rcard/src/preview_card/views/pages/mobile/preview_card_mobile.dart';
+import 'package:wond3rcard/src/onboarding_preview_card/views/pages/mobile/onboarding_preview_card_mobile.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_model/profile.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
@@ -49,6 +49,14 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
     return savedUsername;
   }
 
+  void _navigateToEditCard(BuildContext context, String? cardId) {
+    if (cardId != null && cardId.isNotEmpty) {
+      context.go('${RouteString.createNewCard}?cardId=$cardId');
+    } else {
+      context.go(RouteString.createNewCard);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final profileController = ref.read(profileProvider);
@@ -74,6 +82,10 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
       [],
     );
 
+    // Get the card id for passing to the create card screen
+    final cardId =
+        cardController.getCardsResponse?.payload?.cards?[widget.index].id;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -96,21 +108,26 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                     width: isDesktop(context)
                         ? MediaQuery.of(context).size.width / 4
                         : MediaQuery.of(context).size.width,
-                    child: _cardDetails(
-                        context, profileController, cardController, profile),
+                    child: _cardDetails(context, profileController,
+                        cardController, profile, cardId),
                   ),
                 )
               : Container(
                   color: AppColors.grayScale50,
                   width: MediaQuery.of(context).size.width,
-                  child: _cardDetails(
-                      context, profileController, cardController, profile),
+                  child: _cardDetails(context, profileController,
+                      cardController, profile, cardId),
                 )),
     );
   }
 
-  Column _cardDetails(BuildContext context, ProfileNotifier profileController,
-      CardNotifier cardController, Profile? profile) {
+  Column _cardDetails(
+    BuildContext context,
+    ProfileNotifier profileController,
+    CardNotifier cardController,
+    Profile? profile,
+    String? cardId,
+  ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -301,7 +318,8 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                                     ?.payload
                                     ?.cards?[widget.index]
                                     .socialMediaLinks ??
-                                []),
+                                []
+                                ),
                       ],
                     ),
                   )),
@@ -334,12 +352,8 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                 buttonText: editCard,
                 textColor: AppColors.defaultWhite,
                 bgColor: AppColors.primaryShade,
-                onTap: () {
-                  context.go(RouteString.editCardScreen);
-                },
-                onPress: () {
-                  context.go(RouteString.editCardScreen);
-                },
+                onTap: () => _navigateToEditCard(context, cardId),
+                onPress: () => _navigateToEditCard(context, cardId),
               ),
             ],
           ),

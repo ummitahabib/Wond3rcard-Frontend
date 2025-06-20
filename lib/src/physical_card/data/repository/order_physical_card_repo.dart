@@ -16,7 +16,7 @@ class OrderPhysicalCardRepository {
     required String region,
     required String address,
   }) async {
-     final token = StorageUtil.getString(key: SessionString.accessTokenString);
+    final token = StorageUtil.getString(key: SessionString.accessTokenString);
 
     final response = await dio.post(
       'https://wond3rcard-backend.onrender.com/api/card-orders/create',
@@ -29,11 +29,11 @@ class OrderPhysicalCardRepository {
         "address": address,
       },
       options: Options(
-       headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
       ),
     );
 
@@ -44,31 +44,27 @@ class OrderPhysicalCardRepository {
     }
   }
 
-
-
   Future<List<Map<String, dynamic>>> getOrderByUserId(String userId) async {
-     final token = StorageUtil.getString(key: SessionString.accessTokenString);
+    final token = StorageUtil.getString(key: SessionString.accessTokenString);
 
-  final response = await dio.get(
-    'https://wond3rcard-backend.onrender.com/api/card-orders/user/:$userId/orders',
-  options: Options(
-       headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
+    final response = await dio.get(
+      'https://wond3rcard-backend.onrender.com/api/card-orders/user/$userId/orders',
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
       ),
-  );
+    );
 
-  if (response.statusCode == 200) {
-    final List<dynamic> data = response.data['payload'];
-    return data.cast<Map<String, dynamic>>();
-  } else {
-    throw Exception(response.data['message'] ?? 'Failed to fetch orders');
+    if (response.statusCode == 200) {
+      final List<dynamic> data = response.data['payload'];
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception(response.data['message'] ?? 'Failed to fetch orders');
+    }
   }
-}
-
-
 
   Future<Map<String, dynamic>> updateOrderStatus({
     required String orderId,

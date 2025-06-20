@@ -180,15 +180,13 @@ class CardsTemplate1 extends HookConsumerWidget {
   }
 }
 
-
-
 class CardsTemplate5 extends HookConsumerWidget {
   const CardsTemplate5({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SizeConfig.init(context);
-  final selectedCard = ref.watch(selectedCardProvider);
+    final selectedCard = ref.watch(selectedCardProvider);
     final profileController = ref.watch(profileProvider);
 
     if (selectedCard == null) {
@@ -232,7 +230,7 @@ class CardsTemplate5 extends HookConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.network(
-                         selectedCard.cardPictureUrl ??    ImageAssets.profile,
+                            selectedCard.cardPictureUrl ?? ImageAssets.profile,
                             width: SizeConfig.w(24),
                             height: SizeConfig.h(24),
                           ),
@@ -245,6 +243,16 @@ class CardsTemplate5 extends HookConsumerWidget {
                               fontWeight: FontWeight.w800,
                               fontSize: 14,
                               color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.h(6)),
+                          Text(
+                            '${selectedCard.firstName ?? emptyString} ${selectedCard.lastName ?? emptyString}',
+                            // softWrap: true,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color(0xff3B82F6),
                             ),
                           ),
                           SizedBox(height: SizeConfig.h(6)),
@@ -280,17 +288,7 @@ class CardsTemplate5 extends HookConsumerWidget {
                         //    mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Card Holder Name',
-                            // softWrap: true,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Color(0xff3B82F6),
-                            ),
-                          ),
-                          SizedBox(height: SizeConfig.h(6)),
-                          Text(
-                            'Designation',
+                            'Address',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
@@ -303,11 +301,20 @@ class CardsTemplate5 extends HookConsumerWidget {
                           ),
                           SizedBox(height: SizeConfig.h(5)),
                           viewPhysicalCardChildren(
-                              icon: HeroIcons.phone, text: '000-123-456-7890'),
+                            icon: HeroIcons.phone,
+                            text:
+                                selectedCard.contactInfo?.phone ?? emptyString,
+                          ),
                           viewPhysicalCardChildren(
-                              icon: HeroIcons.envelope, text: 'user@gmail.com'),
+                            icon: HeroIcons.envelope,
+                            text:
+                                selectedCard.contactInfo?.email ?? emptyString,
+                          ),
                           viewPhysicalCardChildren(
-                              icon: HeroIcons.mapPin, text: '125 Street, USA'),
+                            icon: HeroIcons.mapPin,
+                            text:
+                                '${selectedCard.contactInfo?.addresses ?? emptyString}',
+                          ),
                         ],
                       ),
                     ),
@@ -315,6 +322,8 @@ class CardsTemplate5 extends HookConsumerWidget {
                 ],
               ),
             ),
+        
+        
           ],
         ),
       ),
@@ -354,8 +363,6 @@ class CardsTemplate5 extends HookConsumerWidget {
     );
   }
 }
-
-
 
 class CardsTemplate2 extends HookConsumerWidget {
   const CardsTemplate2({super.key});
@@ -398,6 +405,9 @@ class CardsTemplate2 extends HookConsumerWidget {
               fit: BoxFit.cover,
             ),
             // Content Overlay
+           
+           
+           
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Row(
@@ -473,6 +483,9 @@ class CardsTemplate2 extends HookConsumerWidget {
                 ],
               ),
             ),
+        
+        
+        
           ],
         ),
       ),

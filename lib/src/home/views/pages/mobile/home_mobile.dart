@@ -5,6 +5,7 @@ import 'package:wond3rcard/src/home/views/widgets/name_and_job.dart';
 import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/utils/util.dart';
+
 class HomeMobile extends HookConsumerWidget {
   const HomeMobile({super.key});
   @override
@@ -20,6 +21,7 @@ class HomeBody extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    SizeConfig.init(context);
     useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -56,39 +58,51 @@ class HomeBody extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Center(
-                    child: Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
+                  Stack(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
+                        child: Image.asset(
+                          ImageAssets.frameCard,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
                         ),
                       ),
-                      width: 357,
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: const BoxDecoration(
-                              color: AppColors.primaryShade,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 10,
-                              ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 50, right: 50,),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  userProfileImage(height: 65, width: 65),
+                                  Container(
+                                    width: SizeConfig.w(65) +
+                                        (4.62 * 2), 
+                                    height: SizeConfig.h(65) + (4.62 * 2),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors
+                                            .white, 
+                                        width: 4.62,
+                                      ),
+                                    ),
+                                    child: CircleAvatar(
+                                      radius: 65 / 2,
+                                      backgroundImage: NetworkImage(
+                                        profile?.profileUrl ??
+                                            defaultProfileImage,
+                                      ), 
+                                      backgroundColor:
+                                          Colors.grey, 
+                                    ),
+                                  ),
+                                  Spacer(),
                                   connectText(
                                       text: profile?.connections.length
                                               .toString() ??
@@ -96,49 +110,25 @@ class HomeBody extends HookConsumerWidget {
                                 ],
                               ),
                             ),
-                          ),
-                          Container(
-                            decoration: const BoxDecoration(
-                              color: AppColors.defaultWhite,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                              ),
+                          
+                          SizedBox(height: SizeConfig.h(16)),
+                            
+                           Padding(
+                              padding: EdgeInsets.only(left: SizeConfig.h(112)),
+                              child: NameAndJob(),
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 20),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Spacer(),
-                                      NameAndJob(),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    personalProfileTag(),
-                                    qrCodeContainer(),
-                                  ],
-                                ),
+                                personalProfileTag(),
+                                qrCodeContainer(),
                               ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(height: 20),
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

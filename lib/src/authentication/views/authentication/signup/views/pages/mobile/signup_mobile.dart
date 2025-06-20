@@ -187,10 +187,10 @@ class SignUpTextFields extends StatelessWidget {
             onTap: () {
               context.go(RouteString.logIn);
             },
-            buttonText: signUpText,
+            buttonText: continueText,
             bgColor: AppColors.grayScale200,
             onPress: () {
-              authController.signUp(context);
+              context.go(RouteString.uploadPhoto);
             },
           ),
         ],

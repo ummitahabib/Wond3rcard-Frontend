@@ -5,6 +5,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/card.dart';
+import 'package:wond3rcard/src/contact/data/controller/contact_controller.dart';
 import 'package:wond3rcard/src/home/data/controller/home_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/button/wonder_card_button.dart';
@@ -17,8 +20,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 Container upgradeButton(BuildContext context) {
   return Container(
-    padding: EdgeInsets.all(10),
-    margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: AppColors.primaryShade,
           borderRadius: BorderRadius.circular(size25)),
@@ -63,8 +66,7 @@ Widget qrCodeContainer({
 }) {
   return GestureDetector(
     onTap: onTap,
-    child: 
-    Container(
+    child: Container(
       padding: const EdgeInsetsDirectional.all(6.6),
       width: SpacingConstants.size40,
       height: SpacingConstants.size40,
@@ -80,65 +82,63 @@ Widget qrCodeContainer({
         color: iconColor ?? AppColors.badgeColor,
       ),
     ),
- 
- 
   );
 }
 
 Widget recentConnection(BuildContext context) {
   return Container(
-    padding: const EdgeInsets.all(10),
-    margin: const EdgeInsets.all(10),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(size25),
-        color: AppColors.defaultWhite),
-    child: Container()
-    //  Column(
-    //   mainAxisAlignment: MainAxisAlignment.start,
-    //   crossAxisAlignment: CrossAxisAlignment.start,
-    //   mainAxisSize: MainAxisSize.min,
-    //   children: [
-    //     const Text(
-    //       'Recent Connected',
-    //       style: TextStyle(
-    //         color: AppColors.grayScale500,
-    //         fontFamily: 'Inter',
-    //         fontSize: 12,
-    //         fontWeight: FontWeight.w700,
-    //       ),
-    //     ),
-    //     const SizedBox(
-    //       height: 8,
-    //     ),
-    //     Row(
-    //       mainAxisAlignment: MainAxisAlignment.start,
-    //       mainAxisSize: MainAxisSize.min,
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         Expanded(
-    //           child: userProfileImage(
-    //           ),
-    //         ),
-    //         Expanded(
-    //           child: Text(
-    //             'ummeeta',
-    //             style: WonderCardTypography.boldTextTitleBold(
-    //               color: AppColors.grayScale,
-    //               fontSize: SpacingConstants.size13,
-    //             ),
-    //           ),
-    //         ),
-    //          Expanded(
-    //            child: HeroIcon(
-    //             HeroIcons.ellipsisVertical,
-    //             color: AppColors.grayScale,
-    //                        ),
-    //          )
-    //       ],
-    //     ),
-    //   ],
-    // ),
-  );
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(size25),
+          color: AppColors.defaultWhite),
+      child: Container()
+      //  Column(
+      //   mainAxisAlignment: MainAxisAlignment.start,
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   mainAxisSize: MainAxisSize.min,
+      //   children: [
+      //     const Text(
+      //       'Recent Connected',
+      //       style: TextStyle(
+      //         color: AppColors.grayScale500,
+      //         fontFamily: 'Inter',
+      //         fontSize: 12,
+      //         fontWeight: FontWeight.w700,
+      //       ),
+      //     ),
+      //     const SizedBox(
+      //       height: 8,
+      //     ),
+      //     Row(
+      //       mainAxisAlignment: MainAxisAlignment.start,
+      //       mainAxisSize: MainAxisSize.min,
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       children: [
+      //         Expanded(
+      //           child: userProfileImage(
+      //           ),
+      //         ),
+      //         Expanded(
+      //           child: Text(
+      //             'ummeeta',
+      //             style: WonderCardTypography.boldTextTitleBold(
+      //               color: AppColors.grayScale,
+      //               fontSize: SpacingConstants.size13,
+      //             ),
+      //           ),
+      //         ),
+      //          Expanded(
+      //            child: HeroIcon(
+      //             HeroIcons.ellipsisVertical,
+      //             color: AppColors.grayScale,
+      //                        ),
+      //          )
+      //       ],
+      //     ),
+      //   ],
+      // ),
+      );
 }
 
 Container rectangleCardWidget() {
@@ -307,18 +307,21 @@ SingleChildScrollView addCardMainRowWidget(BuildContext context) {
   );
 }
 
-Container userProfileImage({
+Widget userProfileImage({
   double? width,
   double? height,
   double? imageWidth,
   double? imageHeight,
   String? image,
 }) {
-  return 
-  Container(
+  return Container(
     width: width ?? 94,
     height: height ?? 94,
     decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(image ?? ImageAssets.profile),
+          fit: BoxFit.cover,
+        ),
         boxShadow: const [
           BoxShadow(
             color: Color(0x0F000000),
@@ -339,14 +342,7 @@ Container userProfileImage({
         ],
         borderRadius: BorderRadius.circular(SpacingConstants.size100),
         border: Border.all(width: 4, color: AppColors.defaultWhite)),
-    child: Image.network(
-      image ?? ImageAssets.profile,
-      fit: BoxFit.cover,
-      width: imageWidth ?? 94,
-      height: imageHeight ?? 94,
-    ),
   );
-
 }
 
 Center headerContainer() {
@@ -384,40 +380,32 @@ class UserProfile {
   });
 }
 
-final List<UserProfile> userProfiles = [
-  UserProfile(
-    profilePhoto: 'images/behance.png',
-    name: 'Umme',
-    address: 'Kaduna Nigeria',
-  ),
-  UserProfile(
-    profilePhoto: 'images/behance.png',
-    name: 'John',
-    address: 'Lagos Nigeria',
-  ),
-  UserProfile(
-    profilePhoto: 'images/behance.png',
-    name: 'Jane',
-    address: 'Abuja Nigeria',
-  ),
-];
-Widget stackAvatar(List<UserProfile> userProfiles) {
+Widget stackAvatar(List<SocialMediaLink> socialLinks) {
   return SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: SizedBox(
-      height: 40, 
-      width: (userProfiles.length * 30.0) + 15,
+      height: 40,
+      width: (socialLinks.length * 30.0) + 15,
       child: Stack(
-        children: List.generate(userProfiles.length, (index) {
+        children: List.generate(socialLinks.length, (index) {
+          final link = socialLinks[index];
+          // Assuming SocialMediaLink has a 'photoUrl' property
           return Positioned(
-            left: index * 25.0, 
+            left: index * 25.0,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(SpacingConstants.size100),
               child: Image.network(
-                userProfiles[index].profilePhoto,
+                link.media?.iconUrl ??
+                    ImageAssets.profile, // fallback to default if null
                 width: 40,
                 height: 40,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Image.asset(
+                  ImageAssets.profile,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           );
@@ -427,54 +415,79 @@ Widget stackAvatar(List<UserProfile> userProfiles) {
   );
 }
 
-
-class RecentConnectionWidget extends StatelessWidget {
+class RecentConnectionWidget extends HookConsumerWidget {
   const RecentConnectionWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: AppColors.defaultWhite,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 0, left: 15),
-              child: Text(
-                'Recent Connect',
-                style: TextStyle(
-                  color: AppColors.grayScale500,
-                  fontFamily: 'Inter',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileController = ref.watch(profileProvider);
+    final userId = profileController.profileData?.payload.user.id ?? '';
+    final contactsAsync = ref.watch(contactsControllerProvider(userId));
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (profileController.profileData == null) {
+          await profileController.getProfile(context);
+        }
+        final uId = profileController.profileData?.payload.user.id ?? '';
+        await ref.read(contactsControllerProvider(uId).future);
+      });
+      return null;
+    }, []);
+
+    return contactsAsync.when(
+      data: (contacts) {
+        final recentConnections = (contacts ?? []).take(4).toList();
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: AppColors.defaultWhite,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 15, bottom: 0, left: 15),
+                child: Text(
+                  'Recent Connect',
+                  style: TextStyle(
+                    color: AppColors.grayScale500,
+                    fontFamily: 'Inter',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 150,
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 4,
+                itemCount: recentConnections.length,
                 itemBuilder: (context, index) {
+                  final connection = recentConnections[index];
+                  final name = connection.firstname ?? 'Unknown';
+                  final photoUrl = connection.profileUrl ?? ImageAssets.profile;
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        userProfileImage(width: 30, height: 30),
-                        Text(
-                          truncateName('username$index'),
-                          style: WonderCardTypography.boldTextTitleBold(
-                            color: AppColors.grayScale,
-                            fontSize: SpacingConstants.size13,
+                        userProfileImage(
+                            width: 30, height: 30, image: photoUrl),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              truncateName(name),
+                              style: WonderCardTypography.boldTextTitleBold(
+                                color: AppColors.grayScale,
+                                fontSize: SpacingConstants.size13,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                         const HeroIcon(
@@ -486,38 +499,54 @@ class RecentConnectionWidget extends StatelessWidget {
                   );
                 },
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Failed to load connections')),
     );
   }
 
   String truncateName(String name) {
-    return name.length > 6 ? '${name.substring(0, 6)}..' : name;
+    return name.length > 10 ? '${name.substring(0, 10)}..' : name;
   }
 }
 
 class ConnectionsMedia extends HookConsumerWidget {
   const ConnectionsMedia({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileController = ref.read(profileProvider);
+    final profileController = ref.watch(profileProvider);
     final profile = profileController.profileData?.payload.profile;
-    final user = profileController.profileData?.payload.user;
-    useEffect(
-      () {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-          if (profileController.profileData == null) {
-            Future.delayed(Duration.zero, () async {
-              await profileController.getProfile(context);
-            });
-          }
-        });
-        return null;
-      },
-      [],
-    );
+    final cardController = ref.watch(cardProvider);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (profileController.profileData == null) {
+          await profileController.getProfile(context);
+          await ref.read(cardProvider).getAUsersCard(
+                context,
+                cardController.getCardsResponse?.payload?.cards?.isNotEmpty ==
+                        true
+                    ? cardController
+                            .getCardsResponse!.payload!.cards!.first.id ??
+                        ''
+                    : '',
+              );
+        }
+      });
+      return null;
+    }, []);
+
+    // Get the first card's social media links, or an empty list if not available
+    final socialLinks =
+        cardController.getCardsResponse?.payload?.cards?.isNotEmpty == true
+            ? cardController
+                    .getCardsResponse!.payload!.cards!.first.socialMediaLinks ??
+                []
+            : [];
 
     return SingleChildScrollView(
       child: Column(
@@ -526,19 +555,20 @@ class ConnectionsMedia extends HookConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(size25),
-                color: AppColors.defaultWhite),
+              borderRadius: BorderRadius.circular(size25),
+              color: AppColors.defaultWhite,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                stackAvatar(userProfiles),
+                stackAvatar(socialLinks.cast<SocialMediaLink>()),
                 Text(
-                  '${profile!.connections.length}',
+                  '${profile?.connections.length ?? 0}',
                   style: const TextStyle(
                     color: AppColors.grayScale,
                     fontFamily: 'Barlow',
@@ -554,15 +584,16 @@ class ConnectionsMedia extends HookConsumerWidget {
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
-                )
+                ),
               ],
             ),
           ),
           GestureDetector(
-            onTap:(){
+            onTap: () {
               context.go(RouteString.userQrCode);
-            },    
-           child:  upgradeButton(context))
+            },
+            child: upgradeButton(context),
+          ),
         ],
       ),
     );

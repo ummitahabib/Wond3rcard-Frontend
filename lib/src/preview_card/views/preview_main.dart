@@ -13,7 +13,7 @@ class PreviewCardMainScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const AppResponsive(
+    return  AppResponsive(
       desktop: PreviewCardScreenDesktop(),
       mobile: PreviewCardScreenMobile(),
       tablet: PreviewCardScreenTablet(),

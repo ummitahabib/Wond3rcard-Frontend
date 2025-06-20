@@ -212,8 +212,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wond3rcard/src/admin/admin_cards/views/card_table.dart';
-import 'package:wond3rcard/src/admin/admin_user_management/views/pages/admin_user_management.dart';
 import 'package:wond3rcard/src/analytics/views/widgets/selected_card_analytics.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/change_password/views/reset_password_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/delete_account/delete_account.dart';
@@ -221,26 +219,22 @@ import 'package:wond3rcard/src/authentication/views/authentication/forgot_passwo
 import 'package:wond3rcard/src/authentication/views/authentication/login/views/pages/login_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/otp_verification/views/pages/otp_verification_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/reset_password/views/reset_password_main.dart';
+import 'package:wond3rcard/src/authentication/views/authentication/signup/views/pages/mobile/signup_upload_photo.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/signup/views/signup_main.dart';
 import 'package:wond3rcard/src/authentication/views/authentication/two_fa_authentication/views/pages/two_fa_main.dart';
 import 'package:wond3rcard/src/base_dashboard/views/base_dashboard.dart';
 import 'package:wond3rcard/src/cards/views/pages/cards_main.dart';
+import 'package:wond3rcard/src/cards/views/pages/mobile/edit_card/edit_card.dart';
 import 'package:wond3rcard/src/cards/views/pages/mobile/order_physical_card.dart';
 import 'package:wond3rcard/src/cards/views/pages/mobile/physical_card_screen.dart';
 import 'package:wond3rcard/src/cards/views/pages/mobile/view_physical_card_screen.dart';
 import 'package:wond3rcard/src/cards/views/widgets/card_details.dart';
-import 'package:wond3rcard/src/cards/views/widgets/card_layout.dart';
-import 'package:wond3rcard/src/cards/views/widgets/card_layout_1.dart';
-import 'package:wond3rcard/src/cards/views/widgets/card_layout_2.dart';
-import 'package:wond3rcard/src/cards/views/widgets/card_layout_3.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_five.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_four.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_three.dart';
 import 'package:wond3rcard/src/cards/views/widgets/create_new_card_step_two.dart';
-import 'package:wond3rcard/src/cards/views/widgets/font_widget.dart';
 import 'package:wond3rcard/src/cards/views/widgets/main_card_widget.dart';
-import 'package:wond3rcard/src/contact/views/invitation.dart';
 import 'package:wond3rcard/src/contact/views/pages/add_contact_page.dart';
 import 'package:wond3rcard/src/contact/views/pages/connection_screen.dart';
 import 'package:wond3rcard/src/contact/views/pages/contacts_page.dart';
@@ -253,10 +247,10 @@ import 'package:wond3rcard/src/onboarding/views/onboarding_fourth_screen.dart';
 import 'package:wond3rcard/src/onboarding/views/onboarding_main.dart';
 import 'package:wond3rcard/src/onboarding/views/onboarding_second_screen_main.dart';
 import 'package:wond3rcard/src/onboarding/views/onboarding_third_screen_main.dart';
-import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_fourth_screen_desktop.dart';
-import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_second_screen_desktop.dart';
-import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_third_screen_desktop.dart';
 import 'package:wond3rcard/src/onboarding/views/widgets/get_started_onboarding_screen.dart';
+import 'package:wond3rcard/src/onboarding_preview_card/views/onboarding_preview_main.dart';
+import 'package:wond3rcard/src/physical_card/views/screens/available_digital_card.dart';
+import 'package:wond3rcard/src/physical_card/views/screens/create_a_physical_card.dart';
 import 'package:wond3rcard/src/preview_card/views/preview_main.dart';
 import 'package:wond3rcard/src/privacy_security/views/privacy_security.dart';
 import 'package:wond3rcard/src/profile/views/edit_profile.dart';
@@ -268,7 +262,6 @@ import 'package:wond3rcard/src/profile/views/widgets/terms_and_condition.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/qr_code_scanner.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/view_card.dart';
-import 'package:wond3rcard/src/subscription/views/paystack_subscription.dart';
 import 'package:wond3rcard/src/subscription/views/widgets/plan_section.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
@@ -371,7 +364,14 @@ final GoRouter routerMobile = GoRouter(
           GoRoute(
             path: RouteString.previewCard,
             builder: (BuildContext context, GoRouterState state) {
-              return const PreviewCardMainScreen();
+              return const OnboardingPreviewMain();
+            },
+          ),
+          GoRoute(
+            path: RouteString.editCardScreen,
+            builder: (BuildContext context, GoRouterState state) {
+              final cardId = state.uri.queryParameters['cardId'];
+              return EditCardScreen(cardId: cardId);
             },
           ),
           GoRoute(
@@ -513,12 +513,6 @@ final GoRouter routerMobile = GoRouter(
             },
           ),
           GoRoute(
-            path: RouteString.upgradeSubscription,
-            builder: (BuildContext context, GoRouterState state) {
-              return SubscriptionPage();
-            },
-          ),
-          GoRoute(
             path: RouteString.subscriptionPlanSection,
             builder: (BuildContext context, GoRouterState state) {
               return PlanSection();
@@ -583,6 +577,36 @@ final GoRouter routerMobile = GoRouter(
               return QRScannerPage();
             },
           ),
+
+          GoRoute(
+            path: RouteString.uploadPhoto,
+            builder: (BuildContext context, GoRouterState state) {
+              return SignupUploadPhoto();
+            },
+          ),
+
+   
+
+          //AvailableDigitalCards
+          GoRoute(
+            path: RouteString.availableDigitalCards,
+            builder: (BuildContext context, GoRouterState state) {
+              return AvailableDigitalCards();
+            },
+          ),
+
+     GoRoute(
+  path: RouteString.createPhysicalCard,
+  builder: (BuildContext context, GoRouterState state) {
+    final data = state.extra as Map<String, dynamic>?;
+
+    return CreatePhysicalCardScreenSection(
+      userId: data?['userId'] ?? '',
+      cardId: data?['cardId'] ?? '',
+    );
+  },
+),
+
         ]),
   ],
 );

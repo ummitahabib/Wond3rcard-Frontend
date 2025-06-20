@@ -58,6 +58,7 @@ import 'package:wond3rcard/src/onboarding/views/pages/desktop/onboarding_third_s
 import 'package:wond3rcard/src/organization/views/pages/get_user_organization.dart';
 import 'package:wond3rcard/src/physical_card/views/screens/order_physical_card_screen.dart';
 import 'package:wond3rcard/src/physical_card/views/screens/payment_success_page.dart';
+import 'package:wond3rcard/src/onboarding_preview_card/views/onboarding_preview_main.dart';
 import 'package:wond3rcard/src/preview_card/views/preview_main.dart';
 import 'package:wond3rcard/src/privacy_security/views/privacy_security.dart';
 import 'package:wond3rcard/src/profile/views/edit_profile.dart';
@@ -70,10 +71,15 @@ import 'package:wond3rcard/src/qr_code/views/widgets/share_card_list.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
+
+
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
-final GlobalKey<NavigatorState> _shellNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shell');
+final GlobalKey<NavigatorState> _userShellNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'user-shell');
+
+final GlobalKey<NavigatorState> _adminShellNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'admin-shell');
 
 final GoRouter routerDesktop = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -91,7 +97,7 @@ final GoRouter routerDesktop = GoRouter(
             },
           ),
           ShellRoute(
-            navigatorKey: _shellNavigatorKey,
+            navigatorKey: _userShellNavigatorKey,
             builder: (BuildContext context, GoRouterState state, Widget child) {
               return MainDashboard(child: child);
             },
@@ -224,15 +230,14 @@ final GoRouter routerDesktop = GoRouter(
                   return Container();
                 },
               ),
-
-                              GoRoute(
-            path: '${RouteString.selectedCardAnalyticsUser}/:index',
-            builder: (BuildContext context, GoRouterState state) {
-              final index =
-                  int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
-              return SelectCardAnalytics(index: index);
-            },
-          ),
+              GoRoute(
+                path: '${RouteString.selectedCardAnalyticsUser}/:index',
+                builder: (BuildContext context, GoRouterState state) {
+                  final index =
+                      int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
+                  return SelectCardAnalytics(index: index);
+                },
+              ),
               GoRoute(
                 path: RouteString.orderPhysicalCard,
                 builder: (BuildContext context, GoRouterState state) {
@@ -382,7 +387,7 @@ final GoRouter routerDesktop = GoRouter(
             ],
           ),
           ShellRoute(
-            navigatorKey: _shellNavigatorKey,
+            navigatorKey: _adminShellNavigatorKey,
             builder: (BuildContext context, GoRouterState state, Widget child) {
               return AdminDashBoardScreen(child: child);
             },
@@ -390,7 +395,7 @@ final GoRouter routerDesktop = GoRouter(
               GoRoute(
                 path: RouteString.baseDashboard,
                 builder: (BuildContext context, GoRouterState state) {
-                  return BaseDashBoard();
+                  return AdminDashBoardScreen();
                 },
               ),
               GoRoute(
@@ -533,55 +538,10 @@ final GoRouter routerDesktop = GoRouter(
               ),
             ],
           ),
-          GoRoute(
-            path: RouteString.baseDashboard,
-            builder: (BuildContext context, GoRouterState state) {
-              return BaseDashBoard();
-            },
-          ),
-          GoRoute(
-            path: '/admin-dashboard-desktop-view',
-            builder: (BuildContext context, GoRouterState state) {
-              return AdminDashboardDesktopView();
-            },
-          ),
-          GoRoute(
-            path: '/user-management',
-            builder: (BuildContext context, GoRouterState state) {
-              return AdminUserManagement();
-            },
-          ),
-          GoRoute(
-            path: '/analytics',
-            builder: (BuildContext context, GoRouterState state) {
-              return Container();
-            },
-          ),
-          GoRoute(
-            path: '/security',
-            builder: (BuildContext context, GoRouterState state) {
-              return Container();
-            },
-          ),
-          GoRoute(
-            path: '/admin-manage-flag',
-            builder: (BuildContext context, GoRouterState state) {
-              return OrderPhysicalCardPage();
-              // Container();
-            },
-          ),
-          GoRoute(
-            path: '/admin-settings',
-            builder: (BuildContext context, GoRouterState state) {
-              return Container();
-            },
-          ),
-          GoRoute(
-            path: '/add-user',
-            builder: (BuildContext context, GoRouterState state) {
-              return Container();
-            },
-          ),
+         
+         
+         
+         
           GoRoute(
             path: RouteString.firstScreenDesktop,
             builder: (BuildContext context, GoRouterState state) {
