@@ -27,10 +27,13 @@ class ViewCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cardController = ref.watch(cardProvider);
     final ExportDelegate exportDelegate = ExportDelegate();
+    final isLoading = useState(true);
+
     useEffect(() {
-     
-         ref.read(cardProvider).getAUsersCard(context, cardId);
-     
+      Future.microtask(() async {
+        await ref.read(cardProvider).getAUsersCard(context, cardId);
+        isLoading.value = false;
+      });
       return null;
     }, []);
 
@@ -181,157 +184,150 @@ class ViewCard extends HookConsumerWidget {
           onPressed: () => _showDownloadOptions(context),
         ),
       ),
-      body: ExportFrame(
-        frameId: 'card_frame',
-        exportDelegate: exportDelegate,
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.all(SizeConfig.w(10)),
-            margin: EdgeInsets.all(SizeConfig.w(10)),
-            child: Stack(
-              children: [
-                SvgPicture.asset(
-                  'images/horizontal_user_card_template.svg',
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
-                ),
-                Container(
+      body: isLoading.value
+          ? const Center(child: CircularProgressIndicator())
+          : ExportFrame(
+              frameId: 'card_frame',
+              exportDelegate: exportDelegate,
+              child: Center(
+                child: Container(
                   padding: EdgeInsets.all(SizeConfig.w(10)),
                   margin: EdgeInsets.all(SizeConfig.w(10)),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  child: Stack(
                     children: [
-                      Row(
-                        children: [
-                          Image.asset(ImageAssets.profile,
-                              width: SizeConfig.w(25),
-                              height: SizeConfig.h(25)),
-                          SizedBox(
-                            width: SizeConfig.w(10),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                cardController.cardModel?.cardName ?? '',
-                                // getCardsResponse?.payload
-                                //         ?.cards?[index].cardName ??
-                                //     emptyString,
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 25,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                      SvgPicture.asset(
+                        'images/horizontal_user_card_template.svg',
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.cover,
                       ),
-                      SizedBox(
-                        height: SizeConfig.h(30),
-                      ),
-                      CustomStyledContainer(
-                        image: cardController.getCardsResponse?.payload
-                                ?.cards?[index].cardPictureUrl ??
-                            emptyString,
-                      ),
-                      Text(
-                        cardController.getCardsResponse?.payload?.cards?[index]
-                                .firstName ??
-                            emptyString,
-                        style: TextStyle(
-                          fontFamily: 'Barlow',
-                          fontWeight: FontWeight.w800,
-                          fontSize: 30,
-                          color: Color(0xff6D41CA),
-                        ),
-                      ),
-                      Text(
-                        cardController.getCardsResponse?.payload?.cards?[index]
-                                .lastName ??
-                            emptyString,
-                        style: TextStyle(
-                          fontFamily: 'Barlow',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          color: Color(0xff212121),
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.h(20),
-                      ),
-                      Text(
-                        cardController.getCardsResponse?.payload?.cards?[index]
-                                .designation ??
-                            emptyString,
-                        style: TextStyle(
-                          fontFamily: 'Barlow',
-                          fontWeight: FontWeight.w900,
-                          fontSize: 35,
-                          color: AppColors.darkDisable,
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.w(10),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Expanded(
-                          //     child:
-                          //         ShareCardWithBarCode2(cardId: emptyString)),
-                          // SizedBox(
-                          //   height: SizeConfig.w(8),
-                          // ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
+                      Container(
+                        padding: EdgeInsets.all(SizeConfig.w(10)),
+                        margin: EdgeInsets.all(SizeConfig.w(10)),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
                               children: [
-                                viewCardRow(
-                                  HeroIcons.phone,
-                                  cardController.getCardsResponse?.payload
-                                          ?.cards?[index].contactInfo?.phone ??
-                                      emptyString,
-                                ),
+                                Image.asset(ImageAssets.profile,
+                                    width: SizeConfig.w(25),
+                                    height: SizeConfig.h(25)),
                                 SizedBox(
-                                  height: SizeConfig.h(5),
+                                  width: SizeConfig.w(10),
                                 ),
-                                viewCardRow(
-                                  HeroIcons.envelope,
-                                  cardController.getCardsResponse?.payload
-                                          ?.cards?[index].contactInfo?.email ??
-                                      emptyString,
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.h(5),
-                                ),
-                                viewCardRow(
-                                  HeroIcons.map,
-                                  '${cardController.getCardsResponse?.payload?.cards?[index].contactInfo?.addresses ?? emptyString}',
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      cardController.cardModel?.cardName ?? '',
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 25,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          )
-                        ],
+                            SizedBox(
+                              height: SizeConfig.h(30),
+                            ),
+                            CustomStyledContainer(
+                              image: cardController.getCardsResponse?.payload
+                                      ?.cards?[index].cardPictureUrl ??
+                                  emptyString,
+                            ),
+                            Text(
+                              cardController.getCardsResponse?.payload?.cards?[index]
+                                      .firstName ??
+                                  emptyString,
+                              style: TextStyle(
+                                fontFamily: 'Barlow',
+                                fontWeight: FontWeight.w800,
+                                fontSize: 30,
+                                color: Color(0xff6D41CA),
+                              ),
+                            ),
+                            Text(
+                              cardController.getCardsResponse?.payload?.cards?[index]
+                                      .lastName ??
+                                  emptyString,
+                              style: TextStyle(
+                                fontFamily: 'Barlow',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                                color: Color(0xff212121),
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.h(20),
+                            ),
+                            Text(
+                              cardController.getCardsResponse?.payload?.cards?[index]
+                                      .designation ??
+                                  emptyString,
+                              style: TextStyle(
+                                fontFamily: 'Barlow',
+                                fontWeight: FontWeight.w900,
+                                fontSize: 35,
+                                color: AppColors.darkDisable,
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.w(10),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      viewCardRow(
+                                        HeroIcons.phone,
+                                        cardController.getCardsResponse?.payload
+                                                ?.cards?[index].contactInfo?.phone ??
+                                            emptyString,
+                                      ),
+                                      SizedBox(
+                                        height: SizeConfig.h(5),
+                                      ),
+                                      viewCardRow(
+                                        HeroIcons.envelope,
+                                        cardController.getCardsResponse?.payload
+                                                ?.cards?[index].contactInfo?.email ??
+                                            emptyString,
+                                      ),
+                                      SizedBox(
+                                        height: SizeConfig.h(5),
+                                      ),
+                                      viewCardRow(
+                                        HeroIcons.map,
+                                        '${cardController.getCardsResponse?.payload?.cards?[index].contactInfo?.addresses ?? emptyString}',
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Spacer(),
+                          ],
+                        ),
                       ),
-                      Spacer(),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -380,34 +376,5 @@ class CustomStyledContainer extends StatelessWidget {
       radius: 20,
       child: Image.network(image),
     );
-
-    // Container(
-    //   width: SizeConfig.w(150),
-    //   height: SizeConfig.h(150),
-    //   decoration: BoxDecoration(
-    //     color: const Color(0xFFADADAD),
-    //     borderRadius: BorderRadius.circular(100),
-    //     border: Border.all(
-    //       color: Colors.white,
-    //       width: SizeConfig.w(3.32),
-    //     ),
-    //     boxShadow: const [
-    //       BoxShadow(
-    //         color: Color(0x1A000000),
-    //         offset: Offset(0, 0.55),
-    //         blurRadius: 1.66,
-    //       ),
-    //       BoxShadow(
-    //         color: Color(0x0F000000),
-    //         offset: Offset(0, 0.55),
-    //         blurRadius: 1.11,
-    //       ),
-    //     ],
-    //   ),
-    //   child: CircleAvatar(
-    //     radius: 20,
-    //     child: Image.network(image),
-    //   ),
-    // );
   }
 }
