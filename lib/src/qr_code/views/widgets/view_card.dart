@@ -28,9 +28,9 @@ class ViewCard extends HookConsumerWidget {
     final cardController = ref.watch(cardProvider);
     final ExportDelegate exportDelegate = ExportDelegate();
     useEffect(() {
-      Future.microtask(() async {
-        await ref.read(cardProvider).getAUsersCard(context, cardId);
-      });
+     
+         ref.read(cardProvider).getAUsersCard(context, cardId);
+     
       return null;
     }, []);
 
