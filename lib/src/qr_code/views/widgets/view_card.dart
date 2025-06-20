@@ -292,12 +292,12 @@ class ViewCard extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Expanded(
-                              child:
-                                  ShareCardWithBarCode2(cardId: emptyString)),
-                          SizedBox(
-                            height: SizeConfig.w(8),
-                          ),
+                          // Expanded(
+                          //     child:
+                          //         ShareCardWithBarCode2(cardId: emptyString)),
+                          // SizedBox(
+                          //   height: SizeConfig.w(8),
+                          // ),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
