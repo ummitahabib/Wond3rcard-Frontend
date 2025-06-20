@@ -103,15 +103,12 @@ class CardRepository {
   }
 
   Future<RequestRes> getAUsersCard(String cardId) async {
-    final String? authToken =
-        StorageUtil.getString(key: SessionString.accessTokenString);
     try {
       final response = await _client.get(
         getUrl('${Endpoints.getAUserCard}$cardId'),
         headers: {
           'Content-type': 'application/json',
           "Accept": "application/json",
-          'Authorization': 'Bearer',
         },
       );
       final cardResponse = GetCardsResponse.fromJson(response);
