@@ -451,18 +451,14 @@ class ViewCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileController = ref.watch(profileProvider);
+
     final cardController = ref.watch(cardProvider);
 
     final isDataLoading = useState(true);
 
     useEffect(() {
       Future.microtask(() async {
-        // Load profile data if missing
-        if (profileController.profileData == null) {
-          await ref.read(profileProvider).getProfile(context);
-        }
-
+   
         // Fetch user's card
         await ref.read(cardProvider).getAUsersCard(context, cardId);
 
