@@ -266,11 +266,3 @@ const String searchAndSelectLocationText = "Search & Select Location";
 const String defaultProfileImage =
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
 
-const String paystackPublicKey =
-    "pk_test_9b3e649b562be8e2de5c10872857d1979501d54b";
-const String payStackSecretKey =
-    "sk_test_9c6a1d8148156efac1739507c89f2b1c98efd125";
-const String stripePublickKey =
-    "pk_test_51PFN4fL7wGB45Nf6VG22jhkrLifN24J91EVnYeoXwf3PFFLzYGkytP8PwBh43hzVlJCO6YXvMtY2Girq5Zh2G8e7001WcnGOwy";
-const String stripeScretKey =
-    "sk_test_51PFN4fL7wGB45Nf6q3tUNZsQDTKI8pErRvvOc0xJxbzFfk2HwpZkaeUxniVUzZejaQALOTbI32pI4yQmyGtSi94x002qvoFtxS";
