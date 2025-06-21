@@ -372,66 +372,49 @@ class ViewCard extends ConsumerWidget {
   final String cardId;
   final int index;
 
-  const ViewCard({super.key, required this.cardId, required this.index});
+  const ViewCard({
+    super.key,
+    required this.cardId,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cachedCards = ref.watch(cachedCardsProvider);
-    GetCard? card;
-    try {
-      card = cachedCards.firstWhere(
-        (c) => c.payload?.cards?[index].id == cardId,
+
+    // Find the matching card (regardless of index)
+    final matchingCard = cachedCards
+        .expand((getCard) => getCard.payload?.cards ?? [])
+        .firstWhere(
+          (card) => card.id == cardId,
+          orElse: () => null,
+        );
+
+    if (matchingCard == null) {
+      return const Scaffold(
+        body: Center(
+          child: Text("Card not found in cache."),
+        ),
       );
-    } catch (e) {
-      card = null;
     }
 
     return Scaffold(
       appBar: AppBar(title: const Text("View Card")),
-      body: card != null
-          ? buildCardContent(card)
-          : FutureBuilder<GetCard>(
-              future: ref
-                  .read(cardProvider)
-                  .getAUsersCard(context, cardId)
-                  .then((value) {
-                if (value == null) throw Exception("Card not found");
-                return value;
-              }),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (!snapshot.hasData) {
-                  return const Center(child: Text("Failed to load card"));
-                }
-
-                // Optionally cache it now
-                final currentList = ref.read(cachedCardsProvider);
-                final exists = currentList.any((c) =>
-                    c.payload?.cards?[index].id ==
-                    snapshot.data!.payload?.cards?[index].id);
-                if (!exists) {
-                  ref.read(cachedCardsProvider.notifier).state = [
-                    ...currentList,
-                    snapshot.data!
-                  ];
-                }
-
-                return buildCardContent(snapshot.data!);
-              },
-            ),
+      body: buildCardContent(matchingCard),
     );
   }
 
   Widget buildCardContent(GetCard card) {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-              "Name: ${card.payload?.cards?[index].firstName} ${card.payload?.cards?[index].lastName}"),
+              "Name: ${card.payload?.cards?.first.firstName} ${card.payload?.cards?.first.lastName}"),
           Text(
-              "Email: ${card.payload?.cards?[index].contactInfo?.email ?? ''}"),
-          // Add more fields as needed
+              "Email: ${card.payload?.cards?.first.contactInfo?.email ?? 'N/A'}"),
+          Text(
+              "Phone: ${card.payload?.cards?.first.contactInfo?.phone ?? 'N/A'}"),
         ],
       ),
     );
