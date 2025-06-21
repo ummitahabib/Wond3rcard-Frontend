@@ -61,9 +61,8 @@ class ShareQrWidget extends HookConsumerWidget {
 
         // Save card to Hive box for caching
         if (fetchedCard != null) {
-          final box = await Hive.openBox('cardsBox');
-          // Use cardId as key, store the card object
-          await box.put(cardId, fetchedCard);
+        final box = await Hive.openBox<GetCard>('cardsBox');
+await box.put(cardId, fetchedCard);
 
           // Print all cached data for debugging
           print('Cached cards:');

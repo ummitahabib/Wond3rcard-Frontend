@@ -372,6 +372,97 @@ import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 // }
 
 
+// class ViewCard extends ConsumerWidget {
+//   final String cardId;
+//   final int index;
+
+//   const ViewCard({
+//     super.key,
+//     required this.cardId,
+//     required this.index,
+//   });
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     return FutureBuilder<GetCard?>(
+//       future: _loadCardFromHive(cardId),
+//       builder: (context, snapshot) {
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return const Scaffold(
+//             body: Center(child: CircularProgressIndicator()),
+//           );
+//         } else if (snapshot.hasError) {
+//           return Scaffold(
+//             backgroundColor: Colors.red,
+//             body: Center(child: Text('Error loading card: ${snapshot.error}')),
+//           );
+//         } else if (!snapshot.hasData || snapshot.data == null) {
+//           return const Scaffold(
+//             backgroundColor: Colors.pink,
+//             body: Center(child: Text('Card not found in cache')),
+//           );
+//         }
+
+//         final card = snapshot.data!;
+//         final cardList = card.payload?.cards ?? [];
+
+//         if (index < 0 || index >= cardList.length) {
+//           return const Scaffold(
+//             backgroundColor: Colors.purpleAccent,
+//             body: Center(child: Text('Invalid card index')),
+//           );
+//         }
+
+//         final cardData = cardList[index];
+
+//         return Scaffold(
+//           backgroundColor: Colors.green,
+//           appBar: AppBar(title: const Text("View Card")),
+//           body: Padding(
+//             padding: const EdgeInsets.all(16.0),
+//             child: Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text("Name: ${cardData.firstName} ${cardData.lastName}"),
+//                   Text("Email: ${cardData.contactInfo?.email ?? 'N/A'}"),
+//                   Text("Phone: ${cardData.contactInfo?.phone ?? 'N/A'}"),
+//                   const SizedBox(height: 20),
+//                   Text("Card Name: ${cardData.cardName ?? 'N/A'}"),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   /// Load a card from Hive using the card ID
+//   Future<GetCard?> _loadCardFromHive(String cardId) async {
+//     final box = await Hive.openBox<GetCard>('cardsBox');
+//     return box.get(cardId);
+//   }
+// }
+
+
+// class CustomStyledContainer extends StatelessWidget {
+//   const CustomStyledContainer({super.key, required this.image});
+
+//   final String image;
+//   @override
+//   Widget build(BuildContext context) {
+//     return CircleAvatar(
+//       radius: 20,
+//       child: Image.network(image),
+//     );
+//   }
+// }
+
+
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 class ViewCard extends ConsumerWidget {
   final String cardId;
   final int index;
@@ -391,22 +482,27 @@ class ViewCard extends ConsumerWidget {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
-        } else if (snapshot.hasError) {
+        }
+
+        if (snapshot.hasError) {
           return Scaffold(
             backgroundColor: Colors.red,
-            body: Center(child: Text('Error loading card: ${snapshot.error}')),
+            body: Center(
+              child: Text('Error loading card: ${snapshot.error}'),
+            ),
           );
-        } else if (!snapshot.hasData || snapshot.data == null) {
+        }
+
+        final card = snapshot.data;
+        if (card == null) {
           return const Scaffold(
             backgroundColor: Colors.pink,
             body: Center(child: Text('Card not found in cache')),
           );
         }
 
-        final card = snapshot.data!;
-        final cardList = card.payload?.cards ?? [];
-
-        if (index < 0 || index >= cardList.length) {
+        final cardList = card.payload?.cards;
+        if (cardList == null || index < 0 || index >= cardList.length) {
           return const Scaffold(
             backgroundColor: Colors.purpleAccent,
             body: Center(child: Text('Invalid card index')),
@@ -424,7 +520,7 @@ class ViewCard extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Name: ${cardData.firstName} ${cardData.lastName}"),
+                  Text("Name: ${cardData.firstName ?? ''} ${cardData.lastName ?? ''}"),
                   Text("Email: ${cardData.contactInfo?.email ?? 'N/A'}"),
                   Text("Phone: ${cardData.contactInfo?.phone ?? 'N/A'}"),
                   const SizedBox(height: 20),
@@ -438,23 +534,13 @@ class ViewCard extends ConsumerWidget {
     );
   }
 
-  /// Load a card from Hive using the card ID
   Future<GetCard?> _loadCardFromHive(String cardId) async {
     final box = await Hive.openBox<GetCard>('cardsBox');
-    return box.get(cardId);
-  }
-}
+    final raw = box.get(cardId);
 
+    // Debug print to help you verify structure
+    debugPrint('Raw card from Hive: $raw');
 
-class CustomStyledContainer extends StatelessWidget {
-  const CustomStyledContainer({super.key, required this.image});
-
-  final String image;
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 20,
-      child: Image.network(image),
-    );
+    return raw;
   }
 }
