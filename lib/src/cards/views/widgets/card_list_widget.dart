@@ -182,17 +182,16 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                               BorderRadius.circular(SpacingConstants.size100),
                           border: Border.all(
                               width: 4, color: AppColors.defaultWhite)),
-                      child: Container()
-                       //temp 
-                      //  CircleAvatar(
-                      //   radius: 40,
-                      //   backgroundColor: AppColors.defaultWhite,
-                      //   backgroundImage: NetworkImage(
-                      //     cardController.getCardsResponse?.payload
-                      //             ?.cards?[index].cardPictureUrl ??
-                      //         ImageAssets.profileImage,
-                      //   ),
-                      // ),
+                      child:
+                       CircleAvatar(
+                        radius: 40,
+                        backgroundColor: AppColors.defaultWhite,
+                        backgroundImage: NetworkImage(
+                          cardController.getCardsResponse?.payload
+                                  ?.cards?[index].cardPictureUrl ??
+                              ImageAssets.profileImage,
+                        ),
+                      ),
                     ),
                  
                     const Spacer(),
@@ -225,12 +224,11 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                         //temp 
-                        // personalProfileTag(
-                        //   text: cardController.getCardsResponse?.payload
-                        //           ?.cards?[index].cardType ??
-                        //       emptyString,
-                        // ),
+                        personalProfileTag(
+                          text: cardController.getCardsResponse?.payload
+                                  ?.cards?[index].cardType ??
+                              emptyString,
+                        ),
                         const Spacer(),
                         qrCodeContainer(onTap: () {
                           context.go(RouteString.shareCardLink);

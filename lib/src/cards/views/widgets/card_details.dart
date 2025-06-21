@@ -169,17 +169,16 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                         BorderRadius.circular(SpacingConstants.size100),
                     border:
                         Border.all(width: 4, color: AppColors.defaultWhite)),
-                child: Container()
-                //temp 
-                // CircleAvatar(
-                //   radius: 40,
-                //   backgroundColor: AppColors.defaultWhite,
-                //   backgroundImage: NetworkImage(
-                //     cardController.getCardsResponse?.payload
-                //             ?.cards?[widget.index].cardPictureUrl ??
-                //         emptyString,
-                //   ),
-                // ),
+                child: 
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: AppColors.defaultWhite,
+                  backgroundImage: NetworkImage(
+                    cardController.getCardsResponse?.payload
+                            ?.cards?[widget.index].cardPictureUrl ??
+                        emptyString,
+                  ),
+                ),
               ),
             )
           ],
@@ -317,35 +316,33 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                           ),
                         ),
 
-                         //temp 
-                        // SocialMediaSection(
-                        //     socialLinks: cardController
-                        //             .getCardsResponse
-                        //             ?.payload
-                        //             ?.cards?[widget.index]
-                        //             .socialMediaLinks ??
-                        //         []
-                        //         ),
+                        SocialMediaSection(
+                            socialLinks: cardController
+                                    .getCardsResponse
+                                    ?.payload
+                                    ?.cards?[widget.index]
+                                    .socialMediaLinks ??
+                                []
+                                ),
                       ],
                     ),
                   )),
               const SizedBox(
                 height: 8,
               ),
-               //temp 
-              // BusinessAddressSection(
-              //   businessName: cardController.getCardsResponse?.payload
-              //       ?.cards?[widget.index].designation,
-              //   address: cardController.getCardsResponse?.payload
-              //       ?.cards?[widget.index].contactInfo?.address,
-              //   city: cardController.getCardsResponse?.payload
-              //       ?.cards?[widget.index].contactInfo?.website,
-              //   state: "Lagos State",
-              //   country: cardController.getCardsResponse?.payload
-              //       ?.cards?[widget.index].contactInfo?.email,
-              //   postalCode: cardController.getCardsResponse?.payload
-              //       ?.cards?[widget.index].contactInfo?.phone,
-              // ),
+              BusinessAddressSection(
+                businessName: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].designation,
+                address: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].contactInfo?.address,
+                city: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].contactInfo?.website,
+                state: "Lagos State",
+                country: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].contactInfo?.email,
+                postalCode: cardController.getCardsResponse?.payload
+                    ?.cards?[widget.index].contactInfo?.phone,
+              ),
               const SizedBox(
                 height: 8,
               ),

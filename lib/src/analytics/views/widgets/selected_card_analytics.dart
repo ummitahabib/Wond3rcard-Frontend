@@ -97,14 +97,13 @@ class SelectedCardAnalytics extends HookConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             userProfileImage(height: 65, width: 65),
-                            //temp
-                            // SizedBox(
-                            //   child: personalProfileTag(
-                            //     text: cardController.getCardsResponse?.payload
-                            //             ?.cards?[index].cardType ??
-                            //         emptyString,
-                            //   ),
-                            // ),
+                            SizedBox(
+                              child: personalProfileTag(
+                                text: cardController.getCardsResponse?.payload
+                                        ?.cards?[index].cardType ??
+                                    emptyString,
+                              ),
+                            ),
                             Column(
                               children: [
                                 Text('Date Created',

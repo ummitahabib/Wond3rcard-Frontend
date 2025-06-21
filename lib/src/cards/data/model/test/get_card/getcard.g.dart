@@ -94,89 +94,6 @@ class CardDataAdapter extends TypeAdapter<CardData> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CardData(
-      id: fields[0] as String?,
-      firstName: fields[1] as String?,
-      lastName: fields[2] as String?,
-      cardName: fields[3] as String?,
-      contactInfo: fields[4] as ContactInfo?,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, CardData obj) {
-    writer
-      ..writeByte(5)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.firstName)
-      ..writeByte(2)
-      ..write(obj.lastName)
-      ..writeByte(3)
-      ..write(obj.cardName)
-      ..writeByte(4)
-      ..write(obj.contactInfo);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CardDataAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class ContactInfoAdapter extends TypeAdapter<ContactInfo> {
-  @override
-  final int typeId = 3;
-
-  @override
-  ContactInfo read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return ContactInfo(
-      email: fields[0] as String?,
-      phone: fields[1] as String?,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, ContactInfo obj) {
-    writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.email)
-      ..writeByte(1)
-      ..write(obj.phone);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ContactInfoAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class CardAdapter extends TypeAdapter<Card> {
-  @override
-  final int typeId = 4;
-
-  @override
-  Card read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return Card(
       cardStyle: fields[0] as CardStyle?,
       organizationInfo: fields[1] as OrganizationInfo?,
       contactInfo: fields[2] as ContactInfo?,
@@ -210,7 +127,7 @@ class CardAdapter extends TypeAdapter<Card> {
   }
 
   @override
-  void write(BinaryWriter writer, Card obj) {
+  void write(BinaryWriter writer, CardData obj) {
     writer
       ..writeByte(29)
       ..writeByte(0)
@@ -279,14 +196,63 @@ class CardAdapter extends TypeAdapter<Card> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CardAdapter &&
+      other is CardDataAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class ContactInfoAdapter extends TypeAdapter<ContactInfo> {
+  @override
+  final int typeId = 3;
+
+  @override
+  ContactInfo read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return ContactInfo(
+      emailType: (fields[0] as List?)?.cast<dynamic>(),
+      email: fields[1] as String?,
+      phone: fields[2] as String?,
+      website: fields[3] as String?,
+      address: fields[4] as String?,
+      addresses: (fields[5] as List?)?.cast<dynamic>(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, ContactInfo obj) {
+    writer
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.emailType)
+      ..writeByte(1)
+      ..write(obj.email)
+      ..writeByte(2)
+      ..write(obj.phone)
+      ..writeByte(3)
+      ..write(obj.website)
+      ..writeByte(4)
+      ..write(obj.address)
+      ..writeByte(5)
+      ..write(obj.addresses);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ContactInfoAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
 
 class SocialMediaLinkAdapter extends TypeAdapter<SocialMediaLink> {
   @override
-  final int typeId = 5;
+  final int typeId = 4;
 
   @override
   SocialMediaLink read(BinaryReader reader) {
@@ -326,7 +292,7 @@ class SocialMediaLinkAdapter extends TypeAdapter<SocialMediaLink> {
 
 class MediaAdapter extends TypeAdapter<Media> {
   @override
-  final int typeId = 6;
+  final int typeId = 5;
 
   @override
   Media read(BinaryReader reader) {

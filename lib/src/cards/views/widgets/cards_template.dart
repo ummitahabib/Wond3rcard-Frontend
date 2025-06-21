@@ -222,59 +222,58 @@ class CardsTemplate5 extends HookConsumerWidget {
                 children: [
                   // Company Info (Left Side)
 
-                  //temp
-                  // Expanded(
-                  //   child: Padding(
-                  //     padding: EdgeInsets.all(SizeConfig.w(10)),
-                  //     child: Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       mainAxisAlignment: MainAxisAlignment.start,
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         Image.network(
-                  //           selectedCard.cardPictureUrl ?? ImageAssets.profile,
-                  //           width: SizeConfig.w(24),
-                  //           height: SizeConfig.h(24),
-                  //         ),
-                  //         Text(
-                  //           profileController
-                  //                   .profileData?.payload.profile.companyName ??
-                  //               emptyString,
-                  //           style: TextStyle(
-                  //             fontFamily: 'Inter',
-                  //             fontWeight: FontWeight.w800,
-                  //             fontSize: 14,
-                  //             color: Colors.black,
-                  //           ),
-                  //         ),
-                  //         SizedBox(height: SizeConfig.h(6)),
-                  //         Text(
-                  //           '${selectedCard.firstName ?? emptyString} ${selectedCard.lastName ?? emptyString}',
-                  //           // softWrap: true,
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.bold,
-                  //             fontSize: 16,
-                  //             color: Color(0xff3B82F6),
-                  //           ),
-                  //         ),
-                  //         SizedBox(height: SizeConfig.h(6)),
-                  //         Text(
-                  //           selectedCard.designation ?? emptyString,
-                  //           style: TextStyle(
-                  //             fontSize: 10,
-                  //             color: Color(0xff3B82F6),
-                  //             fontWeight: FontWeight.w700,
-                  //           ),
-                  //         ),
-                  //         SizedBox(height: SizeConfig.h(17)),
-                  //         HeroIcon(
-                  //           HeroIcons.qrCode,
-                  //           size: 30,
-                  //         )
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(SizeConfig.w(10)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.network(
+                            selectedCard.cardPictureUrl ?? ImageAssets.profile,
+                            width: SizeConfig.w(24),
+                            height: SizeConfig.h(24),
+                          ),
+                          Text(
+                            profileController
+                                    .profileData?.payload.profile.companyName ??
+                                emptyString,
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w800,
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.h(6)),
+                          Text(
+                            '${selectedCard.firstName ?? emptyString} ${selectedCard.lastName ?? emptyString}',
+                            // softWrap: true,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color(0xff3B82F6),
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.h(6)),
+                          Text(
+                            selectedCard.designation ?? emptyString,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Color(0xff3B82F6),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.h(17)),
+                          HeroIcon(
+                            HeroIcons.qrCode,
+                            size: 30,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
 
                   Spacer(),
 

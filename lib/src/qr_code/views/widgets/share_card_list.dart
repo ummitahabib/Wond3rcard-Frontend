@@ -106,7 +106,8 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                           );
                         },
                       )
-                    : (cardController.getCardsResponse?.payload?.cards?.isEmpty ??
+                    : (cardController
+                                .getCardsResponse?.payload?.cards?.isEmpty ??
                             true)
                         ? Center(
                             child: Text(
@@ -148,7 +149,8 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                                   const EdgeInsets.all(size12),
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(size15),
+                                                    BorderRadius.circular(
+                                                        size15),
                                                 color: AppColors.defaultWhite,
                                               ),
                                               child: Row(
@@ -164,13 +166,11 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                                           BorderRadius.circular(
                                                               SpacingConstants
                                                                   .size100),
-                                                      child: Container()
-                                                      //temp
-                                                      // Image.network(
-                                                      //   card?.cardPictureUrl ??
-                                                      //       ImageAssets.behance,
-                                                      //   fit: BoxFit.cover,
-                                                      // ),
+                                                      child: Image.network(
+                                                        card?.cardPictureUrl ??
+                                                            ImageAssets.behance,
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
                                                   const SizedBox(width: size15),
@@ -178,10 +178,12 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                                     child: Text(
                                                       card?.cardName ??
                                                           emptyString,
-                                                      style: WonderCardTypography
-                                                          .boldTextH5(
-                                                        fontSize: SpacingConstants
-                                                            .size23,
+                                                      style:
+                                                          WonderCardTypography
+                                                              .boldTextH5(
+                                                        fontSize:
+                                                            SpacingConstants
+                                                                .size23,
                                                         color: AppColors
                                                             .grayScale700,
                                                       ),
@@ -189,7 +191,8 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                                   ),
                                                   const Icon(
                                                     Icons.circle,
-                                                    color: AppColors.primaryShade,
+                                                    color:
+                                                        AppColors.primaryShade,
                                                   ),
                                                 ],
                                               ),
@@ -220,12 +223,13 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                               height: SpacingConstants.size72,
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(size15),
+                                                    BorderRadius.circular(
+                                                        size15),
                                                 color: AppColors.defaultWhite,
                                               ),
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(size12),
+                                                padding: const EdgeInsets.all(
+                                                    size12),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -234,32 +238,34 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                                       CrossAxisAlignment.center,
                                                   children: [
                                                     SizedBox(
-                                                      width:
-                                                          SpacingConstants.size45,
-                                                      height:
-                                                          SpacingConstants.size45,
+                                                      width: SpacingConstants
+                                                          .size45,
+                                                      height: SpacingConstants
+                                                          .size45,
                                                       child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                SpacingConstants
-                                                                    .size100),
-                                                        child: Container()
-                                                        //temp
-                                                        // Image.network(
-                                                        //   card?.cardPictureUrl ??
-                                                        //       ImageAssets.behance,
-                                                        //   fit: BoxFit.cover,
-                                                        // ),
-                                                      ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  SpacingConstants
+                                                                      .size100),
+                                                          child: 
+                                                          Image.network(
+                                                            card?.cardPictureUrl ??
+                                                                ImageAssets.behance,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                          ),
                                                     ),
-                                                    const SizedBox(width: size15),
+                                                    const SizedBox(
+                                                        width: size15),
                                                     Text(
                                                       card?.cardName ??
                                                           emptyString,
-                                                      style: WonderCardTypography
-                                                          .boldTextH5(
-                                                        fontSize: SpacingConstants
-                                                            .size23,
+                                                      style:
+                                                          WonderCardTypography
+                                                              .boldTextH5(
+                                                        fontSize:
+                                                            SpacingConstants
+                                                                .size23,
                                                         color: AppColors
                                                             .grayScale700,
                                                       ),
@@ -267,8 +273,8 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                                     const Spacer(),
                                                     const Icon(
                                                       Icons.circle,
-                                                      color:
-                                                          AppColors.primaryShade,
+                                                      color: AppColors
+                                                          .primaryShade,
                                                     ),
                                                   ],
                                                 ),

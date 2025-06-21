@@ -68,74 +68,6 @@ class Payload extends HiveObject {
 @HiveType(typeId: 2)
 class CardData extends HiveObject {
   @HiveField(0)
-  String? id;
-
-  @HiveField(1)
-  String? firstName;
-
-  @HiveField(2)
-  String? lastName;
-
-  @HiveField(3)
-  String? cardName;
-
-  @HiveField(4)
-  ContactInfo? contactInfo;
-
-  CardData({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.cardName,
-    this.contactInfo,
-  });
-
-  factory CardData.fromMap(Map<String, dynamic> map) => CardData(
-        id: map['id'],
-        firstName: map['firstName'],
-        lastName: map['lastName'],
-        cardName: map['cardName'],
-        contactInfo: map['contactInfo'] == null
-            ? null
-            : ContactInfo.fromMap(map['contactInfo']),
-      );
-
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'firstName': firstName,
-        'lastName': lastName,
-        'cardName': cardName,
-        'contactInfo': contactInfo?.toMap(),
-      };
-}
-
-@HiveType(typeId: 3)
-class ContactInfo extends HiveObject {
-  @HiveField(0)
-  String? email;
-
-  @HiveField(1)
-  String? phone;
-
-  ContactInfo({this.email, this.phone});
-
-  factory ContactInfo.fromMap(Map<String, dynamic> map) => ContactInfo(
-        email: map['email'],
-        phone: map['phone'],
-      );
-
-  Map<String, dynamic> toMap() => {
-        'email': email,
-        'phone': phone,
-      };
-}
-
-
-
-
-@HiveType(typeId: 4)
-class Card extends HiveObject {
-  @HiveField(0)
   CardStyle? cardStyle;
 
   @HiveField(1)
@@ -222,7 +154,7 @@ class Card extends HiveObject {
   @HiveField(28)
   List<dynamic>? catelogue;
 
-  Card({
+  CardData({
     this.cardStyle,
     this.organizationInfo,
     this.contactInfo,
@@ -254,7 +186,7 @@ class Card extends HiveObject {
     this.catelogue,
   });
 
-  factory Card.fromMap(Map<String, dynamic> data) => Card(
+  factory CardData.fromMap(Map<String, dynamic> data) => CardData(
         cardStyle: data['cardStyle'] == null
             ? null
             : CardStyle.fromMap(data['cardStyle'] as Map<String, dynamic>),
@@ -337,14 +269,112 @@ class Card extends HiveObject {
         'catelogue': catelogue,
       };
 
-  factory Card.fromJson(String data) {
-    return Card.fromMap(json.decode(data) as Map<String, dynamic>);
+  factory CardData.fromJson(String data) {
+    return CardData.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   String toJson() => json.encode(toMap());
 }
 
-@HiveType(typeId: 5)
+@HiveType(typeId: 3)
+class ContactInfo extends HiveObject {
+  @HiveField(0)
+  List<dynamic>? emailType;
+
+  @HiveField(1)
+  String? email;
+
+  @HiveField(2)
+  String? phone;
+
+  @HiveField(3)
+  String? website;
+
+  @HiveField(4)
+  String? address;
+
+  @HiveField(5)
+  List<dynamic>? addresses;
+
+  ContactInfo({
+    this.emailType,
+    this.email,
+    this.phone,
+    this.website,
+    this.address,
+    this.addresses,
+  });
+
+  @override
+  String toString() {
+    return 'ContactInfo(emailType: $emailType, email: $email, phone: $phone, website: $website, address: $address, addresses: $addresses)';
+  }
+
+  factory ContactInfo.fromMap(Map<String, dynamic> data) => ContactInfo(
+        emailType: data['emailType'] as List<dynamic>?,
+        email: data['email'] as String?,
+        phone: data['phone'] as String?,
+        website: data['website'] as String?,
+        address: data['address'] as String?,
+        addresses: data['addresses'] as List<dynamic>?,
+      );
+
+  Map<String, dynamic> toMap() => {
+        'emailType': emailType,
+        'email': email,
+        'phone': phone,
+        'website': website,
+        'address': address,
+        'addresses': addresses,
+      };
+
+  factory ContactInfo.fromJson(String data) {
+    return ContactInfo.fromMap(json.decode(data) as Map<String, dynamic>);
+  }
+
+  String toJson() => json.encode(toMap());
+
+  ContactInfo copyWith({
+    List<dynamic>? emailType,
+    String? email,
+    String? phone,
+    String? website,
+    String? address,
+    List<dynamic>? addresses,
+  }) {
+    return ContactInfo(
+      emailType: emailType ?? this.emailType,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      website: website ?? this.website,
+      address: address ?? this.address,
+      addresses: addresses ?? this.addresses,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    if (other is! ContactInfo) return false;
+    return other.emailType == emailType &&
+        other.email == email &&
+        other.phone == phone &&
+        other.website == website &&
+        other.address == address &&
+        other.addresses == addresses;
+  }
+
+  @override
+  int get hashCode =>
+      emailType.hashCode ^
+      email.hashCode ^
+      phone.hashCode ^
+      website.hashCode ^
+      address.hashCode ^
+      addresses.hashCode;
+}
+
+@HiveType(typeId: 4)
 class SocialMediaLink extends HiveObject {
   @HiveField(0)
   Media? media;
@@ -378,7 +408,7 @@ class SocialMediaLink extends HiveObject {
   }
 }
 
-@HiveType(typeId: 6)
+@HiveType(typeId: 5)
 class Media extends HiveObject {
   @HiveField(0)
   String? iconUrl;

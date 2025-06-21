@@ -6,7 +6,6 @@ import 'package:heroicons/heroicons.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
-import 'package:wond3rcard/src/cards/data/model/test/get_card/get_card.dart';
 import 'package:wond3rcard/src/cards/data/model/test/get_card/getcard.dart';
 import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
@@ -65,15 +64,12 @@ class ShareQrWidget extends HookConsumerWidget {
           final box = await Hive.openBox('cardsBox');
           // Use cardId as key, store the card object
           await box.put(cardId, fetchedCard);
-        }
 
-        // Print cached data for debugging
-        final box = await Hive.openBox('cardsBox');
-        debugPrint('Cached cards:');
-        for (var key in box.keys) {
-          final GetCard card = box.get(key);
-          debugPrint(card?.payload?.cards?[index].id ?? 'No ID');
-          debugPrint(card?.payload?.cards?[index].cardName ?? 'No Name');
+          // Print all cached data for debugging
+          print('Cached cards:');
+          for (var key in box.keys) {
+            print('Key: $key, Value: ${box.get(key)}');
+          }
         }
       });
       return null;
@@ -176,18 +172,15 @@ class ShareQrWidget extends HookConsumerWidget {
                               BorderRadius.circular(SpacingConstants.size100),
                           border: Border.all(
                               width: 4, color: AppColors.defaultWhite)),
-                      child:  Container()
-                      //temp
-                      
-                      // CircleAvatar(
-                      //   radius: 40,
-                      //   backgroundColor: AppColors.defaultWhite,
-                      //   backgroundImage: NetworkImage(
-                      //     cardController.getCardsResponse?.payload
-                      //             ?.cards?[index].cardPictureUrl ??
-                      //         ImageAssets.profileImage,
-                      //   ),
-                      // ),
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: AppColors.defaultWhite,
+                        backgroundImage: NetworkImage(
+                          cardController.getCardsResponse?.payload
+                                  ?.cards?[index].cardPictureUrl ??
+                              ImageAssets.profileImage,
+                        ),
+                      ),
                     ),
 
                     Text(

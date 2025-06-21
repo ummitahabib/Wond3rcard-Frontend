@@ -167,16 +167,13 @@ class _AvailableDigitalCardsState extends ConsumerState<AvailableDigitalCards> {
                                   SpacingConstants.size100),
                               border: Border.all(
                                   width: 4, color: AppColors.defaultWhite)),
-                          child: Container()
-                          //  CircleAvatar(
-                          //   radius: 40,
-                          //   backgroundColor: AppColors.defaultWhite,
-                          //   backgroundImage:  
-                            //temp
-                            // NetworkImage(
-                            //   card?.cardPictureUrl ?? ImageAssets.profileImage,
-                            // ),
-                        //  ),
+                          child: CircleAvatar(
+                            radius: 40,
+                            backgroundColor: AppColors.defaultWhite,
+                            backgroundImage: NetworkImage(
+                              card?.cardPictureUrl ?? ImageAssets.profileImage,
+                            ),
+                          ),
                         ),
                         const Spacer(),
                         NameAndJob(
@@ -206,10 +203,9 @@ class _AvailableDigitalCardsState extends ConsumerState<AvailableDigitalCards> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            //temp
-                            // personalProfileTag(
-                            //   text: card?.cardType ?? emptyString,
-                            // ),
+                            personalProfileTag(
+                              text: card?.cardType ?? emptyString,
+                            ),
                             const Spacer(),
                             qrCodeContainer(onTap: () {
                               context.go(RouteString.shareCardLink);
@@ -254,13 +250,12 @@ class _AvailableDigitalCardsState extends ConsumerState<AvailableDigitalCards> {
                             ),
                           ),
                           onPressed: () {
-                           // temp
-                            // print('*** userid ${card?.ownerId}');
-                            // print('*** cardid ${card?.id}');
-                            // context.go(RouteString.createPhysicalCard, extra: {
-                            //   'userId': card?.ownerId,
-                            //   'cardId': card?.id,
-                            // });
+                            print('*** userid ${card?.ownerId}');
+                            print('*** cardid ${card?.id}');
+                            context.go(RouteString.createPhysicalCard, extra: {
+                              'userId': card?.ownerId,
+                              'cardId': card?.id,
+                            });
                           },
                         ),
                       ),

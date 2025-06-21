@@ -117,15 +117,14 @@ class PhysicalCardWidget extends HookConsumerWidget {
                                   color: AppColors.grayScale700,
                                 ),
                               ),
-                              //temp
-                              // Text(
-                              //   card.payload?.cards?[index].designation ??
-                              //       'No Designation',
-                              //   style: WonderCardTypography.regularTextTitle2(
-                              //     fontSize: 16,
-                              //     color: AppColors.grayScale600,
-                              //   ),
-                              // ),
+                              Text(
+                                card.payload?.cards?[index].designation ??
+                                    'No Designation',
+                                style: WonderCardTypography.regularTextTitle2(
+                                  fontSize: 16,
+                                  color: AppColors.grayScale600,
+                                ),
+                              ),
                             ],
                           ),
                         ),

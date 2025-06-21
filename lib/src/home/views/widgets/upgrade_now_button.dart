@@ -543,13 +543,12 @@ class ConnectionsMedia extends HookConsumerWidget {
     }, []);
 
     // Get the first card's social media links, or an empty list if not available
-     //temp 
-    // final socialLinks =
-    //     cardController.getCardsResponse?.payload?.cards?.isNotEmpty == true
-    //         ? cardController
-    //                 .getCardsResponse!.payload!.cards!.first.socialMediaLinks ??
-    //             []
-    //         : [];
+    final socialLinks =
+        cardController.getCardsResponse?.payload?.cards?.isNotEmpty == true
+            ? cardController
+                    .getCardsResponse!.payload!.cards!.first.socialMediaLinks ??
+                []
+            : [];
 
     return SingleChildScrollView(
       child: Column(
@@ -569,8 +568,7 @@ class ConnectionsMedia extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                 //temp 
-              //  stackAvatar(socialLinks.cast<SocialMediaLink>()),
+                stackAvatar(socialLinks.cast<SocialMediaLink>()),
                 Text(
                   '${profile?.connections.length ?? 0}',
                   style: const TextStyle(
