@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/get_card.dart';
 import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/qr_code/data/controller/share_card_controller.dart';
@@ -20,6 +21,9 @@ import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
 //Todo rework on this file and break the widgets and method into smaller parts
 
+// card_provider.dart
+final cachedCardsProvider = StateProvider<List<GetCard>>((ref) => []);
+
 class ShareQrWidget extends HookConsumerWidget {
   const ShareQrWidget({super.key, required this.index});
 
@@ -31,25 +35,36 @@ class ShareQrWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profileController = ref.read(profileProvider);
     final cardController = ref.watch(cardProvider);
-    useEffect(
-      () {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-          Future.delayed(Duration.zero, () async {
-            final String cardId = ref
-                    .read(cardProvider)
-                    .getCardsResponse
-                    ?.payload
-                    ?.cards?[index]
-                    .id ??
-                '';
-            await profileController.getProfile(context);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final String cardId = ref
+                .read(cardProvider)
+                .getCardsResponse
+                ?.payload
+                ?.cards?[index]
+                .id ??
+            '';
+
+        await profileController.getProfile(context);
+        final fetchedCard =
             await ref.read(cardProvider).getAUsersCard(context, cardId);
-          });
-        });
-        return null;
-      },
-      [],
-    );
+
+        // ✅ Add card to cache (avoid duplicates)
+        final currentList = ref.read(cachedCardsProvider);
+        final exists = currentList.any((card) =>
+            card.payload?.cards?[index].id ==
+            fetchedCard?.payload?.cards?[index].id);
+        if (!exists) {
+          ref.read(cachedCardsProvider.notifier).state = [
+            ...currentList,
+            fetchedCard!
+          ];
+        }
+      });
+      return null;
+    }, []);
+
     return Scaffold(
       backgroundColor: AppColors.primaryShade,
       appBar: AppBar(

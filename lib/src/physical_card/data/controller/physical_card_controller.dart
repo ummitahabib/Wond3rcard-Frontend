@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/cards/data/model/card_model.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/get_card.dart';
 import 'package:wond3rcard/src/physical_card/data/model/physical_card_model.dart';
 import 'package:wond3rcard/src/physical_card/data/repository/physical_card_repository.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
@@ -112,13 +113,12 @@ class DeletehysicalCardController extends StateNotifier<AsyncValue<String>> {
 }
 
 final fullCardListProvider =
-  StateNotifierProvider<FullCardListController, AsyncValue<List<CardModel>>>(
-    (ref) {
+    StateNotifierProvider<FullCardListController, AsyncValue<List<GetCard>>>(
+        (ref) {
   return FullCardListController(ref);
 });
 
-class FullCardListController
-  extends StateNotifier<AsyncValue<List<CardModel>>> {
+class FullCardListController extends StateNotifier<AsyncValue<List<GetCard>>> {
   final Ref ref;
 
   FullCardListController(this.ref) : super(const AsyncLoading());
@@ -149,7 +149,7 @@ class FullCardListController
           .toList();
 
       final cardRepo = ref.read(cardProvider);
-      final List<CardModel> detailedCards = [];
+      final List<GetCard> detailedCards = [];
 
       // Refactored: Remove BuildContext from getAUsersCard
       for (final cardId in cardIds) {

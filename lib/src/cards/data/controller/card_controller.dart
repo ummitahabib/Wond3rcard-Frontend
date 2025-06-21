@@ -392,7 +392,7 @@ class CardNotifier extends ChangeNotifier {
     }
   }
 
-  Future<CardModel?> getAUsersCard(BuildContext context, String cardId) async {
+  Future<GetCard?> getAUsersCard(BuildContext context, String cardId) async {
     try {
       loading = true;
       final response =
@@ -404,16 +404,16 @@ class CardNotifier extends ChangeNotifier {
       } else {
         _cardModel = response.response;
         cardModel = _cardModel;
-        return cardModel;
+        return getCardsResponse;
       }
     } catch (e) {
       // alert.showErrorToast(message: 'error occured here please check');
       log('error occured here please check');
       loading = false;
       print(e);
-      return cardModel;
+      return getCardsResponse;
     }
-    return cardModel;
+    return getCardsResponse;
   }
 
   Future<CardModel?> viewCard(BuildContext context) async {

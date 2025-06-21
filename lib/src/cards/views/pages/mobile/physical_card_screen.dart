@@ -8,7 +8,6 @@ import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 
-
 class PhysicalCardWidget extends HookConsumerWidget {
   PhysicalCardWidget({super.key});
 
@@ -48,7 +47,7 @@ class PhysicalCardWidget extends HookConsumerWidget {
                   textColor: AppColors.defaultWhite,
                   text: 'Create Physical Card',
                   onPressed: () {
-                      context.go(RouteString.availableDigitalCards);
+                    context.go(RouteString.availableDigitalCards);
                   },
                 ),
               )
@@ -111,14 +110,16 @@ class PhysicalCardWidget extends HookConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                card.cardName ?? 'Unknown Card',
+                                card.payload?.cards?[index].cardName ??
+                                    'Unknown Card',
                                 style: WonderCardTypography.boldTextH5(
                                   fontSize: 23,
                                   color: AppColors.grayScale700,
                                 ),
                               ),
                               Text(
-                                card.designation ?? 'No Designation',
+                                card.payload?.cards?[index].designation ??
+                                    'No Designation',
                                 style: WonderCardTypography.regularTextTitle2(
                                   fontSize: 16,
                                   color: AppColors.grayScale600,
