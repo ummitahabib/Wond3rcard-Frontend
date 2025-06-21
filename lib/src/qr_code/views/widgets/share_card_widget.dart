@@ -35,7 +35,6 @@ class ShareQrWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profileController = ref.read(profileProvider);
     final cardController = ref.watch(cardProvider);
-
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         final String cardId = ref
@@ -55,11 +54,18 @@ class ShareQrWidget extends HookConsumerWidget {
         final exists = currentList.any((card) =>
             card.payload?.cards?[index].id ==
             fetchedCard?.payload?.cards?[index].id);
-        if (!exists) {
+        if (!exists && fetchedCard != null) {
           ref.read(cachedCardsProvider.notifier).state = [
             ...currentList,
-            fetchedCard!
+            fetchedCard
           ];
+        }
+
+        // Print cached data for debugging
+        final cached = ref.read(cachedCardsProvider);
+        debugPrint('Cached cards:');
+        for (var card in cached) {
+          debugPrint(card.payload?.cards?[index].id ?? 'No ID');
         }
       });
       return null;

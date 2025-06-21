@@ -382,39 +382,46 @@ class ViewCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cachedCards = ref.watch(cachedCardsProvider);
 
-    // Find the matching card (regardless of index)
-    final matchingCard = cachedCards
-        .expand((getCard) => getCard.payload?.cards ?? [])
-        .firstWhere(
-          (card) => card.id == cardId,
-          orElse: () => null,
-        );
+    // // Find the matching card (regardless of index)
+    // final matchingCard = cachedCards
+    //     .expand((getCard) => getCard.payload?.cards ?? [])
+    //     .firstWhere(
+    //       (card) => card == cardId,
+    //       orElse: () => null,
+    //     );
 
-    if (matchingCard == null) {
-      return const Scaffold(
-        body: Center(
-          child: Text("Card not found in cache."),
-        ),
-      );
-    }
+    // if (matchingCard == null) {
+    //   return const Scaffold(
+    //     body: Center(
+    //       child: Text("Card not found in cache."),
+    //     ),
+    //   );
+    // }
 
     return Scaffold(
       appBar: AppBar(title: const Text("View Card")),
-      body: buildCardContent(matchingCard),
+      body: buildCardContent(ref),
     );
   }
 
-  Widget buildCardContent(GetCard card) {
+  Widget buildCardContent(WidgetRef ref) {
+    final cached = ref.read(cachedCardsProvider);
+    // Display the card at the given index from the cached list
+    if (cached.isEmpty ||
+        cached[0].payload?.cards == null ||
+        cached[0].payload!.cards!.length <= index) {
+      return const Center(child: Text("Card not found in cache."));
+    }
+
+    final card = cached[0].payload!.cards![index];
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-              "Name: ${card.payload?.cards?.first.firstName} ${card.payload?.cards?.first.lastName}"),
-          Text(
-              "Email: ${card.payload?.cards?.first.contactInfo?.email ?? 'N/A'}"),
-          Text(
-              "Phone: ${card.payload?.cards?.first.contactInfo?.phone ?? 'N/A'}"),
+          Text("Name: ${card.firstName} ${card.lastName}"),
+          Text("Email: ${card.contactInfo?.email ?? 'N/A'}"),
+          Text("Phone: ${card.contactInfo?.phone ?? 'N/A'}"),
         ],
       ),
     );
