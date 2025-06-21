@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/getcard.dart';
 
 import 'card.dart';
 
 class Payload {
-  List<Card>? cards;
+  List<CardData>? cards;
 
   Payload({this.cards});
 
@@ -14,7 +15,7 @@ class Payload {
 
   factory Payload.fromMap(Map<String, dynamic> data) => Payload(
         cards: (data['cards'] as List<dynamic>?)
-            ?.map((e) => Card.fromMap(e as Map<String, dynamic>))
+            ?.map((e) => CardData.fromMap(e as Map<String, dynamic>))
             .toList(),
       );
 
@@ -35,7 +36,7 @@ class Payload {
   String toJson() => json.encode(toMap());
 
   Payload copyWith({
-    List<Card>? cards,
+    List<CardData>? cards,
   }) {
     return Payload(
       cards: cards ?? this.cards,

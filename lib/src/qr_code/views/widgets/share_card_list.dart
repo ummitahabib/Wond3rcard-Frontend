@@ -164,11 +164,13 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                                           BorderRadius.circular(
                                                               SpacingConstants
                                                                   .size100),
-                                                      child: Image.network(
-                                                        card?.cardPictureUrl ??
-                                                            ImageAssets.behance,
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                                      child: Container()
+                                                      //temp
+                                                      // Image.network(
+                                                      //   card?.cardPictureUrl ??
+                                                      //       ImageAssets.behance,
+                                                      //   fit: BoxFit.cover,
+                                                      // ),
                                                     ),
                                                   ),
                                                   const SizedBox(width: size15),
@@ -241,11 +243,13 @@ class _ShareCardListState extends ConsumerState<ShareCardList> {
                                                             BorderRadius.circular(
                                                                 SpacingConstants
                                                                     .size100),
-                                                        child: Image.network(
-                                                          card?.cardPictureUrl ??
-                                                              ImageAssets.behance,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                        child: Container()
+                                                        //temp
+                                                        // Image.network(
+                                                        //   card?.cardPictureUrl ??
+                                                        //       ImageAssets.behance,
+                                                        //   fit: BoxFit.cover,
+                                                        // ),
                                                       ),
                                                     ),
                                                     const SizedBox(width: size15),

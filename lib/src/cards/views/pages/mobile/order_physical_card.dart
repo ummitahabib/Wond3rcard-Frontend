@@ -501,175 +501,179 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                       ),
                       child: Column(
                         children: [
-                          Expanded(
-                            child: template.design.isNotEmpty
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Stack(
-                                      children: [
-                                        SvgPicture.network(
-                                          template.design,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: SizeConfig.h(200),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                            left: SizeConfig.w(20),
-                                            right: SizeConfig.w(20),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              // Company Info (Left Side)
-                                              Expanded(
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(
-                                                      SizeConfig.w(10)),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Image.network(
-                                                        selectedCard
-                                                                ?.cardPictureUrl ??
-                                                            ImageAssets.profile,
-                                                        width: SizeConfig.w(24),
-                                                        height:
-                                                            SizeConfig.h(24),
-                                                      ),
-                                                      Text(
-                                                        profileController
-                                                                .profileData
-                                                                ?.payload
-                                                                .profile
-                                                                .companyName ??
-                                                            emptyString,
-                                                        style: TextStyle(
-                                                          fontFamily: 'Inter',
-                                                          fontWeight:
-                                                              FontWeight.w800,
-                                                          fontSize: 14,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                          height:
-                                                              SizeConfig.h(6)),
-                                                      Text(
-                                                        '${selectedCard?.firstName ?? emptyString} ${selectedCard?.lastName ?? emptyString}',
-                                                        // softWrap: true,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16,
-                                                          color:
-                                                              Color(0xff3B82F6),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                          height:
-                                                              SizeConfig.h(6)),
-                                                      Text(
-                                                        selectedCard
-                                                                ?.designation ??
-                                                            emptyString,
-                                                        style: TextStyle(
-                                                          fontSize: 10,
-                                                          color:
-                                                              Color(0xff3B82F6),
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                          height:
-                                                              SizeConfig.h(17)),
-                                                      HeroIcon(
-                                                        HeroIcons.qrCode,
-                                                        size: 30,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
+                         
+                         //temp
+                          // Expanded(
+                          //   child: template.design.isNotEmpty
+                          //       ? ClipRRect(
+                          //           borderRadius: BorderRadius.circular(12),
+                          //           child: Stack(
+                          //             children: [
+                          //               SvgPicture.network(
+                          //                 template.design,
+                          //                 width:
+                          //                     MediaQuery.of(context).size.width,
+                          //                 height: SizeConfig.h(200),
+                          //                 fit: BoxFit.cover,
+                          //               ),
+                          //               Padding(
+                          //                 padding: EdgeInsets.only(
+                          //                   left: SizeConfig.w(20),
+                          //                   right: SizeConfig.w(20),
+                          //                 ),
+                          //                 child: Row(
+                          //                   mainAxisAlignment:
+                          //                       MainAxisAlignment.spaceBetween,
+                          //                   crossAxisAlignment:
+                          //                       CrossAxisAlignment.start,
+                          //                   mainAxisSize: MainAxisSize.min,
+                          //                   children: [
+                          //                     // Company Info (Left Side)
+                          //                     Expanded(
+                          //                       child: Padding(
+                          //                         padding: EdgeInsets.all(
+                          //                             SizeConfig.w(10)),
+                          //                         child: Column(
+                          //                           crossAxisAlignment:
+                          //                               CrossAxisAlignment
+                          //                                   .start,
+                          //                           mainAxisAlignment:
+                          //                               MainAxisAlignment.start,
+                          //                           mainAxisSize:
+                          //                               MainAxisSize.min,
+                          //                           children: [
+                          //                             Image.network(
+                          //                               selectedCard
+                          //                                       ?.cardPictureUrl ??
+                          //                                   ImageAssets.profile,
+                          //                               width: SizeConfig.w(24),
+                          //                               height:
+                          //                                   SizeConfig.h(24),
+                          //                             ),
+                          //                             Text(
+                          //                               profileController
+                          //                                       .profileData
+                          //                                       ?.payload
+                          //                                       .profile
+                          //                                       .companyName ??
+                          //                                   emptyString,
+                          //                               style: TextStyle(
+                          //                                 fontFamily: 'Inter',
+                          //                                 fontWeight:
+                          //                                     FontWeight.w800,
+                          //                                 fontSize: 14,
+                          //                                 color: Colors.black,
+                          //                               ),
+                          //                             ),
+                          //                             SizedBox(
+                          //                                 height:
+                          //                                     SizeConfig.h(6)),
+                          //                             Text(
+                          //                               '${selectedCard?.firstName ?? emptyString} ${selectedCard?.lastName ?? emptyString}',
+                          //                               // softWrap: true,
+                          //                               style: TextStyle(
+                          //                                 fontWeight:
+                          //                                     FontWeight.bold,
+                          //                                 fontSize: 16,
+                          //                                 color:
+                          //                                     Color(0xff3B82F6),
+                          //                               ),
+                          //                             ),
+                          //                             SizedBox(
+                          //                                 height:
+                          //                                     SizeConfig.h(6)),
+                          //                             Text(
+                          //                               selectedCard
+                          //                                       ?.designation ??
+                          //                                   emptyString,
+                          //                               style: TextStyle(
+                          //                                 fontSize: 10,
+                          //                                 color:
+                          //                                     Color(0xff3B82F6),
+                          //                                 fontWeight:
+                          //                                     FontWeight.w700,
+                          //                               ),
+                          //                             ),
+                          //                             SizedBox(
+                          //                                 height:
+                          //                                     SizeConfig.h(17)),
+                          //                             HeroIcon(
+                          //                               HeroIcons.qrCode,
+                          //                               size: 30,
+                          //                             )
+                          //                           ],
+                          //                         ),
+                          //                       ),
+                          //                     ),
 
-                                              Spacer(),
+                          //                     Spacer(),
 
-                                              Expanded(
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      //  left: SizeConfig.w(20),
-                                                      top: SizeConfig.h(10),
-                                                      bottom: SizeConfig.h(10)),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    //    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Text(
-                                                        'Address',
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                          height:
-                                                              SizeConfig.h(8)),
-                                                      Container(
-                                                        height: 3,
-                                                        color:
-                                                            Color(0xff3B82F6),
-                                                      ),
-                                                      SizedBox(
-                                                          height:
-                                                              SizeConfig.h(5)),
-                                                      viewPhysicalCardChildren(
-                                                        icon: HeroIcons.phone,
-                                                        text: selectedCard
-                                                                ?.contactInfo
-                                                                ?.phone ??
-                                                            emptyString,
-                                                      ),
-                                                      viewPhysicalCardChildren(
-                                                        icon:
-                                                            HeroIcons.envelope,
-                                                        text: selectedCard
-                                                                ?.contactInfo
-                                                                ?.email ??
-                                                            emptyString,
-                                                      ),
-                                                      viewPhysicalCardChildren(
-                                                        icon: HeroIcons.mapPin,
-                                                        text:
-                                                            '${selectedCard?.contactInfo?.addresses ?? emptyString}',
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : const Center(child: Icon(Icons.image)),
-                          ),
+                          //                     Expanded(
+                          //                       child: Padding(
+                          //                         padding: EdgeInsets.only(
+                          //                             //  left: SizeConfig.w(20),
+                          //                             top: SizeConfig.h(10),
+                          //                             bottom: SizeConfig.h(10)),
+                          //                         child: Column(
+                          //                           crossAxisAlignment:
+                          //                               CrossAxisAlignment
+                          //                                   .start,
+                          //                           mainAxisAlignment:
+                          //                               MainAxisAlignment.start,
+                          //                           //    mainAxisSize: MainAxisSize.min,
+                          //                           children: [
+                          //                             Text(
+                          //                               'Address',
+                          //                               style: TextStyle(
+                          //                                 fontSize: 14,
+                          //                                 color: Colors.black,
+                          //                               ),
+                          //                             ),
+                          //                             SizedBox(
+                          //                                 height:
+                          //                                     SizeConfig.h(8)),
+                          //                             Container(
+                          //                               height: 3,
+                          //                               color:
+                          //                                   Color(0xff3B82F6),
+                          //                             ),
+                          //                             SizedBox(
+                          //                                 height:
+                          //                                     SizeConfig.h(5)),
+                          //                             viewPhysicalCardChildren(
+                          //                               icon: HeroIcons.phone,
+                          //                               text: selectedCard
+                          //                                       ?.contactInfo
+                          //                                       ?.phone ??
+                          //                                   emptyString,
+                          //                             ),
+                          //                             viewPhysicalCardChildren(
+                          //                               icon:
+                          //                                   HeroIcons.envelope,
+                          //                               text: selectedCard
+                          //                                       ?.contactInfo
+                          //                                       ?.email ??
+                          //                                   emptyString,
+                          //                             ),
+                          //                             viewPhysicalCardChildren(
+                          //                               icon: HeroIcons.mapPin,
+                          //                               text:
+                          //                                   '${selectedCard?.contactInfo?.addresses ?? emptyString}',
+                          //                             ),
+                          //                           ],
+                          //                         ),
+                          //                       ),
+                          //                     ),
+                          //                   ],
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         )
+                          //       : const Center(child: Icon(Icons.image)),
+                          // ),
+                       
+                       
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
@@ -723,126 +727,130 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                           ),
 
                           // Content Overlay
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: SizeConfig.w(20),
-                              right: SizeConfig.w(20),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                // Company Info (Left Side)
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(SizeConfig.w(10)),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Image.network(
-                                          selectedCard?.cardPictureUrl ??
-                                              ImageAssets.profile,
-                                          width: SizeConfig.w(24),
-                                          height: SizeConfig.h(24),
-                                        ),
-                                        Text(
-                                          profileController.profileData?.payload
-                                                  .profile.companyName ??
-                                              emptyString,
-                                          style: TextStyle(
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        SizedBox(height: SizeConfig.h(6)),
-                                        Text(
-                                          '${selectedCard?.firstName ?? emptyString} ${selectedCard?.lastName ?? emptyString}',
-                                          // softWrap: true,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Color(0xff3B82F6),
-                                          ),
-                                        ),
-                                        SizedBox(height: SizeConfig.h(6)),
-                                        Text(
-                                          selectedCard?.designation ??
-                                              emptyString,
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            color: Color(0xff3B82F6),
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        SizedBox(height: SizeConfig.h(17)),
-                                        HeroIcon(
-                                          HeroIcons.qrCode,
-                                          size: 30,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                        
+                        //temp
+                          // Padding(
+                          //   padding: EdgeInsets.only(
+                          //     left: SizeConfig.w(20),
+                          //     right: SizeConfig.w(20),
+                          //   ),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     mainAxisSize: MainAxisSize.min,
+                          //     children: [
+                          //       // Company Info (Left Side)
+                          //       Expanded(
+                          //         child: Padding(
+                          //           padding: EdgeInsets.all(SizeConfig.w(10)),
+                          //           child: Column(
+                          //             crossAxisAlignment:
+                          //                 CrossAxisAlignment.start,
+                          //             mainAxisAlignment:
+                          //                 MainAxisAlignment.start,
+                          //             mainAxisSize: MainAxisSize.min,
+                          //             children: [
+                          //               Image.network(
+                          //                 selectedCard?.cardPictureUrl ??
+                          //                     ImageAssets.profile,
+                          //                 width: SizeConfig.w(24),
+                          //                 height: SizeConfig.h(24),
+                          //               ),
+                          //               Text(
+                          //                 profileController.profileData?.payload
+                          //                         .profile.companyName ??
+                          //                     emptyString,
+                          //                 style: TextStyle(
+                          //                   fontFamily: 'Inter',
+                          //                   fontWeight: FontWeight.w800,
+                          //                   fontSize: 14,
+                          //                   color: Colors.black,
+                          //                 ),
+                          //               ),
+                          //               SizedBox(height: SizeConfig.h(6)),
+                          //               Text(
+                          //                 '${selectedCard?.firstName ?? emptyString} ${selectedCard?.lastName ?? emptyString}',
+                          //                 // softWrap: true,
+                          //                 style: TextStyle(
+                          //                   fontWeight: FontWeight.bold,
+                          //                   fontSize: 16,
+                          //                   color: Color(0xff3B82F6),
+                          //                 ),
+                          //               ),
+                          //               SizedBox(height: SizeConfig.h(6)),
+                          //               Text(
+                          //                 selectedCard?.designation ??
+                          //                     emptyString,
+                          //                 style: TextStyle(
+                          //                   fontSize: 10,
+                          //                   color: Color(0xff3B82F6),
+                          //                   fontWeight: FontWeight.w700,
+                          //                 ),
+                          //               ),
+                          //               SizedBox(height: SizeConfig.h(17)),
+                          //               HeroIcon(
+                          //                 HeroIcons.qrCode,
+                          //                 size: 30,
+                          //               )
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       ),
 
-                                Spacer(),
+                          //       Spacer(),
 
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        //  left: SizeConfig.w(20),
-                                        top: SizeConfig.h(10),
-                                        bottom: SizeConfig.h(10)),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      //    mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          'Address',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        SizedBox(height: SizeConfig.h(8)),
-                                        Container(
-                                          height: 3,
-                                          color: Color(0xff3B82F6),
-                                        ),
-                                        SizedBox(height: SizeConfig.h(5)),
-                                        viewPhysicalCardChildren(
-                                          icon: HeroIcons.phone,
-                                          text: selectedCard
-                                                  ?.contactInfo?.phone ??
-                                              emptyString,
-                                        ),
-                                        viewPhysicalCardChildren(
-                                          icon: HeroIcons.envelope,
-                                          text: selectedCard
-                                                  ?.contactInfo?.email ??
-                                              emptyString,
-                                        ),
-                                        viewPhysicalCardChildren(
-                                          icon: HeroIcons.mapPin,
-                                          text:
-                                              '${selectedCard?.contactInfo?.addresses ?? emptyString}',
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          //       Expanded(
+                          //         child: Padding(
+                          //           padding: EdgeInsets.only(
+                          //               //  left: SizeConfig.w(20),
+                          //               top: SizeConfig.h(10),
+                          //               bottom: SizeConfig.h(10)),
+                          //           child: Column(
+                          //             crossAxisAlignment:
+                          //                 CrossAxisAlignment.start,
+                          //             mainAxisAlignment:
+                          //                 MainAxisAlignment.start,
+                          //             //    mainAxisSize: MainAxisSize.min,
+                          //             children: [
+                          //               Text(
+                          //                 'Address',
+                          //                 style: TextStyle(
+                          //                   fontSize: 14,
+                          //                   color: Colors.black,
+                          //                 ),
+                          //               ),
+                          //               SizedBox(height: SizeConfig.h(8)),
+                          //               Container(
+                          //                 height: 3,
+                          //                 color: Color(0xff3B82F6),
+                          //               ),
+                          //               SizedBox(height: SizeConfig.h(5)),
+                          //               viewPhysicalCardChildren(
+                          //                 icon: HeroIcons.phone,
+                          //                 text: selectedCard
+                          //                         ?.contactInfo?.phone ??
+                          //                     emptyString,
+                          //               ),
+                          //               viewPhysicalCardChildren(
+                          //                 icon: HeroIcons.envelope,
+                          //                 text: selectedCard
+                          //                         ?.contactInfo?.email ??
+                          //                     emptyString,
+                          //               ),
+                          //               viewPhysicalCardChildren(
+                          //                 icon: HeroIcons.mapPin,
+                          //                 text:
+                          //                     '${selectedCard?.contactInfo?.addresses ?? emptyString}',
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                       
+                       
                         ],
                       ),
                     )

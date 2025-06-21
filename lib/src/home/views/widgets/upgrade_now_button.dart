@@ -18,6 +18,8 @@ import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../cards/data/model/test/get_card/getcard.dart';
+
 Container upgradeButton(BuildContext context) {
   return Container(
       padding: EdgeInsets.all(10),
@@ -541,12 +543,13 @@ class ConnectionsMedia extends HookConsumerWidget {
     }, []);
 
     // Get the first card's social media links, or an empty list if not available
-    final socialLinks =
-        cardController.getCardsResponse?.payload?.cards?.isNotEmpty == true
-            ? cardController
-                    .getCardsResponse!.payload!.cards!.first.socialMediaLinks ??
-                []
-            : [];
+     //temp 
+    // final socialLinks =
+    //     cardController.getCardsResponse?.payload?.cards?.isNotEmpty == true
+    //         ? cardController
+    //                 .getCardsResponse!.payload!.cards!.first.socialMediaLinks ??
+    //             []
+    //         : [];
 
     return SingleChildScrollView(
       child: Column(
@@ -566,7 +569,8 @@ class ConnectionsMedia extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                stackAvatar(socialLinks.cast<SocialMediaLink>()),
+                 //temp 
+              //  stackAvatar(socialLinks.cast<SocialMediaLink>()),
                 Text(
                   '${profile?.connections.length ?? 0}',
                   style: const TextStyle(

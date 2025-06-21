@@ -141,11 +141,12 @@ class SelectedCardWidget extends HookConsumerWidget {
                       '${cardController.getCardsResponse?.payload?.cards?[index].firstName ?? emptyString} ${cardController.getCardsResponse?.payload?.cards?[index].lastName ?? emptyString}',
                       style: WonderCardTypography.regularTextTitle2(
                           fontSize: 16, color: AppColors.grayScale600)),
-                  personalProfileTag(
-                    text: cardController.getCardsResponse?.payload
-                            ?.cards?[index].cardType ??
-                        emptyString,
-                  ),
+                          //temp
+                  // personalProfileTag(
+                  //   text: cardController.getCardsResponse?.payload
+                  //           ?.cards?[index].cardType ??
+                  //       emptyString,
+                  // ),
                 ],
               ),
             ),

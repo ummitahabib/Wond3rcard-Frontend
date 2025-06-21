@@ -1,12 +1,21 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:hive/hive.dart';
 
-class TextStyle {
+part 'text_style.g.dart';
+
+@HiveType(typeId: 0)
+class TextStyle extends HiveObject {
+  @HiveField(0)
   String? fontSize;
+  @HiveField(1)
   String? fontStyle;
+  @HiveField(2)
   String? fontWeight;
+  @HiveField(3)
   String? textAlign;
+  @HiveField(4)
   String? textColor;
 
   TextStyle({
@@ -38,16 +47,10 @@ class TextStyle {
         'textColor': textColor,
       };
 
-  /// `dart:convert`
-  ///
-  /// Parses the string and returns the resulting Json object as [TextStyle].
   factory TextStyle.fromJson(String data) {
     return TextStyle.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
-  /// `dart:convert`
-  ///
-  /// Converts [TextStyle] to a JSON string.
   String toJson() => json.encode(toMap());
 
   TextStyle copyWith({

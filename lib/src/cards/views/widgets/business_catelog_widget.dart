@@ -50,52 +50,54 @@ class BusinessCatalogWidget extends HookConsumerWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: cards!
-                    .expand((card) => card.catelogue!.map((catalog) {
-                          return Container(
-                            margin: const EdgeInsets.only(right: 12),
-                            width: 150,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 150,
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(catalog.imagePath),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  catalog,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  catalog,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }))
-                    .toList(),
-              ),
-            ),
-          ),
+        
+          // Expanded(
+          //   child: SingleChildScrollView(
+          //     scrollDirection: Axis.horizontal,
+          //     child: Row(
+          //       children: cards!
+          //           .expand((card) => card.catelogue!.map((catalog) {
+          //                 return Container(
+          //                   margin: const EdgeInsets.only(right: 12),
+          //                   width: 150,
+          //                   child: Column(
+          //                     crossAxisAlignment: CrossAxisAlignment.start,
+          //                     children: [
+          //                       Container(
+          //                         width: 150,
+          //                         height: 150,
+          //                         decoration: BoxDecoration(
+          //                           image: DecorationImage(
+          //                             image: AssetImage(catalog.imagePath),
+          //                             fit: BoxFit.cover,
+          //                           ),
+          //                           borderRadius: BorderRadius.circular(12),
+          //                         ),
+          //                       ),
+          //                       const SizedBox(height: 8),
+          //                       Text(
+          //                         catalog,
+          //                         style: const TextStyle(
+          //                           fontSize: 16,
+          //                           fontWeight: FontWeight.bold,
+          //                         ),
+          //                       ),
+          //                       Text(
+          //                         catalog,
+          //                         style: const TextStyle(
+          //                           fontSize: 14,
+          //                           color: Colors.grey,
+          //                         ),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 );
+          //               }))
+          //           .toList(),
+          //     ),
+          //   ),
+          // ),
+     
         ],
       ),
     );

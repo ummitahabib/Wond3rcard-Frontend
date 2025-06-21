@@ -6,6 +6,7 @@ import 'package:wond3rcard/src/cards/data/model/card_model.dart';
 import 'package:wond3rcard/src/cards/data/model/get_a_card.dart';
 import 'package:wond3rcard/src/cards/data/model/get_all_cards.dart';
 import 'package:wond3rcard/src/cards/data/model/test/get_card/get_card.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/getcard.dart';
 import 'package:wond3rcard/src/core/networking/api_client.dart';
 import 'package:wond3rcard/src/core/networking/end_points.dart';
 import 'package:wond3rcard/src/core/networking/request_res.dart';

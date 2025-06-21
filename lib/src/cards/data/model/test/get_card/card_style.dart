@@ -1,23 +1,41 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
+import 'package:hive/hive.dart';
 
-class CardStyle {
+part 'card_style.g.dart';
+@HiveType(typeId: 0)
+class CardStyle extends HiveObject {
+  @HiveField(0)
   String? fontSize;
+  @HiveField(1)
   String? fontStyle;
+  @HiveField(2)
   String? fontWeight;
+  @HiveField(3)
   String? textAlign;
+  @HiveField(4)
   String? textColor;
+  @HiveField(5)
   String? borderStyle;
+  @HiveField(6)
   String? borderColor;
+  @HiveField(7)
   String? borderWidth;
+  @HiveField(8)
   String? borderRadius;
+  @HiveField(9)
   String? padding;
+  @HiveField(10)
   String? margin;
+  @HiveField(11)
   String? orientation;
+  @HiveField(12)
   String? alignment;
+  @HiveField(13)
   String? boxShadow;
+  @HiveField(14)
   String? primaryColor;
+  @HiveField(15)
   String? secondaryColor;
 
   CardStyle({
@@ -39,60 +57,56 @@ class CardStyle {
     this.secondaryColor,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'fontSize': fontSize,
+      'fontStyle': fontStyle,
+      'fontWeight': fontWeight,
+      'textAlign': textAlign,
+      'textColor': textColor,
+      'borderStyle': borderStyle,
+      'borderColor': borderColor,
+      'borderWidth': borderWidth,
+      'borderRadius': borderRadius,
+      'padding': padding,
+      'margin': margin,
+      'orientation': orientation,
+      'alignment': alignment,
+      'boxShadow': boxShadow,
+      'primaryColor': primaryColor,
+      'secondaryColor': secondaryColor,
+    };
+  }
+
+  factory CardStyle.fromMap(Map<String, dynamic> map) {
+    return CardStyle(
+      fontSize: map['fontSize'],
+      fontStyle: map['fontStyle'],
+      fontWeight: map['fontWeight'],
+      textAlign: map['textAlign'],
+      textColor: map['textColor'],
+      borderStyle: map['borderStyle'],
+      borderColor: map['borderColor'],
+      borderWidth: map['borderWidth'],
+      borderRadius: map['borderRadius'],
+      padding: map['padding'],
+      margin: map['margin'],
+      orientation: map['orientation'],
+      alignment: map['alignment'],
+      boxShadow: map['boxShadow'],
+      primaryColor: map['primaryColor'],
+      secondaryColor: map['secondaryColor'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory CardStyle.fromJson(String source) => CardStyle.fromMap(json.decode(source));
+
   @override
   String toString() {
     return 'CardStyle(fontSize: $fontSize, fontStyle: $fontStyle, fontWeight: $fontWeight, textAlign: $textAlign, textColor: $textColor, borderStyle: $borderStyle, borderColor: $borderColor, borderWidth: $borderWidth, borderRadius: $borderRadius, padding: $padding, margin: $margin, orientation: $orientation, alignment: $alignment, boxShadow: $boxShadow, primaryColor: $primaryColor, secondaryColor: $secondaryColor)';
   }
-
-  factory CardStyle.fromMap(Map<String, dynamic> data) => CardStyle(
-        fontSize: data['fontSize'] as String?,
-        fontStyle: data['fontStyle'] as String?,
-        fontWeight: data['fontWeight'] as String?,
-        textAlign: data['textAlign'] as String?,
-        textColor: data['textColor'] as String?,
-        borderStyle: data['borderStyle'] as String?,
-        borderColor: data['borderColor'] as String?,
-        borderWidth: data['borderWidth'] as String?,
-        borderRadius: data['borderRadius'] as String?,
-        padding: data['padding'] as String?,
-        margin: data['margin'] as String?,
-        orientation: data['orientation'] as String?,
-        alignment: data['alignment'] as String?,
-        boxShadow: data['boxShadow'] as String?,
-        primaryColor: data['primaryColor'] as String?,
-        secondaryColor: data['secondaryColor'] as String?,
-      );
-
-  Map<String, dynamic> toMap() => {
-        'fontSize': fontSize,
-        'fontStyle': fontStyle,
-        'fontWeight': fontWeight,
-        'textAlign': textAlign,
-        'textColor': textColor,
-        'borderStyle': borderStyle,
-        'borderColor': borderColor,
-        'borderWidth': borderWidth,
-        'borderRadius': borderRadius,
-        'padding': padding,
-        'margin': margin,
-        'orientation': orientation,
-        'alignment': alignment,
-        'boxShadow': boxShadow,
-        'primaryColor': primaryColor,
-        'secondaryColor': secondaryColor,
-      };
-
-  /// `dart:convert`
-  ///
-  /// Parses the string and returns the resulting Json object as [CardStyle].
-  factory CardStyle.fromJson(String data) {
-    return CardStyle.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
-
-  /// `dart:convert`
-  ///
-  /// Converts [CardStyle] to a JSON string.
-  String toJson() => json.encode(toMap());
 
   CardStyle copyWith({
     String? fontSize,
@@ -136,8 +150,22 @@ class CardStyle {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     if (other is! CardStyle) return false;
-    final mapEquals = const DeepCollectionEquality().equals;
-    return mapEquals(other.toMap(), toMap());
+    return fontSize == other.fontSize &&
+        fontStyle == other.fontStyle &&
+        fontWeight == other.fontWeight &&
+        textAlign == other.textAlign &&
+        textColor == other.textColor &&
+        borderStyle == other.borderStyle &&
+        borderColor == other.borderColor &&
+        borderWidth == other.borderWidth &&
+        borderRadius == other.borderRadius &&
+        padding == other.padding &&
+        margin == other.margin &&
+        orientation == other.orientation &&
+        alignment == other.alignment &&
+        boxShadow == other.boxShadow &&
+        primaryColor == other.primaryColor &&
+        secondaryColor == other.secondaryColor;
   }
 
   @override

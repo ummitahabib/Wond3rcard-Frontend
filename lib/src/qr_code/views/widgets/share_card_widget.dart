@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/cards/data/model/test/get_card/get_card.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/getcard.dart';
 import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/qr_code/data/controller/share_card_controller.dart';
@@ -21,8 +23,16 @@ import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 
 //Todo rework on this file and break the widgets and method into smaller parts
 
-// card_provider.dart
-final cachedCardsProvider = StateProvider<List<GetCard>>((ref) => []);
+// You can use the `hive` package for cross-platform (mobile & web) caching in Flutter.
+// SharedPreferences does not support web out of the box for complex objects.
+// Hive is lightweight, supports web, and is good for storing model data.
+// First, add hive and hive_flutter to your pubspec.yaml and run `flutter pub get`.
+// import 'package:hive/hive.dart';
+// import 'package:hive_flutter/hive_flutter.dart';
+
+// Initialize Hive in your main() before runApp():
+// await Hive.initFlutter();
+// Hive.registerAdapter(GetCardAdapter()); // You need to generate this adapter for your model
 
 class ShareQrWidget extends HookConsumerWidget {
   const ShareQrWidget({super.key, required this.index});
@@ -35,6 +45,7 @@ class ShareQrWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profileController = ref.read(profileProvider);
     final cardController = ref.watch(cardProvider);
+
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         final String cardId = ref
@@ -49,28 +60,26 @@ class ShareQrWidget extends HookConsumerWidget {
         final fetchedCard =
             await ref.read(cardProvider).getAUsersCard(context, cardId);
 
-        // ✅ Add card to cache (avoid duplicates)
-        final currentList = ref.read(cachedCardsProvider);
-        final exists = currentList.any((card) =>
-            card.payload?.cards?[index].id ==
-            fetchedCard?.payload?.cards?[index].id);
-        if (!exists && fetchedCard != null) {
-          ref.read(cachedCardsProvider.notifier).state = [
-            ...currentList,
-            fetchedCard
-          ];
+        // Save card to Hive box for caching
+        if (fetchedCard != null) {
+          final box = await Hive.openBox('cardsBox');
+          // Use cardId as key, store the card object
+          await box.put(cardId, fetchedCard);
         }
 
         // Print cached data for debugging
-        final cached = ref.read(cachedCardsProvider);
+        final box = await Hive.openBox('cardsBox');
         debugPrint('Cached cards:');
-        for (var card in cached) {
-          debugPrint(card.payload?.cards?[index].id ?? 'No ID');
-            debugPrint(card.payload?.cards?[index].cardName ?? 'No ID');
+        for (var key in box.keys) {
+          final GetCard card = box.get(key);
+          debugPrint(card?.payload?.cards?[index].id ?? 'No ID');
+          debugPrint(card?.payload?.cards?[index].cardName ?? 'No Name');
         }
       });
       return null;
     }, []);
+
+    // ...rest of your widget code
 
     return Scaffold(
       backgroundColor: AppColors.primaryShade,
@@ -167,15 +176,18 @@ class ShareQrWidget extends HookConsumerWidget {
                               BorderRadius.circular(SpacingConstants.size100),
                           border: Border.all(
                               width: 4, color: AppColors.defaultWhite)),
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundColor: AppColors.defaultWhite,
-                        backgroundImage: NetworkImage(
-                          cardController.getCardsResponse?.payload
-                                  ?.cards?[index].cardPictureUrl ??
-                              ImageAssets.profileImage,
-                        ),
-                      ),
+                      child:  Container()
+                      //temp
+                      
+                      // CircleAvatar(
+                      //   radius: 40,
+                      //   backgroundColor: AppColors.defaultWhite,
+                      //   backgroundImage: NetworkImage(
+                      //     cardController.getCardsResponse?.payload
+                      //             ?.cards?[index].cardPictureUrl ??
+                      //         ImageAssets.profileImage,
+                      //   ),
+                      // ),
                     ),
 
                     Text(

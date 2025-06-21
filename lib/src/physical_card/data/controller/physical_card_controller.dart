@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/cards/data/model/card_model.dart';
 import 'package:wond3rcard/src/cards/data/model/test/get_card/get_card.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/getcard.dart';
 import 'package:wond3rcard/src/physical_card/data/model/physical_card_model.dart';
 import 'package:wond3rcard/src/physical_card/data/repository/physical_card_repository.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';

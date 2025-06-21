@@ -1,8 +1,13 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:hive/hive.dart';
 
-class OrganizationInfo {
+part 'organization_info.g.dart';
+
+@HiveType(typeId: 0)
+class OrganizationInfo extends HiveObject {
+  @HiveField(0)
   String? organizationName;
 
   OrganizationInfo({this.organizationName});
@@ -22,16 +27,10 @@ class OrganizationInfo {
         'organizationName': organizationName,
       };
 
-  /// `dart:convert`
-  ///
-  /// Parses the string and returns the resulting Json object as [OrganizationInfo].
   factory OrganizationInfo.fromJson(String data) {
     return OrganizationInfo.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
-  /// `dart:convert`
-  ///
-  /// Converts [OrganizationInfo] to a JSON string.
   String toJson() => json.encode(toMap());
 
   OrganizationInfo copyWith({

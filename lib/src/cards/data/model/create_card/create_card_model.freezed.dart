@@ -43,15 +43,13 @@ mixin _$CreateCardModel {
   String get address => throw _privateConstructorUsedError;
   List<Map<String, dynamic>> get socialMediaLinks =>
       throw _privateConstructorUsedError;
-  String? get textColor =>
-      throw _privateConstructorUsedError; // ✅ Mobile file upload
+  String? get textColor => throw _privateConstructorUsedError;
   @FileConverter()
   File? get cardPhoto => throw _privateConstructorUsedError;
   @FileConverter()
   File? get cardCoverPhoto => throw _privateConstructorUsedError;
   @FileConverter()
-  File? get cardVideo =>
-      throw _privateConstructorUsedError; // ✅ Web file upload
+  File? get cardVideo => throw _privateConstructorUsedError;
   @Uint8ListConverter()
   Uint8List? get webCardPhoto => throw _privateConstructorUsedError;
   @Uint8ListConverter()
@@ -553,7 +551,6 @@ class _$CreateCardModelImpl implements _CreateCardModel {
 
   @override
   final String? textColor;
-// ✅ Mobile file upload
   @override
   @FileConverter()
   final File? cardPhoto;
@@ -563,7 +560,6 @@ class _$CreateCardModelImpl implements _CreateCardModel {
   @override
   @FileConverter()
   final File? cardVideo;
-// ✅ Web file upload
   @override
   @Uint8ListConverter()
   final Uint8List? webCardPhoto;
@@ -763,7 +759,7 @@ abstract class _CreateCardModel implements CreateCardModel {
   @override
   List<Map<String, dynamic>> get socialMediaLinks;
   @override
-  String? get textColor; // ✅ Mobile file upload
+  String? get textColor;
   @override
   @FileConverter()
   File? get cardPhoto;
@@ -772,7 +768,7 @@ abstract class _CreateCardModel implements CreateCardModel {
   File? get cardCoverPhoto;
   @override
   @FileConverter()
-  File? get cardVideo; // ✅ Web file upload
+  File? get cardVideo;
   @override
   @Uint8ListConverter()
   Uint8List? get webCardPhoto;

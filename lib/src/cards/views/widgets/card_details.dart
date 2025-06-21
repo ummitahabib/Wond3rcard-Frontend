@@ -25,6 +25,8 @@ import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../data/model/test/get_card/getcard.dart';
+
 class CardDetails extends StatefulHookConsumerWidget {
   const CardDetails({super.key, required this.index});
 
@@ -167,15 +169,17 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                         BorderRadius.circular(SpacingConstants.size100),
                     border:
                         Border.all(width: 4, color: AppColors.defaultWhite)),
-                child: CircleAvatar(
-                  radius: 40,
-                  backgroundColor: AppColors.defaultWhite,
-                  backgroundImage: NetworkImage(
-                    cardController.getCardsResponse?.payload
-                            ?.cards?[widget.index].cardPictureUrl ??
-                        emptyString,
-                  ),
-                ),
+                child: Container()
+                //temp 
+                // CircleAvatar(
+                //   radius: 40,
+                //   backgroundColor: AppColors.defaultWhite,
+                //   backgroundImage: NetworkImage(
+                //     cardController.getCardsResponse?.payload
+                //             ?.cards?[widget.index].cardPictureUrl ??
+                //         emptyString,
+                //   ),
+                // ),
               ),
             )
           ],
@@ -312,33 +316,36 @@ class _CardDetailsState extends ConsumerState<CardDetails> {
                             ),
                           ),
                         ),
-                        SocialMediaSection(
-                            socialLinks: cardController
-                                    .getCardsResponse
-                                    ?.payload
-                                    ?.cards?[widget.index]
-                                    .socialMediaLinks ??
-                                []
-                                ),
+
+                         //temp 
+                        // SocialMediaSection(
+                        //     socialLinks: cardController
+                        //             .getCardsResponse
+                        //             ?.payload
+                        //             ?.cards?[widget.index]
+                        //             .socialMediaLinks ??
+                        //         []
+                        //         ),
                       ],
                     ),
                   )),
               const SizedBox(
                 height: 8,
               ),
-              BusinessAddressSection(
-                businessName: cardController.getCardsResponse?.payload
-                    ?.cards?[widget.index].designation,
-                address: cardController.getCardsResponse?.payload
-                    ?.cards?[widget.index].contactInfo?.address,
-                city: cardController.getCardsResponse?.payload
-                    ?.cards?[widget.index].contactInfo?.website,
-                state: "Lagos State",
-                country: cardController.getCardsResponse?.payload
-                    ?.cards?[widget.index].contactInfo?.email,
-                postalCode: cardController.getCardsResponse?.payload
-                    ?.cards?[widget.index].contactInfo?.phone,
-              ),
+               //temp 
+              // BusinessAddressSection(
+              //   businessName: cardController.getCardsResponse?.payload
+              //       ?.cards?[widget.index].designation,
+              //   address: cardController.getCardsResponse?.payload
+              //       ?.cards?[widget.index].contactInfo?.address,
+              //   city: cardController.getCardsResponse?.payload
+              //       ?.cards?[widget.index].contactInfo?.website,
+              //   state: "Lagos State",
+              //   country: cardController.getCardsResponse?.payload
+              //       ?.cards?[widget.index].contactInfo?.email,
+              //   postalCode: cardController.getCardsResponse?.payload
+              //       ?.cards?[widget.index].contactInfo?.phone,
+              // ),
               const SizedBox(
                 height: 8,
               ),

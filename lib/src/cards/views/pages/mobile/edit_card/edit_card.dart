@@ -103,18 +103,18 @@ class _CreateCardFormState extends ConsumerState<CreateCardForm> {
         ? cardController.getCardsResponse!.payload!.cards![index]
         : null;
 
-    if (cardModel != null) {
-      cardController.firstName.text = cardModel.firstName ?? '';
-      cardController.lastName.text = cardModel.lastName ?? '';
-      cardController.middleName.text = cardModel.otherName ?? '';
-      // dobController.text             = cardModel. ?? '';
-      cardController.suffix.text = cardModel.suffix ?? '';
-      cardController.contactInfoAddress.text =
-          cardModel.contactInfo?.address ?? '';
-    } else {
-      cardController.clearForm();
-      dobController.clear();
-    }
+    // if (cardModel != null) {
+    //   cardController.firstName.text = cardModel.firstName ?? '';
+    //   cardController.lastName.text = cardModel.lastName ?? '';
+    //   cardController.middleName.text = cardModel.otherName ?? '';
+    //   // dobController.text             = cardModel. ?? '';
+    //   cardController.suffix.text = cardModel.suffix ?? '';
+    //   cardController.contactInfoAddress.text =
+    //       cardModel.contactInfo?.address ?? '';
+    // } else {
+    //   cardController.clearForm();
+    //   dobController.clear();
+    // }
   }
 
   @override

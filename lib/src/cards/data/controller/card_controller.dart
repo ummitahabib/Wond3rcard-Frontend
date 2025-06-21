@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wond3rcard/src/cards/data/model/card_model.dart';
 import 'package:wond3rcard/src/cards/data/model/get_a_card.dart';
 import 'package:wond3rcard/src/cards/data/model/test/get_card/get_card.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/getcard.dart';
 import 'package:wond3rcard/src/cards/data/repository/card_repository.dart';
 import 'package:wond3rcard/src/utils/alert.dart';
 import 'package:wond3rcard/src/utils/storage_utils.dart';

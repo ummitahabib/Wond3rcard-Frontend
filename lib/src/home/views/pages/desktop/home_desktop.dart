@@ -365,11 +365,12 @@ class _DesktopCardListState extends ConsumerState<DesktopCardList> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    userProfileImage(
-                      image: cardController.getCardsResponse?.payload
-                              ?.cards?[index].cardPictureUrl ??
-                          ImageAssets.profileImage,
-                    ),
+                     //temp 
+                    // userProfileImage(
+                    //   image: cardController.getCardsResponse?.payload
+                    //           ?.cards?[index].cardPictureUrl ??
+                    //       ImageAssets.profileImage,
+                    // ),
                     const Spacer(),
                     NameAndJob(
                       text: cardController.getCardsResponse?.payload
@@ -400,11 +401,12 @@ class _DesktopCardListState extends ConsumerState<DesktopCardList> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        personalProfileTag(
-                          text: cardController.getCardsResponse?.payload
-                                  ?.cards?[index].cardType ??
-                              emptyString,
-                        ),
+                         //temp 
+                        // personalProfileTag(
+                        //   text: cardController.getCardsResponse?.payload
+                        //           ?.cards?[index].cardType ??
+                        //       emptyString,
+                        // ),
                         const Spacer(),
                         qrCodeContainer(onTap: () {
                           context.go(RouteString.shareCardLink);

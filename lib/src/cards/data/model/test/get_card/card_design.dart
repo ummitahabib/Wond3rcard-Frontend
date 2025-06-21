@@ -1,14 +1,31 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:hive/hive.dart';
 
-class CardDesign {
+part 'card_design.g.dart';
+
+@HiveType(typeId: 1)
+class CardDesign extends HiveObject {
+  @HiveField(0)
   String? backgroundColor;
+
+  @HiveField(1)
   String? backgroundImage;
+
+  @HiveField(2)
   String? borderStyle;
+
+  @HiveField(3)
   String? borderColor;
+
+  @HiveField(4)
   String? borderWidth;
+
+  @HiveField(5)
   String? borderRadius;
+
+  @HiveField(6)
   String? boxShadow;
 
   CardDesign({
@@ -45,18 +62,6 @@ class CardDesign {
         'borderRadius': borderRadius,
         'boxShadow': boxShadow,
       };
-
-  /// `dart:convert`
-  ///
-  /// Parses the string and returns the resulting Json object as [CardDesign].
-  factory CardDesign.fromJson(String data) {
-    return CardDesign.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
-
-  /// `dart:convert`
-  ///
-  /// Converts [CardDesign] to a JSON string.
-  String toJson() => json.encode(toMap());
 
   CardDesign copyWith({
     String? backgroundColor,

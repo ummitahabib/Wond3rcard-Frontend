@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -12,6 +13,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
 import 'package:wond3rcard/src/cards/data/model/card_model.dart';
 import 'package:wond3rcard/src/cards/data/model/test/get_card/get_card.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/getcard.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 import 'package:flutter_to_pdf/flutter_to_pdf.dart';
@@ -369,6 +371,7 @@ import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 //   }
 // }
 
+
 class ViewCard extends ConsumerWidget {
   final String cardId;
   final int index;
@@ -381,50 +384,63 @@ class ViewCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cachedCards = ref.watch(cachedCardsProvider);
+    return FutureBuilder<GetCard?>(
+      future: _loadCardFromHive(cardId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        } else if (snapshot.hasError) {
+          return Scaffold(
+            body: Center(child: Text('Error loading card: ${snapshot.error}')),
+          );
+        } else if (!snapshot.hasData || snapshot.data == null) {
+          return const Scaffold(
+            body: Center(child: Text('Card not found in cache')),
+          );
+        }
 
-    // Find the GetCard object that contains the cardId
-    GetCard? matchedCard;
-    for (final getCard in cachedCards) {
-      final cards = getCard.payload?.cards ?? [];
-      if (cards.any((c) => c.id == cardId)) {
-        matchedCard = getCard;
-        break;
-      }
-    }
+        final card = snapshot.data!;
+        final cardList = card.payload?.cards ?? [];
 
-    return Scaffold(
-      appBar: AppBar(title: const Text("View Card")),
-      body: matchedCard != null
-          ? buildCardContent(matchedCard, index)
-          : const Center(child: Text("Card not found in cache.")),
+        if (index < 0 || index >= cardList.length) {
+          return const Scaffold(
+            body: Center(child: Text('Invalid card index')),
+          );
+        }
+
+        final cardData = cardList[index];
+
+        return Scaffold(
+          appBar: AppBar(title: const Text("View Card")),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Name: ${cardData.firstName} ${cardData.lastName}"),
+                  Text("Email: ${cardData.contactInfo?.email ?? 'N/A'}"),
+                  Text("Phone: ${cardData.contactInfo?.phone ?? 'N/A'}"),
+                  const SizedBox(height: 20),
+                  Text("Card Name: ${cardData.cardName ?? 'N/A'}"),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
-  Widget buildCardContent(GetCard card, int index) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-                "Name: ${card.payload?.cards?[index].firstName} ${card.payload?.cards?[index].lastName}",
-                style: const TextStyle(fontSize: 18)),
-            const SizedBox(height: 8),
-            Text(
-                "Email: ${card.payload?.cards?[index].contactInfo?.email ?? 'N/A'}",
-                style: const TextStyle(fontSize: 16)),
-            const SizedBox(height: 8),
-            Text(
-                "Phone: ${card.payload?.cards?[index].contactInfo?.phone ?? 'N/A'}",
-                style: const TextStyle(fontSize: 16)),
-          ],
-        ),
-      ),
-    );
+  /// Load a card from Hive using the card ID
+  Future<GetCard?> _loadCardFromHive(String cardId) async {
+    final box = await Hive.openBox<GetCard>('cardsBox');
+    return box.get(cardId);
   }
 }
+
 
 class CustomStyledContainer extends StatelessWidget {
   const CustomStyledContainer({super.key, required this.image});
