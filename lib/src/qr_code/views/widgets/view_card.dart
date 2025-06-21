@@ -393,10 +393,12 @@ class ViewCard extends ConsumerWidget {
           );
         } else if (snapshot.hasError) {
           return Scaffold(
+            backgroundColor: Colors.red,
             body: Center(child: Text('Error loading card: ${snapshot.error}')),
           );
         } else if (!snapshot.hasData || snapshot.data == null) {
           return const Scaffold(
+            backgroundColor: Colors.pink,
             body: Center(child: Text('Card not found in cache')),
           );
         }
@@ -406,6 +408,7 @@ class ViewCard extends ConsumerWidget {
 
         if (index < 0 || index >= cardList.length) {
           return const Scaffold(
+            backgroundColor: Colors.purpleAccent,
             body: Center(child: Text('Invalid card index')),
           );
         }
@@ -413,6 +416,7 @@ class ViewCard extends ConsumerWidget {
         final cardData = cardList[index];
 
         return Scaffold(
+          backgroundColor: Colors.green,
           appBar: AppBar(title: const Text("View Card")),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
