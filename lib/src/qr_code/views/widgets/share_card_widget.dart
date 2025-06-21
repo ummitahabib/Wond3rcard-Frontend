@@ -66,6 +66,7 @@ class ShareQrWidget extends HookConsumerWidget {
         debugPrint('Cached cards:');
         for (var card in cached) {
           debugPrint(card.payload?.cards?[index].id ?? 'No ID');
+            debugPrint(card.payload?.cards?[index].cardName ?? 'No ID');
         }
       });
       return null;

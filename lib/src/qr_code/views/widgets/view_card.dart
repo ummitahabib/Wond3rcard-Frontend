@@ -368,6 +368,7 @@ import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 //     );
 //   }
 // }
+
 class ViewCard extends ConsumerWidget {
   final String cardId;
   final int index;
@@ -382,47 +383,44 @@ class ViewCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cachedCards = ref.watch(cachedCardsProvider);
 
-    // // Find the matching card (regardless of index)
-    // final matchingCard = cachedCards
-    //     .expand((getCard) => getCard.payload?.cards ?? [])
-    //     .firstWhere(
-    //       (card) => card == cardId,
-    //       orElse: () => null,
-    //     );
-
-    // if (matchingCard == null) {
-    //   return const Scaffold(
-    //     body: Center(
-    //       child: Text("Card not found in cache."),
-    //     ),
-    //   );
-    // }
+    // Find the GetCard object that contains the cardId
+    GetCard? matchedCard;
+    for (final getCard in cachedCards) {
+      final cards = getCard.payload?.cards ?? [];
+      if (cards.any((c) => c.id == cardId)) {
+        matchedCard = getCard;
+        break;
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text("View Card")),
-      body: buildCardContent(ref),
+      body: matchedCard != null
+          ? buildCardContent(matchedCard, index)
+          : const Center(child: Text("Card not found in cache.")),
     );
   }
 
-  Widget buildCardContent(WidgetRef ref) {
-    final cached = ref.read(cachedCardsProvider);
-    // Display the card at the given index from the cached list
-    if (cached.isEmpty ||
-        cached[0].payload?.cards == null ||
-        cached[0].payload!.cards!.length <= index) {
-      return const Center(child: Text("Card not found in cache."));
-    }
-
-    final card = cached[0].payload!.cards![index];
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Name: ${card.firstName} ${card.lastName}"),
-          Text("Email: ${card.contactInfo?.email ?? 'N/A'}"),
-          Text("Phone: ${card.contactInfo?.phone ?? 'N/A'}"),
-        ],
+  Widget buildCardContent(GetCard card, int index) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+                "Name: ${card.payload?.cards?[index].firstName} ${card.payload?.cards?[index].lastName}",
+                style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 8),
+            Text(
+                "Email: ${card.payload?.cards?[index].contactInfo?.email ?? 'N/A'}",
+                style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text(
+                "Phone: ${card.payload?.cards?[index].contactInfo?.phone ?? 'N/A'}",
+                style: const TextStyle(fontSize: 16)),
+          ],
+        ),
       ),
     );
   }
