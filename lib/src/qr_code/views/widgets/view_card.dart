@@ -486,7 +486,7 @@ class ViewCard extends ConsumerWidget {
 
         if (snapshot.hasError) {
           return Scaffold(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.orange,
             body: Center(
               child: Text('Error loading card: ${snapshot.error}'),
             ),
@@ -521,7 +521,7 @@ class ViewCard extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Name: ${cardData.firstName ?? ''} ${cardData.lastName ?? ''}"),
-                  Text("Email: ${cardData.contactInfo?.email ?? 'N/A'}"),
+                 // Text("Email: ${cardData.contactInfo?.email ?? 'N/A'}"),
                   Text("Phone: ${cardData.contactInfo?.phone ?? 'N/A'}"),
                   const SizedBox(height: 20),
                   Text("Card Name: ${cardData.cardName ?? 'N/A'}"),
