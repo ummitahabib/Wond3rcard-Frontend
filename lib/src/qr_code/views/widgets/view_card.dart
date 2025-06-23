@@ -371,7 +371,6 @@ import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 //   }
 // }
 
-
 // class ViewCard extends ConsumerWidget {
 //   final String cardId;
 //   final int index;
@@ -445,7 +444,6 @@ import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 //   }
 // }
 
-
 // class CustomStyledContainer extends StatelessWidget {
 //   const CustomStyledContainer({super.key, required this.image});
 
@@ -459,10 +457,7 @@ import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 //   }
 // }
 
-
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 class ViewCard extends ConsumerWidget {
   final String cardId;
@@ -476,7 +471,7 @@ class ViewCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder<Map<String, dynamic>?>(
+    return FutureBuilder<CardData?>(
       future: _loadCardFromHive(cardId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -495,15 +490,23 @@ class ViewCard extends ConsumerWidget {
                 children: [
                   const Icon(Icons.error, size: 48, color: Colors.red),
                   const SizedBox(height: 16),
-                  Text(
-                    'Error loading card: ${snapshot.error}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 16),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'Error loading card: ${snapshot.error}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 16),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
                     child: const Text('Go Back'),
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => _debugPrintCacheData(cardId),
+                    child: const Text('Debug Cache'),
                   ),
                 ],
               ),
@@ -520,7 +523,8 @@ class ViewCard extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.credit_card_off, size: 48, color: Colors.grey),
+                  const Icon(Icons.credit_card_off,
+                      size: 48, color: Colors.grey),
                   const SizedBox(height: 16),
                   const Text(
                     'Card not found in cache',
@@ -538,30 +542,15 @@ class ViewCard extends ConsumerWidget {
         }
 
         return Scaffold(
-          backgroundColor: AppColors.primaryShade,
+          backgroundColor: Colors.white,
           appBar: AppBar(
-            backgroundColor: AppColors.primaryShade,
-            title: Text(
+            backgroundColor: Colors.blue,
+            title: const Text(
               'View Card',
-              style: WonderCardTypography.boldTextH5(
-                fontSize: 23,
-                color: AppColors.defaultWhite,
-              ),
+              style: TextStyle(color: Colors.white),
             ),
             centerTitle: true,
-            leading: GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-              child: Container(
-                margin: const EdgeInsets.all(10),
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.defaultWhite,
-                ),
-                child: HeroIcon(HeroIcons.arrowLeft, color: AppColors.grayScale),
-              ),
-            ),
+            iconTheme: const IconThemeData(color: Colors.white),
           ),
           body: SingleChildScrollView(
             child: Padding(
@@ -578,14 +567,9 @@ class ViewCard extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: const [
                         BoxShadow(
-                          color: Color(0x0F000000),
-                          offset: Offset(0, 1),
-                          blurRadius: 2,
-                        ),
-                        BoxShadow(
-                          color: Color(0x1A000000),
-                          offset: Offset(0, 1),
-                          blurRadius: 3,
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 8,
                         ),
                       ],
                     ),
@@ -594,67 +578,61 @@ class ViewCard extends ConsumerWidget {
                         // Profile Image
                         Container(
                           decoration: BoxDecoration(
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x0F000000),
-                                offset: Offset(0, 1),
-                                blurRadius: 2,
-                              ),
-                              BoxShadow(
-                                color: Color(0x1A000000),
-                                offset: Offset(0, 1),
-                                blurRadius: 3,
-                              ),
-                            ],
                             borderRadius: BorderRadius.circular(100),
                             border: Border.all(
                               width: 4,
-                              color: AppColors.defaultWhite,
+                              color: Colors.white,
                             ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(0, 2),
+                                blurRadius: 8,
+                              ),
+                            ],
                           ),
                           child: CircleAvatar(
                             radius: 50,
-                            backgroundColor: AppColors.defaultWhite,
-                            backgroundImage: NetworkImage(
-                              _getStringValue(cardData, 'cardPictureUrl') ?? 
-                              ImageAssets.profileImage,
-                            ),
+                            backgroundColor: Colors.grey[300],
+                            backgroundImage: _getImageProvider(cardData),
+                            child: _getImageProvider(cardData) == null
+                                ? const Icon(Icons.person,
+                                    size: 50, color: Colors.grey)
+                                : null,
                           ),
                         ),
                         const SizedBox(height: 20),
-                        
+
                         // Name
                         Text(
-                          '${_getStringValue(cardData, 'firstName') ?? ''} ${_getStringValue(cardData, 'lastName') ?? ''}',
+                          _getFullName(cardData),
                           style: const TextStyle(
                             fontSize: 24,
-                            fontFamily: wonderCardFontName,
                             fontWeight: FontWeight.w700,
                           ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
-                        
+
                         // Card Name
-                        if (_getStringValue(cardData, 'cardName') != null)
+                        if (_getSafeString(cardData.cardName).isNotEmpty)
                           Text(
-                            _getStringValue(cardData, 'cardName')!,
+                            _getSafeString(cardData.cardName),
                             style: const TextStyle(
                               fontSize: 18,
-                              fontFamily: wonderCardFontName,
                               fontWeight: FontWeight.w500,
                               color: Colors.grey,
                             ),
                             textAlign: TextAlign.center,
                           ),
                         const SizedBox(height: 20),
-                        
+
                         // Contact Information
                         _buildContactInfo(cardData),
                       ],
                     ),
                   ),
-                  
+
                   // Additional Information
                   _buildAdditionalInfo(cardData),
                 ],
@@ -666,9 +644,7 @@ class ViewCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildContactInfo(Map<String, dynamic> cardData) {
-    final contactInfo = cardData['contactInfo'];
-    
+  Widget _buildContactInfo(CardData cardData) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -684,48 +660,47 @@ class ViewCard extends ConsumerWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              fontFamily: wonderCardFontName,
             ),
           ),
           const SizedBox(height: 12),
-          
+
           // Email
-          if (contactInfo != null && contactInfo['email'] != null)
+          if (_getContactEmail(cardData).isNotEmpty)
             _buildInfoRow(
               Icons.email_outlined,
               'Email',
-              contactInfo['email'].toString(),
+              _getContactEmail(cardData),
             ),
-          
+
           // Phone
-          if (contactInfo != null && contactInfo['phone'] != null)
+          if (_getContactPhone(cardData).isNotEmpty)
             _buildInfoRow(
               Icons.phone_outlined,
               'Phone',
-              contactInfo['phone'].toString(),
+              _getContactPhone(cardData),
             ),
-          
+
           // Website
-          if (contactInfo != null && contactInfo['website'] != null)
+          if (_getContactWebsite(cardData).isNotEmpty)
             _buildInfoRow(
               Icons.language_outlined,
               'Website',
-              contactInfo['website'].toString(),
+              _getContactWebsite(cardData),
             ),
-          
+
           // Address
-          if (contactInfo != null && contactInfo['address'] != null)
+          if (_getContactAddress(cardData).isNotEmpty)
             _buildInfoRow(
               Icons.location_on_outlined,
               'Address',
-              contactInfo['address'].toString(),
+              _getContactAddress(cardData),
             ),
         ],
       ),
     );
   }
 
-  Widget _buildAdditionalInfo(Map<String, dynamic> cardData) {
+  Widget _buildAdditionalInfo(CardData cardData) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(top: 16),
@@ -735,9 +710,9 @@ class ViewCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x0F000000),
-            offset: Offset(0, 1),
-            blurRadius: 2,
+            color: Colors.black12,
+            offset: Offset(0, 2),
+            blurRadius: 4,
           ),
         ],
       ),
@@ -749,32 +724,39 @@ class ViewCard extends ConsumerWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              fontFamily: wonderCardFontName,
             ),
           ),
           const SizedBox(height: 12),
-          
+
           // Card ID
           _buildInfoRow(
             Icons.credit_card,
             'Card ID',
-            _getStringValue(cardData, 'id') ?? 'N/A',
+            _getSafeString(cardData.id),
           ),
-          
+
           // Company
-          if (_getStringValue(cardData, 'company') != null)
+          if (_getSafeString(cardData.designation).isNotEmpty)
             _buildInfoRow(
               Icons.business_outlined,
               'Company',
-              _getStringValue(cardData, 'company')!,
+              _getSafeString(cardData.designation),
             ),
-          
+
           // Job Title
-          if (_getStringValue(cardData, 'jobTitle') != null)
+          if (_getSafeString(cardData.designation).isNotEmpty)
             _buildInfoRow(
               Icons.work_outline,
               'Job Title',
-              _getStringValue(cardData, 'jobTitle')!,
+              _getSafeString(cardData.designation),
+            ),
+
+          // Bio
+          if (_getSafeString(cardData.cardName).isNotEmpty)
+            _buildInfoRow(
+              Icons.info_outline,
+              'Bio',
+              _getSafeString(cardData.cardName),
             ),
         ],
       ),
@@ -782,6 +764,8 @@ class ViewCard extends ConsumerWidget {
   }
 
   Widget _buildInfoRow(IconData icon, String label, String value) {
+    if (value.isEmpty) return const SizedBox.shrink();
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -790,7 +774,7 @@ class ViewCard extends ConsumerWidget {
           Icon(
             icon,
             size: 20,
-            color: AppColors.grayScale700,
+            color: Colors.grey[600],
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -803,16 +787,12 @@ class ViewCard extends ConsumerWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.grey,
-                    fontFamily: wonderCardFontName,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontFamily: wonderCardFontName,
-                  ),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ],
             ),
@@ -822,41 +802,115 @@ class ViewCard extends ConsumerWidget {
     );
   }
 
-  String? _getStringValue(Map<String, dynamic> data, String key) {
-    final value = data[key];
-    if (value == null) return null;
+  // Safe string getter
+  String _getSafeString(dynamic value) {
+    if (value == null) return '';
     return value.toString();
   }
 
-  Future<Map<String, dynamic>?> _loadCardFromHive(String cardId) async {
+  // Safe contact info getters
+  String _getContactEmail(CardData cardData) {
     try {
-      final box = await Hive.openBox('cardsBox'); // Remove type parameter
+      return _getSafeString(cardData.contactInfo?.email);
+    } catch (e) {
+      debugPrint('Error getting email: $e');
+      return '';
+    }
+  }
+
+  String _getContactPhone(CardData cardData) {
+    try {
+      return _getSafeString(cardData.contactInfo?.phone);
+    } catch (e) {
+      debugPrint('Error getting phone: $e');
+      return '';
+    }
+  }
+
+  String _getContactWebsite(CardData cardData) {
+    try {
+      return _getSafeString(cardData.contactInfo?.website);
+    } catch (e) {
+      debugPrint('Error getting website: $e');
+      return '';
+    }
+  }
+
+  String _getContactAddress(CardData cardData) {
+    try {
+      return _getSafeString(cardData.contactInfo?.address);
+    } catch (e) {
+      debugPrint('Error getting address: $e');
+      return '';
+    }
+  }
+
+  // Safe full name getter
+  String _getFullName(CardData cardData) {
+    final firstName = _getSafeString(cardData.firstName);
+    final lastName = _getSafeString(cardData.lastName);
+    final fullName = '$firstName $lastName'.trim();
+    return fullName.isEmpty ? 'Unknown User' : fullName;
+  }
+
+  // Safe image provider
+  ImageProvider? _getImageProvider(CardData cardData) {
+    try {
+      final imageUrl = _getSafeString(cardData.cardPictureUrl);
+      if (imageUrl.isNotEmpty && imageUrl.startsWith('http')) {
+        return NetworkImage(imageUrl);
+      }
+    } catch (e) {
+      debugPrint('Error loading image: $e');
+    }
+    return null;
+  }
+
+  // Load card from Hive cache
+  Future<CardData?> _loadCardFromHive(String cardId) async {
+    try {
+      debugPrint('Loading card with ID: $cardId');
+
+      final box = await Hive.openBox('cardsBox');
       final rawData = box.get(cardId);
-      
-      debugPrint('Raw card from Hive: $rawData');
+
+      debugPrint('Raw data from Hive: $rawData');
       debugPrint('Raw data type: ${rawData.runtimeType}');
-      
+
       if (rawData == null) {
         debugPrint('No data found for cardId: $cardId');
         return null;
       }
 
       // Handle different data types
-      Map<String, dynamic>? cardData;
-      
-      if (rawData is Map<String, dynamic>) {
-        cardData = rawData;
-      } else if (rawData is GetCard) {
-        // If it's a GetCard object, convert to Map
-        cardData = _convertGetCardToMap(rawData);
-      } else {
-        debugPrint('Unexpected data type: ${rawData.runtimeType}');
-        return null;
+      if (rawData is GetCard) {
+        // Extract the card data from GetCard
+        final cards = rawData.payload?.cards;
+        if (cards != null && cards.isNotEmpty) {
+          // Return the first card that matches our cardId or just the first card
+          final matchingCard = cards.firstWhere(
+            (card) => card.id == cardId,
+            orElse: () => cards.first,
+          );
+          debugPrint('Found matching card: ${matchingCard.id}');
+          return matchingCard;
+        }
+      } else if (rawData is CardData) {
+        // Direct CardData object
+        debugPrint('Found direct CardData object');
+        return rawData;
+      } else if (rawData is Map) {
+        // Try to convert Map to CardData
+        debugPrint('Converting Map to CardData');
+        try {
+          return CardData.fromMap(Map<String, dynamic>.from(rawData));
+        } catch (e) {
+          debugPrint('Error converting Map to CardData: $e');
+        }
       }
-      
-      debugPrint('Processed card data: $cardData');
-      return cardData;
-      
+
+      debugPrint('Could not process data type: ${rawData.runtimeType}');
+      return null;
     } catch (e, stackTrace) {
       debugPrint('Error loading card from Hive: $e');
       debugPrint('Stack trace: $stackTrace');
@@ -864,25 +918,38 @@ class ViewCard extends ConsumerWidget {
     }
   }
 
-  Map<String, dynamic> _convertGetCardToMap(GetCard getCard) {
-    // This method should convert your GetCard object to a Map
-    // You'll need to implement this based on your GetCard model structure
-    // For example:
-    return {
-      'id': getCard.payload?.cards?[index].id ?? '',
-      'firstName': getCard.payload?.cards?[index].firstName ?? '',
-      'lastName': getCard.payload?.cards?[index].lastName ?? '',
-      'cardName': getCard.payload?.cards?[index].cardName ?? '',
-      'cardPictureUrl': getCard.payload?.cards?[index].cardPictureUrl ?? '',
-      'contactInfo': {
-        'email': getCard.payload?.cards?[index].contactInfo?.email,
-        'phone': getCard.payload?.cards?[index].contactInfo?.phone,
-        'website': getCard.payload?.cards?[index].contactInfo?.website,
-        'address': getCard.payload?.cards?[index].contactInfo?.address,
-      },
-      // 'company': getCard.company,
-      // 'jobTitle': getCard.jobTitle,
-      // Add other fields as needed
-    };
+  // Debug method to print cache data
+  void _debugPrintCacheData(String cardId) async {
+    try {
+      final box = await Hive.openBox('cardsBox');
+      debugPrint('=== CACHE DEBUG FOR $cardId ===');
+      debugPrint('All keys in cache: ${box.keys.toList()}');
+
+      final data = box.get(cardId);
+      debugPrint('Raw data: $data');
+      debugPrint('Data type: ${data.runtimeType}');
+
+      if (data is GetCard) {
+        debugPrint('GetCard status: ${data.status}');
+        debugPrint('GetCard message: ${data.message}');
+        debugPrint('GetCard payload: ${data.payload}');
+        debugPrint('Cards count: ${data.payload?.cards?.length}');
+
+        if (data.payload?.cards != null) {
+          for (int i = 0; i < data.payload!.cards!.length; i++) {
+            final card = data.payload!.cards![i];
+            debugPrint(
+                'Card $i: ID=${card.id}, Name=${card.firstName} ${card.lastName}');
+          }
+        }
+      } else if (data is CardData) {
+        debugPrint('CardData ID: ${data.id}');
+        debugPrint('CardData Name: ${data.firstName} ${data.lastName}');
+      }
+
+      debugPrint('=== END CACHE DEBUG ===');
+    } catch (e) {
+      debugPrint('Debug error: $e');
+    }
   }
 }
