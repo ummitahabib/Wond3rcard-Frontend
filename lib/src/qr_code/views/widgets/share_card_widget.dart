@@ -33,6 +33,240 @@ import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 // await Hive.initFlutter();
 // Hive.registerAdapter(GetCardAdapter()); // You need to generate this adapter for your model
 
+
+
+
+
+
+
+// class ShareQrWidget extends HookConsumerWidget {
+//   const ShareQrWidget({super.key, required this.index});
+
+//   final int index;
+
+//   static const routeName = RouteString.shareCardLink;
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final profileController = ref.read(profileProvider);
+//     final cardController = ref.watch(cardProvider);
+
+//     useEffect(() {
+//       WidgetsBinding.instance.addPostFrameCallback((_) async {
+//         final String cardId = ref
+//                 .read(cardProvider)
+//                 .getCardsResponse
+//                 ?.payload
+//                 ?.cards?[index]
+//                 .id ??
+//             '';
+
+//         await profileController.getProfile(context);
+//         final fetchedCard =
+//             await ref.read(cardProvider).getAUsersCard(context, cardId);
+
+//         // Save card to Hive box for caching
+//         if (fetchedCard != null) {
+//         final box = await Hive.openBox<GetCard>('cardsBox');
+// await box.put(cardId, fetchedCard);
+
+//           // Print all cached data for debugging
+//           print('Cached cards:');
+//           for (var key in box.keys) {
+//             print('Key: $key, Value: ${box.get(key)}');
+//           }
+//         }
+//       });
+//       return null;
+//     }, []);
+
+//     // ...rest of your widget code
+
+//     return Scaffold(
+//       backgroundColor: AppColors.primaryShade,
+//       appBar: AppBar(
+//         backgroundColor: AppColors.primaryShade,
+//         title: Text('Share Card',
+//             style: WonderCardTypography.boldTextH5(
+//                 fontSize: 23, color: AppColors.defaultWhite)),
+//         centerTitle: true,
+//         actions: [
+//           GestureDetector(
+//             onTap: () {
+//               context.go(RouteString.qrScanner);
+//             },
+//             child: Container(
+//               width: 40,
+//               height: 40,
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(10),
+//                 color: AppColors.defaultWhite,
+//               ),
+//               margin: const EdgeInsets.all(10),
+//               child: Icon(Icons.qr_code_scanner_rounded,
+//                   color: AppColors.grayScale),
+//             ),
+//           ),
+//         ],
+//         leading: GestureDetector(
+//           onTap: () {
+//             isDesktop(context)
+//                 ? context.go(RouteString.shareCardLink)
+//                 : context.go(RouteString.mainDashboard);
+//           },
+//           child: Container(
+//             margin: const EdgeInsets.all(10),
+//             width: 40,
+//             height: 40,
+//             decoration: BoxDecoration(
+//               borderRadius: BorderRadius.circular(10),
+//               color: AppColors.defaultWhite,
+//             ),
+//             child: HeroIcon(HeroIcons.arrowLeft, color: AppColors.grayScale),
+//           ),
+//         ),
+//       ),
+//       body: SingleChildScrollView(
+//         child: Center(
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               Container(
+//                 margin:
+//                     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+//                 padding: const EdgeInsets.symmetric(
+//                   vertical: 10,
+//                   horizontal: 10,
+//                 ),
+//                 decoration: BoxDecoration(
+//                   color: Colors.white,
+//                   borderRadius: BorderRadius.circular(
+//                     SpacingConstants.size16,
+//                   ),
+//                 ),
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     // userProfileImage(),
+
+//                     Container(
+//                       decoration: BoxDecoration(
+//                           boxShadow: const [
+//                             BoxShadow(
+//                               color: Color(0x0F000000),
+//                               offset: Offset(
+//                                 SpacingConstants.size0,
+//                                 SpacingConstants.size1,
+//                               ),
+//                               blurRadius: SpacingConstants.size2,
+//                             ),
+//                             BoxShadow(
+//                               color: Color(0x1A000000),
+//                               offset: Offset(
+//                                 SpacingConstants.size0,
+//                                 SpacingConstants.size1,
+//                               ),
+//                               blurRadius: SpacingConstants.size3,
+//                             ),
+//                           ],
+//                           borderRadius:
+//                               BorderRadius.circular(SpacingConstants.size100),
+//                           border: Border.all(
+//                               width: 4, color: AppColors.defaultWhite)),
+//                       child: CircleAvatar(
+//                         radius: 40,
+//                         backgroundColor: AppColors.defaultWhite,
+//                         backgroundImage: NetworkImage(
+//                           cardController.getCardsResponse?.payload
+//                                   ?.cards?[index].cardPictureUrl ??
+//                               ImageAssets.profileImage,
+//                         ),
+//                       ),
+//                     ),
+
+//                     Text(
+//                       '${cardController.getCardsResponse?.payload?.cards?[index].firstName ?? emptyString} ${cardController.getCardsResponse?.payload?.cards?[index].lastName ?? emptyString}',
+//                       style: const TextStyle(
+//                         fontSize: 18,
+//                         fontFamily: wonderCardFontName,
+//                         fontWeight: FontWeight.w700,
+//                       ),
+//                     ),
+//                     ShareCardWithBarCode(
+//                         cardId: cardController
+//                                 .getCardsResponse?.payload?.cards![index].id ??
+//                             emptyString),
+//                   ],
+//                 ),
+//               ),
+//               Padding(
+//                 padding: const EdgeInsets.all(10),
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     LinkContainer(
+//                       cardId: cardController
+//                               .getCardsResponse?.payload?.cards?[index].id ??
+//                           '',
+//                     ),
+//                     SizedBox(width: 10),
+//                     linkContainer('Share link', HeroIcons.arrowUpTray, () {}),
+//                   ],
+//                 ),
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   GestureDetector linkContainer(
+//     String text,
+//     HeroIcons icon,
+//     Function()? onTap,
+//   ) {
+//     return GestureDetector(
+//       onTap: onTap,
+//       child: Container(
+//         width: 158.5,
+//         height: 61.59,
+//         padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 9),
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(8),
+//           color: AppColors.defaultWhite,
+//         ),
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//           children: [
+//             Text(
+//               text,
+//               style: const TextStyle(
+//                 fontFamily: wonderCardFontName,
+//                 fontSize: 14,
+//                 fontWeight: FontWeight.w500,
+//               ),
+//             ),
+//             HeroIcon(
+//               icon,
+//               color: AppColors.grayScale700,
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+
 class ShareQrWidget extends HookConsumerWidget {
   const ShareQrWidget({super.key, required this.index});
 
@@ -47,34 +281,35 @@ class ShareQrWidget extends HookConsumerWidget {
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        final String cardId = ref
-                .read(cardProvider)
-                .getCardsResponse
-                ?.payload
-                ?.cards?[index]
-                .id ??
-            '';
+        try {
+          final String cardId = ref
+                  .read(cardProvider)
+                  .getCardsResponse
+                  ?.payload
+                  ?.cards?[index]
+                  .id ??
+              '';
 
-        await profileController.getProfile(context);
-        final fetchedCard =
-            await ref.read(cardProvider).getAUsersCard(context, cardId);
-
-        // Save card to Hive box for caching
-        if (fetchedCard != null) {
-        final box = await Hive.openBox<GetCard>('cardsBox');
-await box.put(cardId, fetchedCard);
-
-          // Print all cached data for debugging
-          print('Cached cards:');
-          for (var key in box.keys) {
-            print('Key: $key, Value: ${box.get(key)}');
+          if (cardId.isEmpty) {
+            debugPrint('Card ID is empty, cannot cache');
+            return;
           }
+
+          await profileController.getProfile(context);
+          final fetchedCard =
+              await ref.read(cardProvider).getAUsersCard(context, cardId);
+
+          // Save card to Hive box for caching
+          if (fetchedCard != null) {
+            await _cacheCardData(cardId, fetchedCard);
+          }
+        } catch (e, stackTrace) {
+          debugPrint('Error in useEffect: $e');
+          debugPrint('Stack trace: $stackTrace');
         }
       });
       return null;
     }, []);
-
-    // ...rest of your widget code
 
     return Scaffold(
       backgroundColor: AppColors.primaryShade,
@@ -145,8 +380,6 @@ await box.put(cardId, fetchedCard);
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // userProfileImage(),
-
                     Container(
                       decoration: BoxDecoration(
                           boxShadow: const [
@@ -209,7 +442,7 @@ await box.put(cardId, fetchedCard);
                               .getCardsResponse?.payload?.cards?[index].id ??
                           '',
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     linkContainer('Share link', HeroIcons.arrowUpTray, () {}),
                   ],
                 ),
@@ -219,6 +452,64 @@ await box.put(cardId, fetchedCard);
         ),
       ),
     );
+  }
+
+  // Helper method to cache card data properly
+  Future<void> _cacheCardData(String cardId, GetCard fetchedCard) async {
+    try {
+      final box = await Hive.openBox('cardsBox'); // Remove type parameter to avoid type issues
+      
+      // Convert the GetCard object to a Map for easier storage and retrieval
+      final cardData = _convertGetCardToMap(fetchedCard);
+      
+      await box.put(cardId, cardData);
+
+      // Print cached data for debugging
+      debugPrint('Successfully cached card with ID: $cardId');
+      debugPrint('Cached data: $cardData');
+      
+      // Print all cached cards for debugging
+      debugPrint('All cached cards:');
+      for (var key in box.keys) {
+        debugPrint('Key: $key, Type: ${box.get(key).runtimeType}');
+      }
+    } catch (e, stackTrace) {
+      debugPrint('Error caching card data: $e');
+      debugPrint('Stack trace: $stackTrace');
+    }
+  }
+
+  // Convert GetCard object to Map for consistent storage
+  Map<String, dynamic> _convertGetCardToMap(GetCard getCard) {
+    // Extract the card data from the first card in the response
+    final card = getCard.payload?.cards?.isNotEmpty == true 
+        ? getCard.payload!.cards!.first 
+        : null;
+    
+    if (card == null) {
+      return {};
+    }
+
+    return {
+      'id': card.id,
+      'firstName': card.firstName,
+      'lastName': card.lastName,
+      'cardName': card.cardName,
+      'cardPictureUrl': card.cardPictureUrl,
+      'contactInfo': {
+        'email': card.contactInfo?.email,
+        'phone': card.contactInfo?.phone,
+        'website': card.contactInfo?.website,
+        'address': card.contactInfo?.address,
+      },
+      // 'company': card.company,
+      // 'jobTitle': card.jobTitle,
+      // 'bio': card.bio,
+      // 'socialLinks': card.socialLinks,
+      'createdAt': card.createdAt,
+      'updatedAt': card.updatedAt,
+      // Add any other fields your card model has
+    };
   }
 
   GestureDetector linkContainer(
