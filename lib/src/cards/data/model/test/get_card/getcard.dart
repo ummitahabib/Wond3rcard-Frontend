@@ -311,21 +311,21 @@ class ContactInfo extends HiveObject {
   }
 
   factory ContactInfo.fromMap(Map<String, dynamic> data) => ContactInfo(
-        emailType: data['emailType'] is List
-            ? List<dynamic>.from(data['emailType'])
-            : data['emailType'] is String
-                ? [data['emailType']]
-                : null,
+        emailType: _normalizeToList(data['emailType']),
         email: data['email'] as String?,
         phone: data['phone'] as String?,
         website: data['website'] as String?,
         address: data['address'] as String?,
-        addresses: data['addresses'] is List
-            ? List<dynamic>.from(data['addresses'])
-            : data['addresses'] is String
-                ? [data['addresses']]
-                : null,
+        addresses: _normalizeToList(data['addresses']),
       );
+
+  // Helper to normalize input to a List<dynamic> or null
+  static List<dynamic>? _normalizeToList(dynamic value) {
+    if (value == null) return null;
+    if (value is List) return List<dynamic>.from(value);
+    if (value is String && value.isNotEmpty) return [value];
+    return null;
+  }
 
   Map<String, dynamic> toMap() => {
         'emailType': emailType,
