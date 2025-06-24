@@ -296,6 +296,7 @@ class ShareQrWidget extends HookConsumerWidget {
           }
 
           await profileController.getProfile(context);
+          // Don't use context after an await; remove context from getAUsersCard
           final fetchedCard =
               await ref.read(cardProvider).getAUsersCard(context, cardId);
 
