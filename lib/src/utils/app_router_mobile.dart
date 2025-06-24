@@ -545,8 +545,7 @@ final GoRouter routerMobile = GoRouter(
               final indexStr = state.uri.queryParameters['index'];
               final index = int.tryParse(indexStr ?? '0') ?? 0;
               return ViewCard(cardId: id ?? '',
-              
-              // index: index
+               index: index
               
               );
             },

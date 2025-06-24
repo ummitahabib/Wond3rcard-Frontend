@@ -14,6 +14,6 @@ Future<void> main() async {
   Hive.registerAdapter(GetCardAdapter());
   Hive.registerAdapter(PayloadAdapter());
   Hive.registerAdapter(CardDataAdapter());
-  Hive.registerAdapter(ContactInfoAdapter());
+  //Hive.registerAdapter(ContactInfoAdapter());
   runApp(const ProviderScope(child: AppWidget()));
 }

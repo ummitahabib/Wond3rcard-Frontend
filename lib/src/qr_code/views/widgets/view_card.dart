@@ -458,124 +458,483 @@ import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 // }
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-class ViewCard extends StatefulWidget {
+
+class ViewCard extends ConsumerWidget {
   final String cardId;
-  const ViewCard({super.key, required this.cardId});
+  final int index;
+
+  const ViewCard({
+    super.key,
+    required this.cardId,
+    required this.index,
+  });
 
   @override
-  State<ViewCard> createState() => _ViewCardState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FutureBuilder<CardData?>(
+      future: _loadCardFromHive(cardId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-class _ViewCardState extends State<ViewCard> {
-  GetCard? cachedCard;
-  bool isLoading = true;
+        if (snapshot.hasError) {
+          return Scaffold(
+            backgroundColor: Colors.orange,
+            appBar: AppBar(title: const Text("View Card")),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error, size: 48, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'Error loading card: ${snapshot.error}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Go Back'),
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => _debugPrintCacheData(cardId),
+                    child: const Text('Debug Cache'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
 
-  @override
-  void initState() {
-    super.initState();
-    _loadCachedCard();
+        final cardData = snapshot.data;
+        if (cardData == null) {
+          return Scaffold(
+            backgroundColor: Colors.pink,
+            appBar: AppBar(title: const Text("View Card")),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.credit_card_off,
+                      size: 48, color: Colors.grey),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Card not found in cache',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Go Back'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.blue,
+            title: const Text(
+              'View Card',
+              style: TextStyle(color: Colors.white),
+            ),
+            centerTitle: true,
+            iconTheme: const IconThemeData(color: Colors.white),
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  // Card Container
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        // Profile Image
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(
+                              width: 4,
+                              color: Colors.white,
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(0, 2),
+                                blurRadius: 8,
+                              ),
+                            ],
+                          ),
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.grey[300],
+                            backgroundImage: _getImageProvider(cardData),
+                            child: _getImageProvider(cardData) == null
+                                ? const Icon(Icons.person,
+                                    size: 50, color: Colors.grey)
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Name
+                        Text(
+                          _getFullName(cardData),
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+
+                        // Card Name
+                        if (_getSafeString(cardData.cardName).isNotEmpty)
+                          Text(
+                            _getSafeString(cardData.cardName),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        const SizedBox(height: 20),
+
+                        // Contact Information
+                        _buildContactInfo(cardData),
+                      ],
+                    ),
+                  ),
+
+                  // Additional Information
+                  _buildAdditionalInfo(cardData),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
-  Future<void> _loadCachedCard() async {
-    try {
-      final box = await Hive.openBox('cardsBox');
-      final cached = box.get(widget.cardId);
+  Widget _buildContactInfo(CardData cardData) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Contact Information',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 12),
 
-      if (cached is GetCard) {
-        setState(() {
-          cachedCard = cached;
-          isLoading = false;
-        });
-      } else {
-        debugPrint('Invalid cached type for cardId: ${widget.cardId}');
-        setState(() => isLoading = false);
+          // Email
+          if (_getContactEmail(cardData).isNotEmpty)
+            _buildInfoRow(
+              Icons.email_outlined,
+              'Email',
+              _getContactEmail(cardData),
+            ),
+
+          // Phone
+          if (_getContactPhone(cardData).isNotEmpty)
+            _buildInfoRow(
+              Icons.phone_outlined,
+              'Phone',
+              _getContactPhone(cardData),
+            ),
+
+          // Website
+          if (_getContactWebsite(cardData).isNotEmpty)
+            _buildInfoRow(
+              Icons.language_outlined,
+              'Website',
+              _getContactWebsite(cardData),
+            ),
+
+          // Address
+          if (_getContactAddress(cardData).isNotEmpty)
+            _buildInfoRow(
+              Icons.location_on_outlined,
+              'Address',
+              _getContactAddress(cardData),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAdditionalInfo(CardData cardData) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(0, 2),
+            blurRadius: 4,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Card Details',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // Card ID
+          _buildInfoRow(
+            Icons.credit_card,
+            'Card ID',
+            _getSafeString(cardData.id),
+          ),
+
+          // Company
+          if (_getSafeString(cardData.designation).isNotEmpty)
+            _buildInfoRow(
+              Icons.business_outlined,
+              'Company',
+              _getSafeString(cardData.designation),
+            ),
+
+          // Job Title
+          if (_getSafeString(cardData.designation).isNotEmpty)
+            _buildInfoRow(
+              Icons.work_outline,
+              'Job Title',
+              _getSafeString(cardData.designation),
+            ),
+
+          // Bio
+          if (_getSafeString(cardData.cardName).isNotEmpty)
+            _buildInfoRow(
+              Icons.info_outline,
+              'Bio',
+              _getSafeString(cardData.cardName),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    if (value.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            size: 20,
+            color: Colors.grey[600],
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  value,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Safe string getter
+  String _getSafeString(dynamic value) {
+    if (value == null) return '';
+    return value.toString();
+  }
+
+  String _normalizeContactField(dynamic field) {
+  if (field == null) return '';
+  if (field is List && field.isNotEmpty) return field.first.toString();
+  return field.toString();
+}
+
+String _getContactEmail(CardData cardData) {
+  return _normalizeContactField(cardData.contactInfo?.email);
+}
+
+String _getContactPhone(CardData cardData) {
+  return _normalizeContactField(cardData.contactInfo?.phone);
+}
+
+String _getContactWebsite(CardData cardData) {
+  return _normalizeContactField(cardData.contactInfo?.website);
+}
+
+String _getContactAddress(CardData cardData) {
+  return _normalizeContactField(cardData.contactInfo?.address);
+}
+
+  // Safe full name getter
+  String _getFullName(CardData cardData) {
+    final firstName = _getSafeString(cardData.firstName);
+    final lastName = _getSafeString(cardData.lastName);
+    final fullName = '$firstName $lastName'.trim();
+    return fullName.isEmpty ? 'Unknown User' : fullName;
+  }
+
+  // Safe image provider
+  ImageProvider? _getImageProvider(CardData cardData) {
+    try {
+      final imageUrl = _getSafeString(cardData.cardPictureUrl);
+      if (imageUrl.isNotEmpty && imageUrl.startsWith('http')) {
+        return NetworkImage(imageUrl);
       }
     } catch (e) {
-      debugPrint('Failed to load cached card: $e');
-      setState(() => isLoading = false);
+      debugPrint('Error loading image: $e');
+    }
+    return null;
+  }
+
+  // Load card from Hive cache
+  Future<CardData?> _loadCardFromHive(String cardId) async {
+    try {
+      debugPrint('Loading card with ID: $cardId');
+
+      final box = await Hive.openBox('cardsBox');
+      final rawData = box.get(cardId);
+
+      debugPrint('Raw data from Hive: $rawData');
+      debugPrint('Raw data type: ${rawData.runtimeType}');
+
+      if (rawData == null) {
+        debugPrint('No data found for cardId: $cardId');
+        return null;
+      }
+
+      // Handle different data types
+      if (rawData is GetCard) {
+        // Extract the card data from GetCard
+        final cards = rawData.payload?.cards;
+        if (cards != null && cards.isNotEmpty) {
+          // Return the first card that matches our cardId or just the first card
+          final matchingCard = cards.firstWhere(
+            (card) => card.id == cardId,
+            orElse: () => cards.first,
+          );
+          debugPrint('Found matching card: ${matchingCard.id}');
+          return matchingCard;
+        }
+      } else if (rawData is CardData) {
+        // Direct CardData object
+        debugPrint('Found direct CardData object');
+        return rawData;
+      } else if (rawData is Map) {
+        // Try to convert Map to CardData
+        debugPrint('Converting Map to CardData');
+        try {
+          return CardData.fromMap(Map<String, dynamic>.from(rawData));
+        } catch (e) {
+          debugPrint('Error converting Map to CardData: $e');
+        }
+      }
+
+      debugPrint('Could not process data type: ${rawData.runtimeType}');
+      return null;
+    } catch (e, stackTrace) {
+      debugPrint('Error loading card from Hive: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final card = cachedCard?.payload?.cards?.first;
+  // Debug method to print cache data
+  void _debugPrintCacheData(String cardId) async {
+    try {
+      final box = await Hive.openBox('cardsBox');
+      debugPrint('=== CACHE DEBUG FOR $cardId ===');
+      debugPrint('All keys in cache: ${box.keys.toList()}');
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryShade,
-        title: const Text(
-          'View Card',
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      backgroundColor: AppColors.primaryShade,
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : card == null
-              ? const Center(child: Text('No cached card found.'))
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0x1A000000),
-                              offset: Offset(0, 2),
-                              blurRadius: 6,
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 40,
-                              backgroundColor: AppColors.defaultWhite,
-                              backgroundImage: NetworkImage(
-                                card.cardPictureUrl ??
-                                    ImageAssets.profileImage,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              '${card.firstName ?? ''} ${card.lastName ?? ''}',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontFamily: wonderCardFontName,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Card ID: ${card.id ?? 'Unavailable'}',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            ShareCardWithBarCode(
-                              cardId: card.id ?? '',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-    );
+      final data = box.get(cardId);
+      debugPrint('Raw data: $data');
+      debugPrint('Data type: ${data.runtimeType}');
+
+      if (data is GetCard) {
+        debugPrint('GetCard status: ${data.status}');
+        debugPrint('GetCard message: ${data.message}');
+        debugPrint('GetCard payload: ${data.payload}');
+        debugPrint('Cards count: ${data.payload?.cards?.length}');
+
+        if (data.payload?.cards != null) {
+          for (int i = 0; i < data.payload!.cards!.length; i++) {
+            final card = data.payload!.cards![i];
+            debugPrint(
+                'Card $i: ID=${card.id}, Name=${card.firstName} ${card.lastName}');
+          }
+        }
+      } else if (data is CardData) {
+        debugPrint('CardData ID: ${data.id}');
+        debugPrint('CardData Name: ${data.firstName} ${data.lastName}');
+      }
+
+      debugPrint('=== END CACHE DEBUG ===');
+    } catch (e) {
+      debugPrint('Debug error: $e');
+    }
   }
 }

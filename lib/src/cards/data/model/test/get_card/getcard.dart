@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 import 'package:wond3rcard/src/cards/data/model/test/get_card/card_layout.dart';
+import 'package:wond3rcard/src/cards/data/model/test/get_card/contact.dart';
 import 'package:wond3rcard/src/cards/data/model/test/get_card/organization_info.dart';
 
 import 'card_design.dart';
@@ -276,103 +277,7 @@ class CardData extends HiveObject {
   String toJson() => json.encode(toMap());
 }
 
-@HiveType(typeId: 3)
-class ContactInfo extends HiveObject {
-  @HiveField(0)
-  List<dynamic>? emailType;
 
-  @HiveField(1)
-  String? email;
-
-  @HiveField(2)
-  String? phone;
-
-  @HiveField(3)
-  String? website;
-
-  @HiveField(4)
-  String? address;
-
-  @HiveField(5)
-  List<dynamic>? addresses;
-
-  ContactInfo({
-    this.emailType,
-    this.email,
-    this.phone,
-    this.website,
-    this.address,
-    this.addresses,
-  });
-
-  @override
-  String toString() {
-    return 'ContactInfo(emailType: $emailType, email: $email, phone: $phone, website: $website, address: $address, addresses: $addresses)';
-  }
-
-  factory ContactInfo.fromMap(Map<String, dynamic> data) => ContactInfo(
-        emailType: data['emailType'] as List<dynamic>?,
-        email: data['email'] as String?,
-        phone: data['phone'] as String?,
-        website: data['website'] as String?,
-        address: data['address'] as String?,
-        addresses: data['addresses'] as List<dynamic>?,
-      );
-
-  Map<String, dynamic> toMap() => {
-        'emailType': emailType,
-        'email': email,
-        'phone': phone,
-        'website': website,
-        'address': address,
-        'addresses': addresses,
-      };
-
-  factory ContactInfo.fromJson(String data) {
-    return ContactInfo.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
-
-  String toJson() => json.encode(toMap());
-
-  ContactInfo copyWith({
-    List<dynamic>? emailType,
-    String? email,
-    String? phone,
-    String? website,
-    String? address,
-    List<dynamic>? addresses,
-  }) {
-    return ContactInfo(
-      emailType: emailType ?? this.emailType,
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
-      website: website ?? this.website,
-      address: address ?? this.address,
-      addresses: addresses ?? this.addresses,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    if (other is! ContactInfo) return false;
-    return other.emailType == emailType &&
-        other.email == email &&
-        other.phone == phone &&
-        other.website == website &&
-        other.address == address &&
-        other.addresses == addresses;
-  }
-
-  @override
-  int get hashCode =>
-      emailType.hashCode ^
-      email.hashCode ^
-      phone.hashCode ^
-      website.hashCode ^
-      address.hashCode ^
-      addresses.hashCode;
-}
 
 @HiveType(typeId: 4)
 class SocialMediaLink extends HiveObject {
