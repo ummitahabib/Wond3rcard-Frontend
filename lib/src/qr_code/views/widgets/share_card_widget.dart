@@ -265,6 +265,8 @@ import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
 // }
 
 
+
+
 class ShareQrWidget extends HookConsumerWidget {
   const ShareQrWidget({super.key, required this.index});
 
@@ -293,17 +295,13 @@ class ShareQrWidget extends HookConsumerWidget {
             return;
           }
 
-          debugPrint('Fetching and caching card with ID: $cardId');
-
           await profileController.getProfile(context);
-          final GetCard? fetchedCard =
+          final fetchedCard =
               await ref.read(cardProvider).getAUsersCard(context, cardId);
 
-          // Cache the card data safely
+          // Save card to Hive box for caching
           if (fetchedCard != null) {
-            await _cacheCardDataSafely(cardId, fetchedCard);
-          } else {
-            debugPrint('No card data received from API');
+            await _cacheCardData(cardId, fetchedCard);
           }
         } catch (e, stackTrace) {
           debugPrint('Error in useEffect: $e');
@@ -456,63 +454,57 @@ class ShareQrWidget extends HookConsumerWidget {
     );
   }
 
-  // Safe caching method that handles the GetCard structure properly
-  Future<void> _cacheCardDataSafely(String cardId, GetCard fetchedCard) async {
+  // Helper method to cache card data properly
+  Future<void> _cacheCardData(String cardId, GetCard fetchedCard) async {
     try {
-      debugPrint('=== CACHING CARD DATA ===');
-      debugPrint('Card ID: $cardId');
-      debugPrint('GetCard status: ${fetchedCard.status}');
-      debugPrint('GetCard message: ${fetchedCard.message}');
+      final box = await Hive.openBox('cardsBox'); // Remove type parameter to avoid type issues
       
-      final box = await Hive.openBox('cardsBox');
+      // Convert the GetCard object to a Map for easier storage and retrieval
+      final cardData = _convertGetCardToMap(fetchedCard);
       
-      // Method 1: Store the entire GetCard object (recommended)
-      // This preserves the full structure and uses Hive's built-in serialization
-      await box.put(cardId, fetchedCard);
-      debugPrint('Cached complete GetCard object for: $cardId');
-      
-      // Method 2: Alternative - store individual CardData if needed
-      // Uncomment if you prefer to store individual cards
-      /*
-      final cards = fetchedCard.payload?.cards;
-      if (cards != null && cards.isNotEmpty) {
-        for (final card in cards) {
-          if (card.id != null) {
-            await box.put('card_${card.id}', card);
-            debugPrint('Cached individual card: ${card.id}');
-          }
-        }
-      }
-      */
+      await box.put(cardId, cardData);
 
-      // Debug: Print all cached data
-      debugPrint('All cached keys: ${box.keys.toList()}');
+      // Print cached data for debugging
+      debugPrint('Successfully cached card with ID: $cardId');
+      debugPrint('Cached data: $cardData');
       
-      // Verify the cached data
-      final cachedData = box.get(cardId);
-      debugPrint('Verification - Cached data type: ${cachedData.runtimeType}');
-      
-      if (cachedData is GetCard) {
-        debugPrint('Verification - Cards count: ${cachedData.payload?.cards?.length}');
+      // Print all cached cards for debugging
+      debugPrint('All cached cards:');
+      for (var key in box.keys) {
+        debugPrint('Key: $key, Type: ${box.get(key).runtimeType}');
       }
-      
-      debugPrint('=== CACHING COMPLETE ===');
-      
     } catch (e, stackTrace) {
       debugPrint('Error caching card data: $e');
       debugPrint('Stack trace: $stackTrace');
-      
-      // Fallback: Try to cache as Map if Hive serialization fails
-      try {
-        debugPrint('Attempting fallback caching as Map...');
-        final box = await Hive.openBox('cardsBox');
-        final cardMap = fetchedCard.toMap();
-        await box.put('${cardId}_map', cardMap);
-        debugPrint('Fallback caching successful');
-      } catch (e2) {
-        debugPrint('Fallback caching also failed: $e2');
-      }
     }
+  }
+
+  // Convert GetCard object to Map for consistent storage
+  Map<String, dynamic> _convertGetCardToMap(GetCard getCard) {
+    // Extract the card data from the first card in the response
+    final card = getCard.payload?.cards?.isNotEmpty == true 
+        ? getCard.payload!.cards!.first 
+        : null;
+    
+    if (card == null) {
+      return {};
+    }
+
+    return {
+      'id': card.id,
+      'firstName': card.firstName,
+      'lastName': card.lastName,
+      'cardName': card.cardName,
+      'cardPictureUrl': card.cardPictureUrl,
+      'contactInfo': {
+        'email': card.contactInfo?.email,
+        'phone': card.contactInfo?.phone,
+        'website': card.contactInfo?.website,
+        'address': card.contactInfo?.address,
+      },
+
+      // Add any other fields your card model has
+    };
   }
 
   GestureDetector linkContainer(
@@ -551,8 +543,6 @@ class ShareQrWidget extends HookConsumerWidget {
     );
   }
 }
-
-
 
 Container chooseCardToShare() {
   return Container(

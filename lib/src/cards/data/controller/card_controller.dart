@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wond3rcard/src/cards/data/model/card_model.dart';
@@ -393,29 +394,48 @@ class CardNotifier extends ChangeNotifier {
     }
   }
 
-  Future<GetCard?> getAUsersCard(BuildContext context, String cardId) async {
-    try {
-      loading = true;
-      final response =
-          await ref.watch(cardRepositoryProvider).getAUsersCard(cardId);
-      if (response.hasError()) {
-        // alert.showErrorToast(message: response.error!.message);
-        log(response.error!.message);
-        loading = false;
-      } else {
-        _cardModel = response.response;
-        cardModel = _cardModel;
-        return getCardsResponse;
-      }
-    } catch (e) {
-      // alert.showErrorToast(message: 'error occured here please check');
-      log('error occured here please check');
+Future<GetCard?> getAUsersCard(BuildContext context, String cardId) async {
+  try {
+    loading = true;
+    
+    final response = await ref.watch(cardRepositoryProvider).getAUsersCard(cardId);
+    
+    if (response.hasError()) {
+      log(response.error!.message);
       loading = false;
-      print(e);
-      return getCardsResponse;
+      return null;
     }
-    return getCardsResponse;
+
+    // Extract the card(s) from the response
+    final getCard = response.response;
+    final cards = getCard?.payload?.cards;
+
+    if (cards != null && cards.isNotEmpty) {
+      final card = cards.firstWhere(
+        (card) => card.id == cardId,
+        orElse: () => cards.first,
+      );
+
+      // ✅ Save to Hive
+      final box = await Hive.openBox('cardsBox');
+      await box.put(cardId, card);
+      debugPrint('✅ Saved card to Hive with ID: $cardId');
+
+      _cardModel = getCard;
+      cardModel = _cardModel;
+    }
+
+    loading = false;
+    return getCard;
+
+  } catch (e, stackTrace) {
+    log('❌ Error in getAUsersCard: $e');
+    debugPrint('Stack trace: $stackTrace');
+    loading = false;
+    return null;
   }
+}
+
 
   Future<CardModel?> viewCard(BuildContext context) async {
     try {
