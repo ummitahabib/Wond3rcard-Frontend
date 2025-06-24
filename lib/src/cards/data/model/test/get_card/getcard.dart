@@ -68,91 +68,91 @@ class Payload extends HiveObject {
 @HiveType(typeId: 2)
 class CardData extends HiveObject {
   @HiveField(0)
-  CardStyle? cardStyle;
+  final CardStyle? cardStyle;
 
   @HiveField(1)
-  OrganizationInfo? organizationInfo;
+  final OrganizationInfo? organizationInfo;
 
   @HiveField(2)
-  ContactInfo? contactInfo;
+  final ContactInfo? contactInfo;
 
   @HiveField(3)
-  String? prefix;
+  final String? prefix;
 
   @HiveField(4)
-  String? pronoun;
+  final String? pronoun;
 
   @HiveField(5)
-  String? id;
+  final String? id;
 
   @HiveField(6)
-  String? cardType;
+  final String? cardType;
 
   @HiveField(7)
-  String? creatorId;
+  final String? creatorId;
 
   @HiveField(8)
-  String? ownerId;
+  final String? ownerId;
 
   @HiveField(9)
-  TextStyle? textStyle;
+  final TextStyle? textStyle;
 
   @HiveField(10)
-  CardDesign? cardDesign;
+  final CardDesign? cardDesign;
 
   @HiveField(11)
-  CardLayout? cardLayout;
+  final CardLayout? cardLayout;
 
   @HiveField(12)
-  List<SocialMediaLink>? socialMediaLinks;
+  final List<SocialMediaLink>? socialMediaLinks;
 
   @HiveField(13)
-  String? cardName;
+  final String? cardName;
 
   @HiveField(14)
-  String? suffix;
+  final String? suffix;
 
   @HiveField(15)
-  String? firstName;
+  final String? firstName;
 
   @HiveField(16)
-  String? otherName;
+  final String? otherName;
 
   @HiveField(17)
-  String? lastName;
+  final String? lastName;
 
   @HiveField(18)
-  String? designation;
+  final String? designation;
 
   @HiveField(19)
-  List<dynamic>? testimonials;
+  final List<dynamic>? testimonials;
 
   @HiveField(20)
-  String? videoUrl;
+  final String? videoUrl;
 
   @HiveField(21)
-  String? cardPictureUrl;
+  final String? cardPictureUrl;
 
   @HiveField(22)
-  String? cardCoverUrl;
+  final String? cardCoverUrl;
 
   @HiveField(23)
-  String? cardColor;
+  final String? cardColor;
 
   @HiveField(24)
-  bool? active;
+  final bool? active;
 
   @HiveField(25)
-  DateTime? createdAt;
+  final DateTime? createdAt;
 
   @HiveField(26)
-  DateTime? updatedAt;
+  final DateTime? updatedAt;
 
   @HiveField(27)
-  int? v;
+  final int? v;
 
   @HiveField(28)
-  List<dynamic>? catelogue;
+  final List<dynamic>? catalogue;
 
   CardData({
     this.cardStyle,
@@ -183,59 +183,60 @@ class CardData extends HiveObject {
     this.createdAt,
     this.updatedAt,
     this.v,
-    this.catelogue,
+    this.catalogue,
   });
 
-  factory CardData.fromMap(Map<String, dynamic> data) => CardData(
-        cardStyle: data['cardStyle'] == null
-            ? null
-            : CardStyle.fromMap(data['cardStyle'] as Map<String, dynamic>),
-        organizationInfo: data['organizationInfo'] == null
-            ? null
-            : OrganizationInfo.fromMap(
-                data['organizationInfo'] as Map<String, dynamic>),
-        contactInfo: data['contactInfo'] == null
-            ? null
-            : ContactInfo.fromMap(data['contactInfo'] as Map<String, dynamic>),
-        prefix: data['prefix'] as String?,
-        pronoun: data['pronoun'] as String?,
-        id: data['_id'] as String?,
-        cardType: data['cardType'] as String?,
-        creatorId: data['creatorId'] as String?,
-        ownerId: data['ownerId'] as String?,
-        textStyle: data['textStyle'] == null
-            ? null
-            : TextStyle.fromMap(data['textStyle'] as Map<String, dynamic>),
-        cardDesign: data['cardDesign'] == null
-            ? null
-            : CardDesign.fromMap(data['cardDesign'] as Map<String, dynamic>),
-        cardLayout: data['cardLayout'] == null
-            ? null
-            : CardLayout.fromMap(data['cardLayout'] as Map<String, dynamic>),
-        socialMediaLinks: (data['socialMediaLinks'] as List<dynamic>?)
-            ?.map((e) => SocialMediaLink.fromMap(e as Map<String, dynamic>))
-            .toList(),
-        cardName: data['cardName'] as String?,
-        suffix: data['suffix'] as String?,
-        firstName: data['firstName'] as String?,
-        otherName: data['otherName'] as String?,
-        lastName: data['lastName'] as String?,
-        designation: data['designation'] as String?,
-        testimonials: data['testimonials'] as List<dynamic>?,
-        videoUrl: data['videoUrl'] as String?,
-        cardPictureUrl: data['cardPictureUrl'] as String?,
-        cardCoverUrl: data['cardCoverUrl'] as String?,
-        cardColor: data['cardColor'] as String?,
-        active: data['active'] as bool?,
-        createdAt: data['createdAt'] == null
-            ? null
-            : DateTime.parse(data['createdAt'] as String),
-        updatedAt: data['updatedAt'] == null
-            ? null
-            : DateTime.parse(data['updatedAt'] as String),
-        v: data['__v'] as int?,
-        catelogue: data['catelogue'] as List<dynamic>?,
-      );
+  factory CardData.fromMap(Map<String, dynamic> data) {
+    return CardData(
+      cardStyle: data['cardStyle'] != null
+          ? CardStyle.fromMap(data['cardStyle'])
+          : null,
+      organizationInfo: data['organizationInfo'] != null
+          ? OrganizationInfo.fromMap(data['organizationInfo'])
+          : null,
+      contactInfo: data['contactInfo'] != null
+          ? ContactInfo.fromMap(data['contactInfo'])
+          : null,
+      prefix: data['prefix'],
+      pronoun: data['pronoun'],
+      id: data['_id'],
+      cardType: data['cardType'],
+      creatorId: data['creatorId'],
+      ownerId: data['ownerId'],
+      textStyle: data['textStyle'] != null
+          ? TextStyle.fromMap(data['textStyle'])
+          : null,
+      cardDesign: data['cardDesign'] != null
+          ? CardDesign.fromMap(data['cardDesign'])
+          : null,
+      cardLayout: data['cardLayout'] != null
+          ? CardLayout.fromMap(data['cardLayout'])
+          : null,
+      socialMediaLinks: (data['socialMediaLinks'] as List?)
+          ?.map((e) => SocialMediaLink.fromMap(e))
+          .toList(),
+      cardName: data['cardName'],
+      suffix: data['suffix'],
+      firstName: data['firstName'],
+      otherName: data['otherName'],
+      lastName: data['lastName'],
+      designation: data['designation'],
+      testimonials: data['testimonials'],
+      videoUrl: data['videoUrl'],
+      cardPictureUrl: data['cardPictureUrl'],
+      cardCoverUrl: data['cardCoverUrl'],
+      cardColor: data['cardColor'],
+      active: data['active'],
+      createdAt: data['createdAt'] != null
+          ? DateTime.tryParse(data['createdAt'])
+          : null,
+      updatedAt: data['updatedAt'] != null
+          ? DateTime.tryParse(data['updatedAt'])
+          : null,
+      v: data['__v'],
+      catalogue: data['catelogue'],
+    );
+  }
 
   Map<String, dynamic> toMap() => {
         'cardStyle': cardStyle?.toMap(),
@@ -266,12 +267,11 @@ class CardData extends HiveObject {
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
         '__v': v,
-        'catelogue': catelogue,
+        'catelogue': catalogue,
       };
 
-  factory CardData.fromJson(String data) {
-    return CardData.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
+  factory CardData.fromJson(String source) =>
+      CardData.fromMap(json.decode(source));
 
   String toJson() => json.encode(toMap());
 }

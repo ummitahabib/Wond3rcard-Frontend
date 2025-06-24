@@ -808,42 +808,27 @@ class ViewCard extends ConsumerWidget {
     return value.toString();
   }
 
-  // Safe contact info getters
-  String _getContactEmail(CardData cardData) {
-    try {
-      return _getSafeString(cardData.contactInfo?.email);
-    } catch (e) {
-      debugPrint('Error getting email: $e');
-      return '';
-    }
-  }
+  String _normalizeContactField(dynamic field) {
+  if (field == null) return '';
+  if (field is List && field.isNotEmpty) return field.first.toString();
+  return field.toString();
+}
 
-  String _getContactPhone(CardData cardData) {
-    try {
-      return _getSafeString(cardData.contactInfo?.phone);
-    } catch (e) {
-      debugPrint('Error getting phone: $e');
-      return '';
-    }
-  }
+String _getContactEmail(CardData cardData) {
+  return _normalizeContactField(cardData.contactInfo?.email);
+}
 
-  String _getContactWebsite(CardData cardData) {
-    try {
-      return _getSafeString(cardData.contactInfo?.website);
-    } catch (e) {
-      debugPrint('Error getting website: $e');
-      return '';
-    }
-  }
+String _getContactPhone(CardData cardData) {
+  return _normalizeContactField(cardData.contactInfo?.phone);
+}
 
-  String _getContactAddress(CardData cardData) {
-    try {
-      return _getSafeString(cardData.contactInfo?.address);
-    } catch (e) {
-      debugPrint('Error getting address: $e');
-      return '';
-    }
-  }
+String _getContactWebsite(CardData cardData) {
+  return _normalizeContactField(cardData.contactInfo?.website);
+}
+
+String _getContactAddress(CardData cardData) {
+  return _normalizeContactField(cardData.contactInfo?.address);
+}
 
   // Safe full name getter
   String _getFullName(CardData cardData) {
