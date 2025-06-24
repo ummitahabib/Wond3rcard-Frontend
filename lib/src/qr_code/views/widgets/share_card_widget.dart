@@ -483,7 +483,7 @@ class ShareQrWidget extends HookConsumerWidget {
   Map<String, dynamic> _convertGetCardToMap(GetCard getCard) {
     // Extract the card data from the first card in the response
     final card = getCard.payload?.cards?.isNotEmpty == true 
-        ? getCard.payload!.cards!.first 
+        ? getCard.payload!.cards![index] 
         : null;
     
     if (card == null) {
