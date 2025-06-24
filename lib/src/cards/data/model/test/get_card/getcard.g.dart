@@ -201,6 +201,55 @@ class CardDataAdapter extends TypeAdapter<CardData> {
           typeId == other.typeId;
 }
 
+class ContactInfoAdapter extends TypeAdapter<ContactInfo> {
+  @override
+  final int typeId = 3;
+
+  @override
+  ContactInfo read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return ContactInfo(
+      emailType: (fields[0] as List?)?.cast<dynamic>(),
+      email: fields[1] as String?,
+      phone: fields[2] as String?,
+      website: fields[3] as String?,
+      address: fields[4] as String?,
+      addresses: (fields[5] as List?)?.cast<dynamic>(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, ContactInfo obj) {
+    writer
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.emailType)
+      ..writeByte(1)
+      ..write(obj.email)
+      ..writeByte(2)
+      ..write(obj.phone)
+      ..writeByte(3)
+      ..write(obj.website)
+      ..writeByte(4)
+      ..write(obj.address)
+      ..writeByte(5)
+      ..write(obj.addresses);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ContactInfoAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
 class SocialMediaLinkAdapter extends TypeAdapter<SocialMediaLink> {
   @override
   final int typeId = 4;
