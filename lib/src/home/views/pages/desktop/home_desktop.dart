@@ -417,6 +417,9 @@ class _DesktopCardListState extends ConsumerState<DesktopCardList> {
                               builder: (BuildContext context) {
                                 return CardOptions(
                                   index: index,
+                                  cardId: cardController.getCardsResponse
+                                          ?.payload?.cards?[index].id ??
+                                      emptyString,
                                 );
                               },
                             );

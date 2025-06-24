@@ -7,6 +7,7 @@ import 'package:wond3rcard/src/shared/views/widgets/wonder_card_design_system/bu
 import 'package:wond3rcard/src/utils/assets.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PhysicalCardWidget extends HookConsumerWidget {
   PhysicalCardWidget({super.key});
@@ -55,7 +56,7 @@ class PhysicalCardWidget extends HookConsumerWidget {
           ),
         ),
         fullCardsAsync.when(
-          loading: () => const CircularProgressIndicator(),
+          loading: () => _PhysicalCardShimmerList(),
           error: (e, st) => Text('Error loading cards: $e'),
           data: (cards) {
             if (cards.isEmpty) {
@@ -70,7 +71,7 @@ class PhysicalCardWidget extends HookConsumerWidget {
                 final card = cards[index];
                 return GestureDetector(
                   onTap: () {
-                    context.go(RouteString.viewPhysicalCard);
+                    context.go(RouteString.orderPhysicalCard);
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -110,16 +111,20 @@ class PhysicalCardWidget extends HookConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                card.payload?.cards?[index].cardName ??
-                                    'Unknown Card',
+                                card.payload?.cards?.isNotEmpty == true
+                                    ? card.payload!.cards!.first.cardName ??
+                                        'Unknown Card'
+                                    : 'Unknown Card',
                                 style: WonderCardTypography.boldTextH5(
                                   fontSize: 23,
                                   color: AppColors.grayScale700,
                                 ),
                               ),
                               Text(
-                                card.payload?.cards?[index].designation ??
-                                    'No Designation',
+                                card.payload?.cards?.isNotEmpty == true
+                                    ? card.payload!.cards!.first.designation ??
+                                        'No Designation'
+                                    : 'No Designation',
                                 style: WonderCardTypography.regularTextTitle2(
                                   fontSize: 16,
                                   color: AppColors.grayScale600,
@@ -141,6 +146,68 @@ class PhysicalCardWidget extends HookConsumerWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+class _PhysicalCardShimmerList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 3,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      color: Colors.grey,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 120,
+                          height: 20,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          width: 80,
+                          height: 16,
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.grey,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

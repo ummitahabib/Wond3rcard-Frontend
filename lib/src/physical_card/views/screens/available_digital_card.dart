@@ -218,6 +218,7 @@ class _AvailableDigitalCardsState extends ConsumerState<AvailableDigitalCards> {
                                   builder: (BuildContext context) {
                                     return CardOptions(
                                       index: index,
+                                      cardId: card?.id ?? '',
                                     );
                                   },
                                 );

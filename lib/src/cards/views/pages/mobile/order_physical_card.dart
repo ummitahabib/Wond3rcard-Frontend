@@ -12,7 +12,6 @@ import 'package:wond3rcard/src/cards/data/controller/card_template_controller.da
 import 'package:wond3rcard/src/cards/data/controller/order_physical_card_controller.dart';
 import 'package:wond3rcard/src/cards/views/widgets/billing_summary.dart';
 import 'package:wond3rcard/src/cards/views/widgets/cards_template.dart';
-import 'package:wond3rcard/src/cards/views/widgets/list_of_dropdown.dart';
 import 'package:wond3rcard/src/physical_card/data/controller/order_physical_card_controller.dart';
 import 'package:wond3rcard/src/physical_card/data/controller/physical_card_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
@@ -22,7 +21,8 @@ import 'package:wond3rcard/src/utils/util.dart';
 import 'package:file_picker/file_picker.dart';
 
 class OrderPhysicalCard extends HookConsumerWidget {
-  const OrderPhysicalCard({super.key});
+  const OrderPhysicalCard({super.key, required this.index});
+  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -94,7 +94,9 @@ class OrderPhysicalCard extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const OrderPhysicalCardSection(),
+          OrderPhysicalCardSection(
+            index: index,
+          ),
           const SizedBox(height: 10),
           SizedBox(
             width: MediaQuery.of(context).size.width / 3,
@@ -130,7 +132,9 @@ class OrderPhysicalCard extends HookConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const OrderPhysicalCardSection(),
+        OrderPhysicalCardSection(
+          index: index,
+        ),
         const SizedBox(height: 10),
         _ShippingAddressAndOrderForm(
           selectedIndex: selectedIndex,
@@ -406,15 +410,17 @@ class _ChooseAndUploadWidgetState extends ConsumerState<ChooseAndUploadWidget> {
   }
 }
 
-final List<Widget> cardTemplates = const [
-  CardsTemplate5(),
-  CardsTemplate1(),
-  CardsTemplate2(),
-  CardsTemplate3(),
-];
+// final List<Widget> cardTemplates = const [
+//   CardsTemplate5(),
+//   CardsTemplate1(),
+//   CardsTemplate2(),
+//   CardsTemplate3(),
+// ];
 
 class OrderPhysicalCardSection extends HookConsumerWidget {
-  const OrderPhysicalCardSection({super.key});
+  OrderPhysicalCardSection({super.key, required this.index});
+
+  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -423,9 +429,8 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
     final physicalCardController = ref.read(physicalCardProvider.notifier);
     final selectedIndex = ref.watch(physicalCardProvider).selectedIndex;
     final templatesAsync = ref.watch(templateListProvider);
-
-    final selectedCard = ref.watch(selectedCardProvider);
     final profileController = ref.watch(profileProvider);
+    final cardController = ref.watch(cardProvider);
 
     return templatesAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
@@ -434,20 +439,6 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'Choose card',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Color(0xFF4B4B4B),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const ListOfDropDownCards(),
-            const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
@@ -541,8 +532,11 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                                         MainAxisSize.min,
                                                     children: [
                                                       Image.network(
-                                                        selectedCard
-                                                                ?.cardPictureUrl ??
+                                                        cardController
+                                                                .getCardsResponse
+                                                                ?.payload
+                                                                ?.cards?[index]
+                                                                .cardPictureUrl ??
                                                             ImageAssets.profile,
                                                         width: SizeConfig.w(24),
                                                         height:
@@ -567,7 +561,7 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                                           height:
                                                               SizeConfig.h(6)),
                                                       Text(
-                                                        '${selectedCard?.firstName ?? emptyString} ${selectedCard?.lastName ?? emptyString}',
+                                                        '${cardController.getCardsResponse?.payload?.cards?[index]?.firstName ?? emptyString} ${cardController.getCardsResponse?.payload?.cards?[index]?.lastName ?? emptyString}',
                                                         // softWrap: true,
                                                         style: TextStyle(
                                                           fontWeight:
@@ -581,7 +575,10 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                                           height:
                                                               SizeConfig.h(6)),
                                                       Text(
-                                                        selectedCard
+                                                        cardController
+                                                                .getCardsResponse
+                                                                ?.payload
+                                                                ?.cards?[index]
                                                                 ?.designation ??
                                                             emptyString,
                                                         style: TextStyle(
@@ -640,7 +637,10 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                                               SizeConfig.h(5)),
                                                       viewPhysicalCardChildren(
                                                         icon: HeroIcons.phone,
-                                                        text: selectedCard
+                                                        text: cardController
+                                                                .getCardsResponse
+                                                                ?.payload
+                                                                ?.cards?[index]
                                                                 ?.contactInfo
                                                                 ?.phone ??
                                                             emptyString,
@@ -648,7 +648,10 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                                       viewPhysicalCardChildren(
                                                         icon:
                                                             HeroIcons.envelope,
-                                                        text: selectedCard
+                                                        text: cardController
+                                                                .getCardsResponse
+                                                                ?.payload
+                                                                ?.cards?[index]
                                                                 ?.contactInfo
                                                                 ?.email ??
                                                             emptyString,
@@ -656,7 +659,7 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                                       viewPhysicalCardChildren(
                                                         icon: HeroIcons.mapPin,
                                                         text:
-                                                            '${selectedCard?.contactInfo?.addresses ?? emptyString}',
+                                                            '${cardController.getCardsResponse?.payload?.cards?[index]?.contactInfo?.addresses ?? emptyString}',
                                                       ),
                                                     ],
                                                   ),
@@ -743,7 +746,11 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Image.network(
-                                          selectedCard?.cardPictureUrl ??
+                                          cardController
+                                                  .getCardsResponse
+                                                  ?.payload
+                                                  ?.cards?[index]
+                                                  ?.cardPictureUrl ??
                                               ImageAssets.profile,
                                           width: SizeConfig.w(24),
                                           height: SizeConfig.h(24),
@@ -761,7 +768,7 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                         ),
                                         SizedBox(height: SizeConfig.h(6)),
                                         Text(
-                                          '${selectedCard?.firstName ?? emptyString} ${selectedCard?.lastName ?? emptyString}',
+                                          '${cardController.getCardsResponse?.payload?.cards?[index]?.firstName ?? emptyString} ${cardController.getCardsResponse?.payload?.cards?[index]?.lastName ?? emptyString}',
                                           // softWrap: true,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -771,7 +778,11 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                         ),
                                         SizedBox(height: SizeConfig.h(6)),
                                         Text(
-                                          selectedCard?.designation ??
+                                          cardController
+                                                  .getCardsResponse
+                                                  ?.payload
+                                                  ?.cards?[index]
+                                                  ?.designation ??
                                               emptyString,
                                           style: TextStyle(
                                             fontSize: 10,
@@ -819,20 +830,28 @@ class OrderPhysicalCardSection extends HookConsumerWidget {
                                         SizedBox(height: SizeConfig.h(5)),
                                         viewPhysicalCardChildren(
                                           icon: HeroIcons.phone,
-                                          text: selectedCard
-                                                  ?.contactInfo?.phone ??
+                                          text: cardController
+                                                  .getCardsResponse
+                                                  ?.payload
+                                                  ?.cards?[index]
+                                                  ?.contactInfo
+                                                  ?.phone ??
                                               emptyString,
                                         ),
                                         viewPhysicalCardChildren(
                                           icon: HeroIcons.envelope,
-                                          text: selectedCard
-                                                  ?.contactInfo?.email ??
+                                          text: cardController
+                                                  .getCardsResponse
+                                                  ?.payload
+                                                  ?.cards?[index]
+                                                  ?.contactInfo
+                                                  ?.email ??
                                               emptyString,
                                         ),
                                         viewPhysicalCardChildren(
                                           icon: HeroIcons.mapPin,
                                           text:
-                                              '${selectedCard?.contactInfo?.addresses ?? emptyString}',
+                                              '${cardController.getCardsResponse?.payload?.cards?[index]?.contactInfo?.addresses ?? emptyString}',
                                         ),
                                       ],
                                     ),

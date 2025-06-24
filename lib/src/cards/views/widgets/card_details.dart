@@ -517,7 +517,7 @@ class SocialMediaSection extends StatelessWidget {
                   child: media.iconUrl == null ? const Icon(Icons.link) : null,
                 ),
                 title: Text(media.name ?? 'Unknown'),
-                subtitle: Text('@${link.username ?? ''}'),
+                subtitle: Text('@${media.link ?? ''}'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
               );
             },

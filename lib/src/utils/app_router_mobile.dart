@@ -485,7 +485,11 @@ final GoRouter routerMobile = GoRouter(
           GoRoute(
             path: RouteString.orderPhysicalCard,
             builder: (BuildContext context, GoRouterState state) {
-              return OrderPhysicalCard();
+              final indexStr = state.uri.queryParameters['index'];
+              final index = int.tryParse(indexStr ?? '0') ?? 0;
+              return OrderPhysicalCard(
+                index: index,
+              );
             },
           ),
           GoRoute(
@@ -544,10 +548,7 @@ final GoRouter routerMobile = GoRouter(
               final id = state.pathParameters['id'];
               final indexStr = state.uri.queryParameters['index'];
               final index = int.tryParse(indexStr ?? '0') ?? 0;
-              return ViewCard(cardId: id ?? '',
-               index: index
-              
-              );
+              return ViewCard(cardId: id ?? '', index: index);
             },
           ),
           GoRoute(
@@ -588,8 +589,6 @@ final GoRouter routerMobile = GoRouter(
             },
           ),
 
-   
-
           //AvailableDigitalCards
           GoRoute(
             path: RouteString.availableDigitalCards,
@@ -598,18 +597,20 @@ final GoRouter routerMobile = GoRouter(
             },
           ),
 
-     GoRoute(
-  path: RouteString.createPhysicalCard,
-  builder: (BuildContext context, GoRouterState state) {
-    final data = state.extra as Map<String, dynamic>?;
+          GoRoute(
+            path: RouteString.createPhysicalCard,
+            builder: (BuildContext context, GoRouterState state) {
+              final data = state.extra as Map<String, dynamic>?;
+              final indexStr = state.uri.queryParameters['index'];
+              final index = int.tryParse(indexStr ?? '0') ?? 0;
 
-    return CreatePhysicalCardScreenSection(
-      userId: data?['userId'] ?? '',
-      cardId: data?['cardId'] ?? '',
-    );
-  },
-),
-
+              return CreatePhysicalCardScreenSection(
+                userId: data?['userId'] ?? '',
+                cardId: data?['cardId'] ?? '',
+                index: index,
+              );
+            },
+          ),
         ]),
   ],
 );

@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/cards/data/controller/card_controller.dart';
-import 'package:wond3rcard/src/cards/data/model/test/get_card/card.dart';
 import 'package:wond3rcard/src/contact/data/controller/contact_controller.dart';
 import 'package:wond3rcard/src/home/data/controller/home_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
@@ -16,7 +15,8 @@ import 'package:wond3rcard/src/utils/size_constants.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 import 'package:wond3rcard/src/utils/wonder_card_typography.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
+
 
 import '../../../cards/data/model/test/get_card/getcard.dart';
 
@@ -391,14 +391,13 @@ Widget stackAvatar(List<SocialMediaLink> socialLinks) {
       child: Stack(
         children: List.generate(socialLinks.length, (index) {
           final link = socialLinks[index];
-          // Assuming SocialMediaLink has a 'photoUrl' property
           return Positioned(
             left: index * 25.0,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(SpacingConstants.size100),
               child: Image.network(
                 link.media?.iconUrl ??
-                    ImageAssets.profile, // fallback to default if null
+                    'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
                 width: 40,
                 height: 40,
                 fit: BoxFit.cover,
@@ -416,6 +415,7 @@ Widget stackAvatar(List<SocialMediaLink> socialLinks) {
     ),
   );
 }
+
 
 class RecentConnectionWidget extends HookConsumerWidget {
   const RecentConnectionWidget({super.key});
@@ -505,7 +505,47 @@ class RecentConnectionWidget extends HookConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: List.generate(
+              4,
+              (index) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Container(
+                        height: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Container(
+                      width: 20,
+                      height: 20,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       error: (err, stack) => Center(child: Text('Failed to load connections')),
     );
   }

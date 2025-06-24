@@ -31,4 +31,26 @@ class CardTemplateModel {
       updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
+
+  CardTemplateModel copyWith({
+    String? id,
+    String? name,
+    String? design,
+    int? priceNaira,
+    int? priceUsd,
+    String? createdBy,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return CardTemplateModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      design: design ?? this.design,
+      priceNaira: priceNaira ?? this.priceNaira,
+      priceUsd: priceUsd ?? this.priceUsd,
+      createdBy: createdBy ?? this.createdBy,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 }

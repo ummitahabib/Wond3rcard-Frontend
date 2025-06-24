@@ -5,6 +5,7 @@ import 'package:wond3rcard/src/home/views/widgets/name_and_job.dart';
 import 'package:wond3rcard/src/home/views/widgets/upgrade_now_button.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/utils/util.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeMobile extends HookConsumerWidget {
   const HomeMobile({super.key});
@@ -25,11 +26,10 @@ class HomeBody extends HookConsumerWidget {
     useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-          final profileController = ref.watch(profileProvider);
-          if (profileController.profileData == null) {
-            Future.delayed(Duration.zero, () async {
-              await profileController.getProfile(context);
-            });
+          final profileController = ref.read(profileProvider);
+          if (profileController.profileData == null &&
+              !profileController.loading) {
+            await profileController.getProfile(context);
           }
         });
         return null;
@@ -37,6 +37,8 @@ class HomeBody extends HookConsumerWidget {
       [],
     );
     final profileController = ref.watch(profileProvider);
+    final isLoading =
+        profileController.loading || profileController.profileData == null;
     final profile = profileController.profileData?.payload.profile;
 
     return Scaffold(
@@ -76,52 +78,104 @@ class HomeBody extends HookConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 50, right: 50,),
+                              padding: const EdgeInsets.only(
+                                left: 50,
+                                right: 50,
+                              ),
                               child: Row(
                                 children: [
-                                  Container(
-                                    width: SizeConfig.w(65) +
-                                        (4.62 * 2), 
-                                    height: SizeConfig.h(65) + (4.62 * 2),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Colors
-                                            .white, 
-                                        width: 4.62,
-                                      ),
-                                    ),
-                                    child: CircleAvatar(
-                                      radius: 65 / 2,
-                                      backgroundImage: NetworkImage(
-                                        profile?.profileUrl ??
-                                            defaultProfileImage,
-                                      ), 
-                                      backgroundColor:
-                                          Colors.grey, 
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  connectText(
-                                      text: profile?.connections.length
-                                              .toString() ??
-                                          0.toString()),
+                                  isLoading
+                                      ? Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width:
+                                                SizeConfig.w(65) + (4.62 * 2),
+                                            height:
+                                                SizeConfig.h(65) + (4.62 * 2),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(
+                                          width: SizeConfig.w(65) + (4.62 * 2),
+                                          height: SizeConfig.h(65) + (4.62 * 2),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Colors.white,
+                                              width: 4.62,
+                                            ),
+                                          ),
+                                          child: CircleAvatar(
+                                            radius: 65 / 2,
+                                            backgroundImage: NetworkImage(
+                                              profile?.profileUrl ??
+                                                  defaultProfileImage,
+                                            ),
+                                            backgroundColor: Colors.grey,
+                                          ),
+                                        ),
+                                  const Spacer(),
+                                  isLoading
+                                      ? Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: 40,
+                                            height: 16,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : connectText(
+                                          text: profile?.connections.length
+                                                  .toString() ??
+                                              0.toString()),
                                 ],
                               ),
                             ),
-                          
-                          SizedBox(height: SizeConfig.h(16)),
-                            
-                           Padding(
+                            SizedBox(height: SizeConfig.h(16)),
+                            Padding(
                               padding: EdgeInsets.only(left: SizeConfig.h(112)),
-                              child: NameAndJob(),
+                              child: isLoading
+                                  ? Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        width: 120,
+                                        height: 20,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : NameAndJob(),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                personalProfileTag(),
-                                qrCodeContainer(),
+                                isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: 80,
+                                          height: 30,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : personalProfileTag(),
+                                isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: 80,
+                                          height: 30,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : qrCodeContainer(),
                               ],
                             ),
                           ],
@@ -135,7 +189,19 @@ class HomeBody extends HookConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        addCardMainRowWidget(context),
+                        isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  width: 200,
+                                  height: 40,
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  color: Colors.white,
+                                ),
+                              )
+                            : addCardMainRowWidget(context),
                         Container(
                           margin: const EdgeInsets.all(14),
                           padding: const EdgeInsets.all(14),
@@ -143,9 +209,31 @@ class HomeBody extends HookConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(child: ConnectionsMedia()),
+                              Expanded(
+                                child: isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          height: 120,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : ConnectionsMedia(),
+                              ),
                               const SizedBox(width: 10),
-                              Expanded(child: RecentConnectionWidget()),
+                              Expanded(
+                                child: isLoading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          height: 120,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : RecentConnectionWidget(),
+                              ),
                             ],
                           ),
                         ),

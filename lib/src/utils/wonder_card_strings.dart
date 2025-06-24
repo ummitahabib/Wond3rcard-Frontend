@@ -264,5 +264,5 @@ const String enterAddressOrSelectMap = "Enter Address (or select from map)";
 const String searchForPlaceText = "Search for a place...";
 const String searchAndSelectLocationText = "Search & Select Location";
 const String defaultProfileImage =
-    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
+    'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
 

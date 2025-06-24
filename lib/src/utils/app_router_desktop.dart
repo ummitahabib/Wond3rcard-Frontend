@@ -71,8 +71,6 @@ import 'package:wond3rcard/src/qr_code/views/widgets/share_card_list.dart';
 import 'package:wond3rcard/src/qr_code/views/widgets/share_card_widget.dart';
 import 'package:wond3rcard/src/utils/wonder_card_strings.dart';
 
-
-
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _userShellNavigatorKey =
@@ -241,7 +239,11 @@ final GoRouter routerDesktop = GoRouter(
               GoRoute(
                 path: RouteString.orderPhysicalCard,
                 builder: (BuildContext context, GoRouterState state) {
-                  return OrderPhysicalCard();
+                  final index =
+                      int.tryParse(state.pathParameters['index'] ?? '0') ?? 0;
+                  return OrderPhysicalCard(
+                    index: index,
+                  );
                 },
               ),
               GoRoute(
@@ -538,10 +540,6 @@ final GoRouter routerDesktop = GoRouter(
               ),
             ],
           ),
-         
-         
-         
-         
           GoRoute(
             path: RouteString.firstScreenDesktop,
             builder: (BuildContext context, GoRouterState state) {

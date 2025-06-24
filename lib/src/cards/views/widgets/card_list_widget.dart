@@ -33,7 +33,7 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           final cardController = ref.read(cardProvider);
-          final profileController = ref.watch(profileProvider);
+          final profileController = ref.read(profileProvider);
           if (cardController.getCardsResponse == null) {
             Future.delayed(Duration.zero, () async {
               await cardController.getAllUsersCard();
@@ -71,7 +71,7 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                           context.go('${RouteString.cardDetails}/$index');
                         },
                         onDoubleTap: () async {
-                          bool confirmDelete = await _showDeleteDialog(context);
+                          bool confirmDelete = await showDeleteDialog(context);
                           if (confirmDelete) {
                             await ref.read(cardProvider).deleteCard(
                                   cardController.getCardsResponse?.payload
@@ -79,6 +79,7 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                                       '',
                                   context,
                                 );
+                            await ref.read(cardProvider).getAllUsersCard();
                           }
                         },
                         child: _cardLists(cardController, index),
@@ -105,13 +106,14 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                             },
                             onDoubleTap: () async {
                               bool confirmDelete =
-                                  await _showDeleteDialog(context);
+                                  await showDeleteDialog(context);
                               if (confirmDelete) {
                                 await ref.read(cardProvider).deleteCard(
                                     cardController.getCardsResponse?.payload
                                             ?.cards?[index].id ??
                                         '',
                                     context);
+                                await ref.read(cardProvider).getAllUsersCard();
                               }
                             },
                             child: _cardLists(cardController, index),
@@ -157,7 +159,6 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  
                     Container(
                       decoration: BoxDecoration(
                           boxShadow: const [
@@ -182,8 +183,7 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                               BorderRadius.circular(SpacingConstants.size100),
                           border: Border.all(
                               width: 4, color: AppColors.defaultWhite)),
-                      child:
-                       CircleAvatar(
+                      child: CircleAvatar(
                         radius: 40,
                         backgroundColor: AppColors.defaultWhite,
                         backgroundImage: NetworkImage(
@@ -193,7 +193,6 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                         ),
                       ),
                     ),
-                 
                     const Spacer(),
                     NameAndJob(
                       text: cardController.getCardsResponse?.payload
@@ -241,6 +240,9 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
                               builder: (BuildContext context) {
                                 return CardOptions(
                                   index: index,
+                                  cardId: cardController.getCardsResponse
+                                          ?.payload?.cards?[index].id ??
+                                      emptyString,
                                 );
                               },
                             );
@@ -261,7 +263,7 @@ class _CardListWidgetState extends ConsumerState<CardListWidget> {
   }
 }
 
-Future<bool> _showDeleteDialog(BuildContext context) async {
+Future<bool> showDeleteDialog(BuildContext context) async {
   return await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -282,5 +284,5 @@ Future<bool> _showDeleteDialog(BuildContext context) async {
           );
         },
       ) ??
-      false; 
+      false;
 }

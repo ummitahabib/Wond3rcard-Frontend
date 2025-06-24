@@ -6,6 +6,8 @@ import 'package:wond3rcard/src/cards/views/widgets/card_list_widget.dart';
 import 'package:wond3rcard/src/utils/util.dart';
 import 'package:wond3rcard/src/utils/wonder_card_colors.dart';
 
+import 'package:shimmer/shimmer.dart';
+
 class CardsTabWidget extends StatefulWidget {
   final CardNotifier cardController;
   const CardsTabWidget({super.key, required this.cardController});
@@ -103,7 +105,7 @@ class _CardsTabWidgetState extends State<CardsTabWidget> {
         SizedBox(height: 20),
         isDigitalSelected
             ? widget.cardController.loading
-                ? Center(child: CircularProgressIndicator())
+                ? _buildShimmer()
                 : GestureDetector(
                     onTap: () {},
                     child:
@@ -111,6 +113,30 @@ class _CardsTabWidgetState extends State<CardsTabWidget> {
                   )
             : PhysicalCardWidget(),
       ],
+    );
+  }
+
+  Widget _buildShimmer() {
+    // Adjust the shimmer layout to match your CardListWidget skeleton
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Column(
+          children: List.generate(
+            2,
+            (index) => Container(
+              margin: EdgeInsets.only(bottom: 16),
+              height: 120,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
