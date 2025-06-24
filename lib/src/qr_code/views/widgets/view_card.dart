@@ -808,9 +808,14 @@ class ViewCard extends ConsumerWidget {
     return value.toString();
   }
 
-  String _normalizeContactField(dynamic field) {
+String _normalizeContactField(dynamic field) {
   if (field == null) return '';
-  if (field is List && field.isNotEmpty) return field.first.toString();
+  if (field is List && field.isNotEmpty) {
+    return field.first.toString();
+  }
+  if (field is String) {
+    return field;
+  }
   return field.toString();
 }
 
