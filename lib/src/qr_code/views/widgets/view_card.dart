@@ -458,6 +458,7 @@ import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 // }
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 class ViewCard extends ConsumerWidget {
   final String cardId;
   final int index;
@@ -611,10 +612,10 @@ class ViewCard extends ConsumerWidget {
                           child: CircleAvatar(
                             radius: 50,
                             backgroundColor: AppColors.defaultWhite,
-                            backgroundImage: _getStringValue(cardData, 'cardPictureUrl') != null &&
-                                    _getStringValue(cardData, 'cardPictureUrl')!.isNotEmpty
-                                ? NetworkImage(_getStringValue(cardData, 'cardPictureUrl')!)
-                                : AssetImage(ImageAssets.profileImage) as ImageProvider,
+                            backgroundImage: NetworkImage(
+                              _getStringValue(cardData, 'cardPictureUrl') ??
+                                  ImageAssets.profileImage,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -663,7 +664,7 @@ class ViewCard extends ConsumerWidget {
   }
 
   Widget _buildContactInfo(Map<String, dynamic> cardData) {
-    final contactInfo = cardData['contactInfo'] as Map<String, dynamic>?;
+    final contactInfo = cardData['contactInfo'];
 
     return Container(
       width: double.infinity,
@@ -686,7 +687,7 @@ class ViewCard extends ConsumerWidget {
           const SizedBox(height: 12),
 
           // Email
-          if (contactInfo != null && contactInfo['email'] != null && (contactInfo['email'] as String).isNotEmpty)
+          if (contactInfo != null && contactInfo['email'] != null)
             _buildInfoRow(
               Icons.email_outlined,
               'Email',
@@ -694,7 +695,7 @@ class ViewCard extends ConsumerWidget {
             ),
 
           // Phone
-          if (contactInfo != null && contactInfo['phone'] != null && (contactInfo['phone'] as String).isNotEmpty)
+          if (contactInfo != null && contactInfo['phone'] != null)
             _buildInfoRow(
               Icons.phone_outlined,
               'Phone',
@@ -702,7 +703,7 @@ class ViewCard extends ConsumerWidget {
             ),
 
           // Website
-          if (contactInfo != null && contactInfo['website'] != null && (contactInfo['website'] as String).isNotEmpty)
+          if (contactInfo != null && contactInfo['website'] != null)
             _buildInfoRow(
               Icons.language_outlined,
               'Website',
@@ -710,7 +711,7 @@ class ViewCard extends ConsumerWidget {
             ),
 
           // Address
-          if (contactInfo != null && contactInfo['address'] != null && (contactInfo['address'] as String).isNotEmpty)
+          if (contactInfo != null && contactInfo['address'] != null)
             _buildInfoRow(
               Icons.location_on_outlined,
               'Address',
@@ -758,7 +759,7 @@ class ViewCard extends ConsumerWidget {
           ),
 
           // Company
-          if (_getStringValue(cardData, 'company') != null && _getStringValue(cardData, 'company')!.isNotEmpty)
+          if (_getStringValue(cardData, 'company') != null)
             _buildInfoRow(
               Icons.business_outlined,
               'Company',
@@ -766,7 +767,7 @@ class ViewCard extends ConsumerWidget {
             ),
 
           // Job Title
-          if (_getStringValue(cardData, 'jobTitle') != null && _getStringValue(cardData, 'jobTitle')!.isNotEmpty)
+          if (_getStringValue(cardData, 'jobTitle') != null)
             _buildInfoRow(
               Icons.work_outline,
               'Job Title',
@@ -837,31 +838,23 @@ class ViewCard extends ConsumerWidget {
         return null;
       }
 
-      // If it's already a Map, just cast and return
+      Map<String, dynamic>? cardData;
+
+      // Accepts both Map<dynamic, dynamic> and GetCard
       if (rawData is Map) {
-        // Convert to Map<String, dynamic>
-        return Map<String, dynamic>.from(rawData as Map);
+        // Convert dynamic map keys to string
+        cardData = Map<String, dynamic>.from(rawData.map(
+          (key, value) => MapEntry(key.toString(), value),
+        ));
+      } else if (rawData is GetCard) {
+        cardData = _convertGetCardToMap(rawData);
+      } else {
+        debugPrint('Unexpected data type: ${rawData.runtimeType}');
+        return null;
       }
 
-      // If it's a GetCard object, convert to Map
-      if (rawData is GetCard) {
-        return _convertGetCardToMap(rawData);
-      }
-
-      // Try to handle minified JS objects (web Hive stores as JSMap)
-      if (rawData.runtimeType.toString().contains('Map') ||
-          rawData.runtimeType.toString().contains('minified:eN')) {
-        // Try to convert to Map<String, dynamic>
-        try {
-          final map = Map<String, dynamic>.from(rawData as dynamic);
-          return map;
-        } catch (e) {
-          debugPrint('Failed to cast minified map: $e');
-        }
-      }
-
-      debugPrint('Unexpected data type: ${rawData.runtimeType}');
-      return null;
+      debugPrint('Processed card data: $cardData');
+      return cardData;
     } catch (e, stackTrace) {
       debugPrint('Error loading card from Hive: $e');
       debugPrint('Stack trace: $stackTrace');
@@ -885,6 +878,9 @@ class ViewCard extends ConsumerWidget {
         'website': getCard.payload?.cards?[index].contactInfo?.website,
         'address': getCard.payload?.cards?[index].contactInfo?.address,
       },
+      // 'company': getCard.company,
+      // 'jobTitle': getCard.jobTitle,
+      // Add other fields as needed
     };
   }
 }

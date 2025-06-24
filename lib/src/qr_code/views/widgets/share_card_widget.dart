@@ -296,7 +296,6 @@ class ShareQrWidget extends HookConsumerWidget {
           }
 
           await profileController.getProfile(context);
-          // Don't use context after an await; remove context from getAUsersCard
           final fetchedCard =
               await ref.read(cardProvider).getAUsersCard(context, cardId);
 
@@ -503,6 +502,8 @@ class ShareQrWidget extends HookConsumerWidget {
         'website': card.contactInfo?.website,
         'address': card.contactInfo?.address,
       },
+
+      // Add any other fields your card model has
     };
   }
 
@@ -542,6 +543,9 @@ class ShareQrWidget extends HookConsumerWidget {
     );
   }
 }
+
+
+
 
 Container chooseCardToShare() {
   return Container(
