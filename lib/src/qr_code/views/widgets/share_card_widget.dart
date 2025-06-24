@@ -502,8 +502,6 @@ class ShareQrWidget extends HookConsumerWidget {
         'website': card.contactInfo?.website,
         'address': card.contactInfo?.address,
       },
-
-      // Add any other fields your card model has
     };
   }
 
