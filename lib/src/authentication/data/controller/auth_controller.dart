@@ -69,7 +69,6 @@ class AuthNotifier extends ChangeNotifier {
     if (mounted) notifyListeners();
   }
 
-
   final String? emailAddress = StorageUtil.getString(key: userEmail);
 
   final TextEditingController pinCode1 = TextEditingController();
@@ -193,16 +192,15 @@ class AuthNotifier extends ChangeNotifier {
 
     print("Retrieved Access Token: $accessToken");
 
-    if (accessToken != null && accessToken.isNotEmpty) {
-      context.go(RouteString.baseDashboard);
+    if (accessToken != ""
+        //null && accessToken.isNotEmpty
+
+        ) {
+// context.go(RouteString.baseDashboard);
     } else {
       context.go(RouteString.getStarted);
     }
   }
-
-
-
-
 
   PlatformFile? _selectedPhoto;
 

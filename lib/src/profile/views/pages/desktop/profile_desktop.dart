@@ -7,6 +7,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wond3rcard/src/admin/admin_dashboard/pages/desktop/admin_dashboard_desktop.dart';
 import 'package:wond3rcard/src/authentication/data/controller/auth_controller.dart';
+import 'package:wond3rcard/src/authentication/views/authentication/login/views/pages/login_main.dart';
 import 'package:wond3rcard/src/profile/data/profile_controller/profile_controller.dart';
 import 'package:wond3rcard/src/profile/data/profile_model/profile.dart';
 import 'package:wond3rcard/src/utils/assets.dart';
@@ -49,6 +50,11 @@ class ProfileScreenDesktop extends HookConsumerWidget {
               ),
               TextButton(
                 onPressed: () async {
+                  await StorageUtil.putString(
+                    key: SessionString.accessTokenString,
+                    value: AppStrings.emptyString,
+                  );
+                  context.go(RouteString.logIn);
                   Navigator.of(ctx).pop();
                   await ref.read(logoutControllerProvider.notifier).logout();
 
@@ -78,10 +84,8 @@ class ProfileScreenDesktop extends HookConsumerWidget {
                   profile: userProfile.profileData!,
                 ),
                 Container(
-                
                     height: 546,
-                    padding:
-                        EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                     ),
