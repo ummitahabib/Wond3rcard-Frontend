@@ -74,7 +74,7 @@ class OrderPhysicalCard extends HookConsumerWidget {
         physics: const BouncingScrollPhysics(),
         child: isDesktop(context)
             ? _orderCardDesktop(
-                context, selectedIndex, region, addressController, formKey)
+                context, selectedIndex, region, addressController, formKey,)
             : _orderCard(context, ref, selectedIndex, region, addressController,
                 formKey),
       ),
@@ -97,7 +97,7 @@ class OrderPhysicalCard extends HookConsumerWidget {
           OrderPhysicalCardSection(
             index: index,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 10,),
           SizedBox(
             width: MediaQuery.of(context).size.width / 3,
             child: Column(
