@@ -51,7 +51,28 @@ class _AvailableDigitalCardsState extends ConsumerState<AvailableDigitalCards> {
 
     return cardController.getCardsResponse != null
         ? Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              centerTitle: true,
+              leading: IconButton(
+                onPressed: () {
+                  context.go(RouteString.viewPhysicalCard);
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColors.grayScale,
+                ),
+              ),
+              title: Text(
+                'Available Physical Cards',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontFamily: 'Barlow',
+                  fontWeight: FontWeight.w700,
+                  height: 1.20,
+                ),
+              ),
+            ),
             body: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -198,7 +219,8 @@ class _AvailableDigitalCardsState extends ConsumerState<AvailableDigitalCards> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 25),
+                          horizontal: 15,
+                        ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -231,7 +253,7 @@ class _AvailableDigitalCardsState extends ConsumerState<AvailableDigitalCards> {
                       ),
                       // Add the "Create Physical Card" button here
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryShade,
@@ -265,33 +287,6 @@ class _AvailableDigitalCardsState extends ConsumerState<AvailableDigitalCards> {
                 ),
               ),
             ],
-          ),
-          // Optional: Add a floating badge or hint
-          Positioned(
-            top: 12,
-            right: 18,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: AppColors.primaryShade.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: const [
-                  Icon(Icons.local_shipping, color: Colors.white, size: 16),
-                  SizedBox(width: 4),
-                  Text(
-                    "Physical Available",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ),
         ],
       ),
